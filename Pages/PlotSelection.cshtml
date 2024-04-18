@@ -1,0 +1,271 @@
+﻿@page
+@model Login_Page.Pages.PlotSelectionModel
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        /* タイトルのスタイル */
+        #title {
+            font-size: 48px;
+            font-weight: bold;
+            color: brown;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        /* 画像とオーバーレイのスタイル */
+        #plotImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1; /* 画像を背面に配置 */
+        }
+
+        #canvasContainer {
+            position: relative;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="title">区画選択画面</div>
+
+    <div id="canvasContainer">
+        <!-- canvas要素 -->
+        <canvas id="plotCanvas" width="1416" height="733"></canvas>
+
+        <!-- 画像 -->
+        <img src="images/kukaku.png" alt="区画" id="plotImage" />
+    </div>
+
+    <script>
+        // canvas要素を取得
+        const canvas = document.getElementById('plotCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 台形を描画する関数
+        function drawTrapezoid(x1, y1, x2, y2, x3, y3, x4, y4, id) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x3, y3);
+            ctx.lineTo(x4, y4);
+            ctx.closePath();
+            ctx.fillStyle = 'rgb(255, 233, 7)'; // 塗りつぶしの色を設定
+            ctx.fill();
+            ctx.stroke();
+
+            // IDを描画
+            const centerX = (x1 + x2 + x3 + x4) / 4; // 図形の中心のX座標
+            const centerY = (y1 + y2 + y3 + y4) / 4; // 図形の中心のY座標
+            ctx.font = 'bold 15px Arial'; // フォントを設定
+            ctx.fillStyle = 'black'; // テキストの色を設定
+            ctx.textAlign = 'center'; // テキストを中央揃えに設定
+
+            // テキストの描画幅を取得
+            const textWidth = ctx.measureText(id).width;
+
+            // テキストが図形の横幅を超える場合、テキストを分割して複数の行に表示
+            if (textWidth > (x2 - x1) || textWidth > (x3 - x4)) {
+                const firstLine = id.substring(0, id.length / 2); // テキストを半分に分割
+                const secondLine = id.substring(id.length / 2);
+
+                // 上側のテキストを描画
+                ctx.fillText(firstLine, centerX, centerY - 7); // 7 はフォントサイズの半分
+
+                // 下側のテキストを描画
+                ctx.fillText(secondLine, centerX, centerY + 7); // 7 はフォントサイズの半分
+            } else {
+                // テキストが図形の横幅に収まる場合、中央に描画
+                ctx.fillText(id, centerX, centerY);
+            }
+        }
+
+
+        // 長方形を描画する関数
+        function drawRectangle(x1, y1, x2, y2, id) {
+            ctx.beginPath();
+            ctx.rect(x1, y1, x2 - x1, y2 - y1);
+            ctx.fillStyle = 'rgb(255, 233, 7)'; // 塗りつぶしの色を設定
+            ctx.fill();
+            ctx.stroke();
+
+            // IDを描画
+            const centerX = (x1 + x2) / 2; // 図形の中心のX座標
+            const centerY = (y1 + y2) / 2; // 図形の中心のY座標
+            ctx.font = 'bold 15px Arial'; // フォントを設定
+            ctx.fillStyle = 'black'; // テキストの色を設定
+            ctx.textAlign = 'center'; // テキストを中央揃えに設定
+            // テキストの描画幅を取得
+            const textWidth = ctx.measureText(id).width;
+
+            // テキストが図形の横幅を超える場合、テキストを分割して複数の行に表示
+            if (textWidth > (x2 - x1)) {
+                const step = id.length / 16; // 16分割
+                const lines = [];
+                for (let i = 0; i < 16; i++) {
+                    lines.push(id.substring(i * step, (i + 1) * step));
+                }
+
+                // テキストを描画
+                lines.forEach((line, index) => {
+                    ctx.fillText(line, centerX, centerY + ((index - 7.5) * 20)); // 20はフォントサイズの半分
+                });
+            } else {
+                // テキストが図形の横幅に収まる場合、中央に描画
+                ctx.fillText(id, centerX, centerY);
+            }
+        }
+
+        // マウスがクリックされたときの処理
+        canvas.addEventListener('click', function (event) {
+            // クリックされた座標を取得
+            const clickX = event.clientX - canvas.getBoundingClientRect().left;
+            const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+            // 台形の範囲内にクリックされたかどうかを判定
+            trapezoidCoordinates.forEach(coord => {
+                const [x1, y1, x2, y2, x3, y3, x4, y4, id] = coord;
+                // 台形の内側にクリックされたかどうかを判定する関数
+                const isInside = pointInTrapezoid(clickX, clickY, x1, y1, x2, y2, x3, y3, x4, y4);
+                if (isInside) {
+                    // クリックされた図形に応じて遷移先のURLを設定
+                    let reservationPageUrl = "";
+                    switch (id) {
+                        case "日蓮D区":
+                            reservationPageUrl = "reservation_d.html";
+                            break;
+                        case "日蓮C区":
+                            reservationPageUrl = "reservation_c.html";
+                            break;
+                        // 他の図形に対する処理を追加
+                        default:
+                            // 何もしない
+                            break;
+                    }
+                    // 遷移先のURLが設定されている場合、予約ページに遷移する
+                    if (reservationPageUrl !== "") {
+                        window.location.href = reservationPageUrl;
+                    }
+                }
+            });
+
+            // 長方形の範囲内にクリックされたかどうかを判定
+            rectangleCoordinates.forEach(coord => {
+                const [x1, y1, x2, y2, id] = coord;
+                // 長方形の内側にクリックされたかどうかを判定する関数
+                const isInside = pointInRectangle(clickX, clickY, x1, y1, x2, y2);
+                if (isInside) {
+                    // クリックされた図形に応じて遷移先のURLを設定
+                    let reservationPageUrl = "";
+                    switch (id) {
+                        case "親鸞E区":
+                            reservationPageUrl = "reservation_e.html";
+                            break;
+                        case "釈尊D区":
+                            reservationPageUrl = "reservation_d.html";
+                            break;
+                        case "親鸞C区":
+                            reservationPageUrl = "reservation_c.html";
+                            break;
+
+                        case "釈尊A区":
+                            reservationPageUrl = "reservation_a.html";
+                            break;
+
+                        case "釈尊C区":
+                            reservationPageUrl = "reservation_c.html";
+                            break;
+
+                        case "日蓮C区":
+                            reservationPageUrl = "reservation_c.html";
+                            break;
+
+                        case "親鸞C区":
+                            reservationPageUrl = "reservation_c.html";
+                            break;
+                        case "日蓮B区":
+                            reservationPageUrl = "reservation_b.html";
+                            break;
+
+                        case "親鸞B区":
+                            reservationPageUrl = "reservation_b.html";
+                            break;
+
+                        case "釈尊特A区":
+                            reservationPageUrl = "reservation_special_a.html";
+                            break;
+
+                        case "釈尊新区":
+                            reservationPageUrl = "reservation_new.html";
+                            break;
+
+                        // 他の図形に対する処理を追加
+                        default:
+                            // 何もしない
+                            break;
+                    }
+                    // 遷移先のURLが設定されている場合、予約ページに遷移する
+                    if (reservationPageUrl !== "") {
+                        window.location.href = reservationPageUrl;
+                    }
+                }
+            });
+        });
+
+        // 座標データを定義
+        const trapezoidCoordinates = [
+            [788, 341, 875, 341, 821, 274, 787, 274, "日蓮D区"],
+            [790, 403, 791, 347, 884, 348, 940, 403, "日蓮C区"]
+        ];
+
+        const rectangleCoordinates = [
+            [592, 135, 666, 262, "親鸞E区"],
+            [413, 349, 586, 401, "釈尊D区"],
+            [592, 350, 767, 402, "親鸞C区"],
+            [403, 500, 494, 563, "釈尊A区"],
+            [403, 415, 585, 499, "釈尊C区"],
+            [781, 420, 966, 482, "日蓮C区"],
+            [602, 416, 773, 484, "親鸞C区"],
+            [780, 483, 965, 549, "日蓮B区"],
+            [602, 485, 773, 549, "親鸞B区"],
+            [495, 500, 584, 563, "釈尊特A区"],
+            [381, 97, 401, 499, "釈尊新区"]
+        ];
+
+        // 台形を描画
+        trapezoidCoordinates.forEach(coord => {
+            const [x1, y1, x2, y2, x3, y3, x4, y4, id] = coord;
+            drawTrapezoid(x1, y1, x2, y2, x3, y3, x4, y4, id);
+        });
+
+        // 長方形を描画
+        rectangleCoordinates.forEach(coord => {
+            const [x1, y1, x2, y2, id] = coord;
+            drawRectangle(x1, y1, x2, y2, id);
+        });
+
+        // 台形の内側にクリックされたかどうかを判定する関数
+        function pointInTrapezoid(x, y, x1, y1, x2, y2, x3, y3, x4, y4) {
+            const AB = (x - x1) * (y2 - y1) - (y - y1) * (x2 - x1);
+            const BC = (x - x2) * (y3 - y2) - (y - y2) * (x3 - x2);
+            const CD = (x - x3) * (y4 - y3) - (y - y3) * (x4 - x3);
+            const DA = (x - x4) * (y1 - y4) - (y - y4) * (x1 - x4);
+            return (AB >= 0 && BC >= 0 && CD >= 0 && DA >= 0) || (AB <= 0 && BC <= 0 && CD <= 0 && DA <= 0);
+        }
+
+        // 長方形の内側にクリックされたかどうかを判定する関数
+        function pointInRectangle(x, y, x1, y1, x2, y2) {
+            return x >= x1 && x <= x2 && y >= y1 && y <= y2;
+        }
+
+    </script>
+</body>
+</html>
