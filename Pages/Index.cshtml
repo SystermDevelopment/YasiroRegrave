@@ -10,13 +10,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="~/css/Index.css" rel="stylesheet">
 </head>
 <body>
     <form method="post" action="PlotSelection">
         @Html.AntiForgeryToken()
-        <div class="container">
-            <p class="fsize">ログイン</p>
+        <div class="login_container">
+            <p class="login_fsize">ログイン</p>
             <input type="text" name="userID" placeholder="UserID" />
             <input type="password" name="password" placeholder="Password" />
             <button type="submit">ログイン</button>
