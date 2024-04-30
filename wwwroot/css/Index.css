@@ -1,4 +1,4 @@
-﻿.login_container {
+﻿/*.login_container {
     width: 600px;
     margin: 20vh auto;
     padding: 40px;
@@ -36,3 +36,4 @@ button[type="submit"] {
     button[type="submit"]:hover {
         background: linear-gradient(to right, rgba(0, 215, 105, 0.9), rgba(0, 215, 105, 1));
     }
+*/
