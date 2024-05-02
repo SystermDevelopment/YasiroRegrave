@@ -1,0 +1,28 @@
+﻿@page
+@model Login_Page.Pages.PlotSelectionModel
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/css/PlotSelection.css" rel="stylesheet">
+
+</head>
+<body>
+
+
+    <div id="PlotSelectiontitle">区画選択画面</div>
+
+    <div id="PlotSelectionContainer">
+        <!-- canvas要素 -->
+        <canvas id="plotCanvas" width="1416" height="733"></canvas>
+
+        <!-- 画像 -->
+        <img src="images/kukaku.png" alt="区画" id="PlotSelectionImage" />
+    </div>
+    <script src="~/js/PlotSelection.js"></script>
+</body>
+</html>

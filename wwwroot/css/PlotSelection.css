@@ -1,0 +1,20 @@
+﻿/* タイトルのスタイル */
+#PlotSelectiontitle {
+    font-size: 48px;
+    font-weight: bold;
+    color: brown;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* 画像とオーバーレイのスタイル */
+#PlotSelectionImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* 画像を背面に配置 */
+}
+
+#PlotSelectionContainer {
+    position: relative;
+}
