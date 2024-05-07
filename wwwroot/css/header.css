@@ -1,0 +1,21 @@
+﻿.new-user-btn {
+    margin-left: auto; /* 左の要素から自動的にスペースを作る */
+}
+.header-icon {
+    margin-right: 10px; /* アイコンとタイトルの間隔 */
+}
+
+.header-title {
+    margin: 0; /* 余分なマージンを削除 */
+}
+
+.header-icon {
+    width: 32px; /* アイコンの幅を32pxに設定 */
+    height: 40px; /* アイコンの高さを32pxに設定 */
+    margin-right: 10px; /* アイコンとタイトルの間のスペース */
+}
+
+.header-title {
+    margin-top: 5px; /* タイトルの余計なマージンを削除 */
+    font-size: 24px; /* タイトルのフォントサイズ */
+}

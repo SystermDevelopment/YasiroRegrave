@@ -1,0 +1,11 @@
+.header-container {
+    display: flex;
+    align-items: center; /* 中央揃えを維持 */
+    margin-bottom: 20px; /* 下部のマージン */
+}
+
+.card {
+    border: none; /* 外枠を削除 */
+    border-top: 1px solid #dee2e6; /* 上部の境界線 */
+    border-bottom: 1px solid #dee2e6; /* 下部の境界線 */
+}
