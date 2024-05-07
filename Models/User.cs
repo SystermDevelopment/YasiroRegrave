@@ -35,4 +35,6 @@ public class User
     [Required]
     [Column("delete_flag")]
     public int DeleteFlag { get; set; }
+    [ForeignKey("VenderIndex")]
+    public virtual Vender Vendor { get; set; } = new Vender();
 }
