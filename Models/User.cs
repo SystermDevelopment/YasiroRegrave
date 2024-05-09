@@ -9,15 +9,15 @@ public class User
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("user_index")]
-    public int UserIndex { get; set; }
+    public int Index { get; set; }
     [Required]
     [Column("user_id")]
     [MaxLength(20)]
-    public string UserId { get; set; }
+    public string Id { get; set; }
     [Required]
     [Column("user_name")]
     [MaxLength(100)]
-    public string UserName { get; set; }
+    public string Name { get; set; }
     [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }

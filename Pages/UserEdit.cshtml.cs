@@ -6,6 +6,9 @@ using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 
 namespace YasiroRegrave.Pages
+
+
+
 {
     public class UserEditModel : PageModel
     {
@@ -34,18 +37,18 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 var user = _context.Users
-                    .Where(u => u.DeleteFlag == 0 && u.UserIndex == index.Value)
+                    .Where(u => u.DeleteFlag == 0 && u.Index == index.Value)
                     .FirstOrDefault();
                 if (user != null)
                 {
-                    Id = user.UserId;
-                    Name = user.UserName;
+                    Id = user.Id;
+                    Name = user.Name;
                     Password = user.Password;
                 }
             }
             VenderNames = _context.Venders
                 .Where(v => v.DeleteFlag == 0)
-                .Select(v => v.VenderName)
+                .Select(v => v.Name)
                 .ToList();
         }
         public class User

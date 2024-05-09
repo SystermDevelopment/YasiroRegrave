@@ -2,6 +2,7 @@
 @model YasiroRegrave.Pages.UserEditModel
 @{
 }
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
     <div class="col-md-6 p-0">
             <div class="card">
                 <div class="card-body">
-                    <form method="post">
+                    <form method="get">
                         <div class="form-group">
                             <label for="vender">販売会社</label>
                            @*  <select asp-for="SelectedVenderName" asp-items="@(new SelectList(Model.VenderNames))" class="form-control">
@@ -33,11 +34,11 @@
                         </div>
                         <div class="form-group">
                             <label for="Name">名前</label>
-                            <input type="text" asp-for="Name" class="form-control">
+                            <input type="text" asp-for="Name" class="form-control"value="@Model.Name">
                         </div>
                         <div class="form-group">
                             <label for="Password">パスワード</label>
-                            <input type="password" asp-for="Password" class="form-control">
+                            <input type="password" asp-for="Password" class="form-control"value="@Model.Password">
                         </div>
                    </form>
                 </div>

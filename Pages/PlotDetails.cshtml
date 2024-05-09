@@ -1,11 +1,7 @@
 ﻿@page
 @model PlotDetailsModel
 @{
-    ViewData["Title"] = "Home page";
 }
-
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -21,30 +17,21 @@
     new[] {10, 1000000, 500000, 800000}, // 面積, 墓地使用料, 永代管理料, 墓石セット価格
     new[] {15, 1200000, 600000, 1100000}
     };
-
         var titleData = new[]
-
         {
-    new[] {"親鸞E区", "8列", "11"}, // 区、列、番号
+    new[] {"親鸞E区", "8列", "11"}, 
     new[] {"親鸞E区", "7列", "03"}
     };
     }
-
-    <!-- ページのタイトル -->
-    <h1>@titleData[0][0]の空き区画状況</h1>
     <div class="container">
-        <!-- akikukakuの画像 -->
         <div class="image-container" style="position: relative;">
-            <img src="images/ikoma.png" alt="空き区画の画像" class="image">
+            <img src="images/akikukaku.png" alt="空き区画の画像" class="image">
         </div>
-
-
         @for (var i = 0; i < data.Length; i++)
         {
             <!-- テキスト -->
             <div class="content">
                 <p class="district-name" style="font-size: 24px; color: white; margin: 0; padding-bottom: 10px; font-weight: bold;">@titleData[i][0] @titleData[i][1]-@titleData[i][2]</p>
-
                 <!-- 画像とテキストとテーブル -->
                 <div class="content" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                     <!-- 画像1 -->

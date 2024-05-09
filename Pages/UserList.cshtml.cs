@@ -22,11 +22,11 @@ namespace YasiroRegrave.Pages
                 //.Where(u => u.DeleteFlag == 0)
                 .Select(u => new User
                 {
-                    Index = u.UserIndex,
-                    Id = u.UserId,
-                    Name = u.UserName,
+                    Index = u.Index,
+                    Id = u.Id,
+                    Name = u.Name,
                     VenderIndex = u.VenderIndex,
-                    VenderName = u.Vendor.VenderName,
+                    VenderName = u.Vendor.Name,
                     Password = u.Password
                 })
                 .ToList();

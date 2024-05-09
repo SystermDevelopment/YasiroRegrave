@@ -9,11 +9,11 @@ public class Vender
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("vender_index")]
-    public int VenderIndex { get; set; }
+    public int Index { get; set; }
     [Required]
     [Column("vender_name")]
     [MaxLength(100)]
-    public string VenderName { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     [Column("create_date")]
     public DateTime? CreateDate { get; set; }
     [Column("create_user")]
