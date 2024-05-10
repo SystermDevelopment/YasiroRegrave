@@ -19,7 +19,7 @@ namespace YasiroRegrave.Pages
         private void GetPage()
         {
             var userList = _context.Users
-                //.Where(u => u.DeleteFlag == 0)
+                .Where(u => u.DeleteFlag == 0)
                 .Select(u => new User
                 {
                     Index = u.Index,
@@ -32,12 +32,24 @@ namespace YasiroRegrave.Pages
                 .ToList();
             Users = userList;
         }
+        public IActionResult OnPost(int index)
+        {
+            var userDelete = _context.Users.FirstOrDefault(u => u.Index == index);
+            if (userDelete != null)
+            {
+                //DELITE
+                userDelete.DeleteFlag = 1;
+                _context.SaveChanges();
+            }
+            return RedirectToPage("/UserList");
+        }
+
         public class User
         {
             public int Index { get; set; }
             public string Id { get; set; }
             public string Name { get; set; }
-            public int VenderIndex {  get; set; }
+            public int VenderIndex { get; set; }
             public string VenderName { get; set; }
             public string Password { get; set; }
         }

@@ -1,5 +1,5 @@
 ﻿@page
-@model UserListModel
+@model VenderListModel
 @{
     @using YasiroRegrave.Pages.common;
 }
@@ -15,8 +15,8 @@
 <div class="container">
     <div class="header-container">
         <img src="~/images/user.png" alt="User Icon" class="header-icon">
-        <h2 class="header-title">ユーザー情報一覧</h2>
-        <form method="get" action="/UserEdit">
+        <h2 class="header-title">販売会社情報一覧</h2>
+        <form method="get" action="/VenderEdit">
             <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
         </form>
     </div>
@@ -25,27 +25,23 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>販売会社</th>
                         <th>名前</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model.Users)
+                    @foreach (var vender in Model.Venders)
                     {
                         <tr>
-                            <td>@user.Id</td>
-                            <td>@user.VenderName</td>
-                            <td>@user.Name</td>
+                            <td>@vender.Name</td>
                             <td class ="edit-btn-cell">
-                                 <form method="get" action="/UserEdit">
-                                    <input type="hidden" name="Index" value="@user.Index" />
+                                 <form method="get" action="/VenderEdit">
+                                    <input type="hidden" name="Index" value="@vender.Index" />
                                     <button type="submit" class="btn btn-secondary">編集</button>
                                  </form>
 
                                 <form method="post" onsubmit="return confirm('@Message.M_Q0001')">
-                                      <input type="hidden"name="Index" value="@user.Index"/>
+                                      <input type="hidden"name="Index" value="@vender.Index"/>
                                       <button type="submit" class="btn btn-secondary">削除</button>
                                   </form>
                             </td class>
