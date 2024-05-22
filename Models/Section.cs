@@ -20,7 +20,6 @@ public class Section
 
         [Column("section_name")]
         [MaxLength(100)]
-
         public string SectionName { get; set; }
 
         [Column("create_date")]
@@ -34,6 +33,8 @@ public class Section
         [Required]
         [Column("delete_flag")]
         public int DeleteFlag { get; set; }
+        [ForeignKey("area_Index")]
+        public virtual Area Area { get; set; } = new Area();
 
     }
 

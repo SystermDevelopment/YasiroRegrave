@@ -20,4 +20,7 @@ public class CemeteryCoord
 
     [Column("y")]
     public int Y { get; set; }
+    [ForeignKey("CemeteryIndex")]
+    public virtual Cemetery Cemetery { get; set; } = new Cemetery();
+
 }

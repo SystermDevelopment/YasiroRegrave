@@ -14,5 +14,11 @@ public class Calendar
 
         [Column("reien_index")]
         public int ReienIndex { get; set; }
-    }
+
+        [Column("close_day")]
+        public DataType CloseDay { get; set; }
+        [ForeignKey("ReienIndex")]
+        public virtual Reien Reien { get; set; } = new Reien();
+
+}
 

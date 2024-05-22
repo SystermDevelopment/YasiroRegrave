@@ -12,7 +12,7 @@ public class Area
     public int AreaIndex { get; set; }
 
     [Column("reien_index")]
-    public string ReienIndex { get; set; }
+    public int ReienIndex { get; set; }
 
     [Column("area_code")]
     [MaxLength(100)]
@@ -33,6 +33,9 @@ public class Area
     [Required]
     [Column("delete_flag")]
     public int DeleteFlag { get; set; }
+    [ForeignKey("ReienIndex")]
+    public virtual Reien Reien { get; set; } = new Reien();
+
 
 }
 

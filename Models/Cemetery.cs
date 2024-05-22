@@ -35,6 +35,8 @@ public class Cemetery
         [Required]
         [Column("delete_flag")]
         public int DeleteFlag { get; set; }
+        [ForeignKey("AreaIndex")]
+        public virtual Area Area { get; set; } = new Area();
 
-    }
+}
 

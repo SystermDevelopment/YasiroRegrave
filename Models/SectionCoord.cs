@@ -20,5 +20,8 @@ public class SectionCoord
 
         [Column("y")]
         public int Y { get; set; }
-    }
+        [ForeignKey("VenderIndex")]
+        public virtual SectionCoord m_SectionCoord { get; set; } = new SectionCoord();
+
+}
 

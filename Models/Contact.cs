@@ -17,4 +17,8 @@ public class Contact
 
     [Column("reserve_index")]
     public int ReserveIndex { get; set; }
+    [ForeignKey("ContactIndex")]
+    public virtual Contact t_Contact { get; set; } = new Contact();
+    [ForeignKey("ReserveIndex")]
+    public virtual Reserve_Info Reserve { get; set; } = new Reserve_Info();
 }

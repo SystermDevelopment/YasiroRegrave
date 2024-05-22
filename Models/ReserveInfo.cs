@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using YasiroRegrave.Models;
 
 namespace YasiroRegrave.Model;
 
@@ -52,4 +53,9 @@ public class Reserve_Info
     [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }
+    [ForeignKey("CemeteryInfoIndex")]
+    public virtual CemeteryInfo CemeteryInfo { get; set; } = new CemeteryInfo();
+    [ForeignKey("VenderIndex")]
+    public virtual Vender Vender { get; set; } = new Vender();
+
 }

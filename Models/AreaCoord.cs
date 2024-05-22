@@ -20,6 +20,8 @@ public class AreaCoord
 
         [Column("y")]
         public int Y { get; set; }
+        [ForeignKey("AreaIndex")]
+        public virtual Area Area { get; set; } = new Area();
 
-    }
+}
 

@@ -32,4 +32,5 @@ public class Reien
     [Required]
     [Column("delete_flag")]
     public int DeleteFlag { get; set; }
+
 }
