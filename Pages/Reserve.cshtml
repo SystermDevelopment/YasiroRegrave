@@ -1,0 +1,166 @@
+﻿@page
+@model YasiroRegrave.Pages.Index1Model
+@{
+}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>予約情報入力画面</title>
+    <link rel="stylesheet" href="./css/Reserve.css">
+    <link rel="stylesheet" href="./css/Reserve-sp.css" media="only screen and (max-width: 768px)">
+</head>
+<body>
+    <header>
+        <h1>大阪生駒霊園 空き区画仮予約フォーム</h1>
+    </header>
+    <main>
+        <section>
+            <h2>電話でのお問い合わせ</h2>
+            <p>0120-140-846<br>9:15〜17:30（年中無休）</p>
+        </section>
+        <section>
+            <h2>メールでのお問い合わせ</h2>
+            <form>
+                <label for="section-number">ご希望の区画番号</label>
+                <input type="text" id="section-number" name="section-number">
+
+                <label for="inquiry">ご相談・お問い合わせ内容</label>
+                <textarea id="inquiry" name="inquiry"></textarea>
+
+                <label for="date">希望日①</label>
+                <input type="date" id="date" name="date">
+
+                <label for="time">希望時間</label>
+                <select id="time" name="time">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                </select>
+
+                <label for="date">希望日②</label>
+                <input type="date" id="date" name="date">
+
+                <label for="time">希望時間</label>
+                <select id="time" name="time">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                </select>
+
+                <label for="date">希望日③</label>
+                <input type="date" id="date" name="date">
+
+                <label for="time">希望時間</label>
+                <select id="time" name="time">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                </select>
+                <label for="last-name">お名前（全角）</label>
+                <input type="text" id="last-name" name="last-name">
+
+                <label for="first-name">お名前（ふりがな）</label>
+                <input type="text" id="first-name" name="first-name">
+
+                <label for="postal-code">郵便番号</label>
+                <div class="postal-code-wrapper">
+                    <input type="text" id="postal-code" name="postal-code">
+                    <button type="button" id="auto-fill">住所を自動入力</button>
+                </div>
+
+                <label for="prefecture">都道府県</label>
+                <input type="text" id="prefecture" name="prefecture">
+
+                <label for="city">市区郡</label>
+                <input type="text" id="city" name="city">
+
+                <label for="address">町名・番地</label>
+                <input type="text" id="address" name="address">
+
+                <label for="building">ビル・マンション名</label>
+                <input type="text" id="building" name="building">
+
+                <label for="phone">電話番号</label>
+                <input type="tel" id="phone" name="phone">
+
+                <label for="email">Eメール</label>
+                <input type="email" id="email" name="email" placeholder="例）info@abcd.com">
+
+                <div class="email-note">
+                    <p>携帯メールアドレスをご入力の場合、携帯の設定により返信メールが届かないことがございます。</p>
+                    <p>弊社からのメール（yasiro.co.jp）を受信できるよう設定をお願いいたします。</p>
+                </div>
+
+                <label for="contact-methods">ご希望の連絡方法 <span class="note">※複数回答可</span></label>
+                <div class="contact-options">
+                    <div>
+                        <input type="checkbox" id="contact-phone" name="contact-method" value="phone">
+                        <label for="contact-phone">電話</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="contact-email" name="contact-method" value="email">
+                        <label for="contact-email">メール</label>
+                    </div>
+                </div>
+
+                <label for="email-subscription">メール配信</label>
+                <div class="subscription-options">
+                    <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
+                    <div>
+                        <input type="radio" id="subscribe-yes" name="email-subscription" value="yes">
+                        <label for="subscribe-yes">受信する</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="subscribe-no" name="email-subscription" value="no">
+                        <label for="subscribe-no">受信しない</label>
+                    </div>
+                </div>
+
+                <button type="submit">送信</button>
+            </form>
+        </section>
+    </main>
+    <script>
+        document.getElementById('auto-fill').addEventListener('click', function () {
+            const postalCode = document.getElementById('postal-code').value;
+            fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${postalCode}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results) {
+                        const result = data.results[0];
+                        document.getElementById('prefecture').value = result.address1;
+                        document.getElementById('city').value = result.address2;
+                        document.getElementById('address').value = result.address3;
+                    } else {
+                        alert('住所が見つかりませんでした。');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('住所の取得に失敗しました。');
+                });
+        });
+    </script>
+</body>
+</html>
