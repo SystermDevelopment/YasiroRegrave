@@ -22,7 +22,7 @@ namespace YasiroRegrave.Pages
 
 
         [BindProperty]
-        [Required(ErrorMessage = Message.M_E0001)]
+        [Required(ErrorMessage = Message.M_E0003)]
         [StringLength(100, ErrorMessage = Message.M_E0002)]
 
         public string MailAddress { get; set; } = string.Empty;

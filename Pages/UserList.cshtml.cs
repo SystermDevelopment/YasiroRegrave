@@ -26,7 +26,7 @@ namespace YasiroRegrave.Pages
                     Id = u.Id,
                     Name = u.Name,
                     VenderIndex = u.VenderIndex,
-                    VenderName = u.Vendor.Name,
+                    VenderName = u.Vender.Name,
                     Password = u.Password
                 })
                 .ToList();
@@ -39,6 +39,8 @@ namespace YasiroRegrave.Pages
             {
                 //DELITE
                 userDelete.DeleteFlag = 1;
+                userDelete.UpdateDate = DateTime.Now;
+                //userDelete.UpdateUser = LoginId
                 _context.SaveChanges();
             }
             return RedirectToPage("/UserList");

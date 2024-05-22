@@ -39,6 +39,9 @@ namespace YasiroRegrave.Pages
             {
                 //DELITE
                 reienDelete.DeleteFlag = 1;
+                //reienDelete.UpdateDate = DateTime.Now;
+                //reienDelete.UpdateUser = LoginId;
+
                 _context.SaveChanges();
             }
             return RedirectToPage("/ReienList");

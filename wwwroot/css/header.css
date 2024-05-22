@@ -1,6 +1,4 @@
-﻿.new-user-btn {
-    margin-left: auto;
-}
+﻿
 .header-icon {
     margin-right: 10px; /* アイコンとタイトルの間隔 */
 }
@@ -20,6 +18,23 @@
     font-size: 24px; /* タイトルのフォントサイズ */
 }
 
-.edit-btn-cell {
-    display: flex;
+.header-form {
+    margin-left:auto;
 }
+
+.btn-warnning {
+    color: #fff !important;
+    background-color: #FF4A5B !important;
+    border-color: #FF4A5B !important;
+}
+
+.btn-warnning:hover {
+    color: #fff !important;
+    background-color: #FF3A4B !important;
+    border-color: #FF3A4B !important;
+}
+.btn-form {
+    display: inline-block !important;
+    margin-right: 1px !important;
+}
+

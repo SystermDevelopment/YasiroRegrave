@@ -32,9 +32,9 @@ public class User
     public DateTime? UpdateDate { get; set; }
     [Column("update_user")]
     public int? UpdateUser { get; set; }
-    [Required]
     [Column("delete_flag")]
     public int DeleteFlag { get; set; }
+    [Required]
     [ForeignKey("VenderIndex")]
-    public virtual Vender Vendor { get; set; } = new Vender();
+    public virtual Vender Vender { get; set; } = new Vender();
 }

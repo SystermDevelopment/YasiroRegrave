@@ -1,8 +1,9 @@
 ﻿@page
-@model YasiroRegrave.Pages.ReienListModel
+@model YasiroRegrave.Pages.CemeteryInfoListModel
 @{
         @using YasiroRegrave.Pages.common;
 }
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +15,9 @@
 <div class="container">
     <div class="header-container">
         <img src="~/images/user.png" alt="User Icon" class="header-icon">
-        <h2 class="header-title">メール送信先一覧</h2>
+        <h2 class="header-title">墓所情報一覧</h2>
         <div class="header-form">
-        <form method="get" action="/ReienEdit">
+        <form method="get" action="/CemeteryInfoEdit"style="margin-left: auto;">
             <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
         </form>
         </div>
@@ -26,36 +27,35 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>霊園コード</th>
-                        <th>霊園名</th>
-                        <th>メール送信先</th>
-                        <th>操作</th>
+                           <th>霊園コード</th>
+                           <th>エリアコード</th>
+                           <th>区画コード</th>
+                           <th>墓所コード</th>
+                           <th>墓石画像1</th>
+                           <th>墓石画像2</th>
+                           <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var reien in Model.Reiens)
+                    @foreach (var cemeteryinfo in Model.CemeteryInfos)
                     {
                         <tr>
-                        <td>@reien.Code</td>
-                        <td>@reien.Name</td>
-                        <td>
-                    @foreach (var email in reien.MailAddress.Split(','))
-                    {
-                    <div>@email</div>
-                    }
-                    </td>
+                            <td>@cemeteryinfo.ReienCode</td>
+                            <td>@cemeteryinfo.EriaCode</td>
+                            <td>@cemeteryinfo.SectionCode</td>
+                            <td>@cemeteryinfo.cemeteryCode</td>
+                            <td>@cemeteryinfo.Image1Fname</td>
+                            <td>@cemeteryinfo.Image2Fname</td>
                             <td class ="edit-btn-cell">
-                                    <div class="edit-btn-wrapper">
-                                 <form method="get"class="btn-form"action="/ReienEdit"style="display: inline-block; margin-right: 1px;">
-                                    <input type="hidden" name="Index" value="@reien.Index"/>
+                                 <form method="get"class="btn-form"action="/CemeteryInfoEdit"style="display: inline-block; margin-right: 1px;">
+                                    <input type="hidden" name="Index" value="@cemeteryinfo.CemeteryInfoIndex"/>
                                     <button type="submit" class="btn btn-secondary">編集</button>
                                  </form>
 
                                 <form method="post"class="btn-form"onsubmit="return confirm('@Message.M_Q0001')"style="display: inline-block; margin-right: 1px;">
-                                      <input type="hidden"name="Index" value="@reien.Index"/>
+                                      <input type="hidden"name="Index" value="@cemeteryinfo.CemeteryInfoIndex"/>
                                       <button type="submit" class="btn btn-warnning">削除</button>
                                   </form>
-                                 </div> 
                             </td class>
                         </tr>
                     }

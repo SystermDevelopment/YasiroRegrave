@@ -16,9 +16,11 @@
     <div class="header-container">
         <img src="~/images/user.png" alt="User Icon" class="header-icon">
         <h2 class="header-title">販売会社情報一覧</h2>
-        <form method="get" action="/VenderEdit">
+        <div class="header-form">
+        <form method="get" action="/VenderEdit"style="margin-left: auto;">
             <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
         </form>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -35,14 +37,14 @@
                         <tr>
                             <td>@vender.Name</td>
                             <td class ="edit-btn-cell">
-                                 <form method="get" action="/VenderEdit">
+                                 <form method="get class="btn-form"action="/VenderEdit"style="display: inline-block; margin-right: 1px;">
                                     <input type="hidden" name="Index" value="@vender.Index" />
                                     <button type="submit" class="btn btn-secondary">編集</button>
                                  </form>
 
-                                <form method="post" onsubmit="return confirm('@Message.M_Q0001')">
+                                <form method="post"class="btn-form"onsubmit="return confirm('@Message.M_Q0001')"style="display: inline-block; margin-right: 1px;">
                                       <input type="hidden"name="Index" value="@vender.Index"/>
-                                      <button type="submit" class="btn btn-secondary">削除</button>
+                                      <button type="submit" class="btn btn-warnning">削除</button>
                                   </form>
                             </td class>
                         </tr>

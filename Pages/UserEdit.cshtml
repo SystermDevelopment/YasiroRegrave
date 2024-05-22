@@ -26,9 +26,13 @@
             <div class="card-body">
                     <div class="form-group">
                         <label for="vender">販売会社</label>
-                        @*  <select asp-for="SelectedVenderName" asp-items="@(new SelectList(Model.VenderNames))" class="form-control">
-                        <option value="">選択してください</option>
-                        </select> *@
+                        <select asp-for="SelectVenderIndex" class="form-control">
+                            <option value="">選択してください</option>
+                            @foreach (var vender in Model.Venders)
+                            {
+                                <option value="@vender.Index" selected="@(Model.SelectVenderIndex == vender.Index? "selected" : null)">@vender.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="Id">ID</label>

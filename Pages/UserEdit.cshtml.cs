@@ -22,15 +22,15 @@ namespace YasiroRegrave.Pages
 
         public string Name { get; set; } = string.Empty;
 
-        public List<string> VenderNames { get; set; } = new List<string>();
+        public List<Vender> Venders{ get; set; } = new List<Vender>();
 
         [BindProperty]
         public string Password { get; set; } = string.Empty;
-
+        [BindProperty]
+        [Required(ErrorMessage = "Please select a vender.")]
+        public int SelectVenderIndex { get; set; }
         //[BindProperty]
         public int? UserIndex { get; set; }
-
-        public int SelectedVender = 0;
 
         private readonly ApplicationDbContext _context;
         public UserEditModel(ApplicationDbContext context)
@@ -50,13 +50,14 @@ namespace YasiroRegrave.Pages
                 {
                     Id = user.Id;
                     Name = user.Name;
+                    SelectVenderIndex = user.VenderIndex;
                     Password = user.Password;
                 }
             }
-            //VenderNames = _context.Venders
-            //    .Where(v => v.DeleteFlag == 0)
-            //    .Select(v => v.Name)
-            //    .ToList();
+            Venders = _context.Venders
+                .Where(v => v.DeleteFlag == 0)
+                .ToList();
+            
         }
         public IActionResult OnPost(int? index)
         {
@@ -65,7 +66,10 @@ namespace YasiroRegrave.Pages
                 if (index == null)
                 {
                     // ššššTDB.VenderID‰¼‘Î‰žšššš
-                    var forignVender = _context.Venders.FirstOrDefault();
+                    var forignVender = _context.Venders
+                        .Where(u => u.Index == SelectVenderIndex)
+                        .FirstOrDefault();
+
                     if (forignVender == null)
                     {
                         throw new InvalidOperationException();
@@ -79,7 +83,8 @@ namespace YasiroRegrave.Pages
                         CreateDate = DateTime.UtcNow,
                         //CreateUser = LoginId,
                         DeleteFlag = 0,
-                        Vendor = forignVender,
+                        Vender = forignVender,
+                        //VenderIndex = SelectVenderIndex,
 
 
 
@@ -89,7 +94,7 @@ namespace YasiroRegrave.Pages
                 }
                 else
                 {
-                    var existingUser = _context.Users.Where(v => v.DeleteFlag == 0 && v.Index == index.Value).FirstOrDefault();
+                    var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == 0 && v.Index == index.Value);
                     if (existingUser != null)
                     {
                         // UPDATE
@@ -97,6 +102,7 @@ namespace YasiroRegrave.Pages
                         existingUser.Name = Name;
                         existingUser.Password = Password;
                         existingUser.UpdateDate = DateTime.UtcNow;
+                        existingUser.VenderIndex = SelectVenderIndex;
                         //existingVender.UpdateUser = LoginId,
 
                         _context.SaveChanges();
@@ -114,7 +120,7 @@ namespace YasiroRegrave.Pages
             public int Index { get; set; }
             public string Id { get; set; }
             public string Name { get; set; }
-            public int VendorIndex { get; set; }
+            public int VenderIndex { get; set; }
             public string VenderName { get; set; }
             public string Password { get; set; }
         }
