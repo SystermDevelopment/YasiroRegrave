@@ -1,9 +1,8 @@
 ﻿@page
-@model UserListModel
+@model YasiroRegrave.Pages.ReienListModel
 @{
-    @using YasiroRegrave.Pages.common;
+        @using YasiroRegrave.Pages.common;
 }
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,41 +14,48 @@
 <div class="container">
     <div class="header-container">
         <img src="~/images/user.png" alt="User Icon" class="header-icon">
-        <h2 class="header-title">ユーザー情報一覧</h2>
+        <h2 class="header-title">メール送信先一覧</h2>
         <div class="header-form">
-        <form method="get" action="/UserEdit">
+        <form method="get" action="/ReienEdit">
             <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
         </form>
-    </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>販売会社</th>
-                        <th>名前</th>
+                        <th>霊園コード</th>
+                        <th>霊園名</th>
+                        <th>メール送信先</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model.Users)
+                    @foreach (var reien in Model.Reiens)
                     {
                         <tr>
-                            <td>@user.Id</td>
-                            <td>@user.VenderName</td>
-                            <td>@user.Name</td>
+                        <td>@reien.Code</td>
+                        <td>@reien.Name</td>
+                        <td>
+                    @foreach (var email in reien.MailAddress.Split(','))
+                    {
+                    <div>@email</div>
+                    }
+                    </td>
                             <td class ="edit-btn-cell">
-                                 <form method="get"class="btn-form" action="/UserEdit">
-                                    <input type="hidden" name="Index" value="@user.Index" />
+                                    <div class="edit-btn-wrapper">
+                                 <form method="get"class="btn-form"action="/ReienEdit"style="display: inline-block; margin-right: 1px;">
+                                    <input type="hidden" name="Index" value="@reien.Index"/>
                                     <button type="submit" class="btn btn-secondary">編集</button>
                                  </form>
 
-                                <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
-                                      <input type="hidden"name="Index" value="@user.Index"/>
+                                <form method="post"class="btn-form"onsubmit="return confirm('@Message.M_Q0001')"style="display: inline-block; margin-right: 1px;">
+                                      <input type="hidden"name="Index" value="@reien.Index"/>
                                       <button type="submit" class="btn btn-warnning">削除</button>
                                   </form>
+                                 </div> 
                             </td class>
                         </tr>
                     }

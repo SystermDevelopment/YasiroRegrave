@@ -1,0 +1,48 @@
+﻿@page
+@model YasiroRegrave.Pages.ReienEditModel
+@{
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/UserEdit.css">
+</head>
+
+<div class="container mt-5">
+    <form method="post">
+        <div class="header-container">
+            <img src="~/images/user.png" alt="User Icon" class="header-icon">
+            <h2 class="header-title">メール送信先情報編集</h2>
+
+            <input type="hidden" name="index" value="@Model.Index"/>
+            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
+        </div>
+
+        <div class="col-md-6 p-0">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="Code">霊園コード</label>
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                            <input type="text" asp-for="Code" class="form-control" value="@Model.Code">
+                        </div>
+
+                    <div class="form-group">
+                        <label for="Name">霊園名</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <input type="text" asp-for="Name" class="form-control" value="@Model.Name">
+                    </div>
+                    <div class="form-group">
+                            <label for="Mail_Address">メールアドレス</label>
+                            <span asp-validation-for="MailAddress" class="text-danger"></span>
+                            <input type="text" asp-for="MailAddress" class="form-control" value="@Model.MailAddress">
+                    </div>
+    </form>
+</div>
+        </div>
+    </div>
+</div>

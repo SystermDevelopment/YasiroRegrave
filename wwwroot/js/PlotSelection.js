@@ -155,37 +155,37 @@ canvas.addEventListener('click', function (event) {
             let reservationPageUrl = "";
             switch (id) {
                 case "日蓮D区":
-                    reservationPageUrl = "reservation_d.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "日蓮C区":
-                    reservationPageUrl = "reservation_c.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "親鸞E区":
-                    reservationPageUrl = "reservation_e.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "釈尊D区":
-                    reservationPageUrl = "reservation_d.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "親鸞C区":
-                    reservationPageUrl = "reservation_c.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "釈尊A区":
-                    reservationPageUrl = "reservation_a.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "釈尊C区":
-                    reservationPageUrl = "reservation_c.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "日蓮B区":
-                    reservationPageUrl = "reservation_b.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "親鸞B区":
-                    reservationPageUrl = "reservation_b.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "釈尊特A区":
-                    reservationPageUrl = "reservation_special_a.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
                 case "釈尊新区":
-                    reservationPageUrl = "reservation_new.html";
+                    reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
             }
             if (reservationPageUrl !== "") {

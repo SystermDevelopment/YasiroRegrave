@@ -1,5 +1,5 @@
-﻿@page
-@model YasiroRegrave.Pages.UserEditModel
+﻿@* @page
+@model YasiroRegrave.Pages.Shared.ReserveInfoEditModel
 @{
 }
 
@@ -15,23 +15,19 @@
     <form method="post">
         <div class="header-container">
             <img src="~/images/user.png" alt="User Icon" class="header-icon">
-            <h2 class="header-title">ユーザー情報編集</h2>
+            <h2 class="header-title">予約者情報編集</h2>
 
-            <input type="hidden" name="index" value="@Model.UserIndex"/>
+            <input type="hidden" name="index" value="@Model.UserIndex" />
             <button class="btn btn-primary new-user-btn" type="submit">保存</button>
         </div>
 
-    <div class="col-md-6 p-0">
-        <div class="card">
-            <div class="card-body">
+        <div class="col-md-6 p-0">
+            <div class="card">
+                <div class="card-body">
                     <div class="form-group">
                         <label for="vender">販売会社</label>
-                        <select asp-for="SelectVenderIndex" class="form-control">
-                            <option value="">選択してください</option>
-                            @foreach (var vender in Model.Venders)
-                            {
-                                <option value="@vender.Index" selected="@(Model.SelectVenderIndex == vender.Index? "selected" : null)">@vender.Name</option>
-                            }
+                         <select asp-for="SelectedVenderName" asp-items="@(new SelectList(Model.VenderNames))" class="form-control">
+                        <option value="">選択してください</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -49,8 +45,9 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                         <input type="password" asp-for="Password" class="form-control" value="@Model.Password">
                     </div>
-                </form>
-            </div>
+    </form>
+</div>
         </div>
     </div>
 </div>
+ *@
