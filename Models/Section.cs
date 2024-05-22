@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace YasiroRegrave.Models
-{
-    public class Section
+namespace YasiroRegrave.Model;
+
+[Table("m_section")]
+public class Section
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,9 +15,12 @@ namespace YasiroRegrave.Models
         public int AreaIndex { get; set; }
 
         [Column("section_code")]
+        [MaxLength(100)]
         public string SectionCode { get; set; }
 
         [Column("section_name")]
+        [MaxLength(100)]
+
         public string SectionName { get; set; }
 
         [Column("create_date")]
@@ -32,4 +36,4 @@ namespace YasiroRegrave.Models
         public int DeleteFlag { get; set; }
 
     }
-}
+

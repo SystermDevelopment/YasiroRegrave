@@ -9,30 +9,30 @@ public class Reserve_Info
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("reserve_index")]
-    public int Reserve_Index { get; set; }
+    public int ReserveIndex { get; set; }
     [Required]
     [Column("cemetery_info_index")]
-    public int Cemetery_Info_Index { get; set; }
+    public int CemeteryInfoIndex { get; set; }
     [Required]
     [Column("last_name")]
     [MaxLength(100)]
-    public string Last_Name { get; set; }
+    public string LastName { get; set; }
     [Required]
     [Column("first_name")]
     [MaxLength(100)]
-    public string First_Name { get; set; }
+    public string FirstName { get; set; }
     [Required]
     [Column("last_name_yomi")]
     [MaxLength(100)]
-    public string Last_Name_yomi { get; set; }
+    public string LastNameYomi { get; set; }
     [Required]
     [Column("first_name_yomi")]
     [MaxLength(100)]
-    public string First_Name_yomi { get; set; }
+    public string FirstNameYomi { get; set; }
     [Required]
     [Column("zip_code")]
     [MaxLength(7)]
-    public string Zip_Code { get; set; }
+    public string ZipCode { get; set; }
     [Required]
     [Column("adress")]
     [MaxLength(255)]
@@ -40,11 +40,11 @@ public class Reserve_Info
     [Required]
     [Column("telephone_number")]
     [MaxLength(11)]
-    public string Telephone_Number { get; set; }
+    public string TelephoneNumber { get; set; }
     [Required]
     [Column("e_mail")]
     [MaxLength(100)]
-    public string E_Mail { get; set; }
+    public string EMail { get; set; }
     [Required]
     [Column("question")]
     [MaxLength(500)]
