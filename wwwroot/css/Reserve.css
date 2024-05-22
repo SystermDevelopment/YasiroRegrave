@@ -1,0 +1,130 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    background-image: url('/images/bg_reien.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+header {
+    background-color: rgba(255, 255, 255, 0.8); /* 透過 */
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.9); /* 透過 */
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+label {
+    text-align: right;
+    margin-right: 10px;
+    background-color: #ffe4b5; /* 淡いオレンジ色 */
+    padding: 10px;
+    border-radius: 5px;
+    min-width: 120px; /* 固定幅を設定 */
+}
+
+input, textarea, select, button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.postal-code-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* アイテム間の間隔を設定 */
+    width: 100%; /* 親要素の幅に合わせる */
+}
+
+    .postal-code-wrapper input {
+        flex-grow: 1; /* 入力フィールドが余分なスペースを占めるようにする */
+    }
+
+    .postal-code-wrapper button {
+        flex-shrink: 0; /* ボタンのサイズが縮小されないようにする */
+        padding: 10px;
+        background-color: #0056b3;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+        max-width: 200px; /* ボタンの最大幅を設定 */
+    }
+
+.email-note {
+    grid-column: span 2;
+    padding: 10px;
+    font-size: 0.9em;
+}
+
+.contact-method, .email-subscription {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+}
+
+    .contact-method label, .email-subscription label {
+        text-align: left;
+        margin-right: 10px;
+        min-width: 120px; /* 固定幅を設定 */
+        padding: 10px;
+    }
+
+.contact-options, .subscription-options {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .contact-options div, .subscription-options div {
+        display: flex;
+        align-items: center;
+    }
+
+        .contact-options div label, .subscription-options div label {
+            background-color: transparent; /* チェックボックスとラジオボタンのラベルの背景色を削除 */
+            margin-left: 5px;
+            margin-bottom: 0;
+        }
+
+        .contact-options div input, .subscription-options div input {
+            margin-right: 5px; /* チェックボックスとラジオボタンの右のスペースを設定 */
+        }
+
+    .subscription-options p {
+        margin-bottom: 10px;
+        flex-basis: 100%;
+    }
+
+button[type="submit"] {
+    grid-column: span 2;
+    padding: 10px;
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #004494;
+}
