@@ -20,9 +20,6 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         public string Password { get; set; } = string.Empty;
 
-        [BindProperty]
-        public int SelectedVender = 0;
-
         private readonly ApplicationDbContext _context;
         public UserEditModel(ApplicationDbContext context)
         {

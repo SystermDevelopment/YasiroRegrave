@@ -34,11 +34,14 @@
     <h1>@titleData[0][0]の空き区画状況</h1>
     <div class="container">
         <!-- akikukakuの画像 -->
-        <div class="image-container" style="position: relative;">
-            <img src="images/akikukaku.png" alt="空き区画の画像" class="image">
+
+
+        <div id="fullMapContainer">
+            <img src="images/akikukaku.png" alt="空き区画の画像" style="width: 100%; max-width: 1200px;">
         </div>
-
-
+        <div id="canvasContainer">
+            <canvas id="seatsCanvas"></canvas>
+        </div>
         @for (var i = 0; i < data.Length; i++)
         {
             <!-- テキスト -->
@@ -86,5 +89,6 @@
             </div>
         }
     </div>
+    <script src="PlotDetails.js"></script>
 </body>
 </html>
