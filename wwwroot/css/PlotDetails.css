@@ -90,3 +90,13 @@ th {
     padding: 5px;
     font-weight: bold;
 }
+
+#canvasContainer {
+    display: none; /* 初期状態では非表示 */
+}
+
+canvas {
+    width: 100%; /* レスポンシブ対応 */
+    max-width: 800px; /* 最大幅を設定 */
+    border: 1px solid #ccc; /* 枠線を表示 */
+}

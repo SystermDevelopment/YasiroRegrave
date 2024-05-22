@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+namespace YasiroRegrave.Model;
+
 [Table("m_vender")]
 public class Vender
 {
@@ -10,7 +13,7 @@ public class Vender
     [Required]
     [Column("vender_name")]
     [MaxLength(100)]
-    public string VenderName { get; set; }
+    public string VenderName { get; set; } = string.Empty;
     [Column("create_date")]
     public DateTime? CreateDate { get; set; }
     [Column("create_user")]
