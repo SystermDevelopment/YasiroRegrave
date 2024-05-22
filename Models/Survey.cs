@@ -19,6 +19,6 @@ public class Survey
         [Column("reserve_index")]
         public int ReserveIndex { get; set; }
         [ForeignKey("SurveyLinkIndex")]
-        public virtual Survey t_Survey { get; set; } = new Survey();
+        public virtual Survey Surveys { get; set; } = new Survey();
 }
 

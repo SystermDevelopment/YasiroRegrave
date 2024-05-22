@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace YasiroRegrave.Model;
 
 [Table("m_contact")]
-public class m_Contact
+public class Contacts
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

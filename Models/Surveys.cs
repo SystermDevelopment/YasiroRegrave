@@ -5,7 +5,7 @@ namespace YasiroRegrave.Model;
 
 [Table("m_survey")]
 
-public class m_Survey
+public class Surveys
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
