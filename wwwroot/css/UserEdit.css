@@ -4,10 +4,8 @@
     margin-bottom: 20px; /* 下部のマージン */
 }
 
-.header-icon {
-    margin-right: 10px; /* アイコンとタイトルの間隔 */
-}
-
-.header-title {
-    margin: 0; /* 余分なマージンを削除 */
+.card {
+    border: none; /* 外枠を削除 */
+    border-top: 1px solid #dee2e6; /* 上部の境界線 */
+    border-bottom: 1px solid #dee2e6; /* 下部の境界線 */
 }

@@ -1,0 +1,86 @@
+﻿@page
+@model YasiroRegrave.Pages.CemeteryInfoEditModel
+@{
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/UserEdit.css">
+</head>
+
+<div class="container mt-5">
+    <form method="post">
+        <div class="header-container">
+            <img src="~/images/user.png" alt="User Icon" class="header-icon">
+            <h2 class="header-title">墓所情報編集</h2>
+
+            <input type="hidden" name="index" value="@Model.CemeteryInfoIndex" />
+            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
+        </div>
+
+        <div class="col-md-6 p-0">
+            <div class="card">
+                <div class="card-body">
+
+@*                     <div class="form-group">
+                        <label for="AreaValue">面積</label>
+                        <span asp-validation-for="AreaValue" class="text-danger"></span>
+                        <input type="text" asp-for="AreaValue" class="form-control" value="@Model.AreaValue">
+                    </div>
+                    <div class="form-group">
+                        <label for="ReleaseStatus">公開状態</label>
+                        <span asp-validation-for="ReleaseStatus" class="text-danger"></span>
+                        <input type="text" asp-for="ReleaseStatus" class="form-control" value="@Model.ReleaseStatus">
+                    </div>
+                    <div class="form-group">
+                        <label for="SectionStatus">区画状態</label>
+                        <span asp-validation-for="SectionStatus" class="text-danger"></span>
+                        <input type="text" asp-for="SectionStatus" class="form-control" value="@Model.SectionStatus">
+                    </div>
+                    <div class="form-group">
+                        <label for="SectionType">区画区分</label>
+                        <span asp-validation-for="SectionType" class="text-danger"></span>
+                        <input type="text" asp-for="SectionType" class="form-control" value="@Model.SectionType">
+                    </div>
+                    <div class="form-group">
+                        <label for="ManagementFee">使用料</label>
+                        <span asp-validation-for="ManagementFee" class="text-danger"></span>
+                        <input type="text" asp-for="ManagementFee" class="form-control" value="@Model.ManagementFee">
+                    </div>
+                    <div class="form-group">
+                        <label for="ManagementFee">管理料</label>
+                        <span asp-validation-for="ManagementFee" class="text-danger"></span>
+                        <input type="text" asp-for="ManagementFee" class="form-control" value="@Model.ManagementFee">
+                    </div>
+                    <div class="form-group">
+                        <label for="MonumentCost">石碑代金</label>
+                        <span asp-validation-for="MonumentCost" class="text-danger"></span>
+                        <input type="text" asp-for="MonumentCost" class="form-control" value="@Model.MonumentCost">
+                    </div>
+                    <div class="form-group">
+                        <label for="SetPrice">セット価格</label>
+                        <span asp-validation-for="SetPrice" class="text-danger"></span>
+                        <input type="text" asp-for="SetPrice" class="form-control" value="@Model.SetPrice">
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalPrice">合計価格</label>
+                        <span asp-validation-for="TotalPrice" class="text-danger"></span>
+                        <input type="text" asp-for="TotalPrice" class="form-control" value="@Model.TotalPrice">
+                    </div>
+ *@                    <div class="form-group">
+                        <label for="Image1Fname">墓石画像1</label>
+                        <span asp-validation-for="Image1Fname" class="text-danger"></span>
+                        <input type="text" asp-for="Image1Fname" class="form-control" value="@Model.Image1Fname">
+                    </div>
+                    <div class="form-group">
+                        <label for="Image2Fname">墓石画像2</label>
+                        <span asp-validation-for="Image2Fname" class="text-danger"></span>
+                        <input type="text" asp-for="Image2Fname" class="form-control" value="@Model.Image2Fname">
+                    </div>
+    </form>
+</div>
+        </div>
+    </div>
+</div>

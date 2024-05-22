@@ -29,7 +29,7 @@ namespace YasiroRegrave.Pages
         }
         public IActionResult OnPost()
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId==LoginId
+            var user = _context.Users.FirstOrDefault(u => u.Id==LoginId
                                                        && u.Password==Password);
             if (user != null)
             {

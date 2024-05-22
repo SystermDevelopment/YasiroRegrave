@@ -19,25 +19,39 @@ namespace YasiroRegrave.Pages
         private void GetPage()
         {
             var userList = _context.Users
-                //.Where(u => u.DeleteFlag == 0)
+                .Where(u => u.DeleteFlag == 0)
                 .Select(u => new User
                 {
-                    Index = u.UserIndex,
-                    Id = u.UserId,
-                    Name = u.UserName,
+                    Index = u.Index,
+                    Id = u.Id,
+                    Name = u.Name,
                     VenderIndex = u.VenderIndex,
-                    VenderName = u.Vendor.VenderName,
+                    VenderName = u.Vender.Name,
                     Password = u.Password
                 })
                 .ToList();
             Users = userList;
         }
+        public IActionResult OnPost(int index)
+        {
+            var userDelete = _context.Users.FirstOrDefault(u => u.Index == index);
+            if (userDelete != null)
+            {
+                //DELITE
+                userDelete.DeleteFlag = 1;
+                userDelete.UpdateDate = DateTime.Now;
+                //userDelete.UpdateUser = LoginId
+                _context.SaveChanges();
+            }
+            return RedirectToPage("/UserList");
+        }
+
         public class User
         {
             public int Index { get; set; }
             public string Id { get; set; }
             public string Name { get; set; }
-            public int VenderIndex {  get; set; }
+            public int VenderIndex { get; set; }
             public string VenderName { get; set; }
             public string Password { get; set; }
         }
