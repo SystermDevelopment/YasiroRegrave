@@ -10,7 +10,21 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="~/css/UserList.css">
+    <link rel="stylesheet" href="~/css/SideBar.css">
 </head>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="https://www.yasiro.co.jp/reien/ikoma/">
+                <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
+            </a>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="https://localhost:7147/UserList">ユーザー情報一覧</a></li>
+            <li><a href="https://localhost:7147/VenderList">販売会社情報一覧</a></li>
+            <li><a href="https://localhost:7147/ReienList">メール送信先一覧</a></li>
+            <li><a href="https://localhost:7147/CemeteryInfoList">墓所情報一覧</a></li>
+        </ul>
+    </div>
 
 <div class="container">
     <div class="header-container">
@@ -37,12 +51,12 @@
                         <tr>
                             <td>@vender.Name</td>
                             <td class ="edit-btn-cell">
-                                 <form method="get class="btn-form"action="/VenderEdit"style="display: inline-block; margin-right: 1px;">
+                                 <form method="get"class="btn-form"action="/VenderEdit">
                                     <input type="hidden" name="Index" value="@vender.Index" />
                                     <button type="submit" class="btn btn-secondary">編集</button>
                                  </form>
 
-                                <form method="post"class="btn-form"onsubmit="return confirm('@Message.M_Q0001')"style="display: inline-block; margin-right: 1px;">
+                                <form method="post"class="btn-form"onsubmit="return confirm('@Message.M_Q0001')">
                                       <input type="hidden"name="Index" value="@vender.Index"/>
                                       <button type="submit" class="btn btn-warnning">削除</button>
                                   </form>

@@ -24,6 +24,10 @@ namespace YasiroRegrave.Pages
                     {
                         CemeteryInfoIndex = c.CemeteryInfoIndex,
                         CemeteryIndex = c.CemeteryIndex,
+                        //CemeteryCode = c.Cemetery.CemeteryCode,
+                        //SectionCode = c.Section.SectionCode,
+                        //AreaCode = c.Area.Areacode,
+                        //ReienCode = c.Reien.ReienCode,
                     })
                     .ToList();
             CemeteryInfos = cemeteryinfoList;
@@ -47,9 +51,10 @@ namespace YasiroRegrave.Pages
                 public int CemeteryInfoIndex { get; set; }
                 public int CemeteryIndex { get; set; }
                 public string ReienCode { get; set; }
-                public string EriaCode { get; set; }
+                public string AreaCode { get; set; }
                 public string SectionCode { get; set; }
-                public string cemeteryCode { get; set; }
+                public string CemeteryCode { get; set; }
+
                 public string? Image1Fname { get; set; }
                 public string? Image2Fname { get; set; }
             }

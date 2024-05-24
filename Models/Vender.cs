@@ -22,7 +22,6 @@ public class Vender
     public DateTime? UpdateDate { get; set; }
     [Column("update_user")]
     public int? UpdateUser { get; set; }
-    [Required]
     [Column("delete_flag")]
     public int DeleteFlag { get; set; }
 }
