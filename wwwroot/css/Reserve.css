@@ -128,3 +128,15 @@ button[type="submit"] {
 button:hover {
     background-color: #004494;
 }
+
+/* 新しいスタイル */
+.name-wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+    .name-wrapper label {
+        background-color: transparent; /* 背景色を削除 */
+    }
