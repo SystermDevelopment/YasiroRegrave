@@ -13,14 +13,20 @@
 </head>
 <body>
 
-
-    <div id="PlotSelectiontitle">区画選択画面</div>
+    <div id="title-container">
+        <div id="PlotSelectiontitle">
+            空き区画仮予約画面
+        </div>
+        <div id="PlotSelectionSubtitle">
+            大阪生駒霊園の空き区画のご確認ができます。<br />
+            ご希望の区画を仮予約することも可能です。
+        </div>
+    </div>
 
     <div id="PlotSelectionContainer">
-        <!-- canvas要素 -->
+        <!-- 画像 -->
         <canvas id="plotCanvas" width="1416" height="733"></canvas>
 
-        <!-- 画像 -->
         <img src="images/kukaku.png" alt="区画" id="PlotSelectionImage" />
     </div>
     <script src="~/js/PlotSelection.js"></script>

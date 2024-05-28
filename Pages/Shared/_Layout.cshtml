@@ -9,15 +9,24 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <link rel="stylesheet" href="~/css/header.css">
+    <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
+    <header id="header">
+        <div id="header-container">
+            <img src="~/images/logo_yasiro.png" alt="ヤシロのロゴ" id="logo">
+            <span id="site-title">大阪生駒霊園</span>
+        </div>
+    </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-
+    <footer id="footer">
+        <p>Copyright (C) 大阪生駒霊園 All Rights Reserved.</p>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

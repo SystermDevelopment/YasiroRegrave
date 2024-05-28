@@ -3,13 +3,41 @@
     align-items: center; /* ’†‰›‘µ‚¦‚ğˆÛ */
     margin-bottom: 20px; /* ‰º•”‚Ìƒ}[ƒWƒ“ */
 }
-
+.main-container {
+    display: flex;
+    height: 00vh;
+}
 
 .container {
     margin-top: 20px;
 }
 
+.sidebar {
+    width: 200px;
+    background-color: #333;
+    color: white;
+    padding: 1em;
+}
 
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 1em 0;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 0.5em;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #575757;
+}
 
 .edit-btn-wrapper {
 }
