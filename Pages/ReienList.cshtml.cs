@@ -24,8 +24,8 @@ namespace YasiroRegrave.Pages
                 .Select(r => new Reien
                 {
                     Index = r.Index,
-                    Code = r.Code,
-                    Name = r.Name,
+                    Code = r.ReienCode,
+                    ReienName = r.ReienName,
                     MailAddress = r.MailAddress,
 
                 })
@@ -51,7 +51,7 @@ namespace YasiroRegrave.Pages
         {
             public int Index { get; set; }
             public string Code { get; set; }
-            public string Name { get; set; }
+            public string ReienName { get; set; }
             public string MailAddress { get; set; }
 
         }

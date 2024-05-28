@@ -12,8 +12,8 @@ namespace YasiroRegrave.Pages
     public class VenderEditModel : PageModel
     {
         [BindProperty]
-        [Required(ErrorMessage = Message.M_E0001)]
-        [StringLength(100, ErrorMessage = Message.M_E0002)]
+        [Required(ErrorMessage = Message.M_E0007)]
+        [StringLength(100, ErrorMessage = Message.M_E0011)]
 
         public string VenderName { get; set; } = string.Empty;
 

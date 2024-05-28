@@ -33,6 +33,7 @@ public class Area
     [Required]
     [Column("delete_flag")]
     public int DeleteFlag { get; set; }
+    [Required]
     [ForeignKey("ReienIndex")]
     public virtual Reien Reien { get; set; } = new Reien();
 

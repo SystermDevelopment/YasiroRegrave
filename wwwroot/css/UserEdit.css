@@ -9,3 +9,8 @@
     border-top: 1px solid #dee2e6; /* ã•”‚Ì‹«ŠEü */
     border-bottom: 1px solid #dee2e6; /* ‰º•”‚Ì‹«ŠEü */
 }
+
+.btn btn-primary save-btn {
+
+    margin-left: auto;
+}

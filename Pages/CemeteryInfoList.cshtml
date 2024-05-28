@@ -30,20 +30,21 @@
         <img src="~/images/user.png" alt="User Icon" class="header-icon">
         <h2 class="header-title">墓所情報一覧</h2>
         <div class="header-form">
-        <form method="get" action="/CemeteryInfoEdit"style="margin-left: auto;">
+@*         <form method="get" action="/CemeteryInfoEdit"style="margin-left: auto;">
             <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
         </form>
-        </div>
+ *@        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <table class="table">
                 <thead>
                     <tr>
-                           <th>霊園コード</th>
-                           <th>エリアコード</th>
-                           <th>区画コード</th>
-                           <th>墓所コード</th>
+                           <th>コード</th>
+                           <th>霊園名</th>
+                           <th>エリア名</th>
+                           <th>区画名</th>
+                           <th>墓所名</th>
                            <th>墓石画像1</th>
                            <th>墓石画像2</th>
                            <th>操作</th>
@@ -53,10 +54,11 @@
                     @foreach (var cemeteryinfo in Model.CemeteryInfos)
                     {
                         <tr>
-                            <td>@cemeteryinfo.ReienCode</td>
-                            <td>@cemeteryinfo.AreaCode</td>
-                            <td>@cemeteryinfo.SectionCode</td>
-                            <td>@cemeteryinfo.CemeteryCode</td>
+                            <td>@($"{cemeteryinfo.ReienCode}-{cemeteryinfo.AreaCode}-{cemeteryinfo.SectionCode}-{cemeteryinfo.CemeteryCode}")</td>
+                            <td>@cemeteryinfo.ReienName</td>
+                            <td>@cemeteryinfo.AreaName</td>
+                            <td>@cemeteryinfo.SectionName</td>
+                            <td>@cemeteryinfo.CemeteryName</td>
                             <td>@cemeteryinfo.Image1Fname</td>
                             <td>@cemeteryinfo.Image2Fname</td>
                             <td class ="edit-btn-cell">
