@@ -33,7 +33,8 @@ public class Section
         [Required]
         [Column("delete_flag")]
         public int DeleteFlag { get; set; }
-        [ForeignKey("area_Index")]
+        [Required]
+        [ForeignKey("AreaIndex")]
         public virtual Area Area { get; set; } = new Area();
 
     }

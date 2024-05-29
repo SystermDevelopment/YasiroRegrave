@@ -10,9 +10,12 @@ using YasiroRegrave.Pages.common;
 namespace YasiroRegrave.Pages
 
 {
+
     public class UserEditModel : PageModel
     {
         [BindProperty]
+        [StringLength(20, ErrorMessage = Message.M_E0010)]
+        [Required(ErrorMessage = Message.M_E0003)]
 
         public string Id { get; set; } = string.Empty;
 
@@ -25,22 +28,25 @@ namespace YasiroRegrave.Pages
         public List<Vender> Venders{ get; set; } = new List<Vender>();
 
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0004)]
+
         public string Password { get; set; } = string.Empty;
         [BindProperty]
-        [Required(ErrorMessage = "Please select a vender.")]
+        [Required(ErrorMessage = Message.M_E0005)]
         public int SelectVenderIndex { get; set; }
         //[BindProperty]
-        public int? UserIndex { get; set; }
+        public int? Index { get; set; }
 
         private readonly ApplicationDbContext _context;
         public UserEditModel(ApplicationDbContext context)
         {
             _context = context;
         }
+
         public List<PageUser> Users { get; set; } = new List<PageUser>();
         public void OnGet(int? index)
         {
-            UserIndex = index;
+            Index = index;
             if (index.HasValue)
             {
                 var user = _context.Users
@@ -50,7 +56,6 @@ namespace YasiroRegrave.Pages
                 {
                     Id = user.Id;
                     Name = user.Name;
-                    SelectVenderIndex = user.VenderIndex;
                     Password = user.Password;
                 }
             }
@@ -66,14 +71,14 @@ namespace YasiroRegrave.Pages
                 if (index == null)
                 {
                     // ššššTDB.VenderID‰¼‘Î‰žšššš
-                    var forignVender = _context.Venders
-                        .Where(u => u.Index == SelectVenderIndex)
-                        .FirstOrDefault();
+                var forignVender = _context.Venders
+                    .Where(u => u.Index == SelectVenderIndex)
+                    .FirstOrDefault();
 
-                    if (forignVender == null)
-                    {
-                        throw new InvalidOperationException();
-                    }
+                if (forignVender == null)
+                {
+                    throw new InvalidOperationException();
+                }
                     //INSERT
                     var newUser = new User
                     {
@@ -84,9 +89,7 @@ namespace YasiroRegrave.Pages
                         //CreateUser = LoginId,
                         DeleteFlag = 0,
                         Vender = forignVender,
-                        //VenderIndex = SelectVenderIndex,
-
-
+                        VenderIndex = SelectVenderIndex,
 
                     };
                     _context.Users.Add(newUser);

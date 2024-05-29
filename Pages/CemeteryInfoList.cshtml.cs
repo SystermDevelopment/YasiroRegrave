@@ -4,6 +4,7 @@ using YasiroRegrave.Data;
 
 namespace YasiroRegrave.Pages
 {
+
         public class CemeteryInfoListModel : PageModel
         {
             private readonly ApplicationDbContext _context;
@@ -19,21 +20,34 @@ namespace YasiroRegrave.Pages
             private void GetPage()
             {
                 var cemeteryinfoList = _context.CemeteryInfos
-                    .Where(c => c.DeleteFlag == 0)
-                    .Select(c => new CemeteryInfo
+                    .Where(ci => ci.DeleteFlag == 0)
+                    .Select(ci => new CemeteryInfo
                     {
-                        CemeteryInfoIndex = c.CemeteryInfoIndex,
-                        CemeteryIndex = c.CemeteryIndex,
+                        CemeteryInfoIndex = ci.CemeteryInfoIndex,
+                        CemeteryIndex = ci.CemeteryIndex,
+                        CemeteryCode = ci.Cemetery.CemeteryCode,
+                        CemeteryName = ci.Cemetery.CemeteryName,
+                        SectionIndex = ci.Cemetery.Section.SectionIndex,
+                        SectionCode = ci.Cemetery.Section.SectionCode,
+                        SectionName = ci.Cemetery.Section.SectionName,
+                        AreaIndex = ci.Cemetery.Section.Area.AreaIndex,
+                        AreaCode = ci.Cemetery.Section.Area.AreaCode,
+                        AreaName = ci.Cemetery.Section.Area.AreaName,
+                        ReienIndex = ci.Cemetery.Section.Area.ReienIndex,
+                        ReienCode = ci.Cemetery.Section.Area.Reien.ReienCode,
+                        ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
+                        Image1Fname = ci.Image1Fname,
+                        Image2Fname = ci.Image2Fname,
                     })
                     .ToList();
             CemeteryInfos = cemeteryinfoList;
             }
             public IActionResult OnPost(int index)
             {
-                var CemeteryInfoDelete = _context.CemeteryInfos.FirstOrDefault(c => c.CemeteryInfoIndex == index);
+                var CemeteryInfoDelete = _context.CemeteryInfos.FirstOrDefault(ci => ci.CemeteryInfoIndex == index);
                 if (CemeteryInfoDelete != null)
                 {
-                    //DELITE
+                    //DELETE
                     CemeteryInfoDelete.DeleteFlag = 1;
                     CemeteryInfoDelete.UpdateDate = DateTime.Now;
                   //CemeteryInfoDelete.UpdateUser = LoginId
@@ -45,13 +59,22 @@ namespace YasiroRegrave.Pages
             public class CemeteryInfo
             {
                 public int CemeteryInfoIndex { get; set; }
-                public int CemeteryIndex { get; set; }
+                public int ReienIndex { get; set; }
                 public string ReienCode { get; set; }
-                public string EriaCode { get; set; }
+                public string ReienName { get; set; }
+                public string AreaCode { get; set; }
+                public int AreaIndex { get; set; }
+                public string AreaName { get; set; }
                 public string SectionCode { get; set; }
-                public string cemeteryCode { get; set; }
+                public int SectionIndex { get; set; }
+                public string SectionName { get; set; }
+                public string CemeteryCode { get; set; }
+                public int CemeteryIndex { get; set; }
+                public string CemeteryName { get; set; }
                 public string? Image1Fname { get; set; }
                 public string? Image2Fname { get; set; }
+
             }
+
         }
     }

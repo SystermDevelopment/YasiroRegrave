@@ -8,25 +8,26 @@ using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
 
 namespace YasiroRegrave.Pages
-
-{
+{ 
     public class ReienEditModel : PageModel
     {
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0006)]
+        [StringLength(500, ErrorMessage = Message.M_E0011)]
 
         public string Name { get; set; } = string.Empty;
 
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0005)]
+        [StringLength(10, ErrorMessage = Message.M_E0009)]
 
-        public string Code { get; set; } = string.Empty;
-
+        public string ReienCode { get; set; } = string.Empty;
 
         [BindProperty]
-        [Required(ErrorMessage = Message.M_E0003)]
-        [StringLength(100, ErrorMessage = Message.M_E0002)]
+        [Required(ErrorMessage = Message.M_E0002)]
+        [StringLength(500, ErrorMessage = Message.M_E0013)]
 
         public string MailAddress { get; set; } = string.Empty;
-
 
         //[BindProperty]
         public int? Index { get; set; }
@@ -44,22 +45,16 @@ namespace YasiroRegrave.Pages
             Index = index;
             if (index.HasValue)
             {
-
                 var reien = _context.Reiens
                     .Where(r => r.DeleteFlag == 0 && r.Index == index.Value)
                     .FirstOrDefault();
                 if (reien != null)
                 {
-                    Code = reien.Code;
-                    Name = reien.Name;
+                    ReienCode = reien.ReienCode;
+                    Name = reien.ReienName;
                     MailAddress = reien.MailAddress;
-                    
                 }
             }
-            //VenderNames = _context.Venders
-            //    .Where(v => v.DeleteFlag == 0)
-            //    .Select(v => v.Name)
-            //    .ToList();
         }
         public IActionResult OnPost(int? index)
         {
@@ -67,17 +62,10 @@ namespace YasiroRegrave.Pages
             {
                 if (index == null)
                 {
-                    //// ššššTDB.VenderID‰¼‘Î‰šššš
-                    //var forignVender = _context.Venders.FirstOrDefault();
-                    //if (forignVender == null)
-                    //{
-                    //    throw new InvalidOperationException();
-                    //}
-                    //INSERT
                     var newReien = new Reien
                     {
-                        Code = Code,
-                        Name = Name,
+                        ReienCode = ReienCode,
+                        ReienName = Name,
                         MailAddress = MailAddress,
                         CreateDate = DateTime.UtcNow,
                         //CreateUser = LoginId,
@@ -96,8 +84,8 @@ namespace YasiroRegrave.Pages
                     if (existingReien != null)
                     {
                         // UPDATE
-                        existingReien.Code = Code;
-                        existingReien.Name = Name;
+                        existingReien.ReienCode = ReienCode;
+                        existingReien.ReienName = Name;
                         existingReien.MailAddress = MailAddress;
                         existingReien.UpdateDate = DateTime.UtcNow;
                         //existingVender.UpdateUser = LoginId,

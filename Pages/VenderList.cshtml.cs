@@ -34,9 +34,7 @@ namespace YasiroRegrave.Pages
             if (venderDelete != null)
             {
                 //DELITE
-                venderDelete.DeleteFlag = 1; 
-                //venderDelete.UpdateDate = DateTime.Now;
-                //venderDelete.UpdateUser = LoginID;
+                venderDelete.DeleteFlag = 1;
                 _context.SaveChanges();
             }
             return RedirectToPage("/VenderList");
