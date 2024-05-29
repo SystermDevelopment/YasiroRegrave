@@ -127,3 +127,14 @@ button[type="submit"] {
 button:hover {
     background-color: #004494;
 }
+
+/* 新しいスタイル */
+.name-wrapper {
+    display: flex;
+    flex-direction: column; /* スマートフォンでは縦に並べる */
+    gap: 10px;
+}
+
+    .name-wrapper label {
+        background-color: transparent; /* 背景色を削除 */
+    }

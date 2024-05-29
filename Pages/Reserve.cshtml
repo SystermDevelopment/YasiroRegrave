@@ -30,11 +30,11 @@
                 <label for="inquiry">ご相談・お問い合わせ内容</label>
                 <textarea id="inquiry" name="inquiry"></textarea>
 
-                <label for="date">希望日①</label>
-                <input type="date" id="date" name="date">
+                <label for="date1">希望日①</label>
+                <input type="date" id="date1" name="date1">
 
-                <label for="time">希望時間</label>
-                <select id="time" name="time">
+                <label for="time1">希望時間①</label>
+                <select id="time1" name="time1">
                     <option value="09:00">09:00</option>
                     <option value="10:00">10:00</option>
                     <option value="11:00">11:00</option>
@@ -46,11 +46,11 @@
                     <option value="17:00">17:00</option>
                 </select>
 
-                <label for="date">希望日②</label>
-                <input type="date" id="date" name="date">
+                <label for="date2">希望日②</label>
+                <input type="date" id="date2" name="date2">
 
-                <label for="time">希望時間</label>
-                <select id="time" name="time">
+                <label for="time2">希望時間②</label>
+                <select id="time2" name="time2">
                     <option value="09:00">09:00</option>
                     <option value="10:00">10:00</option>
                     <option value="11:00">11:00</option>
@@ -62,11 +62,11 @@
                     <option value="17:00">17:00</option>
                 </select>
 
-                <label for="date">希望日③</label>
-                <input type="date" id="date" name="date">
+                <label for="date3">希望日③</label>
+                <input type="date" id="date3" name="date3">
 
-                <label for="time">希望時間</label>
-                <select id="time" name="time">
+                <label for="time3">希望時間③</label>
+                <select id="time3" name="time3">
                     <option value="09:00">09:00</option>
                     <option value="10:00">10:00</option>
                     <option value="11:00">11:00</option>
@@ -77,11 +77,22 @@
                     <option value="16:00">16:00</option>
                     <option value="17:00">17:00</option>
                 </select>
+
                 <label for="last-name">お名前（全角）</label>
-                <input type="text" id="last-name" name="last-name">
+                <div class="name-wrapper">
+                    <label for="last-name">姓：</label>
+                    <input type="text" id="last-name" name="last-name">
+                    <label for="first-name">名：</label>
+                    <input type="text" id="first-name" name="first-name">
+                </div>
 
-                <label for="first-name">お名前（ふりがな）</label>
-                <input type="text" id="first-name" name="first-name">
+                <label for="last-name-kana">お名前（ふりがな）</label>
+                <div class="name-wrapper">
+                    <label for="last-name-kana">姓（ふりがな）：</label>
+                    <input type="text" id="last-name-kana" name="last-name-kana">
+                    <label for="first-name-kana">名（ふりがな）：</label>
+                    <input type="text" id="first-name-kana" name="first-name-kana">
+                </div>
 
                 <label for="postal-code">郵便番号</label>
                 <div class="postal-code-wrapper">
