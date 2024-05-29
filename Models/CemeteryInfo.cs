@@ -41,6 +41,7 @@ namespace YasiroRegrave.Models
         [Column("image2_fname")]
         [MaxLength(50)]
         public string? Image2Fname { get; set; }
+        [Required]
         [Column("delete_flag")]
         public int DeleteFlag { get; set; }
         [Required]

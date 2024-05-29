@@ -37,4 +37,4 @@ public class User
     [Required]
     [ForeignKey("VenderIndex")]
     public virtual Vender Vender { get; set; } = new Vender();
-}　
+}

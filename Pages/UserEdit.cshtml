@@ -2,12 +2,15 @@
 @model YasiroRegrave.Pages.UserEditModel
 @{
     @using YasiroRegrave.Pages.common;
+    Layout = null;
+
 }
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/header.css">
     <link rel="stylesheet" href="~/css/UserEdit.css">
     <link rel="stylesheet" href="~/css/SideBar.css">
 </head>
@@ -40,6 +43,7 @@
             <div class="card-body">
                     <div class="form-group">
                         <label for="vender">販売会社</label>
+                        <span asp-validation-for="SelectVenderIndex" class="text-danger"></span>
                         <select asp-for="SelectVenderIndex" class="form-control">
                             <option value="">選択してください</option>
                             @foreach (var vender in Model.Venders)
@@ -68,6 +72,9 @@
         </div>
     </div>
 </div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
 <script>
     let editDataStruct = {
         Id: '',
@@ -103,4 +110,5 @@
             && initData.Name === editData.Name
             && initData.Password === editData.Password
     }
+
 </script>

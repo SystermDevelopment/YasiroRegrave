@@ -22,12 +22,12 @@
 }
 
 #PlotSelectionContainer {
+    display: flex;
     position: absolute;
     margin-top: 60px;
-    margin-bottom: 100px;
+    margin-bottom: 100px;*/
     height: 80;
-    left: 0;
-    z-index: -1; /* 画像を背面に配置 */
+    z-index: 1;
 }
 
 #PlotSelectionImage {
