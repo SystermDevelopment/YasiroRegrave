@@ -3,23 +3,30 @@
     justify-content: center; /* 横方向センタリング */
     align-items: center; /* 縦方向センタリング */
     height: 100vh; /* ビューポートの高さを使用 */
+    position: relative; /* 親要素を相対位置に設定 */
 }
 
 #map-container {
     height: 70vh; /* ウィンドウの高さを70%に設定 */
     width: 50vw; /* ウィンドウの幅を50%に設定 */
-    position: absolute; /* 位置を相対に設定 */
+    position: absolute; /* 絶対位置に設定 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 中央に配置 */
+    -webkit-transform: translate(-50%, -50%); /* Safari用プレフィックス */
+    box-sizing: border-box; /* ボックスサイズを調整 */
+    border: 2px solid red; /* 境界線を追加して視覚的に確認 *
 }
 
 /* メディアクエリで余白を調整 */
-@media (max-width: 768px) {
-    #map-container {
-        width: 70vw; /* 幅が狭いときに幅を70%に調整 */
+    @media (max-width: 768px) {
+        #map-container {
+            width: 70vw; /* 幅が狭いときに幅を70%に調整 */
+        }
     }
-}
 
-@media (max-width: 480px) {
-    #map-container {
-        width: 90vw; /* 幅が非常に狭いときに幅を90%に調整 */
+    @media (max-width: 480px) {
+        #map-container {
+            width: 90vw; /* 幅が非常に狭いときに幅を90%に調整 */
+        }
     }
-}
