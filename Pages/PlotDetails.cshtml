@@ -9,169 +9,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/css/PlotDetails.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+
     </style>
 </head>
 <body>
-    <!-- データの定義 -->
-    @{
-        var data = new[] {
-    new[] {10, 1000000, 500000, 800000}, // 面積, 墓地使用料, 永代管理料, 墓石セット価格
-    new[] {15, 1200000, 600000, 1100000}
-    };
-        var titleData = new[]
-        {
-    new[] {"親鸞E区", "8列", "11"}, 
-    new[] {"親鸞E区", "7列", "03"}
-    };
-    }
     <div class="container">
-        <div class="image-window" id="imageWindow">
-            <img src="images/akikukaku.png" alt="空き区画の画像" class="image" id="zoomableImage">
+        <div id="map-wrapper">
+            <div id="map-container"></div>
         </div>
     </div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const img = document.getElementById('zoomableImage');
-            const imgWindow = document.getElementById('imageWindow');
-            let isZoomed = false;
-            let isDragging = false;
-            let startX, startY, initialX, initialY, currentX, currentY;
-            let clickCount = 0;
-            let lastClickTime = 0;
+        // Leaflet.jsの初期化
+        var map = L.map('map-container', {
+            crs: L.CRS.Simple,
+            zoomControl: true
+        });
 
-            function handleMouseDown(e) {
-                isDragging = true;
-                startX = e.clientX || e.touches[0].clientX;
-                startY = e.clientY || e.touches[0].clientY;
-                initialX = img.offsetLeft;
-                initialY = img.offsetTop;
-                img.style.cursor = 'grabbing';
-            }
+        // 画像の実際のサイズに合わせてboundsを設定
+        var bounds = [[0, 0], [500, 500]]; // 画像のサイズを設定 (height, width)
 
-            function handleMouseMove(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                const dx = (e.clientX || e.touches[0].clientX) - startX;
-                const dy = (e.clientY || e.touches[0].clientY) - startY;
+        // 画像ファイルのパスが正しいか確認
+        var imagePath = '/images/akikukaku.png';
+        var image = L.imageOverlay(imagePath, bounds).addTo(map);
 
-                currentX = initialX + dx;
-                currentY = initialY + dy;
+        // 初期表示をウィンドウいっぱいに設定
+        var center = [759 / 2, 517 / 2];
+        var zoomLevel = 1; // 初期のズームレベルを設定
+        map.setView(center, zoomLevel);
 
-                const newLeft = Math.min(0, Math.max(currentX, imgWindow.offsetWidth - img.offsetWidth));
-                const newTop = Math.min(0, Math.max(currentY, imgWindow.offsetHeight - img.offsetHeight));
+        // ズームアウトした時に画像全体が見えるように制限を設定
+        map.setMaxBounds(bounds);
 
-                img.style.left = `${newLeft}px`;
-                img.style.top = `${newTop}px`;
-            }
-
-            function handleMouseUp() {
-                if (isDragging) {
-                    isDragging = false;
-
-                    img.style.cursor = isZoomed ? 'grab' : 'auto';
-                }
-            }
-
-            function handleDragStart(e) {
-                e.preventDefault();
-            }
-
-            img.addEventListener('mousedown', handleMouseDown);
-            img.addEventListener('touchstart', handleMouseDown);
-
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('touchmove', handleMouseMove);
-
-            document.addEventListener('mouseup', handleMouseUp);
-            document.addEventListener('touchend', handleMouseUp);
-
-            img.addEventListener('dragstart', handleDragStart);
-
-            img.addEventListener('click', (e) => {
-                const currentTime = new Date().getTime();
-                if (currentTime - lastClickTime < 300) {
-                    e.preventDefault();
-                    if (!isZoomed) {
-                        img.classList.add('zoomed');
-                        img.style.transform = 'scale(2)';
-                        isZoomed = true;
-                        img.style.cursor = 'grab';
-                    }
-                }
-                lastClickTime = currentTime;
-            });
-            img.addEventListener('dblclick', (e) => {
-                e.preventDefault();
-                img.classList.remove('zoomed');
-                img.style.transform = 'scale(1)';
-                img.style.left = '0px';
-                img.style.top = '0px';
-                isZoomed = false;
-                if (!isZoomed) {
-                    img.style.cursor = 'auto';
-                }
-            });
-
-            img.addEventListener('mouseover', () => {
-                if (!isDragging) {
-                    img.style.cursor = 'grab';
-                }
-            });
-
-            img.addEventListener('mouseleave', () => {
-                if (!isDragging && !isZoomed) {
-                    img.style.cursor = 'auto';
-                }
-            });
+        map.on('resize', function () {
+            map.setView(center, zoomLevel);
         });
     </script>
-
-
-    @for (var i = 0; i < data.Length; i++)
-        {
-            <!-- テキスト -->
-            <div class="content">
-                <p class="district-name" style="font-size: 24px; color: white; margin: 0; padding-bottom: 10px; font-weight: bold;">@titleData[i][0] @titleData[i][1]-@titleData[i][2]</p>
-                <!-- 画像とテキストとテーブル -->
-                <div class="content" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                    <!-- 画像1 -->
-                    <div class="image-container" style="margin-right: 20px;">
-                        <img src="images/pic@(i * 2 + 1).png" alt="区画@(i * 2 + 1)の画像" class="image">
-                    </div>
-                    <!-- 画像2 -->
-                    <div class="image-container" style="margin-right: 20px;">
-                        <img src="images/pic@(i * 2 + 2).png" alt="区画@(i * 2 + 2)の画像" class="image">
-                    </div>
-                    <!-- テーブル -->
-                    <table>
-                        <tr>
-                            <th style="background-color: rgb(220,247,231);">面積</th>
-                            <td class="data-cell">@data[i][0]㎡</td>
-                        </tr>
-                        <tr>
-                            <th style="background-color: rgb(220,247,231);">墓地使用料</th>
-                            <td class="data-cell">¥@string.Format("{0:#,0}", data[i][1])</td>
-                        </tr>
-                        <tr>
-                            <th style="background-color: rgb(220,247,231);">永代管理料</th>
-                            <td class="data-cell">¥@string.Format("{0:#,0}", data[i][2])</td>
-                        </tr>
-                        <tr>
-                            <th style="background-color: rgb(220,247,231);">墓石セット価格</th>
-                            <td class="data-cell">¥@string.Format("{0:#,0}", data[i][3])</td>
-                        </tr>
-                        <tr>
-                            <th style="background-color: rgb(220,247,231);">合計</th>
-                            <td class="data-cell" style="color: red;">¥@string.Format("{0:#,0}", data[i][1] + data[i][2] + data[i][3])</td>
-                        </tr>
-                    </table>
-                </div>
-                <!-- 仮予約フォームへ遷移するボタン -->
-                <div class="button-container">
-                    <button class="button" onclick="window.location.href='https://localhost:7147/reserve';">仮予約のお申込み</button>
-                </div>
-            </div>
-        }
-    </div>
 </body>
 </html>
