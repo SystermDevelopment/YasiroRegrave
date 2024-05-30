@@ -43,8 +43,8 @@ Layout = null;
                            <th>エリア名</th>
                            <th>区画名</th>
                            <th>墓所名</th>
-                           <th>墓石画像1</th>
-                           <th>墓石画像2</th>
+                           <th>画像1</th>
+                           <th>画像2</th>
                            <th>操作</th>
                     </tr>
                 </thead>
@@ -57,8 +57,8 @@ Layout = null;
                             <td>@cemeteryinfo.AreaName</td>
                             <td>@cemeteryinfo.SectionName</td>
                             <td>@cemeteryinfo.CemeteryName</td>
-                            <td>@cemeteryinfo.Image1Fname</td>
-                            <td>@cemeteryinfo.Image2Fname</td>
+                            <td>@(string.IsNullOrEmpty(cemeteryinfo.Image1Fname) ? "未" : "済")</td>
+                            <td>@(string.IsNullOrEmpty(cemeteryinfo.Image2Fname) ? "未" : "済")</td>
                             <td class ="edit-btn-cell">
                                  <form method="get"class="btn-form"action="/CemeteryInfoEdit"style="display: inline-block; margin-right: 1px;">
                                     <input type="hidden" name="Index" value="@cemeteryinfo.CemeteryInfoIndex"/>
