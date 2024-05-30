@@ -59,6 +59,31 @@ body {
 }
 
 
+/* スタイルの初期設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+/* フレックスコンテナの設定 */
+.body-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 130vh;
+}
+
+/* メインコンテンツが残りのスペースを占める */
+.container {
+    flex: 1;
+    
+}
+
+/* フッターのスタイル設定 */
 #footer {
     background-color: #587b63; /* フッターの背景色 */
     color: white; /* フッターの文字色 */

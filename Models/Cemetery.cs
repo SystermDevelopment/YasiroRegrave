@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace YasiroRegrave.Models
-{
-    public class Cemetery
+namespace YasiroRegrave.Model;
+
+[Table("m_cemetery")]
+public class Cemetery
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,10 +16,14 @@ namespace YasiroRegrave.Models
         public int SectionIndex { get; set; }
 
         [Column("cemetery_code")]
-        public string Cemetery_Code { get; set; }
+        [MaxLength(100)]
+
+        public string CemeteryCode { get; set; }
 
         [Column("cemetery_name")]
-        public string Cemetery_Name { get; set; }
+        [MaxLength(100)]
+
+        public string CemeteryName { get; set; }
         [Column("create_date")]
         public DateTime? CreateDate { get; set; }
         [Column("create_user")]
@@ -30,6 +35,11 @@ namespace YasiroRegrave.Models
         [Required]
         [Column("delete_flag")]
         public int DeleteFlag { get; set; }
+        [Required]
+        [ForeignKey("SectionIndex")]
+        public virtual Section Section { get; set; } = new Section();
 
-    }
+
 }
+
+

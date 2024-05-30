@@ -15,8 +15,10 @@ namespace YasiroRegrave.Data
         public DbSet<Vender> Venders { get; set; }
         //public DbSet<Reserve_Info> Reserve_Infos { get; set; }
         public DbSet<Reien> Reiens { get; set; }
-
         public DbSet<CemeteryInfo> CemeteryInfos { get; set; }
+        public DbSet<Cemetery> Cemeterys { get; set; }
+
+
 
     }
 }

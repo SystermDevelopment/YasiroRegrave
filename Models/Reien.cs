@@ -13,11 +13,11 @@ public class Reien
     [Required]
     [Column("reien_code")]
     [MaxLength(10)]
-    public string Code { get; set; }
+    public string ReienCode { get; set; }
     [Required]
     [Column("reien_name")]
     [MaxLength(100)]
-    public string Name { get; set; }
+    public string ReienName { get; set; }
     [Column("mail_address")]
     [MaxLength(500)]
     public string MailAddress { get; set; }
@@ -32,4 +32,5 @@ public class Reien
     [Required]
     [Column("delete_flag")]
     public int DeleteFlag { get; set; }
+
 }

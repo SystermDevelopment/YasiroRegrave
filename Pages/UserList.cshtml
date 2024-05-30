@@ -2,6 +2,8 @@
 @model UserListModel
 @{
     @using YasiroRegrave.Pages.common;
+    Layout = null;
+
 }
 
 <head>
@@ -9,62 +11,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/header.css">
     <link rel="stylesheet" href="~/css/UserList.css">
+    <link rel="stylesheet" href="~/css/SideBar.css">
 </head>
-    <div class="main-container">
-        <aside class="sidebar">
-            <nav>
-                <ul>
-                    <li><a href="#company-list">販売会社情報一覧</a></li>
-                    <li><a href="#user-list">ユーザー情報一覧</a></li>
-                </ul>
-            </nav>
-        </aside>
-        <div class="container">
-            <div class="header-container">
-                <img src="~/images/user.png" alt="User Icon" class="header-icon">
-                <h2 class="header-title">ユーザー情報一覧</h2>
-                <div class="header-form">
-                <form method="get" action="/UserEdit">
-                    <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
-                </form>
-            </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>販売会社</th>
-                                <th>名前</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var user in Model.Users)
-                            {
-                                <tr>
-                                    <td>@user.Id</td>
-                                    <td>@user.VenderName</td>
-                                    <td>@user.Name</td>
-                                    <td class ="edit-btn-cell">
-                                         <form method="get"class="btn-form" action="/UserEdit">
-                                            <input type="hidden" name="Index" value="@user.Index" />
-                                            <button type="submit" class="btn btn-secondary">編集</button>
-                                         </form>
-        
-                                        <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
-                                              <input type="hidden"name="Index" value="@user.Index"/>
-                                              <button type="submit" class="btn btn-warnning">削除</button>
-                                          </form>
-                                    </td class>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="https://www.yasiro.co.jp/reien/ikoma/">
+                <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
+            </a>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="https://localhost:7147/UserList">ユーザー情報一覧</a></li>
+            <li><a href="https://localhost:7147/VenderList">販売会社情報一覧</a></li>
+            <li><a href="https://localhost:7147/ReienList">メール送信先一覧</a></li>
+            <li><a href="https://localhost:7147/CemeteryInfoList">墓所情報一覧</a></li>
+        </ul>
+    </div>
+<div class="container">
+    <div class="header-container">
+        <img src="~/images/user.png" alt="User Icon" class="header-icon">
+        <h2 class="header-title">ユーザー情報一覧</h2>
+        <div class="header-form">
+        <form method="get" action="/UserEdit">
+            <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
+        </form>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>販売会社</th>
+                        <th>名前</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.VenderName</td>
+                            <td>@user.Name</td>
+                            <td class ="edit-btn-cell">
+                                 <form method="get"class="btn-form" action="/UserEdit">
+                                    <input type="hidden" name="Index" value="@user.Index" />
+                                    <button type="submit" class="btn btn-secondary">編集</button>
+                                 </form>
+
+                                <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
+                                      <input type="hidden"name="Index" value="@user.Index"/>
+                                      <button type="submit" class="btn btn-warnning">削除</button>
+                                  </form>
+                            </td class>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

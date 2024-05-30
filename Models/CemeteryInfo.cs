@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using YasiroRegrave.Model;
 
 namespace YasiroRegrave.Models
 {
@@ -43,5 +44,8 @@ namespace YasiroRegrave.Models
         [Required]
         [Column("delete_flag")]
         public int DeleteFlag { get; set; }
+        [Required]
+        [ForeignKey("CemeteryIndex")]
+        public virtual Cemetery Cemetery { get; set; }=new Cemetery();
     }
 }

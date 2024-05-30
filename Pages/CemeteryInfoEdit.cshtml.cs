@@ -11,31 +11,17 @@ namespace YasiroRegrave.Pages
 {
     public class CemeteryInfoEditModel : PageModel
     {
+        [BindProperty]
 
-        //[BindProperty]
+        public string ReienName { get; set; }
+        [BindProperty]
+        public string SectionName { get; set; }
+        [BindProperty]
+        public string AreaName { get; set; }
 
-        //public float? AreaValue { get; set; } 
+        [BindProperty]
+        public string CemeteryName { get; set; }
 
-        //[BindProperty]
-        ////[Required(ErrorMessage = Message.M_E0001)]
-        ////[StringLength(100, ErrorMessage = Message.M_E0002)]
-
-        //public int? ReleaseStatus { get; set; } 
-
-        //[BindProperty]
-        //public int? SectionStatus { get; set; }
-        //[BindProperty]
-        //public int? SectionType { get; set; }
-        //[BindProperty]
-        //public int? UsageFee { get; set; }
-        //[BindProperty]
-        //public int? ManagementFee { get; set; }
-        //[BindProperty]
-        //public int? MonumentCost { get; set; }
-        //[BindProperty]
-        //public int? SetPrice { get; set; }
-        //[BindProperty]
-        //public int? TotalPrice { get; set; }
         [BindProperty]
         public string Image1Fname { get; set; }
         [BindProperty]
@@ -44,39 +30,43 @@ namespace YasiroRegrave.Pages
         //[BindProperty]
         public int? CemeteryInfoIndex { get; set; }
 
-        public int? CemeteryIndex { get; set; }
-
         private readonly ApplicationDbContext _context;
         public CemeteryInfoEditModel(ApplicationDbContext context)
         {
             _context = context;
         }
-        public List<PageCemeteryInfo> Users { get; set; } = new List<PageCemeteryInfo>();
+        public List<PageCemeteryInfo> CemeteryInfos { get; set; } = new List<PageCemeteryInfo>();
         public void OnGet(int? index)
         {
             CemeteryInfoIndex = index;
             if (index.HasValue)
             {
+                // データベースから墓所情報を取得
                 var cemeteryinfo = _context.CemeteryInfos
-                    .Where(c => c.DeleteFlag == 0 && c.CemeteryInfoIndex == index.Value)
+                    .Where(ci => ci.DeleteFlag == 0 && ci.CemeteryInfoIndex == index.Value)
+                    .Select(ci => new PageCemeteryInfo
+                    {
+                        CemeteryInfoIndex = ci.CemeteryInfoIndex,
+                        ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
+                        AreaName = ci.Cemetery.Section.Area.AreaName,
+                        SectionName = ci.Cemetery.Section.SectionName,
+                        CemeteryName = ci.Cemetery.CemeteryName,
+                        Image1Fname = ci.Image1Fname,
+                        Image2Fname = ci.Image2Fname
+                    })
                     .FirstOrDefault();
+
+                // 墓所情報を各プロパティに設定
                 if (cemeteryinfo != null)
                 {
-                    //AreaValue = cemeteryinfo.AreaValue;
-                    //ReleaseStatus = cemeteryinfo.ReleaseStatus;
-                    //SectionStatus = cemeteryinfo.SectionStatus;
-                    //SectionType = cemeteryinfo.SectionType;
-                    //UsageFee = cemeteryinfo.UsageFee;
-                    //ManagementFee = cemeteryinfo.ManagementFee;
-                    //MonumentCost = cemeteryinfo.MonumentCost;
-                    //SetPrice = cemeteryinfo.SetPrice;
-                    //TotalPrice = cemeteryinfo.TotalPrice;
+                    ReienName = cemeteryinfo.ReienName;
+                    AreaName = cemeteryinfo.AreaName;
+                    SectionName = cemeteryinfo.SectionName;
+                    CemeteryName = cemeteryinfo.CemeteryName;
                     Image1Fname = cemeteryinfo.Image1Fname;
                     Image2Fname = cemeteryinfo.Image2Fname;
-
                 }
             }
-     
         }
         public IActionResult OnPost(int? index)
         {
@@ -84,33 +74,8 @@ namespace YasiroRegrave.Pages
             {
                 if (index == null)
                 {
-                    // ★★★★TDB.VenderID仮対応★★★★
-                    //var forignVender = _context.Venders.FirstOrDefault();
-                    //if (forignVender == null)
-                    //{
-                    //    throw new InvalidOperationException();
-                    //}
-
-                    //INSERT
                     var newCemeteryInfo = new Models.CemeteryInfo
                     {
-                    //AreaValue = AreaValue,
-                    //ReleaseStatus = ReleaseStatus,
-                    //SectionStatus = SectionStatus,
-                    //SectionType = SectionType,
-                    //UsageFee = UsageFee,
-                    //ManagementFee = ManagementFee,
-                    //MonumentCost = MonumentCost,
-                    //SetPrice = SetPrice,
-                    //TotalPrice = TotalPrice,
-                    Image1Fname = Image1Fname,
-                    Image2Fname = Image2Fname,
-                    CreateDate = DateTime.UtcNow,
-                        //CreateUser = LoginId,
-                    DeleteFlag = 0,
-                        //Vendor = forignVender,
-
-                        
 
                     };
                     _context.CemeteryInfos.Add(newCemeteryInfo);
@@ -118,24 +83,16 @@ namespace YasiroRegrave.Pages
                 }
                 else
                 {
-                    var existingCemeteryinfo = _context.CemeteryInfos.Where(c => c.DeleteFlag == 0 && c.CemeteryInfoIndex == index.Value).FirstOrDefault();
+                    var existingCemeteryinfo = _context.CemeteryInfos.
+                        Where(ci => ci.DeleteFlag == 0 && ci.CemeteryInfoIndex == index.Value).
+                        FirstOrDefault();
+
                     if (existingCemeteryinfo != null)
                     {
                         // UPDATE
-                    //existingCemeteryinfo.AreaValue = AreaValue;
-                    //existingCemeteryinfo.ReleaseStatus = ReleaseStatus;
-                    //existingCemeteryinfo.SectionStatus = SectionStatus;
-                    //existingCemeteryinfo.SectionType = SectionType;
-                    //existingCemeteryinfo.UsageFee = UsageFee;
-                    //existingCemeteryinfo.ManagementFee = ManagementFee;
-                    //existingCemeteryinfo.MonumentCost = MonumentCost;
-                    //existingCemeteryinfo.SetPrice = SetPrice;
-                    //existingCemeteryinfo.TotalPrice = TotalPrice;
-                    existingCemeteryinfo.Image1Fname = Image1Fname;
-                    existingCemeteryinfo.Image2Fname = Image2Fname;
-
-
-                    existingCemeteryinfo.UpdateDate = DateTime.UtcNow;
+                        existingCemeteryinfo.Image1Fname = Image1Fname;
+                        existingCemeteryinfo.Image2Fname = Image2Fname;
+                        existingCemeteryinfo.UpdateDate = DateTime.UtcNow;
                         //existingVender.UpdateUser = LoginId,
 
                         _context.SaveChanges();
@@ -150,15 +107,11 @@ namespace YasiroRegrave.Pages
         }
         public class PageCemeteryInfo
         {
-            //public float? AreaValue { get; set; }
-            //public int? ReleaseStatus { get; set; }
-            //public int? SectionStatus { get; set; }
-            //public int? SectionType { get; set; }
-            //public int? UsageFee { get; set; }
-            //public int? ManagementFee { get; set; }
-            //public int? MonumentCost { get; set; }
-            //public int? SetPrice { get; set; }
-            //public int? TotalPrice { get; set; }
+            public int CemeteryInfoIndex { get; set; }
+            public string ReienName { get; set; }
+            public string AreaName { get; set; }
+            public string SectionName { get; set; }
+            public string CemeteryName { get; set; }
             public string Image1Fname { get; set; }
             public string Image2Fname { get; set; }
 

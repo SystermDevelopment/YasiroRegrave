@@ -1,31 +1,49 @@
 ﻿@page
 @model YasiroRegrave.Pages.UserEditModel
 @{
-}
+    @using YasiroRegrave.Pages.common;
+    Layout = null;
 
+}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/header.css">
     <link rel="stylesheet" href="~/css/UserEdit.css">
+    <link rel="stylesheet" href="~/css/SideBar.css">
 </head>
-
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="https://www.yasiro.co.jp/reien/ikoma/">
+            <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
+        </a>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="https://localhost:7147/UserList">ユーザー情報一覧</a></li>
+        <li><a href="https://localhost:7147/VenderList">販売会社情報一覧</a></li>
+        <li><a href="https://localhost:7147/ReienList">メール送信先一覧</a></li>
+        <li><a href="https://localhost:7147/CemeteryInfoList">墓所情報一覧</a></li>
+    </ul>
+</div>
 <div class="container mt-5">
     <form method="post">
         <div class="header-container">
             <img src="~/images/user.png" alt="User Icon" class="header-icon">
             <h2 class="header-title">ユーザー情報編集</h2>
-
-            <input type="hidden" name="index" value="@Model.UserIndex"/>
+            <div class="header-form">
+            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
+            <input type="hidden" name="index" value="@Model.Index"/>
             <button class="btn btn-primary new-user-btn" type="submit">保存</button>
         </div>
-
+        </div>
     <div class="col-md-6 p-0">
         <div class="card">
             <div class="card-body">
                     <div class="form-group">
                         <label for="vender">販売会社</label>
+                        <span asp-validation-for="SelectVenderIndex" class="text-danger"></span>
                         <select asp-for="SelectVenderIndex" class="form-control">
                             <option value="">選択してください</option>
                             @foreach (var vender in Model.Venders)
@@ -54,3 +72,43 @@
         </div>
     </div>
 </div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+<script>
+    let editDataStruct = {
+        Id: '',
+        Name: '',
+        MailAddress: '',
+    };
+    let initData = Object.assign({}, editDataStruct);
+    let editData = Object.assign({}, editDataStruct);
+    var confMessage = '@Html.Raw(Message.M_Q0002)';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setEditData(initData);
+    });
+
+    function onclickBack() {
+        setEditData(editData);
+        if (!cmpEditData(initData, editData)) {
+            if (!confirm(confMessage)) {
+                return;
+            }
+        }
+        window.location.href = '/UserList';
+    }
+
+    function setEditData(data) {
+        data.Id = document.getElementById('Id').value;
+        data.Name = document.getElementById('Name').value;
+        data.Password = document.getElementById('Password').value;
+    }
+
+    function cmpEditData(initData, editData) {
+        return initData.Id === editData.Id
+            && initData.Name === editData.Name
+            && initData.Password === editData.Password
+    }
+
+</script>

@@ -1,86 +1,137 @@
 ﻿@page
 @model YasiroRegrave.Pages.CemeteryInfoEditModel
 @{
+@using YasiroRegrave.Pages.common;
+Layout = null;
 }
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/header.css">
     <link rel="stylesheet" href="~/css/UserEdit.css">
+    <link rel="stylesheet" href="~/css/SideBar.css">
 </head>
-
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="https://www.yasiro.co.jp/reien/ikoma/">
+            <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
+        </a>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="https://localhost:7147/UserList">ユーザー情報一覧</a></li>
+        <li><a href="https://localhost:7147/VenderList">販売会社情報一覧</a></li>
+        <li><a href="https://localhost:7147/ReienList">メール送信先一覧</a></li>
+        <li><a href="https://localhost:7147/CemeteryInfoList">墓所情報一覧</a></li>
+    </ul>
+</div>
 <div class="container mt-5">
     <form method="post">
         <div class="header-container">
             <img src="~/images/user.png" alt="User Icon" class="header-icon">
             <h2 class="header-title">墓所情報編集</h2>
-
-            <input type="hidden" name="index" value="@Model.CemeteryInfoIndex" />
+            <div class="header-form">
+                <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
+                <input type="hidden" name="index" value="@Model.CemeteryInfoIndex" />
             <button class="btn btn-primary new-user-btn" type="submit">保存</button>
+        </div>
         </div>
 
         <div class="col-md-6 p-0">
             <div class="card">
                 <div class="card-body">
-
-@*                     <div class="form-group">
-                        <label for="AreaValue">面積</label>
-                        <span asp-validation-for="AreaValue" class="text-danger"></span>
-                        <input type="text" asp-for="AreaValue" class="form-control" value="@Model.AreaValue">
+                    <div class="form-group">
+                        <label for="ReienName">霊園名</label>
+                        <span asp-validation-for="ReienName" class="text-danger"></span>
+                        <input type="text" asp-for="ReienName" class="form-control" value="@Model.ReienName" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="ReleaseStatus">公開状態</label>
-                        <span asp-validation-for="ReleaseStatus" class="text-danger"></span>
-                        <input type="text" asp-for="ReleaseStatus" class="form-control" value="@Model.ReleaseStatus">
+                        <label for="AreaName">エリア名</label>
+                        <span asp-validation-for="AreaName" class="text-danger"></span>
+                        <input type="text" asp-for="AreaName" class="form-control" value="@Model.AreaName" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="SectionStatus">区画状態</label>
-                        <span asp-validation-for="SectionStatus" class="text-danger"></span>
-                        <input type="text" asp-for="SectionStatus" class="form-control" value="@Model.SectionStatus">
+                        <label for="SectionName">区画名</label>
+                        <span asp-validation-for="SectionName" class="text-danger"></span>
+                        <input type="text" asp-for="SectionName" class="form-control" value="@Model.SectionName" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="SectionType">区画区分</label>
-                        <span asp-validation-for="SectionType" class="text-danger"></span>
-                        <input type="text" asp-for="SectionType" class="form-control" value="@Model.SectionType">
+                        <label for="CemeteryName">墓所名</label>
+                        <span asp-validation-for="CemeteryName" class="text-danger"></span>
+                        <input type="text" asp-for="CemeteryName" class="form-control" value="@Model.CemeteryName" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="ManagementFee">使用料</label>
-                        <span asp-validation-for="ManagementFee" class="text-danger"></span>
-                        <input type="text" asp-for="ManagementFee" class="form-control" value="@Model.ManagementFee">
-                    </div>
-                    <div class="form-group">
-                        <label for="ManagementFee">管理料</label>
-                        <span asp-validation-for="ManagementFee" class="text-danger"></span>
-                        <input type="text" asp-for="ManagementFee" class="form-control" value="@Model.ManagementFee">
-                    </div>
-                    <div class="form-group">
-                        <label for="MonumentCost">石碑代金</label>
-                        <span asp-validation-for="MonumentCost" class="text-danger"></span>
-                        <input type="text" asp-for="MonumentCost" class="form-control" value="@Model.MonumentCost">
-                    </div>
-                    <div class="form-group">
-                        <label for="SetPrice">セット価格</label>
-                        <span asp-validation-for="SetPrice" class="text-danger"></span>
-                        <input type="text" asp-for="SetPrice" class="form-control" value="@Model.SetPrice">
-                    </div>
-                    <div class="form-group">
-                        <label for="TotalPrice">合計価格</label>
-                        <span asp-validation-for="TotalPrice" class="text-danger"></span>
-                        <input type="text" asp-for="TotalPrice" class="form-control" value="@Model.TotalPrice">
-                    </div>
- *@                    <div class="form-group">
                         <label for="Image1Fname">墓石画像1</label>
                         <span asp-validation-for="Image1Fname" class="text-danger"></span>
-                        <input type="text" asp-for="Image1Fname" class="form-control" value="@Model.Image1Fname">
+                        <input type="file" id="Image1Fname" class="form-control-file" onchange="previewImage(this, 'image1Preview')">
+                        <img id="image1Preview" src="#" alt="プレビュー画像1" style="display: none; max-width: 100%; margin-top: 10px;">
                     </div>
                     <div class="form-group">
                         <label for="Image2Fname">墓石画像2</label>
                         <span asp-validation-for="Image2Fname" class="text-danger"></span>
-                        <input type="text" asp-for="Image2Fname" class="form-control" value="@Model.Image2Fname">
+                        <input type="file" id="Image2Fname" class="form-control-file" onchange="previewImage(this, 'image2Preview')">
+                        <img id="image2Preview" src="#" alt="プレビュー画像2" style="display: none; max-width: 100%; margin-top: 10px;">
                     </div>
     </form>
 </div>
-        </div>
-    </div>
-</div>
+<script>
+    let editDataStruct = {
+        ReienName: '',
+        AreaName: '',
+        SectionName: '',
+        CemeteryName: '',
+        Image1Fname: '',
+        Image2Fname: '',
+    };
+    let initData = Object.assign({}, editDataStruct);
+    let editData = Object.assign({}, editDataStruct);
+    var confMessage = '@Html.Raw(Message.M_Q0002)';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setEditData(initData);
+    });
+
+    function onclickBack() {
+        setEditData(editData);
+        if (!cmpEditData(initData, editData)) {
+            if (!confirm(confMessage)) {
+                return;
+            }
+        }
+        window.location.href = '/CemeteryInfoList';
+    }
+
+    function setEditData(data) {
+        data.ReienName = document.getElementById('ReienName').value;
+        data.AreaName = document.getElementById('AreaName').value;
+        data.SectionName = document.getElementById('SectionName').value;
+        data.CemeteryName = document.getElementById('CemeteryName').value;
+        data.Image1Fname = document.getElementById('Image1Fname').value;
+        data.Image2Fname = document.getElementById('Image2Fname').value;
+    }
+
+    function cmpEditData(initData, editData) {
+        return initData.ReienName === editData.ReienName
+            && initData.AreaName === editData.AreaName
+            && initData.SectionName === editData.SectionName
+            && initData.CemeteryName === editData.CemeteryName
+            && initData.Image1Fname === editData.Image1Fname
+            && initData.Image2Fname === editData.Image2Fname;
+    }
+    //画像アップロード用
+    function previewImage(input, previewId) {
+        var preview = document.getElementById(previewId);
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+</script>
