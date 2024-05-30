@@ -79,8 +79,10 @@ html, body {
 
 /* メインコンテンツが残りのスペースを占める */
 .container {
-    flex: 1;
-    
+    width: 100%; /* 親要素も横幅いっぱいに */
+    max-width: 100%; /* 必要に応じて制限を解除 */
+    padding: 0; /* 不要なパディングを削除 */
+    margin: 0; /* 不要なマージンを削除 */
 }
 
 /* フッターのスタイル設定 */
@@ -90,7 +92,4 @@ html, body {
     text-align: center; /* テキストの中央揃え */
     padding: 10px 0; /* 上下のパディング */
     width: 100%; /* 横幅を100%に */
-    position: relative;
-    bottom: 0;
-    left: 0;
 }
