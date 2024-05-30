@@ -8,7 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/css/PlotDetails.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    </style>
 </head>
 <body>
     <!-- データの定義 -->
@@ -24,10 +25,109 @@
     };
     }
     <div class="container">
-        <div class="image-container" style="position: relative;">
-            <img src="images/akikukaku.png" alt="空き区画の画像" class="image">
+        <div class="image-window" id="imageWindow">
+            <img src="images/akikukaku.png" alt="空き区画の画像" class="image" id="zoomableImage">
         </div>
-        @for (var i = 0; i < data.Length; i++)
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const img = document.getElementById('zoomableImage');
+            const imgWindow = document.getElementById('imageWindow');
+            let isZoomed = false;
+            let isDragging = false;
+            let startX, startY, initialX, initialY, currentX, currentY;
+            let clickCount = 0;
+            let lastClickTime = 0;
+
+            function handleMouseDown(e) {
+                isDragging = true;
+                startX = e.clientX || e.touches[0].clientX;
+                startY = e.clientY || e.touches[0].clientY;
+                initialX = img.offsetLeft;
+                initialY = img.offsetTop;
+                img.style.cursor = 'grabbing';
+            }
+
+            function handleMouseMove(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const dx = (e.clientX || e.touches[0].clientX) - startX;
+                const dy = (e.clientY || e.touches[0].clientY) - startY;
+
+                currentX = initialX + dx;
+                currentY = initialY + dy;
+
+                const newLeft = Math.min(0, Math.max(currentX, imgWindow.offsetWidth - img.offsetWidth));
+                const newTop = Math.min(0, Math.max(currentY, imgWindow.offsetHeight - img.offsetHeight));
+
+                img.style.left = `${newLeft}px`;
+                img.style.top = `${newTop}px`;
+            }
+
+            function handleMouseUp() {
+                if (isDragging) {
+                    isDragging = false;
+
+                    img.style.cursor = isZoomed ? 'grab' : 'auto';
+                }
+            }
+
+            function handleDragStart(e) {
+                e.preventDefault();
+            }
+
+            img.addEventListener('mousedown', handleMouseDown);
+            img.addEventListener('touchstart', handleMouseDown);
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('touchmove', handleMouseMove);
+
+            document.addEventListener('mouseup', handleMouseUp);
+            document.addEventListener('touchend', handleMouseUp);
+
+            img.addEventListener('dragstart', handleDragStart);
+
+            img.addEventListener('click', (e) => {
+                const currentTime = new Date().getTime();
+                if (currentTime - lastClickTime < 300) {
+                    e.preventDefault();
+                    if (!isZoomed) {
+                        img.classList.add('zoomed');
+                        img.style.transform = 'scale(2)';
+                        isZoomed = true;
+                        img.style.cursor = 'grab';
+                    }
+                }
+                lastClickTime = currentTime;
+            });
+            img.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                img.classList.remove('zoomed');
+                img.style.transform = 'scale(1)';
+                img.style.left = '0px';
+                img.style.top = '0px';
+                isZoomed = false;
+                if (!isZoomed) {
+                    img.style.cursor = 'auto';
+                }
+            });
+
+            img.addEventListener('mouseover', () => {
+                if (!isDragging) {
+                    img.style.cursor = 'grab';
+                }
+            });
+
+            img.addEventListener('mouseleave', () => {
+                if (!isDragging && !isZoomed) {
+                    img.style.cursor = 'auto';
+                }
+            });
+        });
+    </script>
+
+
+    @for (var i = 0; i < data.Length; i++)
         {
             <!-- テキスト -->
             <div class="content">

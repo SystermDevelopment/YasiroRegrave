@@ -64,7 +64,8 @@ body {
     color: white; /* フッターの文字色 */
     text-align: center; /* テキストの中央揃え */
     padding: 10px 0; /* 上下のパディング */
-    position: fixed; /* フッターをページ下部に固定 */
-    bottom: 0; /* ページの下部に配置 */
     width: 100%; /* 横幅を100%に */
+    position: relative;
+    bottom: 0;
+    left: 0;
 }
