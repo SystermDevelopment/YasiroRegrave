@@ -32,7 +32,7 @@ namespace YasiroRegrave.Pages
 
         public string Password { get; set; } = string.Empty;
         [BindProperty]
-        [Required(ErrorMessage = Message.M_E0005)]
+        [Required(ErrorMessage = Message.M_E0008)]
         public int SelectVenderIndex { get; set; }
         //[BindProperty]
         public int? Index { get; set; }
@@ -66,6 +66,11 @@ namespace YasiroRegrave.Pages
         }
         public IActionResult OnPost(int? index)
         {
+            if (!ModelState.IsValid)
+            {
+                Venders = _context.Venders.Where(v => v.DeleteFlag == 0).ToList();
+                return Page();
+            }
             try
             {
                 if (index == null)
@@ -118,6 +123,7 @@ namespace YasiroRegrave.Pages
             }
             return RedirectToPage("/UserList");
         }
+
         public class PageUser
         {
             public int Index { get; set; }

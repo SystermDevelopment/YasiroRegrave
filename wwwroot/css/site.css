@@ -59,12 +59,37 @@ body {
 }
 
 
+/* スタイルの初期設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+/* フレックスコンテナの設定 */
+.body-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 130vh;
+}
+
+/* メインコンテンツが残りのスペースを占める */
+.container {
+    width: 100%; /* 親要素も横幅いっぱいに */
+    max-width: 100%; /* 必要に応じて制限を解除 */
+    padding: 0; /* 不要なパディングを削除 */
+    margin: 0; /* 不要なマージンを削除 */
+}
+
+/* フッターのスタイル設定 */
 #footer {
     background-color: #587b63; /* フッターの背景色 */
     color: white; /* フッターの文字色 */
     text-align: center; /* テキストの中央揃え */
     padding: 10px 0; /* 上下のパディング */
-    position: fixed; /* フッターをページ下部に固定 */
-    bottom: 0; /* ページの下部に配置 */
     width: 100%; /* 横幅を100%に */
 }
