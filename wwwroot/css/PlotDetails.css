@@ -121,15 +121,26 @@ th {
 /* ボタンのスタイル */
 .button-container {
     text-align: center; /* ボタンを中央に配置 */
-    margin-top: 100px; /* 上部に余白を追加 */
+    margin-top: 10px;  上部に余白を追加 
 }
 
-.button {
+.button-reservationbutton {
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
     color: white;
     background-color: rgb(181,205,109);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-visitbutton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: red;
     border: none;
     border-radius: 5px;
     cursor: pointer;

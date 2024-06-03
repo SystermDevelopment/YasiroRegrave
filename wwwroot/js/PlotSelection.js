@@ -1,17 +1,17 @@
 ﻿// 多角形の座標情報
 const trapezoidCoordinates = [
-    [509, 275, 509, 341, 595, 342, 540, 275, "日蓮D区"],
-    [315, 135, 389, 135, 389, 262, 315, 262, "親鸞E区"],
-    [136, 347, 308, 347, 308, 402, 136,402, "釈尊D区"],
-    [313, 347, 491, 347, 491, 405, 313, 405, "親鸞C区"],
-    [124, 415, 309, 415, 309, 499, 124, 499, "釈尊C区"],
-    [514, 348, 514, 403, 662, 403, 609, 348, "日蓮C区"],
-    [325, 415, 497, 415, 497, 485, 325, 485, "親鸞C区"],
-    [504, 485, 690, 485, 690, 551, 504, 551, "日蓮B区"],
-    [326, 487, 497, 487, 497, 552, 326, 552, "親鸞B区"],
-    [217, 501, 309, 501, 309, 563, 217, 563, "釈尊特A区"],
-    [103, 97, 125, 97, 125, 269, 103, 269, "釈尊新区"],
-    [503, 419, 690, 419, 690, 483, 503, 483, "日蓮C区"]
+    //[509, 275, 509, 341, 595, 342, 540, 275, "日蓮D区"],
+    [135, 70, 176, 70, 176, 141, 135, 141, "親鸞E区"],
+    [38, 186, 133, 186, 133, 216, 38, 216, "釈尊D区"],
+    [136, 186, 231, 186, 231, 217, 136, 217, "親鸞C区"],
+    [32, 223, 133, 223, 133, 268, 32, 268, "釈尊C区"],
+    [237, 225, 339, 225, 339, 259, 237, 259, "日蓮C区"],
+    [237, 261, 340, 261, 340, 297, 237, 297, "日蓮B区"],
+    [140, 223, 235, 223, 235, 260, 140, 260, "親鸞C区"],
+    [140, 262, 235, 262, 235, 297, 140, 297, "親鸞B区"],
+    [82, 270, 134, 270, 134, 304, 82, 304, "釈尊特A区"],
+    [21, 51, 33, 51, 33, 144, 21, 144, "釈尊新区"],
+    [243, 186, 243, 216, 323, 216, 294, 186, "日蓮C区"]
 ];
 
 const canvas = document.getElementById('plotCanvas'); // canvas要素を取得
@@ -52,33 +52,49 @@ function drawTrapezoid(dynamicPoints) {
 function drawId(dynamicPoints, id) {
     const center = calculateCenter(dynamicPoints);
     const maxWidth = dynamicPoints.reduce((max, point) => Math.max(max, point.x), dynamicPoints[0].x) - dynamicPoints.reduce((min, point) => Math.min(min, point.x), dynamicPoints[0].x);
-    const lineHeight = 20;
+    const maxHeight = dynamicPoints.reduce((max, point) => Math.max(max, point.y), dynamicPoints[0].y) - dynamicPoints.reduce((min, point) => Math.min(min, point.y), dynamicPoints[0].y);
 
     function drawText(text, x, y) {
+        const words = text.split('');
         let line = '';
-        let currentWidth = 0;
+        let lines = [];
+        let lineHeight = 20; // 行の高さを設定
+        let totalHeight = 0;
 
-        if (ctx.measureText(text).width <= maxWidth) {
-            ctx.fillText(text, x, y);
-            return;
-        }
+        words.forEach(word => {
+            const testLine = line + word;
+            const testWidth = ctx.measureText(testLine).width;
 
-        for (let i = 0; i < text.length; i++) {
-            const charWidth = ctx.measureText(text[i]).width;
-            if (currentWidth + charWidth > maxWidth && i > 0) {
-                ctx.fillText(line, x, y);
-                line = text[i];
-                y += lineHeight;
-                currentWidth = charWidth;
+            if (testWidth > maxWidth) {
+                lines.push(line);
+                line = word;
+                totalHeight += lineHeight;
             } else {
-                line += text[i];
-                currentWidth += charWidth;
+                line = testLine;
+            }
+        });
+        lines.push(line); // 最後の行を追加
+        totalHeight += lineHeight;
+
+        // テキストの総高さがmaxHeightを超える場合、フォントサイズを調整
+        if (totalHeight > maxHeight) {
+            let fontSize = parseInt(ctx.font.match(/\d+/), 10);
+            while (totalHeight > maxHeight && fontSize > 5) { // 最小フォントサイズを5pxに設定
+                fontSize--;
+                ctx.font = `bold ${fontSize}px Arial`;
+                lineHeight = fontSize * 1.2; // フォントサイズに基づいて行の高さを再計算
+                totalHeight = lines.length * lineHeight;
             }
         }
-        ctx.fillText(line, x, y);
+
+        // テキストを中央に描画
+        const startY = y - (totalHeight / 2) + (lineHeight / 2);
+        lines.forEach((line, index) => {
+            ctx.fillText(line, x, startY + index * lineHeight);
+        });
     }
 
-    ctx.font = 'bold 14px Arial';
+    ctx.font = 'bold 10px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     drawText(id, center.x, center.y);
@@ -152,38 +168,22 @@ canvas.addEventListener('click', function (event) {
         const isInside = isInsidePolygon(clickX, clickY, dynamicPoints);
         if (isInside) {
             let reservationPageUrl = "";
+
             switch (id) {
                 case "日蓮D区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "日蓮C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "親鸞E区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊D区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "親鸞C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "日蓮B区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "親鸞B区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊特A区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊新区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
+                    reservationPageUrl = "/PlotDetails";
                     break;
             }
+
             if (reservationPageUrl !== "") {
                 window.location.href = reservationPageUrl;
             }
