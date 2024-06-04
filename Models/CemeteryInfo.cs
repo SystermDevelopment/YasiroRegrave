@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using YasiroRegrave.Model;
 
-namespace YasiroRegrave.Models
+namespace YasiroRegrave.Model
 {
     [Table("t_cemetery")]
     public class CemeteryInfo
@@ -14,27 +14,29 @@ namespace YasiroRegrave.Models
         [Column("cemetery_index")]
         public int CemeteryIndex { get; set; }
         [Column("area_value")]
-        public float? AreaValue { get; set; }
+        public string? AreaValue { get; set; }
         [Column("release_status")]
         public int? ReleaseStatus { get; set; }
         [Column("section_status")]
         public int? SectionStatus { get; set; }
         [Column("section_type")]
-        public int? SectionType { get; set; }
+        public string? SectionType { get; set; }
         [Column("usage_fee")]
-        public int? UsageFee { get; set; }
+        public string? UsageFee { get; set; }
         [Column("management_fee")]
-        public int? ManagementFee { get; set; }
-        [Column("monument_cost")]
-        public int? MonumentCost { get; set; }
+        public string? ManagementFee { get; set; }
+        [Column("stone_fee")]
+        public string? StoneFee { get; set; }
         [Column("set_price")]
-        public int? SetPrice { get; set; }
-        [Column("total_price")]
-        public int? TotalPrice { get; set; }
+        public string? SetPrice { get; set; }
         [Column("create_date")]
         public DateTime? CreateDate { get; set; }
+        [Column("create_user")]
+        public int? CreateUser { get; set; }
         [Column("update_date")]
         public DateTime? UpdateDate { get; set; }
+        [Column("update_user")]
+        public int? UpdateUser { get; set; }
         [Column("image1_fname")]
         [MaxLength(50)]
         public string? Image1Fname { get; set; }

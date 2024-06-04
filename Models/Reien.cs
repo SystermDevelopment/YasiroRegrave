@@ -20,7 +20,7 @@ public class Reien
     public string ReienName { get; set; }
     [Column("mail_address")]
     [MaxLength(500)]
-    public string MailAddress { get; set; }
+    public string? MailAddress { get; set; }
     [Column("create_date")]
     public DateTime? CreateDate { get; set; }
     [Column("create_user")]
