@@ -74,7 +74,7 @@ namespace YasiroRegrave.Pages
             {
                 if (index == null)
                 {
-                    var newCemeteryInfo = new Models.CemeteryInfo
+                    var newCemeteryInfo = new CemeteryInfo
                     {
 
                     };

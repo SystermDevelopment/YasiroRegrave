@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Model;
-using YasiroRegrave.Models;
 
 namespace YasiroRegrave.Data
 {
@@ -16,9 +15,8 @@ namespace YasiroRegrave.Data
         //public DbSet<Reserve_Info> Reserve_Infos { get; set; }
         public DbSet<Reien> Reiens { get; set; }
         public DbSet<CemeteryInfo> CemeteryInfos { get; set; }
-        public DbSet<Cemetery> Cemeterys { get; set; }
-
-
-
+        public DbSet<Cemetery> Cemeteries { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<Section> Sections { get; set; }
     }
 }
