@@ -6,6 +6,7 @@ Layout = null;
 }
 <head>
     <meta charset="utf-8" />
+    <title>墓所情報編集</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
@@ -13,20 +14,23 @@ Layout = null;
     <link rel="stylesheet" href="~/css/UserEdit.css">
     <link rel="stylesheet" href="~/css/SideBar.css">
 </head>
-<div class="sidebar">
-    <div class="sidebar-header">
-        <a href="https://www.yasiro.co.jp/reien/ikoma/">
-            <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
-        </a>
-    </div>
-    <ul class="sidebar-menu">
-        <li><a href="/UserList">ユーザー情報一覧</a></li>
-        <li><a href="/VenderList">販売会社情報一覧</a></li>
-        <li><a href="/ReienList">メール送信先一覧</a></li>
-        <li><a href="/CemeteryInfoList">墓所情報一覧</a></li>
-    </ul>
-</div>
-<div class="container mt-5">
+<body>
+    <div class="container-fluid d-flex">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="https://www.yasiro.co.jp/reien/ikoma/">
+                    <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
+                </a>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="/UserList">ユーザー情報一覧</a></li>
+                <li><a href="/VenderList">販売会社情報一覧</a></li>
+                <li><a href="/ReienList">メール送信先一覧</a></li>
+                <li><a href="/CemeteryInfoList">墓所情報一覧</a></li>
+            </ul>
+        </div>
+        <div class="content">
+<div class="container">
     <form method="post">
         <div class="header-container">
             <img src="~/images/user.png" alt="User Icon" class="header-icon">
@@ -61,22 +65,25 @@ Layout = null;
                         <span asp-validation-for="CemeteryName" class="text-danger"></span>
                         <input type="text" asp-for="CemeteryName" class="form-control" value="@Model.CemeteryName" readonly>
                     </div>
-                    <div class="form-group row">
-                    <div class="col-md-6">
-                        <label for="Image1Fname">墓石画像1</label>
-                        <span asp-validation-for="Image1Fname" class="text-danger"></span>
-                        <input type="file" id="Image1Fname" class="form-control-file" onchange="previewImage(this, 'image1Preview')">
-                        <img id="image1Preview" src="#" alt="プレビュー画像1" style="display: none; max-width: 100%; margin-top: 10px;">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="Image2Fname">墓石画像2</label>
-                        <span asp-validation-for="Image2Fname" class="text-danger"></span>
-                        <input type="file" id="Image2Fname" class="form-control-file" onchange="previewImage(this, 'image2Preview')">
-                        <img id="image2Preview" src="#" alt="プレビュー画像2" style="display: none; max-width: 100%; margin-top: 10px;">
-                    </div>
-                </div>
-    </form>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="Image1Fname">墓石画像1</label>
+                                        <span asp-validation-for="Image1Fname" class="text-danger"></span>
+                                        <input type="file" id="Image1Fname" class="form-control-file" onchange="previewImage(this, 'image1Preview', 'hiddenImage1Fname')">
+                                        <input type="hidden" id="hiddenImage1Fname" name="Image1Fname">
+                                        <img id="image1Preview" src="" alt="プレビュー画像1" style="display: none; max-width: 100%; margin-top: 10px;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="Image2Fname">墓石画像2</label>
+                                        <span asp-validation-for="Image2Fname" class="text-danger"></span>
+                                        <input type="file" id="Image2Fname" class="form-control-file" onchange="previewImage(this, 'image2Preview', 'hiddenImage2Fname')">
+                                        <input type="hidden" id="hiddenImage2Fname" name="Image2Fname">
+                                        <img id="image2Preview" src="" alt="プレビュー画像2" style="display: none; max-width: 100%; margin-top: 10px;">
+                                    </div>
+                                </div>
+                </form>
 </div>
+</body>
 <script>
     let editDataStruct = {
         ReienName: '',
@@ -122,18 +129,18 @@ Layout = null;
             && initData.Image2Fname === editData.Image2Fname;
     }
     //画像アップロード用
-    function previewImage(input, previewId) {
-        var preview = document.getElementById(previewId);
+    function previewImage(input, previewId, hiddenInputId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
+                var previewImage = document.getElementById(previewId);
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
             }
             reader.readAsDataURL(input.files[0]);
-        } else {
-            preview.src = '#';
-            preview.style.display = 'none';
+
+            // ファイル名を隠しフィールドに設定
+            document.getElementById(hiddenInputId).value = input.files[0].name;
         }
     }
 </script>

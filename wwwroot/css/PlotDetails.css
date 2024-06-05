@@ -1,29 +1,29 @@
 ﻿#map-wrapper {
     display: flex;
-    justify-content: center; /* 横方向センタリング */
-    align-items: center; /* 縦方向センタリング */
-    height: 100vh; /* ビューポートの高さを使用 */
+    justify-content: center; 
+    align-items: center;
+    height: 100vh; 
     height: 700px;
     text-align: center;
     margin-top: 20px;
 }
 
 #map-container {
-    height: 70vh; /* ウィンドウの高さを70%に設定 */
-    width: 50vw; /* ウィンドウの幅を50%に設定 */
-    position: absolute; /* 位置を相対に設定 */
+    height: 70vh; 
+    width: 50vw;
+    position: absolute; 
 }
 
-/* メディアクエリで余白を調整 */
+
 @media (max-width: 768px) {
     #map-container {
-        width: 70vw; /* 幅が狭いときに幅を70%に調整 */
+        width: 70vw;
     }
 }
 
 @media (max-width: 480px) {
     #map-container {
-        width: 90vw; /* 幅が非常に狭いときに幅を90%に調整 */
+        width: 90vw; 
     }
 }
 
@@ -32,13 +32,13 @@ body {
 }
 
 #title-container {
-    background-color: #f9f9f1; /* 背景色を追加 */
+    background-color: #f9f9f1; 
     padding: 5px;
     text-align: center;
-    border: 1px solid #ddd; /* 枠線を追加 */
+    border: 1px solid #ddd; 
     width: 100%;
     margin: 0;
-    box-sizing: border-box; /* 枠線とパディングを含める */
+    box-sizing: border-box; 
 }
 
 #PlotDetailsTitle {
@@ -69,32 +69,26 @@ body {
     height: 500px;
     border: 1px solid #ccc;
 }
-/* スタイルのリセット */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
-/* コンテナのスタイル */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
 }
-/* タイトルのスタイル */
 h1 {
     width: 100vw;
     text-align: center;
-    /* font-weight: ; */
     color: #603800;
     background-color: rgb(251,252,239);
 }
-/* 画像のスタイル */
 .image {
     margin-top: 20px;
 }
-/* テーブルのスタイル */
 table {
     margin-top: 20px;
     width: 500px;
@@ -106,22 +100,20 @@ th, td {
     border: 1px solid black;
     padding: 12px;
     text-align: center;
-    font-weight: bold; /* 全部を太文字にする */
+    font-weight: bold; 
 }
 
     th:last-child {
-        color: red; /* 合計の文字を赤くする */
+        color: red; 
     }
 
-/* テーブルの項目の背景色 */
 th {
     background-color: lightblue;
 }
 
-/* ボタンのスタイル */
 .button-container {
-    text-align: center; /* ボタンを中央に配置 */
-    margin-top: 10px;  上部に余白を追加 
+    text-align: center; 
+    margin-top: 10px;  
 }
 
 .button-reservationbutton {
@@ -147,10 +139,9 @@ th {
 }
 
     .button:hover {
-        background-color: rgb(162,192,73); /* ホバー時の背景色 */
+        background-color: rgb(162,192,73);
     }
 
-/* 背景色の設定 */
 .content {
     background-color: rgb(248,250,228);
     padding: 20px;
@@ -159,12 +150,10 @@ th {
     margin-bottom: 200px;
 }
 
-/* 面積や金額の背景色の設定 */
 .data-cell {
     background-color: white;
 }
 
-/* 〇〇区 〇列ー〇〇の行の背景色 */
 .district-name {
     background-color: rgb(51,182,104);
     border-left: 10px solid #fff100;

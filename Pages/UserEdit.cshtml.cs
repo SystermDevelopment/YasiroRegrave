@@ -33,7 +33,7 @@ namespace YasiroRegrave.Pages
         public string Password { get; set; } = string.Empty;
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0008)]
-        public int SelectVenderIndex { get; set; }
+        public int SelectVenderIndex { get; set; } 
         //[BindProperty]
         public int? Index { get; set; }
 
@@ -57,6 +57,7 @@ namespace YasiroRegrave.Pages
                     Id = user.Id;
                     Name = user.Name;
                     Password = user.Password;
+                    SelectVenderIndex = user.VenderIndex;
                 }
             }
             Venders = _context.Venders
