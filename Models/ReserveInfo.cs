@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using YasiroRegrave.Models;
 
 namespace YasiroRegrave.Model;
 
 [Table("reserve_info")]
-public class Reserve_Info
+public class ReserveInfo
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -53,6 +52,17 @@ public class Reserve_Info
     [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }
+    [Required]
+    [Column("notification")]
+    public int Notification { get; set; }
+    [Column("create_date")]
+    public DateTime? CreateDate { get; set; }
+    [Column("create_user")]
+    public int? CreateUser { get; set; }
+    [Column("update_date")]
+    public DateTime? UpdateDate { get; set; }
+    [Column("update_user")]
+    public int? UpdateUser { get; set; }
     [ForeignKey("CemeteryInfoIndex")]
     public virtual CemeteryInfo CemeteryInfo { get; set; } = new CemeteryInfo();
     [ForeignKey("VenderIndex")]

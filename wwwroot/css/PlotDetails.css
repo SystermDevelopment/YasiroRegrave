@@ -1,17 +1,17 @@
 ﻿#map-wrapper {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
     height: 700px;
     text-align: center;
     margin-top: 20px;
 }
 
 #map-container {
-    height: 70vh; 
+    height: 70vh;
     width: 50vw;
-    position: absolute; 
+    position: absolute;
 }
 
 
@@ -23,7 +23,7 @@
 
 @media (max-width: 480px) {
     #map-container {
-        width: 90vw; 
+        width: 90vw;
     }
 }
 
@@ -32,13 +32,13 @@ body {
 }
 
 #title-container {
-    background-color: #f9f9f1; 
+    background-color: #f9f9f1;
     padding: 5px;
     text-align: center;
-    border: 1px solid #ddd; 
+    border: 1px solid #ddd;
     width: 100%;
     margin: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 #PlotDetailsTitle {
@@ -52,13 +52,11 @@ body {
 .image-container {
     text-align: center;
     margin-top: 20px;
-
-
 }
 
-.image-container img {
-    display: block;
-    margin: 20px auto;
+    .image-container img {
+        display: block;
+        margin: 20px auto;
     }
 
 
@@ -69,26 +67,31 @@ body {
     height: 500px;
     border: 1px solid #ccc;
 }
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
 }
+
 h1 {
     width: 100vw;
     text-align: center;
     color: #603800;
     background-color: rgb(251,252,239);
 }
+
 .image {
     margin-top: 20px;
 }
+
 table {
     margin-top: 20px;
     width: 500px;
@@ -100,11 +103,11 @@ th, td {
     border: 1px solid black;
     padding: 12px;
     text-align: center;
-    font-weight: bold; 
+    font-weight: bold;
 }
 
     th:last-child {
-        color: red; 
+        color: red;
     }
 
 th {
@@ -112,8 +115,8 @@ th {
 }
 
 .button-container {
-    text-align: center; 
-    margin-top: 10px;  
+    text-align: center;
+    margin-top: 10px;
 }
 
 .button-reservationbutton {
@@ -138,9 +141,9 @@ th {
     cursor: pointer;
 }
 
-    .button:hover {
-        background-color: rgb(162,192,73);
-    }
+.button:hover {
+    background-color: rgb(162,192,73);
+}
 
 .content {
     background-color: rgb(248,250,228);

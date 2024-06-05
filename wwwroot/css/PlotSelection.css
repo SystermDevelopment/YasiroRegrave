@@ -1,34 +1,33 @@
-﻿#title-container {
-    background-color: #f9f9f1; /* 背景色を追加 */
-    padding: 5px;
+﻿﻿#title-container {
     text-align: center;
-    border: 1px solid #ddd; /* 枠線を追加 */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    background-color: #f9f9f1;
     width: 100%;
-    margin: 0;
-    box-sizing: border-box; /* 枠線とパディングを含める */
+    padding: 5px;
+    margin-bottom: 30px;
 }
 
 #PlotSelectiontitle {
-    font-size: 56px;
     color: #587b63;
+    font-size: 50px;
     text-align: center;
-    margin-top: 10px;
     font-weight: bold;
 }
 
 #PlotSelectionSubtitle {
-    font-size: 16px;
     color: #555;
+    font-size: 16px;
     text-align: center;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 #PlotSelectionContainer {
+    display: flex;
     position: relative; /* relativeに設定して子要素のabsolute配置を可能に */
     width: 100%;
-    height: 384px; /* 必要に応じて高さを固定 */
-    display: flex;
+    height: 384px;
     justify-content: center;
     align-items: center;
 }
@@ -43,9 +42,9 @@
 
 #PlotSelectionImage {
     position: relative; /* 絶対位置に設定 */
+    object-fit: cover; /* 画像がコンテナ内に収まるように調整 */
     top: 0;
     left: 0;
-    object-fit: cover; /* 画像がコンテナ内に収まるように調整 */
     z-index: 0;
 }
 

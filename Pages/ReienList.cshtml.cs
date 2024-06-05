@@ -1,7 +1,6 @@
 using global::YasiroRegrave.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using YasiroRegrave.Data;
 
 namespace YasiroRegrave.Pages
 {

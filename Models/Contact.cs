@@ -21,5 +21,5 @@ public class Contact
     public virtual Contact Contacts { get; set; } = new Contact();
     [Required]
     [ForeignKey("ReserveIndex")]
-    public virtual Reserve_Info Reserve { get; set; } = new Reserve_Info();
+    public virtual ReserveInfo Reserve { get; set; } = new ReserveInfo();
 }

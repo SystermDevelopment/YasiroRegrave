@@ -6,7 +6,6 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>区画選択詳細</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/css/PlotDetails.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -14,7 +13,7 @@
 <body>
     <div id="title-container">
         <div id="PlotDetailsTitle">
-            11区 空き区画状況
+            @Model.SectionName<br>空き区画状況
         </div>
     </div>
     <div class="container">
@@ -92,7 +91,7 @@
     }
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        var map = null;
+        var map = null; // 地図を初期化するための変数
 
         function initMap() {
             map = L.map('map-container', {
