@@ -47,18 +47,3 @@
     left: 0;
     z-index: 0;
 }
-
-#PlotSelectionContainer:focus {
-    outline: none;                      /* フォーカス時のアウトラインを消す */
-}
-
-@media (max-width: 600px) {
-    #plotCanvas, #PlotSelectionImage {
-        width: 300px;
-        height: 284px;
-    }
-
-    #PlotSelectionContainer {
-        height: 284px; /* コンテナの高さも合わせて調整 */
-    }
-}
