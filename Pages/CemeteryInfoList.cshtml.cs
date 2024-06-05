@@ -19,26 +19,44 @@ namespace YasiroRegrave.Pages
             }
             private void GetPage()
             {
-                var cemeteryinfoList = _context.CemeteryInfos
-                    .Where(ci => ci.DeleteFlag == 0)
-                    .Select(ci => new CemeteryInfo
-                    {
-                        CemeteryInfoIndex = ci.CemeteryInfoIndex,
-                        CemeteryIndex = ci.CemeteryIndex,
-                        CemeteryCode = ci.Cemetery.CemeteryCode,
-                        CemeteryName = ci.Cemetery.CemeteryName,
-                        SectionIndex = ci.Cemetery.Section.SectionIndex,
-                        SectionCode = ci.Cemetery.Section.SectionCode,
-                        SectionName = ci.Cemetery.Section.SectionName,
-                        AreaIndex = ci.Cemetery.Section.Area.AreaIndex,
-                        AreaCode = ci.Cemetery.Section.Area.AreaCode,
-                        AreaName = ci.Cemetery.Section.Area.AreaName,
-                        ReienIndex = ci.Cemetery.Section.Area.ReienIndex,
-                        ReienCode = ci.Cemetery.Section.Area.Reien.ReienCode,
-                        ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
-                        Image1Fname = ci.Image1Fname,
-                        Image2Fname = ci.Image2Fname,
-                    })
+
+            var cemeteryinfoList = _context.CemeteryInfos
+                .Where(ci => ci.DeleteFlag == 0)
+                .Select(ci => new CemeteryInfo
+                {
+                    CemeteryInfoIndex = ci.CemeteryInfoIndex,
+                    CemeteryIndex = ci.CemeteryIndex,
+                    CemeteryCode = ci.Cemetery.CemeteryCode,
+                    CemeteryName = ci.Cemetery.CemeteryName,
+                    SectionIndex = ci.Cemetery.Section.SectionIndex,
+                    SectionCode = ci.Cemetery.Section.SectionCode,
+                    SectionName = ci.Cemetery.Section.SectionName,
+                    AreaIndex = ci.Cemetery.Section.Area.AreaIndex,
+                    AreaCode = ci.Cemetery.Section.Area.AreaCode,
+                    AreaName = ci.Cemetery.Section.Area.AreaName,
+                    ReienIndex = ci.Cemetery.Section.Area.ReienIndex,
+                    ReienCode = ci.Cemetery.Section.Area.Reien.ReienCode,
+                    ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
+                    Image1Fname = ci.Image1Fname,
+                    Image2Fname = ci.Image2Fname,
+                })
+                    //            var cemeteryinfoList = _context.Cemeterys
+                    //.Where(c => c.DeleteFlag == 0)
+                    //.Select(c => new CemeteryInfo
+                    //{
+                    //    CemeteryIndex = c.CemeteryIndex,
+                    //    CemeteryCode = c.CemeteryCode,
+                    //    CemeteryName = c.CemeteryName,
+                    //    SectionIndex = c.Section.SectionIndex,
+                    //    SectionCode = c.Section.SectionCode,
+                    //    SectionName = c.Section.SectionName,
+                    //    AreaIndex = c.Section.Area.AreaIndex,
+                    //    AreaCode = c.Section.Area.AreaCode,
+                    //    AreaName = c.Section.Area.AreaName,
+                    //    ReienIndex = c.Section.Area.ReienIndex,
+                    //    ReienCode = c.Section.Area.Reien.ReienCode,
+                    //    ReienName = c.Section.Area.Reien.ReienName,
+                    //})
                     .ToList();
             CemeteryInfos = cemeteryinfoList;
             }

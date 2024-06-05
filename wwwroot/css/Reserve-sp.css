@@ -8,7 +8,7 @@
 }
 
 header {
-    background-color: rgba(255, 255, 255, 0.8); /* 透過 */
+    background-color: rgba(255, 255, 255, 0.8); 
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -17,7 +17,7 @@ header {
 main {
     max-width: 100%;
     margin: 20px auto;
-    background-color: rgba(255, 255, 255, 0.9); /* 透過 */
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -28,16 +28,16 @@ section {
 
 form {
     display: flex;
-    flex-direction: column; /* スマートフォンでは縦に並べる */
+    flex-direction: column; 
     gap: 10px;
 }
 
 label {
     text-align: left;
-    background-color: #ffe4b5; /* 淡いオレンジ色 */
+    background-color: #ffe4b5; 
     padding: 10px;
     border-radius: 5px;
-    width: 100%; /* ラベルの背景色を幅いっぱいに */
+    width: 100%; 
     box-sizing: border-box;
 }
 
@@ -50,24 +50,24 @@ input, textarea, select, button {
 
 .postal-code-wrapper {
     display: flex;
-    flex-direction: row; /* スマートフォンでは横に並べる */
+    flex-direction: row; 
     gap: 10px;
     width: 100%;
 }
 
     .postal-code-wrapper input {
-        flex-grow: 1; /* 入力フィールドが余分なスペースを占めるようにする */
+        flex-grow: 1; 
     }
 
     .postal-code-wrapper button {
-        flex-shrink: 0; /* ボタンのサイズが縮小されないようにする */
+        flex-shrink: 0; 
         padding: 10px;
         background-color: #0056b3;
         color: #fff;
         border: none;
         cursor: pointer;
         white-space: nowrap;
-        max-width: 200px; /* ボタンの最大幅を設定 */
+        max-width: 200px; 
     }
 
 .email-note {
@@ -78,7 +78,7 @@ input, textarea, select, button {
 
 .contact-method, .email-subscription {
     display: flex;
-    flex-direction: column; /* スマートフォンでは縦に並べる */
+    flex-direction: column; 
     align-items: flex-start;
 }
 
@@ -90,10 +90,10 @@ input, textarea, select, button {
 
 .contact-options, .subscription-options {
     display: flex;
-    flex-direction: row; /* スマートフォンでも横に並べる */
+    flex-direction: row; 
     gap: 5px;
-    align-items: center; /* アイテムを中央揃え */
-    flex-wrap: wrap; /* 横並びで収まらない場合は折り返し */
+    align-items: center; 
+    flex-wrap: wrap; 
 }
 
     .contact-options div, .subscription-options div {
@@ -102,13 +102,13 @@ input, textarea, select, button {
     }
 
         .contact-options div label, .subscription-options div label {
-            background-color: transparent; /* チェックボックスとラジオボタンのラベルの背景色を削除 */
+            background-color: transparent; 
             margin-left: 5px;
         }
 
         .contact-options div input, .subscription-options div input {
-            margin-right: 5px; /* チェックボックスとラジオボタンの右のスペースを設定 */
-            vertical-align: middle; /* チェックボックスとラジオボタンの位置を中央に */
+            margin-right: 5px; 
+            vertical-align: middle; 
         }
 
     .subscription-options p {
@@ -128,13 +128,12 @@ button:hover {
     background-color: #004494;
 }
 
-/* 新しいスタイル */
 .name-wrapper {
     display: flex;
-    flex-direction: column; /* スマートフォンでは縦に並べる */
+    flex-direction: column; 
     gap: 10px;
 }
 
     .name-wrapper label {
-        background-color: transparent; /* 背景色を削除 */
+        background-color: transparent; 
     }

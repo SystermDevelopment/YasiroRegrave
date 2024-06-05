@@ -1,32 +1,166 @@
 ﻿#map-wrapper {
     display: flex;
-    justify-content: center; /* 横方向センタリング */
-    align-items: center; /* 縦方向センタリング */
-    height: 100vh; /* ビューポートの高さを使用 */
-    position: relative; /* 親要素を相対位置に設定 */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    height: 700px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 #map-container {
-    height: 70vh; /* ウィンドウの高さを70%に設定 */
-    width: 50vw; /* ウィンドウの幅を50%に設定 */
-    position: absolute; /* 絶対位置に設定 */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* 中央に配置 */
-    -webkit-transform: translate(-50%, -50%); /* Safari用プレフィックス */
-    box-sizing: border-box; /* ボックスサイズを調整 */
-    border: 2px solid red; /* 境界線を追加して視覚的に確認 *
+    height: 70vh;
+    width: 50vw;
+    position: absolute;
 }
 
-/* メディアクエリで余白を調整 */
-    @media (max-width: 768px) {
-        #map-container {
-            width: 70vw; /* 幅が狭いときに幅を70%に調整 */
-        }
+
+@media (max-width: 768px) {
+    #map-container {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 480px) {
+    #map-container {
+        width: 90vw;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#title-container {
+    background-color: #f9f9f1;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#PlotDetailsTitle {
+    font-size: 56px;
+    color: #587b63;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.image-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .image-container img {
+        display: block;
+        margin: 20px auto;
     }
 
-    @media (max-width: 480px) {
-        #map-container {
-            width: 90vw; /* 幅が非常に狭いときに幅を90%に調整 */
-        }
+
+
+#map-container {
+    display: inline-block;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+h1 {
+    width: 100vw;
+    text-align: center;
+    color: #603800;
+    background-color: rgb(251,252,239);
+}
+
+.image {
+    margin-top: 20px;
+}
+
+table {
+    margin-top: 20px;
+    width: 500px;
+    border-collapse: collapse;
+}
+
+th, td {
+    margin-top: 20px;
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+    th:last-child {
+        color: red;
     }
+
+th {
+    background-color: lightblue;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.button-reservationbutton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(181,205,109);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-visitbutton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: rgb(162,192,73);
+}
+
+.content {
+    background-color: rgb(248,250,228);
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 200px;
+}
+
+.data-cell {
+    background-color: white;
+}
+
+.district-name {
+    background-color: rgb(51,182,104);
+    border-left: 10px solid #fff100;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+}

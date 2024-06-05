@@ -9,7 +9,7 @@
 }
 
 header {
-    background-color: rgba(255, 255, 255, 0.8); /* 透過 */
+    background-color: rgba(255, 255, 255, 0.8); 
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -18,7 +18,7 @@ header {
 main {
     max-width: 800px;
     margin: 20px auto;
-    background-color: rgba(255, 255, 255, 0.9); /* 透過 */
+    background-color: rgba(255, 255, 255, 0.9); 
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -37,10 +37,10 @@ form {
 label {
     text-align: right;
     margin-right: 10px;
-    background-color: #ffe4b5; /* 淡いオレンジ色 */
+    background-color: #ffe4b5; 
     padding: 10px;
     border-radius: 5px;
-    min-width: 120px; /* 固定幅を設定 */
+    min-width: 120px; 
 }
 
 input, textarea, select, button {
@@ -53,23 +53,23 @@ input, textarea, select, button {
 .postal-code-wrapper {
     display: flex;
     align-items: center;
-    gap: 10px; /* アイテム間の間隔を設定 */
-    width: 100%; /* 親要素の幅に合わせる */
+    gap: 10px; 
+    width: 100%; 
 }
 
     .postal-code-wrapper input {
-        flex-grow: 1; /* 入力フィールドが余分なスペースを占めるようにする */
+        flex-grow: 1; 
     }
 
     .postal-code-wrapper button {
-        flex-shrink: 0; /* ボタンのサイズが縮小されないようにする */
+        flex-shrink: 0; 
         padding: 10px;
         background-color: #0056b3;
         color: #fff;
         border: none;
         cursor: pointer;
         white-space: nowrap;
-        max-width: 200px; /* ボタンの最大幅を設定 */
+        max-width: 200px; 
     }
 
 .email-note {
@@ -87,7 +87,7 @@ input, textarea, select, button {
     .contact-method label, .email-subscription label {
         text-align: left;
         margin-right: 10px;
-        min-width: 120px; /* 固定幅を設定 */
+        min-width: 120px; 
         padding: 10px;
     }
 
@@ -102,13 +102,13 @@ input, textarea, select, button {
     }
 
         .contact-options div label, .subscription-options div label {
-            background-color: transparent; /* チェックボックスとラジオボタンのラベルの背景色を削除 */
+            background-color: transparent; 
             margin-left: 5px;
             margin-bottom: 0;
         }
 
         .contact-options div input, .subscription-options div input {
-            margin-right: 5px; /* チェックボックスとラジオボタンの右のスペースを設定 */
+            margin-right: 5px;
         }
 
     .subscription-options p {
@@ -129,7 +129,6 @@ button:hover {
     background-color: #004494;
 }
 
-/* 新しいスタイル */
 .name-wrapper {
     display: grid;
     grid-template-columns: auto 1fr auto 1fr;
@@ -138,5 +137,5 @@ button:hover {
 }
 
     .name-wrapper label {
-        background-color: transparent; /* 背景色を削除 */
+        background-color: transparent; 
     }

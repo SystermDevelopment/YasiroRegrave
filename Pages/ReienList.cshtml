@@ -7,6 +7,7 @@
 }
 <head>
     <meta charset="utf-8" />
+    <title>メール送信先一覧</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
@@ -14,19 +15,22 @@
     <link rel="stylesheet" href="~/css/UserList.css">
     <link rel="stylesheet" href="~/css/SideBar.css">
 </head>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <a href="https://www.yasiro.co.jp/reien/ikoma/">
-                <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
-            </a>
+<body>
+    <div class="container-fluid d-flex">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="https://www.yasiro.co.jp/reien/ikoma/">
+                    <img src="~/images/yasiro.png" alt="Sidebar Icon" class="sidebar-icon">
+                </a>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="/UserList">ユーザー情報一覧</a></li>
+                <li><a href="/VenderList">販売会社情報一覧</a></li>
+                <li><a href="/ReienList">メール送信先一覧</a></li>
+                <li><a href="/CemeteryInfoList">墓所情報一覧</a></li>
+            </ul>
         </div>
-        <ul class="sidebar-menu">
-            <li><a href="https://localhost:7147/UserList">ユーザー情報一覧</a></li>
-            <li><a href="https://localhost:7147/VenderList">販売会社情報一覧</a></li>
-            <li><a href="https://localhost:7147/ReienList">メール送信先一覧</a></li>
-            <li><a href="https://localhost:7147/CemeteryInfoList">墓所情報一覧</a></li>
-        </ul>
-    </div><div class="container">
+        <div class="content">
     <div class="header-container">
         <img src="~/images/user.png" alt="User Icon" class="header-icon">
         <h2 class="header-title">メール送信先一覧</h2>
@@ -79,3 +83,4 @@
         </div>
     </div>
 </div>
+</body>

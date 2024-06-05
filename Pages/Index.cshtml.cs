@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using YasiroRegrave.Data;
+using YasiroRegrave.Pages.common;
+
 
 namespace YasiroRegrave.Pages
 {
@@ -11,32 +15,37 @@ namespace YasiroRegrave.Pages
         {
             _context = context;
         }
-        private readonly ILogger<IndexModel> _logger;
 
-        //public IndexModel(ILogger<IndexModel> logger)
-        //{
-        //    _logger = logger;
-        //}
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0014)]
+
         public string? LoginId { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0004)]
         public string? Password { get; set; }
+
+        public bool ShowConfirm { get; set; } = false;
 
         public void OnGet()
         {
-            Page();
         }
+
         public IActionResult OnPost()
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id==LoginId
-                                                       && u.Password==Password);
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var user = _context.Users.FirstOrDefault(u => u.Id == LoginId && u.Password == Password);
             if (user != null)
             {
                 return RedirectToPage("/PlotSelection");
-        }
+            }
             else
-        {
+            {
+                ShowConfirm = true;
                 return Page();
             }
         }
