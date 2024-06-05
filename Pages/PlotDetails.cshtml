@@ -9,41 +9,221 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/css/PlotDetails.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-
-    </style>
 </head>
 <body>
-    <div class="container">
-        <div id="map-wrapper">
-            <div id="map-container"></div>
+    <div id="title-container">
+        <div id="PlotDetailsTitle">
+            @Model.SectionName<br>空き区画状況
         </div>
     </div>
+    <div class="container">
+        <div class="image-container">
+            <img src="images/sentaku.png" alt="First Image">
+            <img src="images/kukaku3.png" alt="Second Image">
+        </div>
+    </div>
+    <div id="map-wrapper">
+        <div id="map-container" style="width: 517px; height: 719px;"></div>
+    </div>
+    <div class="image-container">
+        <img src="images/check.png" alt="Third Image">
+    </div>
+    <!-- データの定義 -->
+    @{
+        var data = new[] {
+    new[] {10, 1000000, 500000, 800000}, // 面積, 墓地使用料, 永代管理料, 墓石セット価格
+    new[] {15, 1200000, 600000, 1100000}
+    };
+        var titleData = new[]
+        {
+    new[] {"親鸞E区", "8列", "11"},
+    new[] {"親鸞E区", "7列", "03"}
+    };
+    }
+    @for (var i = 0; i < data.Length; i++)
+    {
+        <!-- テキスト -->
+        <div class="content table-container" id="table-container-@(i)" style="display: none;">
+            <p class="district-name" id="district-name-@(i)" style="font-size: 24px; color: white; margin: 0; padding-bottom: 10px; font-weight: bold;">@titleData[i][0] @titleData[i][1]-@titleData[i][2]</p>
+            <!-- 画像とテキストとテーブル -->
+            <div class="content" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <!-- 画像1 -->
+                <div class="image-container" id="image-container1-@(i)" style="margin-right: 20px;">
+                    <img src="images/pic@(i * 2 + 1).png" alt="区画@(i * 2 + 1)の画像" class="image">
+                </div>
+                <!-- 画像2 -->
+                <div class="image-container" id="image-container2-@(i)" style="margin-right: 20px;">
+                    <img src="images/pic@(i * 2 + 2).png" alt="区画@(i * 2 + 2)の画像" class="image">
+                </div>
+                <!-- テーブル -->
+                <table id="table@(i)" class="data-table">
+                    <tr>
+                        <th style="background-color: rgb(220,247,231);">面積</th>
+                        <td class="data-cell">@data[i][0]㎡</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: rgb(220,247,231);">墓地使用料</th>
+                        <td class="data-cell">¥@string.Format("{0:#,0}", data[i][1])</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: rgb(220,247,231);">永代管理料</th>
+                        <td class="data-cell">¥@string.Format("{0:#,0}", data[i][2])</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: rgb(220,247,231);">墓石セット価格</th>
+                        <td class="data-cell">¥@string.Format("{0:#,0}", data[i][3])</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: rgb(220,247,231);">合計</th>
+                        <td class="data-cell" style="color: red;">¥@string.Format("{0:#,0}", data[i][1] + data[i][2] + data[i][3])</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 仮予約フォームへ遷移するボタン -->
+            <div class="button-container">
+                <button class="button-visitbutton" onclick="window.location.href='Reserve';">見学予約のお申込み</button>
+            </div>
+
+            <div class="button-container">
+                <button class="button-reservationbutton" onclick="window.location.href='Reserve';">仮予約のお申込み</button>
+            </div>
+        </div>
+    }
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Leaflet.jsの初期化
-        var map = L.map('map-container', {
-            crs: L.CRS.Simple,
-            zoomControl: true
-        });
+        var map = null; // 地図を初期化するための変数
 
-        // 画像の実際のサイズに合わせてboundsを設定
-        var bounds = [[0, 0], [500, 500]]; // 画像のサイズを設定 (height, width)
+        function initMap() {
+            map = L.map('map-container', {
+                crs: L.CRS.Simple,
+                zoomControl: true
+            });
 
-        // 画像ファイルのパスが正しいか確認
-        var imagePath = '/images/akikukaku.png';
-        var image = L.imageOverlay(imagePath, bounds).addTo(map);
+            var bounds = [[0, 0], [759, 517]];
+            var imagePath = '/images/akikukaku.png';
+            var image = L.imageOverlay(imagePath, bounds).addTo(map);
 
-        // 初期表示をウィンドウいっぱいに設定
-        var center = [759 / 2, 517 / 2];
-        var zoomLevel = 1; // 初期のズームレベルを設定
-        map.setView(center, zoomLevel);
-
-        // ズームアウトした時に画像全体が見えるように制限を設定
-        map.setMaxBounds(bounds);
-
-        map.on('resize', function () {
+            var center = [bounds[1][0] / 2, bounds[1][1] / 2];
+            var zoomLevel = 0;
             map.setView(center, zoomLevel);
+            map.setMaxBounds(bounds);
+
+            map.on('resize', function () {
+                map.setView(center, zoomLevel);
+            });
+
+            var trapezoids = [
+                { coords: [[489, 173], [489, 207], [514, 207], [514, 173]], id: 'table-container-0' },
+                { coords: [[428, 379], [428, 413], [453, 413], [453, 379]], id: 'table-container-1' }
+            ];
+
+            var polygons = [];
+            var activePolygon = null;
+
+            function onPolygonClick(e) {
+                var clickedLatLng = e.latlng;
+                var isInsidePolygon = e.target.getBounds().contains(clickedLatLng);
+
+                if (activePolygon) {
+                    activePolygon.setStyle({ fillColor: 'transparent' });
+                }
+
+                activePolygon = e.target;
+                activePolygon.setStyle({ fillColor: '#ff0000' });
+
+                var polygonId = e.target.options.polygonId;
+                showTable(polygonId);
+            }
+
+            function showTable(id) {
+                document.querySelectorAll('.table-container').forEach(table => table.style.display = 'none');
+                var table = document.getElementById(id);
+                if (table) {
+                    table.style.display = 'block';
+                    scrollToTable(id);
+                }
+            }
+
+            function createPolygon(trapezoid) {
+                var polygon = L.polygon(trapezoid.coords, {
+                    color: 'transparent',
+                    fillColor: 'transparent',
+                    weight: 1,
+                    polygonId: trapezoid.id
+                }).addTo(map);
+                polygon.on('click', onPolygonClick);
+                polygons.push(polygon);
+            }
+
+            trapezoids.forEach(createPolygon);
+
+            function resetPolygons() {
+                if (activePolygon) {
+                    activePolygon.setStyle({ fillColor: 'transparent' });
+                    activePolygon = null;
+                }
+                document.querySelectorAll('.table-container').forEach(table => table.style.display = 'none');
+            }
+
+            var mapWrapper = document.getElementById('map-container');
+            mapWrapper.addEventListener('click', function (e) {
+                var clickedLatLng = map.mouseEventToLatLng(e);
+                if (!isInsideAnyPolygon(clickedLatLng)) {
+                    resetPolygons();
+                }
+            });
+
+            function isInsideAnyPolygon(latLng) {
+                return polygons.some(polygon => polygon.getBounds().contains(latLng));
+            }
+
+            function scrollToTable(tableId) {
+                var table = document.getElementById(tableId);
+                if (table) {
+                    var tablePosition = table.getBoundingClientRect().top + window.pageYOffset;
+                    window.scrollTo({ top: tablePosition, behavior: 'smooth' });
+                }
+            }
+
+            // 座席マップの表示切り替え機能のためのリサイズ関数を初期化時にも呼び出す
+            resizeCanvas();
+        }
+
+        document.addEventListener("DOMContentLoaded", initMap);
+
+        // キャンバス関連のスクリプト
+        document.addEventListener("DOMContentLoaded", function () {
+            const canvas = document.getElementById('seatsCanvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = 'images/akikukaku.png';
+
+            img.onload = function () {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+            };
+
+            window.addEventListener('resize', resizeCanvas);
+
+            function resizeCanvas() {
+                if (window.innerWidth < 600) {
+                    document.getElementById('fullMapContainer').style.display = 'none';
+                    document.getElementById('canvasContainer').style.display = 'block';
+                    updateCanvas();
+                } else {
+                    document.getElementById('fullMapContainer').style.display = 'block';
+                    document.getElementById('canvasContainer').style.display = 'none';
+                }
+            }
+
+            function updateCanvas() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+            }
+
+            resizeCanvas();
         });
     </script>
 </body>
