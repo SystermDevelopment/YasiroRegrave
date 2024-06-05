@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace YasiroRegrave.Model;
 
 [Table("reserve_info")]
-public class Reserve_Info
+public class ReserveInfo
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -52,6 +52,9 @@ public class Reserve_Info
     [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }
+    [Required]
+    [Column("notification")]
+    public int Notification { get; set; }
     [Column("create_date")]
     public DateTime? CreateDate { get; set; }
     [Column("create_user")]

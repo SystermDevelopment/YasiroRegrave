@@ -132,13 +132,21 @@ canvas.addEventListener('mousemove', function (event) {
     });
 });
 
-
-// マウスがクリックされたときの処理
+// クリックイベントの処理
 canvas.addEventListener('click', function (event) {
-    const clickX = event.clientX - canvas.getBoundingClientRect().left;
-    //event.clientX は、ブラウザウィンドウの左端を基準としたマウスポインターの X 座標です。
-    // この値からキャンバス要素の左端のオフセットを引いて、キャンバス内の相対的な X 座標を取得しています。
-    const clickY = event.clientY - canvas.getBoundingClientRect().top;//Yも同様
+    handleEvent(event.clientX, event.clientY);
+});
+
+// タッチイベントの処理
+canvas.addEventListener('touchstart', function (event) {
+    const touch = event.touches[0];
+    handleEvent(touch.clientX, touch.clientY);
+});
+
+function handleEvent(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    const clickX = clientX - rect.left;
+    const clickY = clientY - rect.top;
 
     trapezoidCoordinates.forEach(coord => {
         const [x1, y1, x2, y2, x3, y3, x4, y4, id] = coord;
@@ -154,32 +162,14 @@ canvas.addEventListener('click', function (event) {
             let reservationPageUrl = "";
             switch (id) {
                 case "日蓮D区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "日蓮C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "親鸞E区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊D区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "親鸞C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "日蓮B区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "親鸞B区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊特A区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
                 case "釈尊新区":
                     reservationPageUrl = "https://localhost:7147/PlotDetails";
                     break;
@@ -189,4 +179,4 @@ canvas.addEventListener('click', function (event) {
             }
         }
     });
-});
+}
