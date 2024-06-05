@@ -84,7 +84,8 @@
     let editDataStruct = {
         Id: '',
         Name: '',
-        MailAddress: '',
+        Password: '',
+        SelectVenderIndex: '',
     };
     let initData = Object.assign({}, editDataStruct);
     let editData = Object.assign({}, editDataStruct);
@@ -108,12 +109,14 @@
         data.Id = document.getElementById('Id').value;
         data.Name = document.getElementById('Name').value;
         data.Password = document.getElementById('Password').value;
+        data.SelectVenderIndex = document.getElementById('SelectVenderIndex').value;
     }
 
     function cmpEditData(initData, editData) {
         return initData.Id === editData.Id
             && initData.Name === editData.Name
             && initData.Password === editData.Password
+            && initData.SelectVenderIndex === editData.SelectVenderIndex
     }
 
 </script>

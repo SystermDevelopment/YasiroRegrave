@@ -33,7 +33,7 @@ namespace YasiroRegrave.Pages
         public string Password { get; set; } = string.Empty;
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0008)]
-        public int SelectVenderIndex { get; set; } 
+        public int? SelectVenderIndex { get; set; } 
         //[BindProperty]
         public int? Index { get; set; }
 
@@ -95,7 +95,7 @@ namespace YasiroRegrave.Pages
                         //CreateUser = LoginId,
                         DeleteFlag = 0,
                         Vender = forignVender,
-                        VenderIndex = SelectVenderIndex,
+                        VenderIndex = SelectVenderIndex ??0,
 
                     };
                     _context.Users.Add(newUser);
@@ -111,7 +111,7 @@ namespace YasiroRegrave.Pages
                         existingUser.Name = Name;
                         existingUser.Password = Password;
                         existingUser.UpdateDate = DateTime.UtcNow;
-                        existingUser.VenderIndex = SelectVenderIndex;
+                        existingUser.VenderIndex = SelectVenderIndex ?? 0;
                         //existingVender.UpdateUser = LoginId,
 
                         _context.SaveChanges();
