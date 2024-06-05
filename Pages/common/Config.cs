@@ -1,4 +1,6 @@
-﻿namespace YasiroRegrave.Pages.common
+﻿using System.Collections.Generic;
+
+namespace YasiroRegrave.Pages.common
 {
     public class Config
     {
@@ -22,5 +24,71 @@
             拠点予約 = 2,
             成約 = 3,
         }
+        public static readonly Dictionary<string, string> MIME_IMAGE = new Dictionary<string, string>
+        {
+            {".jpg","image/jpeg"},
+            {".png","image/png"},
+            {".tif","image/tiff"},
+            {".svg","image/svg+xml"},
+            {".gif","image/gif"},
+            {".jpeg","image/jpeg"},
+            {".jpe","image/jpeg"},
+            {".jpz","image/jpeg"},
+            {".pnz","image/png"},
+            {".tiff","image/tiff"},
+        };
+        public static readonly Dictionary<string, string> MIME_DOCUMENT = new Dictionary<string, string>
+        {
+            {".pdf","application/pdf"},    //Adobe Portable Document Format (PDF)
+            {".pptx","application/vnd.openxmlformats-officedocument.presentationml.presentation"},    //Microsoft PowerPoint (OpenXML)
+            {".xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},    //Microsoft Excel (OpenXML)
+            {".docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"},    //Microsoft Word (OpenXML)
+            {".ppt","application/vnd.ms-powerpoint"},    //Microsoft PowerPoint
+            {".doc","application/msword"},    //Microsoft Word
+            {".xls","application/vnd.ms-excel"},    //Microsoft Excel
+            {".csv","text/csv"},    //カンマ区切り値 (CSV)
+            {".zip","application/zip"},    //ZIP アーカイブ
+        };
+        /// <summary>
+        /// ファイルデータ格納先のルートパス
+        /// </summary>
+        public static string DataFilesRootPath
+        {
+            get
+            {
+                var configuration = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+                string? temp = configuration.GetValue<string>("DataFileSettings:RootPath");
+                if (temp == null)
+                {
+                    throw new Exception("データフォルダのパスが設定されていません。");
+                }
+                return temp;
+            }
+        }
+        /// <summary>
+        /// 実践事例のファイルデータ格納先
+        /// </summary>
+        public static string DataFilesCaseStudyPath
+        {
+            get
+            {
+                string rootPath = DataFilesRootPath;
+                return Path.Combine(rootPath, "case_study");
+            }
+        }
+        /// <summary>
+        /// 研修のファイルデータ格納先
+        /// </summary>
+        public static string DataFilesTraningPath
+        {
+            get
+            {
+                string rootPath = DataFilesRootPath;
+                return Path.Combine(rootPath, "training");
+            }
+        }
     }
+
 }
