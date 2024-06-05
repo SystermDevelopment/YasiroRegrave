@@ -1,46 +1,24 @@
-﻿// 多角形の座標情報
-const trapezoidCoordinates = [
-    [509, 275, 509, 341, 595, 342, 540, 275, "日蓮D区"],
-    [315, 135, 389, 135, 389, 262, 315, 262, "親鸞E区"],
-    [136, 347, 308, 347, 308, 402, 136,402, "釈尊D区"],
-    [313, 347, 491, 347, 491, 405, 313, 405, "親鸞C区"],
-    [124, 415, 309, 415, 309, 499, 124, 499, "釈尊C区"],
-    [514, 348, 514, 403, 662, 403, 609, 348, "日蓮C区"],
-    [325, 415, 497, 415, 497, 485, 325, 485, "親鸞C区"],
-    [504, 485, 690, 485, 690, 551, 504, 551, "日蓮B区"],
-    [326, 487, 497, 487, 497, 552, 326, 552, "親鸞B区"],
-    [217, 501, 309, 501, 309, 563, 217, 563, "釈尊特A区"],
-    [103, 97, 125, 97, 125, 269, 103, 269, "釈尊新区"],
-    [503, 419, 690, 419, 690, 483, 503, 483, "日蓮C区"]
-];
+﻿const canvas = document.getElementById('plotCanvas');   // canvas要素を取得
+const ctx = canvas.getContext('2d');                    // 描画コンテキストを取得
 
-const canvas = document.getElementById('plotCanvas'); // canvas要素を取得
-const ctx = canvas.getContext('2d'); // 描画コンテキストを取得
-
-// 図形と黒枠を描画する
-trapezoidCoordinates.forEach(coord => {
-    const [x1, y1, x2, y2, x3, y3, x4, y4, id] = coord;
-    const dynamicPoints = [
-        { x: x1, y: y1 },
-        { x: x2, y: y2 },
-        { x: x3, y: y3 },
-        { x: x4, y: y4 }
-    ];
-    drawTrapezoid(dynamicPoints);
-    drawId(dynamicPoints, id);
-    ctx.strokeStyle = 'black'; // 赤い枠の色を設定
-    ctx.stroke(); // 枠を描画
-
+$(function () {
+    // 矩形と名前を描画
+    sectionDatas.forEach(function (section) {
+        if (section.noReserveCount > 0) {
+            drawRect(section.coordinates);
+            drawName(section.coordinates, section.sectionName);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+    });
 });
 
-
-// 多角形を描画する関数
-
-function drawTrapezoid(dynamicPoints) {
+// 矩形を描画
+function drawRect(coordinates) {
     ctx.beginPath();
-    ctx.moveTo(dynamicPoints[0].x, dynamicPoints[0].y);
-    for (let i = 1; i < dynamicPoints.length; i++) {
-        ctx.lineTo(dynamicPoints[i].x, dynamicPoints[i].y);
+    ctx.moveTo(coordinates[0].x, coordinates[0].y);
+    for (let i = 1; i < coordinates.length; i++) {
+        ctx.lineTo(coordinates[i].x, coordinates[i].y);
     }
     ctx.closePath();
     ctx.fillStyle = 'rgb(255, 233, 7)';
@@ -48,62 +26,79 @@ function drawTrapezoid(dynamicPoints) {
     ctx.stroke();
 }
 
-// IDを描画する関数
-function drawId(dynamicPoints, id) {
-    const center = calculateCenter(dynamicPoints);
-    const maxWidth = dynamicPoints.reduce((max, point) => Math.max(max, point.x), dynamicPoints[0].x) - dynamicPoints.reduce((min, point) => Math.min(min, point.x), dynamicPoints[0].x);
-    const lineHeight = 20;
+// 名前を描画
+function drawName(coordinates, name) {
+    const center = calculateCenter(coordinates);
+    const maxWidth = coordinates.reduce((max, point) => Math.max(max, point.x), coordinates[0].x) - coordinates.reduce((min, point) => Math.min(min, point.x), coordinates[0].x);
+    const maxHeight = coordinates.reduce((max, point) => Math.max(max, point.y), coordinates[0].y) - coordinates.reduce((min, point) => Math.min(min, point.y), coordinates[0].y);
 
     function drawText(text, x, y) {
+        const words = text.split('');
         let line = '';
-        let currentWidth = 0;
+        let lines = [];
+        let lineHeight = 20;
+        let totalHeight = 0;
 
-        if (ctx.measureText(text).width <= maxWidth) {
-            ctx.fillText(text, x, y);
-            return;
-        }
+        words.forEach(word => {
+            const testLine = line + word;
+            const testWidth = ctx.measureText(testLine).width;
 
-        for (let i = 0; i < text.length; i++) {
-            const charWidth = ctx.measureText(text[i]).width;
-            if (currentWidth + charWidth > maxWidth && i > 0) {
-                ctx.fillText(line, x, y);
-                line = text[i];
-                y += lineHeight;
-                currentWidth = charWidth;
+            if (testWidth > maxWidth) {
+                lines.push(line);
+                line = word;
+                totalHeight += lineHeight;
             } else {
-                line += text[i];
-                currentWidth += charWidth;
+                line = testLine;
+            }
+        });
+        lines.push(line);
+        totalHeight += lineHeight;
+
+        // テキストの総高さがmaxHeightを超える場合、フォントサイズを調整
+        if (totalHeight > maxHeight) {
+            let fontSize = parseInt(ctx.font.match(/\d+/), 10);
+            // 最小フォントサイズを5pxに設定
+            while (totalHeight > maxHeight && fontSize > 5) {
+                fontSize--;
+                ctx.font = `bold ${fontSize}px Arial`;
+                // フォントサイズに基づいて行の高さを再計算
+                lineHeight = fontSize * 1.2;
+                totalHeight = lines.length * lineHeight;
             }
         }
-        ctx.fillText(line, x, y);
+        // テキストを中央に描画
+        const startY = y - (totalHeight / 2) + (lineHeight / 2);
+        lines.forEach((line, index) => {
+            ctx.fillText(line, x, startY + index * lineHeight);
+        });
     }
 
-    ctx.font = 'bold 14px Arial';
+    ctx.font = 'bold 10px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
-    drawText(id, center.x, center.y);
+    drawText(name, center.x, center.y);
 }
 
-// 多角形の中心を計算する関数
-function calculateCenter(dynamicPoints) {
+// 矩形の中心を算出
+function calculateCenter(coordinates) {
     let centerX = 0;
     let centerY = 0;
-    for (let i = 0; i < dynamicPoints.length; i++) {
-        centerX += dynamicPoints[i].x;
-        centerY += dynamicPoints[i].y;
+    for (let i = 0; i < coordinates.length; i++) {
+        centerX += coordinates[i].x;
+        centerY += coordinates[i].y;
     }
-    centerX /= dynamicPoints.length;
-    centerY /= dynamicPoints.length;
+    centerX /= coordinates.length;
+    centerY /= coordinates.length;
     return { x: centerX, y: centerY };
 }
 
-// 座標が多角形の内部にあるかどうかを判定する関数
-function isInsidePolygon(x, y, dynamicPoints) {
+// 座標が矩形の内部にあるかを判定
+function isInsidePolygon(x, y, coordinates) {
     let inside = false;
-    let i, j = dynamicPoints.length - 1;
-    for (i = 0; i < dynamicPoints.length; i++) {
-        if ((dynamicPoints[i].y > y) !== (dynamicPoints[j].y > y) &&
-            x < (dynamicPoints[j].x - dynamicPoints[i].x) * (y - dynamicPoints[i].y) / (dynamicPoints[j].y - dynamicPoints[i].y) + dynamicPoints[i].x) {
+    let i, j = coordinates.length - 1;
+    for (i = 0; i < coordinates.length; i++) {
+        if ((coordinates[i].y > y) !== (coordinates[j].y > y) &&
+            x < (coordinates[j].x - coordinates[i].x) * (y - coordinates[i].y) / (coordinates[j].y - coordinates[i].y) + coordinates[i].x) {
             inside = !inside;
         }
         j = i;
@@ -111,82 +106,34 @@ function isInsidePolygon(x, y, dynamicPoints) {
     return inside;
 }
 
-// マウスが動くたびにカーソルの位置で多角形の範囲内にあるかどうかを判定し、外枠の色を変更する
+// マウス移動イベント
 canvas.addEventListener('mousemove', function (event) {
     const mouseX = event.clientX - canvas.getBoundingClientRect().left;
     const mouseY = event.clientY - canvas.getBoundingClientRect().top;
 
-    trapezoidCoordinates.forEach(coord => {
-        const [x1, y1, x2, y2, x3, y3, x4, y4, id] = coord;
-        const dynamicPoints = [
-            { x: x1, y: y1 },
-            { x: x2, y: y2 },
-            { x: x3, y: y3 },
-            { x: x4, y: y4 }
-        ];
-
-        const isInside = isInsidePolygon(mouseX, mouseY, dynamicPoints);
-        ctx.strokeStyle = isInside ? 'red' : 'black';
-        drawTrapezoid(dynamicPoints);
-        drawId(dynamicPoints, id);
+    sectionDatas.forEach(function (section) {
+        if (section.noReserveCount > 0) {
+            const isInside = isInsidePolygon(mouseX, mouseY, section.coordinates);
+            ctx.strokeStyle = isInside ? 'red' : 'black';
+            drawRect(section.coordinates);
+            drawName(section.coordinates, section.sectionName);
+        }
     });
 });
 
-
-// マウスがクリックされたときの処理
+// マウスクリックイベント
 canvas.addEventListener('click', function (event) {
     const clickX = event.clientX - canvas.getBoundingClientRect().left;
-    //event.clientX は、ブラウザウィンドウの左端を基準としたマウスポインターの X 座標です。
-    // この値からキャンバス要素の左端のオフセットを引いて、キャンバス内の相対的な X 座標を取得しています。
-    const clickY = event.clientY - canvas.getBoundingClientRect().top;//Yも同様
+    const clickY = event.clientY - canvas.getBoundingClientRect().top;
 
-    trapezoidCoordinates.forEach(coord => {
-        const [x1, y1, x2, y2, x3, y3, x4, y4, id] = coord;
-        const dynamicPoints = [
-            { x: x1, y: y1 },
-            { x: x2, y: y2 },
-            { x: x3, y: y3 },
-            { x: x4, y: y4 }
-        ];
-
-        const isInside = isInsidePolygon(clickX, clickY, dynamicPoints);
-        if (isInside) {
-            let reservationPageUrl = "";
-            switch (id) {
-                case "日蓮D区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "日蓮C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "親鸞E区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "釈尊D区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "親鸞C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "釈尊C区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "日蓮B区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "親鸞B区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "釈尊特A区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-                case "釈尊新区":
-                    reservationPageUrl = "https://localhost:7147/PlotDetails";
-                    break;
-            }
-            if (reservationPageUrl !== "") {
-                window.location.href = reservationPageUrl;
+    for (let i = 0; i < sectionDatas.length; i++) {
+        const section = sectionDatas[i];
+        if (section.noReserveCount > 0) {
+            const isInside = isInsidePolygon(clickX, clickY, section.coordinates);
+            if (isInside) {
+                window.location.href = "/PlotDetails?Index=" + section.sectionIndex;
+                break;
             }
         }
-    });
+    }
 });
