@@ -1,15 +1,48 @@
 const canvas = document.getElementById('plotCanvas'); // canvas要素を取得
 const ctx = canvas.getContext('2d'); // 描画コンテキストを取得
 
-$(function () {
-    // 矩形と名前を描画
-    sectionDatas.forEach(function (section) {
-        if (section.noReserveCount > 0) {
-            drawRect(section.coordinates);
-            drawName(section.coordinates, section.sectionName);
-            ctx.strokeStyle = 'black';
-            ctx.stroke();
-        }
+//// TextDecoderを使用して、SJISからUTF-8に変換する関数
+//function decodeSJIS(buffer) {
+//    const decoder = new TextDecoder("shift-jis");
+//    return decoder.decode(buffer);
+//}
+
+// jsonファイル読込
+let coordDatas;
+document.addEventListener('DOMContentLoaded', () => {
+    var areaFile = '/data/AREA_' + ReienCode + '_' + AreaCode + '.json';
+    fetch(areaFile)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response error:' + response.statusText);
+            }
+            return response.json();
+            //return response.arrayBuffer();
+        })
+        //.then(buffer => {
+        //    const utf8Text = decodeSJIS(buffer);
+        //    return JSON.parse(utf8Text);
+        //})
+        .then(data => {
+            // 座標データ読込成功
+            coordDatas = data;
+
+            sectionDatas.forEach(function (section) {
+                // 空きあり場合
+                if (section.noReserveCount >= 0) {
+                    const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
+                    sectionCoords.Coordinates.forEach(function (coords) {
+                        // 矩形と名前を描画
+                        drawRect(coords);
+                        drawName(coords, section.sectionName);
+                        ctx.strokeStyle = 'black';
+                        ctx.stroke();
+                    });
+                }
+            });
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
     });
 });
 
@@ -22,7 +55,7 @@ function drawRect(coordinates) {
     }
 
     ctx.closePath();
-    ctx.fillStyle = 'rgb(255, 233, 7)';
+    ctx.fillStyle = '#ffea07';
     ctx.fill();
     ctx.stroke();
 }
@@ -52,21 +85,14 @@ function drawName(coordinates, name) {
         });
         lines.push(line);
         totalHeight += lineHeight;
-        // テキストの総高さがmaxHeightを超える場合、フォントサイズを調整 if (totalHeight > maxHeight)
 
-        {
+        // テキストの総高さがmaxHeightを超える場合、フォントサイズを調整
+        if (totalHeight > maxHeight){
             let fontSize = parseInt(ctx.font.match(/\d+/), 10);
-            // 最小フォントサイズを5pxに設定 while (totalHeight > maxHeight && fontSize > 5)
-
-            {
+            // 最小フォントサイズを5pxに設定
+            while (totalHeight > maxHeight && fontSize > 5){
                 fontSize--;
-                ctx.font = `bold $
-
-{
-    fontSize
-}
-
-px Arial`;
+                ctx.font = `bold ${fontSize}px Arial`;
                 // フォントサイズに基づいて行の高さを再計算
                 lineHeight = fontSize * 1.2;
                 totalHeight = lines.length * lineHeight;
@@ -96,11 +122,7 @@ function calculateCenter(coordinates) {
 
     centerX /= coordinates.length;
     centerY /= coordinates.length;
-    return {
-        x: centerX, y: centerY
-    }
-
-        ;
+    return { x: centerX, y: centerY };
 }
 
 // 座標が矩形の内部にあるかを判定
@@ -112,7 +134,6 @@ function isInsidePolygon(x, y, coordinates) {
             x < (coordinates[j].x - coordinates[i].x) * (y - coordinates[i].y) / (coordinates[j].y - coordinates[i].y) + coordinates[i].x) {
             inside = !inside;
         }
-
         j = i;
     }
     return inside;
@@ -124,11 +145,16 @@ canvas.addEventListener('mousemove', function (event) {
     const mouseY = event.clientY - canvas.getBoundingClientRect().top;
 
     sectionDatas.forEach(function (section) {
+        // 空きあり場合
         if (section.noReserveCount > 0) {
-            const isInside = isInsidePolygon(mouseX, mouseY, section.coordinates);
-            ctx.strokeStyle = isInside ? 'red' : 'black';
-            drawRect(section.coordinates);
-            drawName(section.coordinates, section.sectionName);
+            const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
+            sectionCoords.Coordinates.forEach(function (coords) {
+                // 矩形と名前を描画
+                const isInside = isInsidePolygon(mouseX, mouseY, coords);
+                ctx.strokeStyle = isInside ? 'red' : 'black';
+                drawRect(coords);
+                drawName(coords, section.sectionName);
+            });
         }
     });
 });
@@ -140,12 +166,16 @@ canvas.addEventListener('click', function (event) {
 
     for (let i = 0; i < sectionDatas.length; i++) {
         const section = sectionDatas[i];
+        // 空きあり場合
         if (section.noReserveCount > 0) {
-            const isInside = isInsidePolygon(clickX, clickY, section.coordinates);
-            if (isInside) {
-                window.location.href = "/PlotDetails?Index=" + section.sectionIndex;
-                break;
-            }
+            const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
+            sectionCoords.Coordinates.forEach(function (coords) {
+                // 矩形選択
+                const isInside = isInsidePolygon(clickX, clickY, coords);
+                if (isInside) {
+                    window.location.href = "/PlotDetails?Index=" + section.sectionIndex;
+                }
+            });
         }
     }
 });
