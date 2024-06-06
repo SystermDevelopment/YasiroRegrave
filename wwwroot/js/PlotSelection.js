@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             sectionDatas.forEach(function (section) {
                 // 空きあり場合
-                if (section.noReserveCount >= 0) {
+                if (section.noReserveCount > 0) {
                     const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
                     sectionCoords.Coordinates.forEach(function (coords) {
                         // 矩形と名前を描画
