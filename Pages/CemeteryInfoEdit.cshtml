@@ -1,8 +1,8 @@
 ﻿@page
 @model YasiroRegrave.Pages.CemeteryInfoEditModel
 @{
-@using YasiroRegrave.Pages.common;
-Layout = null;
+    @using YasiroRegrave.Pages.common;
+    Layout = null;
 }
 <head>
     <meta charset="utf-8" />
@@ -30,59 +30,67 @@ Layout = null;
             </ul>
         </div>
         <div class="content">
-<div class="container">
-    <form method="post">
-        <div class="header-container">
-            <img src="~/images/user.png" alt="User Icon" class="header-icon">
-            <h2 class="header-title">墓所情報編集</h2>
-            <div class="header-form">
-                <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
-                <input type="hidden" name="index" value="@Model.CemeteryInfoIndex" />
-            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
-        </div>
-        </div>
+            <div class="container">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="header-container">
+                        <img src="~/images/user.png" alt="User Icon" class="header-icon">
+                        <h2 class="header-title">墓所情報編集</h2>
+                        <div class="header-form">
+                            <input type="hidden" name="CemeteryInfoIndex" value="@Model.CemeteryInfoIndex" />
+                            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
+                            <input type="hidden" name="index" value="@Model.CemeteryInfoIndex" />
+                            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
+                        </div>
+                    </div>
 
-        <div class="col-md-6 p-0">
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="ReienName">霊園名</label>
-                        <span asp-validation-for="ReienName" class="text-danger"></span>
-                        <input type="text" asp-for="ReienName" class="form-control" value="@Model.ReienName" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="AreaName">エリア名</label>
-                        <span asp-validation-for="AreaName" class="text-danger"></span>
-                        <input type="text" asp-for="AreaName" class="form-control" value="@Model.AreaName" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="SectionName">区画名</label>
-                        <span asp-validation-for="SectionName" class="text-danger"></span>
-                        <input type="text" asp-for="SectionName" class="form-control" value="@Model.SectionName" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="CemeteryName">墓所名</label>
-                        <span asp-validation-for="CemeteryName" class="text-danger"></span>
-                        <input type="text" asp-for="CemeteryName" class="form-control" value="@Model.CemeteryName" readonly>
-                    </div>
+                    <div class="col-md-6 p-0">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="ReienName">霊園名</label>
+                                    <span asp-validation-for="ReienName" class="text-danger"></span>
+                                    <input type="text" asp-for="ReienName" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="AreaName">エリア名</label>
+                                    <span asp-validation-for="AreaName" class="text-danger"></span>
+                                    <input type="text" asp-for="AreaName" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="SectionName">区画名</label>
+                                    <span asp-validation-for="SectionName" class="text-danger"></span>
+                                    <input type="text" asp-for="SectionName" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="CemeteryName">墓所名</label>
+                                    <span asp-validation-for="CemeteryName" class="text-danger"></span>
+                                    <input type="text" asp-for="CemeteryName" class="form-control" readonly>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="Image1Fname">墓石画像1</label>
-                                        <span asp-validation-for="Image1Fname" class="text-danger"></span>
-                                        <input type="file" id="Image1Fname" class="form-control-file" onchange="previewImage(this, 'image1Preview', 'hiddenImage1Fname')">
-                                        <input type="hidden" id="hiddenImage1Fname" name="Image1Fname">
-                                        <img id="image1Preview" src="" alt="プレビュー画像1" style="display: none; max-width: 100%; margin-top: 10px;">
+                                        <label for="Image1">墓石画像1</label>
+                                        <span asp-validation-for="Image1" class="text-danger"></span>
+                                        <input type="file" id="Image1" name="Image1" class="form-control-file" onchange="updateFileName(this, 'image1FileName', 'hiddenImage1Fname')">
+                                        <input type="hidden" id="hiddenImage1Fname" name="Image1Fname" value="@Model.Image1Fname">
+                                        <label id="image1FileName" style="display: block; margin-top: 10px;">@Model.Image1Fname</label>
+                                        <img id="image1Preview" src="@Model.Image1FnameURL" alt="プレビュー画像1" style="display: block; max-width: 100%; margin-top: 10px;">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="Image2Fname">墓石画像2</label>
-                                        <span asp-validation-for="Image2Fname" class="text-danger"></span>
-                                        <input type="file" id="Image2Fname" class="form-control-file" onchange="previewImage(this, 'image2Preview', 'hiddenImage2Fname')">
-                                        <input type="hidden" id="hiddenImage2Fname" name="Image2Fname">
-                                        <img id="image2Preview" src="" alt="プレビュー画像2" style="display: none; max-width: 100%; margin-top: 10px;">
+                                        <label for="Image2">墓石画像2</label>
+                                        <span asp-validation-for="Image2" class="text-danger"></span>
+                                        <input type="file" id="Image2" name="Image2" class="form-control-file" onchange="updateFileName(this, 'image2FileName', 'hiddenImage2Fname')">
+                                        <input type="hidden" id="hiddenImage2Fname" name="Image2Fname" value="@Model.Image2Fname">
+                                        <label id="image2FileName" style="display: block; margin-top: 10px;">@Model.Image2Fname</label>
+                                        <img id="image2Preview" src="@Model.Image2FnameURL" alt="プレビュー画像2" style="display: block; max-width: 100%; margin-top: 10px;">
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
-</div>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     let editDataStruct = {
@@ -116,8 +124,8 @@ Layout = null;
         data.AreaName = document.getElementById('AreaName').value;
         data.SectionName = document.getElementById('SectionName').value;
         data.CemeteryName = document.getElementById('CemeteryName').value;
-        data.Image1Fname = document.getElementById('Image1Fname').value;
-        data.Image2Fname = document.getElementById('Image2Fname').value;
+        data.Image1Fname = document.getElementById('hiddenImage1Fname').value;
+        data.Image2Fname = document.getElementById('hiddenImage2Fname').value;
     }
 
     function cmpEditData(initData, editData) {
@@ -128,8 +136,30 @@ Layout = null;
             && initData.Image1Fname === editData.Image1Fname
             && initData.Image2Fname === editData.Image2Fname;
     }
+
+    function updateFileName(input, labelId, hiddenInputId) {
+        if (input.files && input.files[0]) {
+            var fileName = input.files[0].name;
+            document.getElementById(labelId).innerText = fileName;
+            document.getElementById(hiddenInputId).value = fileName;
+            previewImage(input, labelId.replace('FileName', 'Preview'));
+        }
+    }
+
+    function updateFileNameOnLoad(hiddenInputId, labelId, previewId) {
+        var hiddenInputElement = document.getElementById(hiddenInputId);
+        if (hiddenInputElement && hiddenInputElement.value) {
+            document.getElementById(labelId).innerText = hiddenInputElement.value;
+            var previewImage = document.getElementById(previewId);
+            if (previewImage) {
+                previewImage.src = hiddenInputElement.value;
+                previewImage.style.display = 'block';
+            }
+        }
+    }
+
     //画像アップロード用
-    function previewImage(input, previewId, hiddenInputId) {
+    function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
@@ -138,9 +168,7 @@ Layout = null;
                 previewImage.style.display = 'block';
             }
             reader.readAsDataURL(input.files[0]);
-
-            // ファイル名を隠しフィールドに設定
-            document.getElementById(hiddenInputId).value = input.files[0].name;
         }
     }
 </script>
+</html>
