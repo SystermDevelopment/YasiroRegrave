@@ -3,11 +3,11 @@
 @{
 }
 
-<link href="~/css/PlotSelection.css" rel="stylesheet">
+<link href="/css/PlotSelection.css" rel="stylesheet">
 
 <body id="plotbody">
-    <div id="title-container">
-        <div id="PlotSelectiontitle">
+    <div id="PlotSelectionHeader">
+        <div id="PlotSelectionTitle">
             @Model.AreaName<br>空き区画予約
         </div>
         <div id="PlotSelectionSubtitle">
@@ -19,12 +19,13 @@
     <div id="PlotSelectionContainer">
         <!-- 画像 -->
         <canvas id="plotCanvas" width="400" height="384"></canvas>
-        <img src="images/kukaku1.png" alt="区画" id="PlotSelectionImage" />
+        <img src="images/AREA_@(Model.ReienCode)_@(Model.AreaCode).png" alt="区画" id="PlotSelectionImage" />
     </div>
 </body>
 
 <script>
+    var ReienCode = '@Model.ReienCode';
+    var AreaCode = '@Model.AreaCode';
     var sectionDatas = @Html.Raw(Json.Serialize(Model.SectionDatas));
-    console.log(sectionDatas);
 </script>
 <script src="~/js/PlotSelection.js"></script>

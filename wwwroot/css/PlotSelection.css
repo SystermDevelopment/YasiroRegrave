@@ -1,4 +1,4 @@
-﻿﻿#title-container {
+﻿#PlotSelectionHeader {
     text-align: center;
     box-sizing: border-box;
     border: 1px solid #ddd;
@@ -8,14 +8,14 @@
     margin-bottom: 30px;
 }
 
-#PlotSelectiontitle {
+#PlotSelectionTitle {
     color: #587b63;
     font-size: 50px;
     text-align: center;
     font-weight: bold;
 }
 
-#PlotSelectionSubtitle {
+﻿#PlotSelectionSubtitle {
     color: #555;
     font-size: 16px;
     text-align: center;

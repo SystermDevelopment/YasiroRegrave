@@ -20,8 +20,10 @@ namespace Login_Page.Pages
         public List<SectionData> SectionDatas { get; private set; } = new List<SectionData>();
 
         public int ReienIndex { get; private set; }
+        public string ReienCode { get; private set; } = "";
         public string ReienName { get; private set; } = "";
         public int AreaIndex { get; private set; }
+        public string AreaCode { get; private set; } = "";
         public string AreaName { get; private set; } = "";
 
 
@@ -55,17 +57,19 @@ namespace Login_Page.Pages
             // 霊園、エリア情報の取得
             ReienIndex = 0;
             AreaIndex = 0;
-            ReienName = _context.Reiens.FirstOrDefault(r => r.Index == ReienIndex)?.ReienName ?? "";
-            AreaName = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex)?.AreaName ?? "";
+            ReienCode = _context.Reiens.FirstOrDefault(r => r.Index == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienCode ?? "";
+            ReienName = _context.Reiens.FirstOrDefault(r => r.Index == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienName ?? "";
+            AreaCode = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaCode ?? "";
+            AreaName = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaName ?? "";
 
             // 区画情報の取得
             SectionDatas = _context.Sections
-                            .Where(s => s.AreaIndex == AreaIndex)
+                            .Where(s => s.AreaIndex == AreaIndex && s.DeleteFlag == (int)Config.DeleteType.未削除)
                             .Select(s => new SectionData
                             {
                                 SectionIndex = s.SectionIndex,
                                 SectionCode = s.SectionCode,
-                                SectionName = s.SectionName,
+                                SectionName = Utils.SectionCode2Name(s.SectionCode),
                             })
                             .ToList();
 
@@ -78,21 +82,6 @@ namespace Login_Page.Pages
                                                 && c.ReleaseStatus == (int)Config.ReleaseStatusType.販売中
                                                 && c.SectionStatus == (int)Config.SectionStatusType.空
                                             );
-
-                // 区画座標の取得
-                var coords = _context.SectionCoords
-                    .Where(sc => sc.SectionIndex == section.SectionIndex)
-                    .Select(sc => new Coordinate
-                    {
-                        X = sc.X,
-                        Y = sc.Y,
-                    })
-                    .ToList();
-
-                if (coords.Count > 0)
-                {
-                    section.Coordinates.AddRange(coords);
-                }
             }
             return;
         }
@@ -104,7 +93,6 @@ namespace Login_Page.Pages
             public string SectionCode { get; set; } = string.Empty;
             public string SectionName { get; set; } = string.Empty;
             public int NoReserveCount { get; set; } = 0;
-            public List<Coordinate> Coordinates { get; set; } = new List<Coordinate>();
         }
         public class Coordinate
         {
