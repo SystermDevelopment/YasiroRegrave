@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using YasiroRegrave.Data;
 
 namespace YasiroRegrave.Controllers
 {
@@ -6,51 +7,56 @@ namespace YasiroRegrave.Controllers
     [Route("api/[controller]")]
     public class GetGraveStatusController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public GetGraveStatusController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         [HttpPost]
         public IActionResult GetGraveIStatus([FromBody] GetGraveStatusRequest request)
         {
-            // ここでリクエストを処理し、レスポンスを作成します。
-            var response = new List<GetGraveStatusResponse>
+            var start = request.start_date;
+            var end = request.end_date;
+
+            DateTime? startDate = null;
+            DateTime? endDate = null;
+
+            if (!string.IsNullOrEmpty(start))
             {
-                new GetGraveStatusResponse
+                startDate = DateTime.Parse(start);
+            }
+
+            if (!string.IsNullOrEmpty(end))
+            {
+                endDate = DateTime.Parse(end);
+            }
+            var response = _context.CemeteryInfos
+                .Where(r => r.DeleteFlag == 0)
+                .Where(r => !startDate.HasValue || r.UpdateDate >= startDate)
+                .Where(r => !endDate.HasValue || r.UpdateDate <= endDate)
+                .Select(r => new GetGraveStatusResponse
                 {
-                    霊園番号 = "11",
-                    区画番号 = "21-08-01",
-                    面積 = "1.00聖地",
-                    区画区分 = "再販",
-                    使用料 = "600000",
-                    管理料 = "250000",
-                    仕置巻石料 = "0",
-                    石碑代金 = "1000000",
-                    区画状態 = "空",
-                    販売ステータス = "準備中",
-                    画像1登録 = "済",
-                    画像2登録 = "済",
-                    最終更新日時 = "2024/01/01 00:00:00"
-                },
-                new GetGraveStatusResponse
-                {
-                    霊園番号 = "11",
-                    区画番号 = "21-08-02",
-                    面積 = "1.00聖地",
-                    区画区分 = "再販",
-                    使用料 = "600000",
-                    管理料 = "250000",
-                    仕置巻石料 = "0",
-                    石碑代金 = "1000000",
-                    区画状態 = "予約中",
-                    販売ステータス = "販売中",
-                    画像1登録 = "未",
-                    画像2登録 = "済",
-                    最終更新日時 = "2024/01/01 00:00:00"
-                }
-            };
+                    霊園番号 = r.Cemetery.CemeteryIndex.ToString(),
+                    区画番号 = r.Cemetery.CemeteryCode,
+                    面積 = r.AreaValue,
+                    区画区分 = r.SectionType,
+                    使用料 = r.UsageFee,
+                    管理料 = r.ManagementFee,
+                    仕置巻石料 = r.StoneFee,
+                    石碑代金 = r.SetPrice,
+                    区画状態 = r.SectionStatus == 0 ? "空" : r.SectionStatus == 1 ? "予約中" : r.SectionStatus == 2 ? "拠点予約" : r.SectionStatus == 3 ? "成約" : "不明",
+                    販売ステータス = r.ReleaseStatus == 0 ? "準備中" : r.ReleaseStatus == 1 ? "販売中" : "不明",
+                    画像1登録 = string.IsNullOrEmpty(r.Image1Fname) ? "未" : "済",
+                    画像2登録 = string.IsNullOrEmpty(r.Image2Fname) ? "未" : "済",
+                    最終更新日時 = r.UpdateDate.HasValue ? r.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "N/A"
+                }).ToList();
             return Ok(response);
         }
     }
     public class GetGraveStatusRequest
     {
-        public string Data { get; set; }
+        public string? start_date { get; set; }
+        public string? end_date { get; set; }
     }
 
     public class GetGraveStatusResponse

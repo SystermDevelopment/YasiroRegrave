@@ -24,6 +24,7 @@ namespace YasiroRegrave.Pages
         public string Image1Fname { get; set; }
         [BindProperty]
         public string Image2Fname { get; set; }
+
         [BindProperty]
         public string Image1FnameURL { get; set; }
         [BindProperty]
@@ -32,6 +33,7 @@ namespace YasiroRegrave.Pages
         public IFormFile Image1 { get; set; }
         [BindProperty]
         public IFormFile Image2 { get; set; }
+
         [BindProperty]
         public int? CemeteryInfoIndex { get; set; }
 
@@ -39,6 +41,7 @@ namespace YasiroRegrave.Pages
         public bool Image1Deleted { get; set; } = false;
         [BindProperty]
         public bool Image2Deleted { get; set; } = false;
+
         private string? ReienCode { get; set; }
         private string? AreaCode { get; set; }
         private string? SectionCode { get; set; }
@@ -66,6 +69,7 @@ namespace YasiroRegrave.Pages
             GetPage(index);
             try
             {
+
                 var filePath = Path.Combine(Config.DataFilesRegravePath, "");
 
                 // Process Image1
@@ -80,6 +84,7 @@ namespace YasiroRegrave.Pages
                 }
                 else if (Image1 != null)
                 {
+
                     var fileExtension1 = Path.GetExtension(Image1.FileName);
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-1{fileExtension1}";
                     using (var stream = System.IO.File.Create(imgPath))
@@ -87,6 +92,7 @@ namespace YasiroRegrave.Pages
                         Image1.CopyTo(stream);
                     }
                     Image1Fname = Image1.FileName;
+
                     Image1Deleted = false; // Reset delete flag
                 }
 
@@ -104,13 +110,16 @@ namespace YasiroRegrave.Pages
                 {
                     var fileExtension2 = Path.GetExtension(Image2.FileName);
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-2{fileExtension2}";
+
                     using (var stream = System.IO.File.Create(imgPath))
                     {
                         Image2.CopyTo(stream);
                     }
                     Image2Fname = Image2.FileName;
+
                     Image2Deleted = false; // Reset delete flag
                 }
+
 
                 if (index == null)
                 {
@@ -124,7 +133,7 @@ namespace YasiroRegrave.Pages
                 else
                 {
                     var existingCemeteryinfo = _context.CemeteryInfos
-                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.–¢íœ && ci.CemeteryInfoIndex == index.Value)
+                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤ && ci.CemeteryInfoIndex == index.Value)
                         .FirstOrDefault();
                     if (existingCemeteryinfo != null)
                     {
@@ -146,6 +155,8 @@ namespace YasiroRegrave.Pages
         }
         private void GetPage(int? index)
         {
+
+
             var cemeteryinfo = _context.CemeteryInfos
                 .Where(ci => ci.DeleteFlag == 0 && ci.CemeteryInfoIndex == index)
                 .Select(ci => new PageCemeteryInfo
@@ -163,6 +174,7 @@ namespace YasiroRegrave.Pages
                     CemeteryCode = ci.Cemetery.CemeteryCode
                 })
                 .FirstOrDefault();
+
 
             if (cemeteryinfo != null)
             {
@@ -187,6 +199,7 @@ namespace YasiroRegrave.Pages
             }
         }
 
+
         public IActionResult OnPostDeleteImage1()
         {
             Image1Deleted = true;
@@ -203,6 +216,7 @@ namespace YasiroRegrave.Pages
             return Page();
         }
 
+
         public class PageCemeteryInfo
         {
             public int CemeteryInfoIndex { get; set; }
@@ -215,7 +229,9 @@ namespace YasiroRegrave.Pages
             public string ReienCode { get; set; }
             public string AreaCode { get; set; }
             public string SectionCode { get; set; }
+
             public string CemeteryCode { get; set; }
+
         }
     }
 }
