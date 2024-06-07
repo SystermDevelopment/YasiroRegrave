@@ -70,18 +70,32 @@
                                     <div class="col-md-6">
                                         <label for="Image1">墓石画像1</label>
                                         <span asp-validation-for="Image1" class="text-danger"></span>
-                                        <input type="file" id="Image1" name="Image1" class="form-control-file" onchange="updateFileName(this, 'image1FileName', 'hiddenImage1Fname')">
+
+                                        <input type="file" id="Image1" name="Image1" class="form-control-file" onchange="updateFileName(this, 'image1FileName', 'hiddenImage1Fname', 'image1Preview', 'Image1Deleted')">
                                         <input type="hidden" id="hiddenImage1Fname" name="Image1Fname" value="@Model.Image1Fname">
                                         <label id="image1FileName" style="display: block; margin-top: 10px;">@Model.Image1Fname</label>
                                         <img id="image1Preview" src="@Model.Image1FnameURL" alt="プレビュー画像1" style="display: block; max-width: 100%; margin-top: 10px;">
+                                        <input type="hidden" id="Image1Deleted" name="Image1Deleted" value="false">
+                                        @if (!string.IsNullOrEmpty(Model.Image1Fname))
+                                        {
+                                            <button type="button" onclick="deleteImage('image1Preview', 'Image1Deleted', 'image1FileName')" class="btn btn-danger" style="margin-top: 10px;">削除</button>
+                                        }
+
                                     </div>
                                     <div class="col-md-6">
                                         <label for="Image2">墓石画像2</label>
                                         <span asp-validation-for="Image2" class="text-danger"></span>
-                                        <input type="file" id="Image2" name="Image2" class="form-control-file" onchange="updateFileName(this, 'image2FileName', 'hiddenImage2Fname')">
+
+                                        <input type="file" id="Image2" name="Image2" class="form-control-file" onchange="updateFileName(this, 'image2FileName', 'hiddenImage2Fname', 'image2Preview', 'Image2Deleted')">
                                         <input type="hidden" id="hiddenImage2Fname" name="Image2Fname" value="@Model.Image2Fname">
                                         <label id="image2FileName" style="display: block; margin-top: 10px;">@Model.Image2Fname</label>
                                         <img id="image2Preview" src="@Model.Image2FnameURL" alt="プレビュー画像2" style="display: block; max-width: 100%; margin-top: 10px;">
+                                        <input type="hidden" id="Image2Deleted" name="Image2Deleted" value="false">
+                                        @if (!string.IsNullOrEmpty(Model.Image2Fname))
+                                        {
+                                            <button type="button" onclick="deleteImage('image2Preview', 'Image2Deleted', 'image2FileName')" class="btn btn-danger" style="margin-top: 10px;">削除</button>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -137,28 +151,32 @@
             && initData.Image2Fname === editData.Image2Fname;
     }
 
-    function updateFileName(input, labelId, hiddenInputId) {
+
+    function updateFileName(input, labelId, hiddenId, imgId, hiddenDeleteId) {
         if (input.files && input.files[0]) {
             var fileName = input.files[0].name;
-            document.getElementById(labelId).innerText = fileName;
-            document.getElementById(hiddenInputId).value = fileName;
-            previewImage(input, labelId.replace('FileName', 'Preview'));
-        }
-    }
+            var reader = new FileReader();
 
-    function updateFileNameOnLoad(hiddenInputId, labelId, previewId) {
-        var hiddenInputElement = document.getElementById(hiddenInputId);
-        if (hiddenInputElement && hiddenInputElement.value) {
-            document.getElementById(labelId).innerText = hiddenInputElement.value;
-            var previewImage = document.getElementById(previewId);
-            if (previewImage) {
-                previewImage.src = hiddenInputElement.value;
-                previewImage.style.display = 'block';
+            reader.onload = function (e) {
+                document.getElementById(imgId).src = e.target.result;
+                document.getElementById(imgId).style.display = 'block';
             }
+
+            reader.readAsDataURL(input.files[0]);
+
+            document.getElementById(labelId).innerText = fileName;
+            document.getElementById(hiddenId).value = fileName;
+            document.getElementById(hiddenDeleteId).value = 'false'; // 削除フラグをリセット
         }
     }
 
-    //画像アップロード用
+    function deleteImage(imgId, hiddenDeleteId, labelId) {
+        document.getElementById(imgId).style.display = 'none';
+        document.getElementById(hiddenDeleteId).value = 'true';
+        document.getElementById(labelId).innerText = '';
+    }
+
+
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -170,5 +188,7 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-</script>
+
+    </script>
+
 </html>

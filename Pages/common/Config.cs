@@ -22,7 +22,7 @@ namespace YasiroRegrave.Pages.common
             空 = 0,
             WEB予約 = 1,
             拠点予約 = 2,
-            成約 = 3,
+            成約 = 3, 
         }
         public static readonly Dictionary<string, string> MIME_IMAGE = new Dictionary<string, string>
         {

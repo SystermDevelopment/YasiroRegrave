@@ -124,12 +124,12 @@
                 <label for="phone">*電話番号</label>
                 <input type="tel" id="phone" name="phone" required>
 
-                <label for="email">Eメール</label>
+                <label for="email" >Eメール</label>
                 <input type="email" id="email" name="email" placeholder="例）info@abcd.com">
 
                 <div class="email-note">
-                    <p2>携帯メールアドレスをご入力の場合、携帯の設定により返信メールが届かないことがございます。</p2>
-                    <p2>弊社からのメール（yasiro.co.jp）を受信できるよう設定をお願いいたします。</p2>
+                    <p>携帯メールアドレスをご入力の場合、携帯の設定により返信メールが届かないことがございます。</p>
+                    <p>弊社からのメール（yasiro.co.jp）を受信できるよう設定をお願いいたします。</p>
                 </div>
 
                 <label for="contact-methods">ご希望の連絡方法 <span class="note">※複数回答可</span></label>
@@ -146,7 +146,7 @@
 
                 <label for="email-subscription">メール配信</label>
                 <div class="subscription-options">
-                    <p2>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p2>
+                    <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
                     <div>
                         <input type="radio" id="subscribe-yes" name="email-subscription" value="yes" checked>
                         <label for="subscribe-yes">受信する</label>
@@ -156,10 +156,10 @@
                         <label for="subscribe-no">受信しない</label>
                     </div>
                 </div>
-            </form>
-            <div class="button-wrapper">
-                <button type="submit" class="submit-button">確認画面へ</button>
-            </div>
+                </form>
+                <div class="button-wrapper">
+                    <button type="submit" class="submit-button">確認画面へ</button>
+                </div>
 
         </section>
     </main>
@@ -182,38 +182,6 @@
                     console.error('Error:', error);
                     alert('住所の取得に失敗しました。');
                 });
-        });
-        document.querySelector('.submit-button').addEventListener('click', function (event) {
-            event.preventDefault(); // フォームのデフォルトの送信を防ぐ
-
-            const requiredFields = document.querySelectorAll('[required]');
-            let isValid = true;
-            requiredFields.forEach(function (field) {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.style.borderColor = 'red'; 
-                } else {
-                    field.style.borderColor = ''; 
-                }
-            });
-
-            const contactMethods = document.querySelectorAll('[name="contact-method"]:checked');
-            if (contactMethods.length === 0) {
-                isValid = false;
-                const contactOptions = document.querySelector('.contact-options');
-                contactOptions.style.border = '2px solid red'; 
-            } else {
-                const contactOptions = document.querySelector('.contact-options');
-                contactOptions.style.border = ''; 
-            }
-
-            // ダイアログの表示
-            if (!isValid) {
-                alert('必須項目を入力してください。');
-            } else {
-                // フォームの送信
-                document.querySelector('form').submit();
-            }
-        });</script>
+        </script>
 </body>
 </html>
