@@ -13,6 +13,12 @@ public class ReserveInfo
     [Required]
     [Column("cemetery_info_index")]
     public int CemeteryInfoIndex { get; set; }
+    [Column("preferred_date1")]
+    public DateTime? PreferredDate1 { get; set; }
+    [Column("preferred_date2")]
+    public DateTime? PreferredDate2 { get; set; }
+    [Column("preferred_date3")]
+    public DateTime? PreferredDate3 { get; set; }
     [Required]
     [Column("last_name")]
     [MaxLength(100)]
