@@ -50,7 +50,7 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 var user = _context.Users
-                    .Where(u => u.DeleteFlag == 0 && u.Index == index.Value)
+                    .Where(u => u.Index == Index && u.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
                     .FirstOrDefault();
                 if (user != null)
                 {
@@ -61,15 +61,17 @@ namespace YasiroRegrave.Pages
                 }
             }
             Venders = _context.Venders
-                .Where(v => v.DeleteFlag == 0)
-                .ToList();
-            
+            .Where(v => v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
+            .ToList();
+
         }
         public IActionResult OnPost(int? index)
         {
             if (!ModelState.IsValid)
             {
-                Venders = _context.Venders.Where(v => v.DeleteFlag == 0).ToList();
+                Venders = _context.Venders
+                    .Where(v => v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú) 
+                    .ToList();
                 return Page();
             }
             try
@@ -93,7 +95,7 @@ namespace YasiroRegrave.Pages
                         Password = Password,    
                         CreateDate = DateTime.UtcNow,
                         //CreateUser = LoginId,
-                        DeleteFlag = 0,
+                        DeleteFlag = (int)Config.DeleteType.ñ¢çÌèú,
                         Vender = forignVender,
                         VenderIndex = SelectVenderIndex ??0,
 
