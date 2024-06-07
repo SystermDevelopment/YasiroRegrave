@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
+using System.Linq;
 
 namespace YasiroRegrave.Controllers
 {
@@ -13,10 +14,11 @@ namespace YasiroRegrave.Controllers
         {
             _context = context;
         }
+
         [HttpPost]
-        public IActionResult SetGraveStatus([FromBody] SetGraveStatusRequest request)
+        public IActionResult SetGraveStatus([FromBody] List<SetGGraveStatus> infos)
         {
-            foreach (var info in request.Data)
+            foreach (var info in infos)
             {
                 var parts = info.区画番号.Split('-');
                 if (parts.Length != 3)
@@ -25,46 +27,53 @@ namespace YasiroRegrave.Controllers
                 }
                 string section = parts[0];
                 string cemetery = parts[1] + "-" + parts[2];
+
                 // 霊園
-                var existingReien = _context.Reiens.Where(r => r.DeleteFlag == 0 && r.ReienCode == info.霊園番号).FirstOrDefault();
+                var existingReien = _context.Reiens.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienCode == info.霊園番号);
                 if (existingReien == null)
                 {
                     return BadRequest($"Invalid value for 霊園番号: {info.霊園番号}. Expected value");
                 }
+
                 // エリア(工区)
-                var existingArea = _context.Areas.Where(r => r.DeleteFlag == 0 && r.ReienIndex == existingReien.Index && r.AreaCode == info.工区番号).FirstOrDefault();
+                var existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienIndex == existingReien.Index && r.AreaCode == info.工区番号);
                 if (existingArea == null)
                 {
                     return BadRequest($"Invalid value for 工区番号: {info.工区番号}. Expected value");
                 }
+
                 // 区画
-                var existingSection = _context.Sections.Where(r => r.DeleteFlag == 0 && r.AreaIndex == existingArea.AreaIndex && r.SectionCode == section).FirstOrDefault();
+                var existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.AreaIndex == existingArea.AreaIndex && r.SectionCode == section);
                 if (existingSection == null)
                 {
                     return BadRequest($"Invalid value for 区画番号: {section}. Expected value");
                 }
+
                 // 墓所
-                var existingCemetery = _context.Cemeteries.Where(r => r.DeleteFlag == 0 && r.SectionIndex == existingSection.SectionIndex && r.CemeteryCode == cemetery).FirstOrDefault();
+                var existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionIndex == existingSection.SectionIndex && r.CemeteryCode == cemetery);
                 if (existingCemetery == null)
                 {
                     return BadRequest($"Invalid value for 墓所番号: {cemetery}. Expected value");
                 }
+
                 // 墓所情報
-                var existingCemeteryInfo = _context.CemeteryInfos.Where(r => r.DeleteFlag == 0 && r.CemeteryIndex == existingCemetery.CemeteryIndex).FirstOrDefault();
+                var existingCemeteryInfo = _context.CemeteryInfos.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryIndex == existingCemetery.CemeteryIndex);
                 if (existingCemeteryInfo == null)
                 {
                     return BadRequest($"Invalid value for 墓所情報: {existingCemetery.CemeteryIndex}. Expected value");
                 }
+
                 // 予約情報
-                var existingReserveInfo = _context.ReserveInfos.Where(r => r.CemeteryInfoIndex == existingCemetery.CemeteryIndex).FirstOrDefault();
+                var existingReserveInfo = _context.ReserveInfos.FirstOrDefault(r => r.CemeteryInfoIndex == existingCemetery.CemeteryIndex);
                 if (existingReserveInfo != null)
                 {
                     // 未通知の予約情報があった場合の状態変更抑止
                     if (existingReserveInfo.Notification == 0)
                     {
-                        return BadRequest($"There is an unnotified reservation. {existingReserveInfo.LastName}様　{{(existingReserveInfo.CreateDate.HasValue ? existingReserveInfo.CreateDate.Value.ToString(\"yyyy年MM月dd日 HH:mm:ss\") : \"日付が不明\")}}\"");
+                        return BadRequest($"There is an unnotified reservation. {existingReserveInfo.LastName}様　{(existingReserveInfo.CreateDate.HasValue ? existingReserveInfo.CreateDate.Value.ToString("yyyy年MM月dd日 HH:mm:ss") : "日付が不明")}");
                     }
                 }
+
                 switch (info.区画状態)
                 {
                     case "空":
@@ -94,10 +103,6 @@ namespace YasiroRegrave.Controllers
             return Ok(response);
         }
     }
-    public class SetGraveStatusRequest
-    {
-        public List<SetGGraveStatus> Data { get; set; } = new List<SetGGraveStatus>();
-    }
 
     public class SetGGraveStatus
     {
@@ -106,5 +111,4 @@ namespace YasiroRegrave.Controllers
         public string 区画番号 { get; set; } = string.Empty;
         public string 区画状態 { get; set; } = string.Empty;
     }
-
 }
