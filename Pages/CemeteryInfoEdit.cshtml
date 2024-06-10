@@ -70,18 +70,41 @@
                                     <div class="col-md-6">
                                         <label for="Image1">墓石画像1</label>
                                         <span asp-validation-for="Image1" class="text-danger"></span>
-                                        <input type="file" id="Image1" name="Image1" class="form-control-file" onchange="updateFileName(this, 'image1FileName', 'hiddenImage1Fname')">
+                                        <input type="file" id="Image1" name="Image1" class="form-control-file" onchange="updateFileName(this, 'image1FileName', 'hiddenImage1Fname', 'image1Preview', 'Image1Deleted', 'deleteImage1Button')">
                                         <input type="hidden" id="hiddenImage1Fname" name="Image1Fname" value="@Model.Image1Fname">
-                                        <label id="image1FileName" style="display: block; margin-top: 10px;">@Model.Image1Fname</label>
-                                        <img id="image1Preview" src="@Model.Image1FnameURL" alt="プレビュー画像1" style="display: block; max-width: 100%; margin-top: 10px;">
+                                        @if (!string.IsNullOrEmpty(Model.Image1Fname))
+                                        {
+                                            <label id="image1FileName" style="display: block; margin-top: 10px;">@Model.Image1Fname</label>
+                                            <img id="image1Preview" src="@Model.Image1FnameURL" alt="プレビュー画像" style="display: block; max-width: 100%; margin-top: 10px;">
+                                            <button id="deleteImage1Button" type="button" onclick="deleteImage('image1Preview', 'Image1Deleted', 'image1FileName', 'deleteImage1Button')" class="btn btn-danger" style="margin-top: 10px;">削除</button>
+                                        }
+                                        else
+                                        {
+                                            <label id="image1FileName" style="display: none; margin-top: 10px;"></label>
+                                            <img id="image1Preview" src="" alt="プレビュー画像" style="display: none; max-width: 100%; margin-top: 10px;">
+                                            <button id="deleteImage1Button" type="button" onclick="deleteImage('image1Preview', 'Image1Deleted', 'image1FileName', 'deleteImage1Button')" class="btn btn-danger" style="display: none; margin-top: 10px;">削除</button>
+                                        }
+                                        <input type="hidden" id="Image1Deleted" name="Image1Deleted" value="false">
                                     </div>
+
                                     <div class="col-md-6">
                                         <label for="Image2">墓石画像2</label>
                                         <span asp-validation-for="Image2" class="text-danger"></span>
-                                        <input type="file" id="Image2" name="Image2" class="form-control-file" onchange="updateFileName(this, 'image2FileName', 'hiddenImage2Fname')">
+                                        <input type="file" id="Image2" name="Image2" class="form-control-file" onchange="updateFileName(this, 'image2FileName', 'hiddenImage2Fname', 'image2Preview', 'Image2Deleted', 'deleteImage2Button')">
                                         <input type="hidden" id="hiddenImage2Fname" name="Image2Fname" value="@Model.Image2Fname">
-                                        <label id="image2FileName" style="display: block; margin-top: 10px;">@Model.Image2Fname</label>
-                                        <img id="image2Preview" src="@Model.Image2FnameURL" alt="プレビュー画像2" style="display: block; max-width: 100%; margin-top: 10px;">
+                                        @if (!string.IsNullOrEmpty(Model.Image2Fname))
+                                        {
+                                            <label id="image2FileName" style="display: block; margin-top: 10px;">@Model.Image2Fname</label>
+                                            <img id="image2Preview" src="@Model.Image2FnameURL" alt="プレビュー画像" style="display: block; max-width: 100%; margin-top: 10px;">
+                                            <button id="deleteImage2Button" type="button" onclick="deleteImage('image2Preview', 'Image2Deleted', 'image2FileName', 'deleteImage2Button')" class="btn btn-danger" style="margin-top: 10px;">削除</button>
+                                        }
+                                        else
+                                        {
+                                            <label id="image2FileName" style="display: none; margin-top: 10px;"></label>
+                                            <img id="image2Preview" src="" alt="プレビュー画像" style="display: none; max-width: 100%; margin-top: 10px;">
+                                            <button id="deleteImage2Button" type="button" onclick="deleteImage('image2Preview', 'Image2Deleted', 'image2FileName', 'deleteImage2Button')" class="btn btn-danger" style="display: none; margin-top: 10px;">削除</button>
+                                        }
+                                        <input type="hidden" id="Image2Deleted" name="Image2Deleted" value="false">
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +123,10 @@
         CemeteryName: '',
         Image1Fname: '',
         Image2Fname: '',
+        Image1Deleted: false,
+        Image2Deleted: false
     };
+
     let initData = Object.assign({}, editDataStruct);
     let editData = Object.assign({}, editDataStruct);
     var confMessage = '@Html.Raw(Message.M_Q0002)';
@@ -126,6 +152,8 @@
         data.CemeteryName = document.getElementById('CemeteryName').value;
         data.Image1Fname = document.getElementById('hiddenImage1Fname').value;
         data.Image2Fname = document.getElementById('hiddenImage2Fname').value;
+        data.Image1Deleted = document.getElementById('Image1Deleted').value === 'true';
+        data.Image2Deleted = document.getElementById('Image2Deleted').value === 'true';
     }
 
     function cmpEditData(initData, editData) {
@@ -134,41 +162,39 @@
             && initData.SectionName === editData.SectionName
             && initData.CemeteryName === editData.CemeteryName
             && initData.Image1Fname === editData.Image1Fname
-            && initData.Image2Fname === editData.Image2Fname;
+            && initData.Image2Fname === editData.Image2Fname
+            && initData.Image1Deleted === editData.Image1Deleted
+            && initData.Image2Deleted === editData.Image2Deleted;
     }
 
-    function updateFileName(input, labelId, hiddenInputId) {
+    function updateFileName(input, labelId, hiddenId, imgId, hiddenDeleteId, buttonId) {
         if (input.files && input.files[0]) {
             var fileName = input.files[0].name;
-            document.getElementById(labelId).innerText = fileName;
-            document.getElementById(hiddenInputId).value = fileName;
-            previewImage(input, labelId.replace('FileName', 'Preview'));
-        }
-    }
-
-    function updateFileNameOnLoad(hiddenInputId, labelId, previewId) {
-        var hiddenInputElement = document.getElementById(hiddenInputId);
-        if (hiddenInputElement && hiddenInputElement.value) {
-            document.getElementById(labelId).innerText = hiddenInputElement.value;
-            var previewImage = document.getElementById(previewId);
-            if (previewImage) {
-                previewImage.src = hiddenInputElement.value;
-                previewImage.style.display = 'block';
-            }
-        }
-    }
-
-    //画像アップロード用
-    function previewImage(input, previewId) {
-        if (input.files && input.files[0]) {
             var reader = new FileReader();
+
             reader.onload = function (e) {
-                var previewImage = document.getElementById(previewId);
-                previewImage.src = e.target.result;
-                previewImage.style.display = 'block';
+                document.getElementById(imgId).src = e.target.result;
+                document.getElementById(imgId).style.display = 'block';
+                document.getElementById(buttonId).style.display = 'block';
             }
+
             reader.readAsDataURL(input.files[0]);
+
+            document.getElementById(labelId).innerText = fileName;
+            document.getElementById(hiddenId).value = fileName;
+            document.getElementById(hiddenDeleteId).value = 'false';
         }
     }
+
+
+    function deleteImage(imgId, hiddenDeleteId, labelId, buttonId) {
+        if (confirm('@Html.Raw(Message.M_Q0001)')) {
+            document.getElementById(imgId).style.display = 'none';
+            document.getElementById(hiddenDeleteId).value = 'true';
+            document.getElementById(labelId).innerText = '';
+            document.getElementById(buttonId).style.display = 'none';
+        }
+    }
+
 </script>
 </html>

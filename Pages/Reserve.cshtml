@@ -22,10 +22,9 @@
             <p3>0120-140-846<br>9:15〜17:30（年中無休）</p3>
             <h2>メールでのご予約</h2>
             <p1>下記フォームに必要事項を入力の上、「確認画面へ」ボタンを押してください。*印は必須項目です。</p1>
-
         </section>
         <section>
-            <form>
+            <form method="post" id="reservation-form">
                 <label for="section-number">ご希望の区画番号</label>
                 <input type="text" id="section-number" name="section-number" value="親鸞Ｅ区 ８列-０３" disabled>
 
@@ -84,11 +83,13 @@
                 <div class="name-wrapper">
                     <div class="name-group">
                         <label for="last-name">姓：</label>
-                        <input type="text" id="last-name" name="last-name" required>
+                        <input type="text" id="last-name" name="last-name" asp-for="LastName">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="name-group">
                         <label for="first-name">名：</label>
-                        <input type="text" id="first-name" name="first-name" required>
+                        <input type="text" id="first-name" name="first-name" asp-for="FirstName">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -96,40 +97,48 @@
                 <div class="name-wrapper">
                     <div class="name-group">
                         <label for="last-name-kana">姓(ふりがな)：</label>
-                        <input type="text" id="last-name-kana" name="last-name-kana" required>
+                        <input type="text" id="last-name-kana" name="last-name-kana" asp-for="LastNameKana">
+                        <span asp-validation-for="LastNameKana" class="text-danger"></span>
                     </div>
                     <div class="name-group">
                         <label for="first-name-kana">名(ふりがな)：</label>
-                        <input type="text" id="first-name-kana" name="first-name-kana" required>
+                        <input type="text" id="first-name-kana" name="first-name-kana" asp-for="FirstNameKana">
+                        <span asp-validation-for="FirstNameKana" class="text-danger"></span>
                     </div>
                 </div>
+
                 <label for="postal-code">*郵便番号</label>
                 <div class="postal-code-wrapper">
-                    <input type="text" id="postal-code" name="postal-code" required>
+                    <input type="text" id="postal-code" name="postal-code" asp-for="PostalCode">
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
                     <button type="button" id="auto-fill">住所を自動入力</button>
                 </div>
 
                 <label for="prefecture">*都道府県</label>
-                <input type="text" id="prefecture" name="prefecture" required>
+                <input type="text" id="prefecture" name="prefecture" asp-for="Prefecture">
+                <span asp-validation-for="Prefecture" class="text-danger"></span>
 
                 <label for="city">*市区郡</label>
-                <input type="text" id="city" name="city" required>
+                <input type="text" id="city" name="city" asp-for="City">
+                <span asp-validation-for="City" class="text-danger"></span>
 
                 <label for="address">*町名・番地</label>
-                <input type="text" id="address" name="address" required>
+                <input type="text" id="address" name="address" asp-for="Address">
+                <span asp-validation-for="Address" class="text-danger"></span>
 
                 <label for="building">ビル・マンション名</label>
                 <input type="text" id="building" name="building">
 
                 <label for="phone">*電話番号</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" asp-for="Phone">
+                <span asp-validation-for="Phone" class="text-danger"></span>
 
                 <label for="email">Eメール</label>
                 <input type="email" id="email" name="email" placeholder="例）info@abcd.com">
 
                 <div class="email-note">
-                    <p2>携帯メールアドレスをご入力の場合、携帯の設定により返信メールが届かないことがございます。</p2>
-                    <p2>弊社からのメール（yasiro.co.jp）を受信できるよう設定をお願いいたします。</p2>
+                    <p>携帯メールアドレスをご入力の場合、携帯の設定により返信メールが届かないことがございます。</p>
+                    <p>弊社からのメール（yasiro.co.jp）を受信できるよう設定をお願いいたします。</p>
                 </div>
 
                 <label for="contact-methods">ご希望の連絡方法 <span class="note">※複数回答可</span></label>
@@ -146,7 +155,7 @@
 
                 <label for="email-subscription">メール配信</label>
                 <div class="subscription-options">
-                    <p2>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p2>
+                    <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
                     <div>
                         <input type="radio" id="subscribe-yes" name="email-subscription" value="yes" checked>
                         <label for="subscribe-yes">受信する</label>
@@ -158,9 +167,8 @@
                 </div>
             </form>
             <div class="button-wrapper">
-                <button type="submit" class="submit-button">確認画面へ</button>
+                <button type="submit" class="submit-button" form="reservation-form">確認画面へ</button>
             </div>
-
         </section>
     </main>
     <script>
@@ -183,37 +191,7 @@
                     alert('住所の取得に失敗しました。');
                 });
         });
-        document.querySelector('.submit-button').addEventListener('click', function (event) {
-            event.preventDefault(); // フォームのデフォルトの送信を防ぐ
 
-            const requiredFields = document.querySelectorAll('[required]');
-            let isValid = true;
-            requiredFields.forEach(function (field) {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.style.borderColor = 'red'; 
-                } else {
-                    field.style.borderColor = ''; 
-                }
-            });
-
-            const contactMethods = document.querySelectorAll('[name="contact-method"]:checked');
-            if (contactMethods.length === 0) {
-                isValid = false;
-                const contactOptions = document.querySelector('.contact-options');
-                contactOptions.style.border = '2px solid red'; 
-            } else {
-                const contactOptions = document.querySelector('.contact-options');
-                contactOptions.style.border = ''; 
-            }
-
-            // ダイアログの表示
-            if (!isValid) {
-                alert('必須項目を入力してください。');
-            } else {
-                // フォームの送信
-                document.querySelector('form').submit();
-            }
-        });</script>
+    </script>
 </body>
 </html>
