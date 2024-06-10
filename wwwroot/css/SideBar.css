@@ -1,10 +1,22 @@
-﻿.sidebar {
+﻿html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* 画面全体のオーバーフローを防ぐ */
+}
+
+.d-flex {
+    display: flex;
+    height: 100%; /* コンテナ全体の高さを設定 */
+}
+
+.sidebar {
     width: 250px;
     background-color: #c5e1f5;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    overflow-y: auto;
+    overflow-y: auto; /* サイドバー内のオーバーフローを自動スクロールに設定 */
     z-index: 1000;
-    margin-right: 50px;
+    flex-shrink: 0; /* サイドバーの幅を固定 */
 }
 
 .sidebar-header {
@@ -12,10 +24,10 @@
     padding: 20px 0;
 }
 
-.sidebar-header .sidebar-icon {
-    max-width: 80%;
-    height: auto;
-}
+    .sidebar-header .sidebar-icon {
+        max-width: 80%;
+        height: auto;
+    }
 
 .sidebar-menu {
     list-style: none;
@@ -23,9 +35,9 @@
     margin: 0;
 }
 
-.sidebar-menu li {
-     padding: 25px 45px;
-}
+    .sidebar-menu li {
+        padding: 25px 45px;
+    }
 
     .sidebar-menu a {
         font-size: 20px;
@@ -39,20 +51,17 @@
         background-color: #d5a5a5;
     }
 
-.d-flex {
-    display: flex;
-    flex-wrap: nowrap;
-}
-
 .content {
     padding: 20px;
+    overflow-y: auto; /* コンテンツエリアのオーバーフローを自動スクロールに設定 */
     flex-grow: 1;
-    max-width:70%;
 }
+
 .container-fluid.d-flex {
     height: 100%;
     padding-left: 0 !important;
 }
+
 .container {
     margin-left: 0;
     margin-right: 0;

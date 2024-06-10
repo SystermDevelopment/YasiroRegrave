@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
+using System.Linq;
 
 namespace YasiroRegrave.Controllers
 {
@@ -15,17 +16,18 @@ namespace YasiroRegrave.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetGraveInfo([FromBody] GraveInfoRequest request)
+        public IActionResult SetGraveInfo([FromBody] List<SetGraveInfo> infos)
         {
-            Reien? existingReien;
-            Area? existingArea;
-            Section? existingSection;
-            Cemetery? existingCemetery;
-            foreach (var info in request.Data)
+            foreach (var info in infos)
             {
+                Reien? existingReien;
+                Area? existingArea;
+                Section? existingSection;
+                Cemetery? existingCemetery;
+
                 // 霊園
                 var reienCode = info.霊園番号;
-                existingReien = _context.Reiens.Where(r => r.DeleteFlag == 0 && r.ReienCode == reienCode).FirstOrDefault();
+                existingReien = _context.Reiens.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienCode == reienCode);
                 if (existingReien == null)
                 {
                     // 当初は霊園番号がないことはないのでエラーとする
@@ -41,7 +43,7 @@ namespace YasiroRegrave.Controllers
                 string cemetery = parts[1] + "-" + parts[2];
 
                 // エリア(工区)
-                existingArea = _context.Areas.Where(r => r.DeleteFlag == 0 && r.AreaCode == info.工区番号).FirstOrDefault();
+                existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.AreaCode == info.工区番号);
                 if (existingArea == null)
                 {
                     // INSERT
@@ -59,7 +61,7 @@ namespace YasiroRegrave.Controllers
                     };
                     _context.Areas.Add(newArea);
                     _context.SaveChanges();
-                existingArea = newArea;
+                    existingArea = newArea;
                 }
                 else
                 {
@@ -70,8 +72,9 @@ namespace YasiroRegrave.Controllers
                     existingArea.DeleteFlag = 0;
                     _context.SaveChanges();
                 }
+
                 // 区画
-                existingSection = _context.Sections.Where(r => r.DeleteFlag == 0 && r.SectionCode == section).FirstOrDefault();
+                existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionCode == section);
                 if (existingSection == null)
                 {
                     // INSERT
@@ -79,7 +82,7 @@ namespace YasiroRegrave.Controllers
                     {
                         AreaIndex = existingArea.AreaIndex,
                         SectionCode = section,
-                        SectionName = section, //TODO:本来のNameをもらったら修正すること
+                        SectionName = section, // TODO: 本来のNameをもらったら修正すること
                         CreateDate = DateTime.UtcNow,
                         CreateUser = null,
                         UpdateDate = DateTime.UtcNow,
@@ -94,14 +97,15 @@ namespace YasiroRegrave.Controllers
                 else
                 {
                     // UPDATE
-                    existingSection.SectionName = section; //TODO:本来のNameをもらったら修正すること
+                    existingSection.SectionName = section; // TODO: 本来のNameをもらったら修正すること
                     existingSection.UpdateDate = DateTime.UtcNow;
                     existingSection.UpdateUser = null;
                     existingSection.DeleteFlag = 0;
                     _context.SaveChanges();
                 }
+
                 // 墓所
-                existingCemetery = _context.Cemeteries.Where(r => r.DeleteFlag == 0 && r.CemeteryCode == cemetery).FirstOrDefault();
+                existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryCode == cemetery);
                 if (existingCemetery == null)
                 {
                     // INSERT
@@ -109,7 +113,7 @@ namespace YasiroRegrave.Controllers
                     {
                         SectionIndex = existingSection.SectionIndex,
                         CemeteryCode = cemetery,
-                        CemeteryName = cemetery, //TODO:本来のNameをもらったら修正すること
+                        CemeteryName = cemetery, // TODO: 本来のNameをもらったら修正すること
                         CreateDate = DateTime.UtcNow,
                         CreateUser = null,
                         UpdateDate = DateTime.UtcNow,
@@ -124,14 +128,15 @@ namespace YasiroRegrave.Controllers
                 else
                 {
                     // UPDATE
-                    existingCemetery.CemeteryName = cemetery; //TODO:本来のNameをもらったら修正すること
+                    existingCemetery.CemeteryName = cemetery; // TODO: 本来のNameをもらったら修正すること
                     existingCemetery.UpdateDate = DateTime.UtcNow;
                     existingCemetery.UpdateUser = null;
                     existingCemetery.DeleteFlag = 0;
                     _context.SaveChanges();
                 }
+
                 // 墓所情報
-                var existingCemeteryInfo = _context.CemeteryInfos.Where(r => r.DeleteFlag == 0 && r.CemeteryIndex == existingCemetery.CemeteryIndex).FirstOrDefault();
+                var existingCemeteryInfo = _context.CemeteryInfos.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryIndex == existingCemetery.CemeteryIndex);
                 if (existingCemeteryInfo == null)
                 {
                     // INSERT
@@ -176,11 +181,6 @@ namespace YasiroRegrave.Controllers
             };
             return Ok(response);
         }
-
-    }
-    public class GraveInfoRequest
-    {
-        public List<SetGraveInfo> Data { get; set; } = new List<SetGraveInfo>();
     }
 
     public class SetGraveInfo

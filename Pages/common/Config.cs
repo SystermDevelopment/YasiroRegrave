@@ -22,7 +22,7 @@ namespace YasiroRegrave.Pages.common
             空 = 0,
             WEB予約 = 1,
             拠点予約 = 2,
-            成約 = 3,
+            成約 = 3, 
         }
         public static readonly Dictionary<string, string> MIME_IMAGE = new Dictionary<string, string>
         {
@@ -70,23 +70,12 @@ namespace YasiroRegrave.Pages.common
         /// <summary>
         /// 実践事例のファイルデータ格納先
         /// </summary>
-        public static string DataFilesCaseStudyPath
+        public static string DataFilesRegravePath
         {
             get
             {
                 string rootPath = DataFilesRootPath;
-                return Path.Combine(rootPath, "case_study");
-            }
-        }
-        /// <summary>
-        /// 研修のファイルデータ格納先
-        /// </summary>
-        public static string DataFilesTraningPath
-        {
-            get
-            {
-                string rootPath = DataFilesRootPath;
-                return Path.Combine(rootPath, "training");
+                return Path.Combine(rootPath, "images");
             }
         }
     }

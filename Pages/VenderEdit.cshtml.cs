@@ -6,6 +6,8 @@ using System.Diagnostics.SymbolStore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
+using static YasiroRegrave.Pages.common.Config;
+
 
 namespace YasiroRegrave.Pages
 {
@@ -20,6 +22,9 @@ namespace YasiroRegrave.Pages
         public List<string> VenderNames { get; set; } = new List<string>();
 
         public int? Index { get; set; }
+        
+        public Config.DeleteType DeleteFlag { get; set; }
+    
 
         //[BindProperty]
         public int SelectedVender = 0;
@@ -37,7 +42,8 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 var vender = _context.Venders
-                    .Where(v => v.DeleteFlag == 0 && v.Index == index.Value)
+                    .Where(v => v.Index == Index && v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
+
                     .FirstOrDefault();
                 if (vender != null)
                 {
@@ -58,8 +64,7 @@ namespace YasiroRegrave.Pages
                         Name = VenderName,
                         CreateDate = DateTime.UtcNow,
                         //CreateUser = LoginId,
-                        DeleteFlag = 0,
-
+                        DeleteFlag = (int)Config.DeleteType.ñ¢çÌèú,
 
 
                     };

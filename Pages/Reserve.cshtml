@@ -18,14 +18,16 @@
     </header>
     <main>
         <section>
-            <h2>電話でのお問い合わせ</h2>
-            <p>0120-140-846<br>9:15〜17:30（年中無休）</p>
+            <h2>電話でのご予約</h2>
+            <p3>0120-140-846<br>9:15〜17:30（年中無休）</p3>
+            <h2>メールでのご予約</h2>
+            <p1>下記フォームに必要事項を入力の上、「確認画面へ」ボタンを押してください。*印は必須項目です。</p1>
+
         </section>
         <section>
-            <h2>メールでのお問い合わせ</h2>
             <form>
                 <label for="section-number">ご希望の区画番号</label>
-                <input type="text" id="section-number" name="section-number">
+                <input type="text" id="section-number" name="section-number" value="親鸞Ｅ区 ８列-０３" disabled>
 
                 <label for="inquiry">ご相談・お問い合わせ内容</label>
                 <textarea id="inquiry" name="inquiry"></textarea>
@@ -78,44 +80,51 @@
                     <option value="17:00">17:00</option>
                 </select>
 
-                <label for="last-name">お名前（全角）</label>
+                <label for="last-name">*お名前（全角）</label>
                 <div class="name-wrapper">
-                    <label for="last-name">姓：</label>
-                    <input type="text" id="last-name" name="last-name">
-                    <label for="first-name">名：</label>
-                    <input type="text" id="first-name" name="first-name">
+                    <div class="name-group">
+                        <label for="last-name">姓：</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
+                    <div class="name-group">
+                        <label for="first-name">名：</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
                 </div>
 
-                <label for="last-name-kana">お名前（ふりがな）</label>
+                <label for="last-name-kana">*お名前(ふりがな)</label>
                 <div class="name-wrapper">
-                    <label for="last-name-kana">姓（ふりがな）：</label>
-                    <input type="text" id="last-name-kana" name="last-name-kana">
-                    <label for="first-name-kana">名（ふりがな）：</label>
-                    <input type="text" id="first-name-kana" name="first-name-kana">
+                    <div class="name-group">
+                        <label for="last-name-kana">姓(ふりがな)：</label>
+                        <input type="text" id="last-name-kana" name="last-name-kana" required>
+                    </div>
+                    <div class="name-group">
+                        <label for="first-name-kana">名(ふりがな)：</label>
+                        <input type="text" id="first-name-kana" name="first-name-kana" required>
+                    </div>
                 </div>
-
-                <label for="postal-code">郵便番号</label>
+                <label for="postal-code">*郵便番号</label>
                 <div class="postal-code-wrapper">
-                    <input type="text" id="postal-code" name="postal-code">
+                    <input type="text" id="postal-code" name="postal-code" required>
                     <button type="button" id="auto-fill">住所を自動入力</button>
                 </div>
 
-                <label for="prefecture">都道府県</label>
-                <input type="text" id="prefecture" name="prefecture">
+                <label for="prefecture">*都道府県</label>
+                <input type="text" id="prefecture" name="prefecture" required>
 
-                <label for="city">市区郡</label>
-                <input type="text" id="city" name="city">
+                <label for="city">*市区郡</label>
+                <input type="text" id="city" name="city" required>
 
-                <label for="address">町名・番地</label>
-                <input type="text" id="address" name="address">
+                <label for="address">*町名・番地</label>
+                <input type="text" id="address" name="address" required>
 
                 <label for="building">ビル・マンション名</label>
                 <input type="text" id="building" name="building">
 
-                <label for="phone">電話番号</label>
-                <input type="tel" id="phone" name="phone">
+                <label for="phone">*電話番号</label>
+                <input type="tel" id="phone" name="phone" required>
 
-                <label for="email">Eメール</label>
+                <label for="email" >Eメール</label>
                 <input type="email" id="email" name="email" placeholder="例）info@abcd.com">
 
                 <div class="email-note">
@@ -139,7 +148,7 @@
                 <div class="subscription-options">
                     <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
                     <div>
-                        <input type="radio" id="subscribe-yes" name="email-subscription" value="yes">
+                        <input type="radio" id="subscribe-yes" name="email-subscription" value="yes" checked>
                         <label for="subscribe-yes">受信する</label>
                     </div>
                     <div>
@@ -147,9 +156,11 @@
                         <label for="subscribe-no">受信しない</label>
                     </div>
                 </div>
+                </form>
+                <div class="button-wrapper">
+                    <button type="submit" class="submit-button">確認画面へ</button>
+                </div>
 
-                <button type="submit">送信</button>
-            </form>
         </section>
     </main>
     <script>
@@ -171,7 +182,6 @@
                     console.error('Error:', error);
                     alert('住所の取得に失敗しました。');
                 });
-        });
-    </script>
+        </script>
 </body>
 </html>

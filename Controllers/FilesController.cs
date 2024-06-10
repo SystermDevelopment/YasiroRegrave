@@ -5,76 +5,53 @@ using YasiroRegrave.Pages.common;
 
 namespace CrayonBookSystem
 {
-    public enum SelectFile
-    {
-        ƒtƒ@ƒCƒ‹,
-        ‰æ‘œ
-    }
-
     [Route("api/[controller]/[action]/")]
     [ApiController]
     public class FilesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private string caseStudyFilePath = "";    //À‘H–—á‚Ìƒtƒ@ƒCƒ‹ƒpƒX
-        private string trainingFilePath = "";    //Œ¤C‘—¿‚Ìƒtƒ@ƒCƒ‹ƒpƒX
+        private string regraveFilePath = "";    //å¢“æ‰€ç”»åƒã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 
 
         public FilesController(ApplicationDbContext context)
         {
             _context = context;
-            caseStudyFilePath = Path.Combine(Config.DataFilesCaseStudyPath, "csid-{0}{1}"); //ƒtƒ@ƒCƒ‹–¼‚ÍID‚ÅŠi”[
-            trainingFilePath = Path.Combine(Config.DataFilesTraningPath, "tid-{0}", "tcid-{1}{2}"); //ƒtƒ@ƒCƒ‹–¼‚ÍID‚ÅŠi”[
+            regraveFilePath = Path.Combine(Config.DataFilesRegravePath, ""); //ãƒ•ã‚¡ã‚¤ãƒ«åã¯IDã§æ ¼ç´
         }
 
         [HttpGet]
-        public IResult? CaseStudy()
+        public IResult? GraveImg()
         {
-            SelectFile? select = null;
-            int id = -1;
+            int reien = -1;
+            int area = -1;
+            int sel = -1;
+            string? kukaku = string.Empty;
 
-            if (Request.Query["sel"].ToString() != "")
+            if (!(Request.Query["r"].ToString() != "" && int.TryParse(Request.Query["r"].ToString(), out reien)) ||
+                !(Request.Query["a"].ToString() != "" && int.TryParse(Request.Query["a"].ToString(), out area)) ||
+                !(Request.Query["sel"].ToString() != "" && int.TryParse(Request.Query["sel"].ToString(), out sel)) ||
+                !Request.Query.ContainsKey("k")
+                )
             {
-                switch (Request.Query["sel"].ToString())
+                return Results.Text("ä¸æ­£ãªã‚¢ã‚¯ã‚»ã‚¹ã§ã™ã€‚", "text/plain", System.Text.Encoding.UTF8);
+            }
+
+            kukaku = Request.Query["k"];
+            string imgEx = "";
+            string imgPath = "";
+            // æ‹¡å¼µå­é¸å®šï¼ˆè² è·è»½æ¸›ã®ãŸã‚DBã‚¢ã‚¯ã‚»ã‚¹ã—ãªã„ï¼‰
+            foreach (string ext in Config.MIME_IMAGE.Keys)
+            {
+                imgEx = ext;
+                imgPath = $"{regraveFilePath}\\{reien}\\{area}\\{kukaku}-{sel}{imgEx}";
+                if (System.IO.File.Exists(imgPath))
                 {
-                    case "0":
-                        select = SelectFile.ƒtƒ@ƒCƒ‹;
-                        break;
-                    case "1":
-                        select = SelectFile.‰æ‘œ;
-                        break;
+                    //ãƒ•ã‚¡ã‚¤ãƒ«ç¢ºå®š
+                    break;
                 }
             }
-
-            if (select == null || !(Request.Query["csid"].ToString() != "" && int.TryParse(Request.Query["csid"].ToString(), out id)))
-            {
-                return Results.Text("•s³‚ÈƒAƒNƒZƒX‚Å‚·B", "text/plain", System.Text.Encoding.UTF8);
-            }
-
-            switch (select)
-            {
-                case SelectFile.‰æ‘œ:
-                    string imgEx = "";
-                    string imgPath = "";
-                    // Šg’£q‘I’èi•‰‰×ŒyŒ¸‚Ì‚½‚ßDBƒAƒNƒZƒX‚µ‚È‚¢j
-                    foreach (string ext in Config.MIME_IMAGE.Keys)
-                    {
-                        imgEx = ext;
-                        imgPath = string.Format(caseStudyFilePath, id, imgEx);
-                        if (System.IO.File.Exists(imgPath))
-                        {
-                            //ƒtƒ@ƒCƒ‹Šm’è
-                            break;
-                        }
-                    }
-                    return ResultImage(imgPath, imgEx);
-
-                default:
-                    return Results.Text("•s³‚ÈƒAƒNƒZƒX‚Å‚·B", "text/plain", System.Text.Encoding.UTF8);
-
-            }
+            return ResultImage(imgPath, imgEx);
         }
-
         private IResult ResultImage(string imgPath, string imgEx)
         {
             if (System.IO.File.Exists(imgPath))
@@ -89,23 +66,6 @@ namespace CrayonBookSystem
             else
             {
                 return Results.File(@".\img\noimage.png", Config.MIME_IMAGE[".png"]);
-            }
-
-        }
-        private IResult ResultDocument(string filePath, string fileEx, string downFileName)
-        {
-            if (System.IO.File.Exists(filePath))
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    fileStream.CopyTo(memoryStream);
-                }
-                return Results.File(memoryStream.ToArray(), Config.MIME_DOCUMENT[fileEx]); //, downFileName);
-            }
-            else
-            {
-                return Results.Text("ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB", "text/plain", System.Text.Encoding.UTF8);
             }
 
         }

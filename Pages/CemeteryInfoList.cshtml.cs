@@ -40,38 +40,8 @@ namespace YasiroRegrave.Pages
                     Image1Fname = ci.Image1Fname,
                     Image2Fname = ci.Image2Fname,
                 })
-                    //            var cemeteryinfoList = _context.Cemeterys
-                    //.Where(c => c.DeleteFlag == 0)
-                    //.Select(c => new CemeteryInfo
-                    //{
-                    //    CemeteryIndex = c.CemeteryIndex,
-                    //    CemeteryCode = c.CemeteryCode,
-                    //    CemeteryName = c.CemeteryName,
-                    //    SectionIndex = c.Section.SectionIndex,
-                    //    SectionCode = c.Section.SectionCode,
-                    //    SectionName = c.Section.SectionName,
-                    //    AreaIndex = c.Section.Area.AreaIndex,
-                    //    AreaCode = c.Section.Area.AreaCode,
-                    //    AreaName = c.Section.Area.AreaName,
-                    //    ReienIndex = c.Section.Area.ReienIndex,
-                    //    ReienCode = c.Section.Area.Reien.ReienCode,
-                    //    ReienName = c.Section.Area.Reien.ReienName,
-                    //})
                     .ToList();
             CemeteryInfos = cemeteryinfoList;
-            }
-            public IActionResult OnPost(int index)
-            {
-                var CemeteryInfoDelete = _context.CemeteryInfos.FirstOrDefault(ci => ci.CemeteryInfoIndex == index);
-                if (CemeteryInfoDelete != null)
-                {
-                    //DELETE
-                    CemeteryInfoDelete.DeleteFlag = 1;
-                    CemeteryInfoDelete.UpdateDate = DateTime.Now;
-                  //CemeteryInfoDelete.UpdateUser = LoginId
-                _context.SaveChanges();
-                }
-                return RedirectToPage("/CemeteryInfoList");
             }
 
             public class CemeteryInfo
