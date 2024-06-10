@@ -18,7 +18,7 @@ header {
 main {
     max-width: 1100px;
     margin: 20px auto;
-    background-color: rgba(255, 255, 255, 0.9); 
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -32,23 +32,25 @@ section {
 form {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 35px;
+    gap: 15px;
     align-items: center;
     border: 1px solid #e5e4e4;
     padding: 20px;
 }
-p1 {
+
+p1, p2, p3 {
     font-weight: bold;
+}
+
+p1 {
     font-size: 20px;
 }
 
 p2 {
-    font-weight: bold;
     font-size: 19px;
 }
 
 p3 {
-    font-weight: bold;
     font-size: 25px;
 }
 
@@ -58,17 +60,16 @@ h1 {
 
 h2 {
     color: forestgreen;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
 label {
     text-align: left;
-    margin-right: 10px;
     background-color: #ffe4b5;
     padding: 10px;
     border-radius: 5px;
     min-width: 150px;
-    font-weight: bold
+    font-weight: bold;
 }
 
 input, textarea, select, button {
@@ -80,24 +81,24 @@ input, textarea, select, button {
 
 .postal-code-wrapper {
     display: flex;
-    align-items: center;
-    gap: 10px; 
-    width: 100%; 
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
 }
 
     .postal-code-wrapper input {
-        flex-grow: 1; 
+        flex-grow: 1;
     }
 
     .postal-code-wrapper button {
-        flex-shrink: 0; 
+        flex-shrink: 0;
         padding: 10px;
         background-color: #0056b3;
         color: #fff;
         border: none;
         cursor: pointer;
         white-space: nowrap;
-        max-width: 200px; 
+        max-width: 200px;
     }
 
 .email-note {
@@ -116,7 +117,7 @@ input, textarea, select, button {
     .contact-method label, .email-subscription label {
         text-align: left;
         margin-right: 10px;
-        min-width: 120px; 
+        min-width: 120px;
         padding: 10px;
     }
 
@@ -131,7 +132,7 @@ input, textarea, select, button {
     }
 
         .contact-options div label, .subscription-options div label {
-            background-color: transparent; 
+            background-color: transparent;
             margin-left: 5px;
             margin-bottom: 0;
         }
@@ -152,7 +153,6 @@ input, textarea, select, button {
     margin-top: 20px;
 }
 
-
 button[type="submit"] {
     grid-column: span 2;
     padding: 10px;
@@ -167,23 +167,44 @@ button:hover {
     background-color: #004494;
 }
 
+/* Name fields specific styling */
 .name-wrapper {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    align-items: center;
 }
 
 .name-group {
-    display: flex;
-    align-items: flex-start;
     flex: 1;
+    min-width: calc(50% - 10px);
+    display: flex;
+    flex-direction: column;
 }
+
+    .name-group label {
+        background-color: #ffe4b5;
+        margin-bottom: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
 
     .name-group input {
         width: 100%;
+        padding: 10px;
+        font-size: 1.1em;
         box-sizing: border-box;
     }
-.name-wrapper label {
-    background-color: transparent;
-    margin-bottom: 5px;
+
+.text-danger {
+    color: red;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+    display: block;
+    grid-column: span 2; /* 追加: エラーメッセージを全体の幅に広げる */
+}
+
+.postal-code-wrapper .text-danger {
+    margin-top: 5px;
+    margin-left: 0;
 }

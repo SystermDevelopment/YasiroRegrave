@@ -133,7 +133,7 @@ namespace YasiroRegrave.Pages
                 else
                 {
                     var existingCemeteryinfo = _context.CemeteryInfos
-                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.Êú™ÂâäÈô§ && ci.CemeteryInfoIndex == index.Value)
+                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú && ci.CemeteryInfoIndex == index.Value)
                         .FirstOrDefault();
                     if (existingCemeteryinfo != null)
                     {
