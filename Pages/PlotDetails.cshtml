@@ -30,15 +30,15 @@
 {
     var cemetery = Model.CemeteryDatas[i];
     <div class="PlotInfoContainer" id="table-container-@(cemetery.CemeteryCode)" style="display: none;">
-        <p class="district-name" id="district-name-@(i)">@sectionname @cemetery.CemeteryName</p>
+        <p class="district-name" id="district-name-@(cemetery.CemeteryCode)">@sectionname @cemetery.CemeteryName</p>
         <div class="image-content">
-            <div class="image-container" id="image-container1-@(i)">
-                <img src="images/pic@(i * 2 + 1).png" alt="区画@(i * 2 + 1)の画像" class="image">
+            <div class="image-container" id="image-container1-@(cemetery.CemeteryCode)">
+                <img class="image" src="@cemetery.ImageFile1" alt="画像1">
             </div>
-            <div class="image-container" id="image-container2-@(i)">
-                <img src="images/pic@(i * 2 + 2).png" alt="区画@(i * 2 + 2)の画像" class="image">
+            <div class="image-container" id="image-container2-@(cemetery.CemeteryCode)">
+                <img class="image" src="@cemetery.ImageFile2" alt="画像2">
             </div>
-            <table class="data-table" id="table@(i)">
+            <table class="data-table" id="table@(cemetery.CemeteryCode)">
                 <caption>墓地・墓石セット価格</caption>
                 <tr>
                     <th>面積</th>
@@ -63,8 +63,8 @@
             </table>
         </div>
         <div class="button-container">
-            <button class="button-visit" onclick="window.location.href='Reserve';">見学予約のお申込み</button>
-            <button class="button-reserve" onclick="window.location.href='Reserve';">仮予約のお申込み</button>
+            <button class="button-visit" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=0'">見学予約のお申込み</button>
+            <button class="button-reserve" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=1'">仮予約のお申込み</button>
         </div>
     </div>
 }
