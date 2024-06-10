@@ -2,8 +2,8 @@
 {
     public class Message
     {
-        public const string M_E0001 = "名前を入力してください。";
-        public const string M_E0002 = "メールアドレスを入力してください。";
+        public const string M_E0001 = "名前を入力してください";
+        public const string M_E0002 = "メールアドレスを入力してください";
         public const string M_E0003 = "IDを入力してください";
         public const string M_E0004 = "パスワードを入力してください";
         public const string M_E0005 = "霊園コードを入力してください";
@@ -17,12 +17,20 @@
         public const string M_E0013 = "500文字以内で入力してください";
         public const string M_E0014 = "ログインIDを入力してください";
         public const string M_E0015 = "ログインIDとパスワードを確認してください";
-        public const string M_E0016 = "";
-        public const string M_E0017 = "";
-        public const string M_E0018 = "";
-        public const string M_E0019 = "";
+        public const string M_E0016 = "苗字を入力してください";
+        public const string M_E0017 = "名前を入力してください";
+        public const string M_E0018 = "苗字のふりがなを入力してください";
+        public const string M_E0019 = "名前のふりがなを入力してください";
+        public const string M_E0020 = "郵便番号を入力してください";
+        public const string M_E0021 = "都道府県を入力してください";
+        public const string M_E0022 = "市区群を入力してください";
+        public const string M_E0023 = "町名・番地を入力してください";
+        public const string M_E0024 = "電話番号を入力してください";
+        public const string M_E0025 = "ご希望の連絡方法を選択してください";
 
-        public const string M_Q0001 = "削除しますか？。";
+
+
+        public const string M_Q0001 = "削除しますか？";
         public const string M_Q0002 = "編集内容が保存されていません。移動してもよろしいですか？";
     }
 }

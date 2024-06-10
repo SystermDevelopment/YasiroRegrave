@@ -10,13 +10,13 @@ namespace CrayonBookSystem
     public class FilesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private string regraveFilePath = "";    //•æŠ‰æ‘œ‚Ìƒtƒ@ƒCƒ‹ƒpƒX
+        private string regraveFilePath = "";    //å¢“æ‰€ç”»åƒã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 
 
         public FilesController(ApplicationDbContext context)
         {
             _context = context;
-            regraveFilePath = Path.Combine(Config.DataFilesRegravePath, ""); //ƒtƒ@ƒCƒ‹–¼‚ÍID‚ÅŠi”[
+            regraveFilePath = Path.Combine(Config.DataFilesRegravePath, ""); //ãƒ•ã‚¡ã‚¤ãƒ«åã¯IDã§æ ¼ç´
         }
 
         [HttpGet]
@@ -33,20 +33,20 @@ namespace CrayonBookSystem
                 !Request.Query.ContainsKey("k")
                 )
             {
-                return Results.Text("•s³‚ÈƒAƒNƒZƒX‚Å‚·B", "text/plain", System.Text.Encoding.UTF8);
+                return Results.Text("ä¸æ­£ãªã‚¢ã‚¯ã‚»ã‚¹ã§ã™ã€‚", "text/plain", System.Text.Encoding.UTF8);
             }
 
             kukaku = Request.Query["k"];
             string imgEx = "";
             string imgPath = "";
-            // Šg’£q‘I’èi•‰‰×ŒyŒ¸‚Ì‚½‚ßDBƒAƒNƒZƒX‚µ‚È‚¢j
+            // æ‹¡å¼µå­é¸å®šï¼ˆè² è·è»½æ¸›ã®ãŸã‚DBã‚¢ã‚¯ã‚»ã‚¹ã—ãªã„ï¼‰
             foreach (string ext in Config.MIME_IMAGE.Keys)
             {
                 imgEx = ext;
                 imgPath = $"{regraveFilePath}\\{reien}\\{area}\\{kukaku}-{sel}{imgEx}";
                 if (System.IO.File.Exists(imgPath))
                 {
-                    //ƒtƒ@ƒCƒ‹Šm’è
+                    //ãƒ•ã‚¡ã‚¤ãƒ«ç¢ºå®š
                     break;
                 }
             }

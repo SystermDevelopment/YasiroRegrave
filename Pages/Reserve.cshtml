@@ -133,7 +133,7 @@
                 <input type="tel" id="phone" name="phone" asp-for="Phone">
                 <span asp-validation-for="Phone" class="text-danger"></span>
 
-                <label for="email">Eメール</label>
+                <label for="email" >Eメール</label>
                 <input type="email" id="email" name="email" placeholder="例）info@abcd.com">
 
                 <div class="email-note">
@@ -167,8 +167,9 @@
                 </div>
             </form>
             <div class="button-wrapper">
-                <button type="submit" class="submit-button" form="reservation-form">確認画面へ</button>
+                <button type="submit" class="submit-button">確認画面へ</button>
             </div>
+
         </section>
     </main>
     <script>
@@ -191,7 +192,37 @@
                     alert('住所の取得に失敗しました。');
                 });
         });
+        document.querySelector('.submit-button').addEventListener('click', function (event) {
+            event.preventDefault(); // フォームのデフォルトの送信を防ぐ
 
-    </script>
+            const requiredFields = document.querySelectorAll('[required]');
+            let isValid = true;
+            requiredFields.forEach(function (field) {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = 'red'; 
+                } else {
+                    field.style.borderColor = ''; 
+                }
+            });
+
+            const contactMethods = document.querySelectorAll('[name="contact-method"]:checked');
+            if (contactMethods.length === 0) {
+                isValid = false;
+                const contactOptions = document.querySelector('.contact-options');
+                contactOptions.style.border = '2px solid red'; 
+            } else {
+                const contactOptions = document.querySelector('.contact-options');
+                contactOptions.style.border = ''; 
+            }
+
+            // ダイアログの表示
+            if (!isValid) {
+                alert('必須項目を入力してください。');
+            } else {
+                // フォームの送信
+                document.querySelector('form').submit();
+            }
+        });</script>
 </body>
 </html>

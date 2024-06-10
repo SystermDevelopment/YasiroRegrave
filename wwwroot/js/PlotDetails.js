@@ -1,36 +1,121 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
-    const canvas = document.getElementById('seatsCanvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    img.src = 'images/akikukaku.png'; // 座席マップの画像をロード
+﻿var map = null; // 地図データ
+// jsonファイル読込
+let coordDatas;
+document.addEventListener('DOMContentLoaded', () => {
+    var areaFile = '/data/SEC_' + ReienCode + '_' + AreaCode + '_' + SectionCode + '.json';
+    fetch(areaFile)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response error:' + response.statusText);
+            }
+            return response.json();
+            //return response.arrayBuffer();
+        })
+        .then(data => {
+            // 座標データ読込成功
+            coordDatas = data;
 
-    img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0); // 画像をキャンバスに描画
-    };
+            // 初期表示
+            initMap();
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+});
 
-    // リサイズイベントで表示を切り替え
-    window.addEventListener('resize', resizeCanvas);
-    function resizeCanvas() {
-        if (window.innerWidth < 600) {
-            document.getElementById('fullMapContainer').style.display = 'none';
-            document.getElementById('canvasContainer').style.display = 'block';
-            updateCanvas();
-        } else {
-            document.getElementById('fullMapContainer').style.display = 'block';
-            document.getElementById('canvasContainer').style.display = 'none';
+// 矩形を描画
+function drawRect(coordinates) {
+    ctx.beginPath();
+    ctx.moveTo(coordinates[0].x, coordinates[0].y);
+    for (let i = 1; i < coordinates.length; i++) {
+        ctx.lineTo(coordinates[i].x, coordinates[i].y);
+    }
+
+    ctx.closePath();
+    ctx.fillStyle = '#ffea07';
+    ctx.fill();
+    ctx.stroke();
+}
+
+
+// マップ初期表示
+function initMap() {
+    map = L.map('map-container', {
+        crs: L.CRS.Simple,
+        zoomControl: true
+    });
+
+    var mapWidth = 517;
+    var mapheight = 759;
+
+    var bounds = [[0, 0], [mapheight, mapWidth]];
+    var imagePath = '/images/SEC_' + ReienCode + '_' + AreaCode + '_' + SectionCode + '.png';
+    var image = L.imageOverlay(imagePath, bounds).addTo(map);
+
+    var center = [mapheight / 2, mapWidth / 2];
+    var zoomLevel = 0;
+    map.setView(center, zoomLevel);
+    map.setMaxBounds(bounds);
+
+    map.on('resize', function () {
+        map.setView(center, zoomLevel);
+    });
+
+    var polygons = [];
+    var activePolygon = null;
+
+    // 墓所情報
+    CemeteryDatas.forEach(function (cemetery) {
+        // 墓所矩形情報
+        const cemeteryCoords = coordDatas.find(data => data["CemeteryCode"] == cemetery.cemeteryCode);
+        createPolygon(cemeteryCoords);
+    });
+
+    // 矩形を描画
+    function createPolygon(cemetery) {
+        const coordinates = cemetery.Coordinates[0].map(coord => [coord.y, coord.x]);
+        var polygon = L.polygon(coordinates, {
+            color: 'black',
+            fillColor: 'yellow',
+            weight: 1,
+            polygonId: 'table-container-' + cemetery.CemeteryCode
+        }).addTo(map);
+        polygon.on('click', onPolygonClick);
+        polygons.push(polygon);
+    }
+
+    // 矩形のクリックイベント
+    function onPolygonClick(e) {
+        var clickedLatLng = e.latlng;
+        var isInsidePolygon = e.target.getBounds().contains(clickedLatLng);
+
+        if (activePolygon) {
+            activePolygon.setStyle({ fillColor: 'yellow' });
+        }
+
+        activePolygon = e.target;
+        activePolygon.setStyle({ fillColor: '#ff0000' });
+
+        var polygonId = e.target.options.polygonId;
+        showTable(polygonId);
+    }
+
+    // 墓所情報の表示を描画
+    function showTable(id) {
+        document.querySelectorAll('div[id^="table-container"]').forEach(div => div.style.display = 'none');
+        var table = document.getElementById(id);
+        if (table) {
+            table.style.display = 'block';
+            scrollToTable(id);
         }
     }
 
-    // キャンバスを更新する関数
-    function updateCanvas() {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
+    // スクロール設定
+    function scrollToTable(tableId) {
+        var table = document.getElementById(tableId);
+        if (table) {
+            var tablePosition = table.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top: tablePosition, behavior: 'smooth' });
+        }
     }
-
-    // 初期表示時のリサイズ処理を実行
-    resizeCanvas();
-
-});
+}
