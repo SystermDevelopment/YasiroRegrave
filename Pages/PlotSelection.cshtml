@@ -1,27 +1,22 @@
 ﻿@page
-@model Login_Page.Pages.PlotSelectionModel
+@model PlotSelectionModel
 @{
 }
-
 <link href="/css/PlotSelection.css" rel="stylesheet">
 
-<body id="plotbody">
-    <div id="PlotSelectionHeader">
-        <div id="PlotSelectionTitle">
-            @Model.AreaName<br>空き区画予約
-        </div>
-        <div id="PlotSelectionSubtitle">
-            大阪生駒霊園の空き区画のご確認ができます。<br>
-            ご希望の区画を仮予約することも可能です。
-        </div>
+<div id="PlotSelectionHeader">
+    <div id="PlotSelectionTitle">
+        @Model.AreaName<br>空き区画予約
     </div>
-
-    <div id="PlotSelectionContainer">
-        <!-- 画像 -->
-        <canvas id="plotCanvas" width="400" height="384"></canvas>
-        <img src="images/AREA_@(Model.ReienCode)_@(Model.AreaCode).png" alt="区画" id="PlotSelectionImage" />
+    <div id="PlotSelectionSubtitle">
+        大阪生駒霊園の空き区画のご確認ができます。<br>
+        ご希望の区画を仮予約することも可能です。
     </div>
-</body>
+</div>
+<div id="PlotSelectionContainer">
+    <canvas id="plotCanvas" width="400" height="384"></canvas>
+    <img src="images/AREA_@(Model.ReienCode)_@(Model.AreaCode).png" id="PlotSelectionImage" alt="区画" />
+</div>
 
 <script>
     var ReienCode = '@Model.ReienCode';

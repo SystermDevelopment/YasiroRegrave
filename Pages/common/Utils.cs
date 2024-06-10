@@ -28,7 +28,7 @@
         }
 
         /// <summary>
-        /// 墓所コードを 墓所名に変換
+        /// 墓所コードを墓所名に変換
         /// </summary>
         /// <param name="src"></param>
         /// <returns>string</returns>
@@ -44,6 +44,49 @@
 
             return dst;
         }
-    }
 
+        /// <summary>
+        /// 墓所コードを墓所表示名に変換
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns>string</returns>
+        public static string CemeteryCode2Disp(string src)
+        {
+            string dst = src;
+
+            // 番号を取得
+            string[] parts = dst.Split('-');
+            if (parts.Length > 1)
+            {
+                dst = parts[1];
+            }
+            // 置換
+            if (!dst.Contains("㎡"))
+            {
+                dst = dst.Replace("㎡", "");
+            }
+
+            // ０埋め除去
+            dst = dst.TrimStart('0');
+
+            return dst;
+        }
+
+        /// <summary>
+        /// stringをintに変換
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns>int</returns>
+        public static int StringToInt(string? src)
+        {
+            if (int.TryParse(src, out int result))
+            {
+                return result;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
 }

@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Drawing;
 using YasiroRegrave.Data;
-using YasiroRegrave.Model;
-using YasiroRegrave.Pages;
 using YasiroRegrave.Pages.common;
-using static YasiroRegrave.Pages.common.Config;
 
-namespace Login_Page.Pages
+namespace YasiroRegrave.Pages
 {
     public class PlotSelectionModel : PageModel
     {
@@ -79,6 +75,8 @@ namespace Login_Page.Pages
                 // ‹ó‚«•æŠî•ñ‚Ìæ“¾
                 section.NoReserveCount = _context.CemeteryInfos
                                             .Count(c => c.Cemetery.SectionIndex == section.SectionIndex
+                                                && c.Cemetery.DeleteFlag == (int)Config.DeleteType.–¢íœ
+                                                && c.DeleteFlag == (int)Config.DeleteType.–¢íœ
                                                 && c.ReleaseStatus == (int)Config.ReleaseStatusType.”Ì”„’†
                                                 && c.SectionStatus == (int)Config.SectionStatusType.‹ó
                                             );
