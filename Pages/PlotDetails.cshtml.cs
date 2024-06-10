@@ -78,6 +78,7 @@ namespace YasiroRegrave.Pages
 
             if (SectionDatas != null)
             {
+                var hostUrl = Request.Scheme + "://" + Request.Host + "/api/Files/";
                 // •æŠî•ñ‚ÌŽæ“¾
                 CemeteryDatas = _context.CemeteryInfos
                     .Where(c => c.Cemetery.SectionIndex == SectionDatas.SectionIndex
@@ -92,6 +93,8 @@ namespace YasiroRegrave.Pages
                         CemeteryCode = c.Cemetery.CemeteryCode,
                         CemeteryName = Utils.SectionCode2Name(c.Cemetery.CemeteryCode),
                         CemeteryDisp = Utils.CemeteryCode2Disp(c.Cemetery.CemeteryCode),
+                        ImageFile1 = c.Image1Fname == "" ? "" : $"{hostUrl}GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{c.Cemetery.CemeteryCode}&sel=1",
+                        ImageFile2 = c.Image2Fname == "" ? "" : $"{hostUrl}GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{c.Cemetery.CemeteryCode}&sel=2",
                         SectionStatus = c.SectionStatus ?? 0,
                         AreaValue = c.AreaValue ?? "",
                         UsageFee = Utils.StringToInt(c.UsageFee),
@@ -124,6 +127,8 @@ namespace YasiroRegrave.Pages
             public string CemeteryCode { get; set; } = string.Empty;
             public string CemeteryName { get; set; } = string.Empty;
             public string CemeteryDisp { get; set; } = string.Empty;
+            public string ImageFile1 { get; set; } = string.Empty;
+            public string ImageFile2 { get; set; } = string.Empty;
             public int SectionStatus { get; set; } = 0;
             public string AreaValue { get; set; } = string.Empty;
             public int UsageFee { get; set; } = 0;
