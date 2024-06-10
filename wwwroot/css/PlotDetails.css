@@ -1,4 +1,144 @@
-﻿#map-wrapper {
+﻿#PlotDetailsHeader {
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    background-color: #f9f9f1;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+#PlotDetailsTitle {
+    color: #587b63;
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+#PlotDetailsContainer {
+    margin: 0 auto;
+}
+    #PlotDetailsContainer img,
+    #PlotDetailsContainer div {
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+.PlotInfoContainer {
+    background-color: #F8FAE4;
+    text-align: center;
+    box-sizing: border-box;
+    max-width: 1000px;
+    padding: 5px;
+    margin: auto;
+}
+
+
+#map-container {
+    display: inline-block;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+}
+.button:hover {
+    background-color: #A2C049;
+}
+
+.content {
+    background-color: #F8FAE4;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+.district-name {
+    background-color: #33B668;
+    border-left: 10px solid #fff100;
+    text-align: left;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 0;
+    padding-bottom: 10px;
+}
+.image-content {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.image-container {
+    text-align: center;
+    margin: 0 10px;
+}
+    .image-container img {
+        display: block;
+    }
+
+table {
+    margin: 0 10px;
+    width: 500px;
+    border-collapse: collapse;
+}
+caption {
+    display: block;
+    color: black;
+    font-weight: bold;
+}
+th, td {
+    margin-top: 20px;
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+th {
+    background-color: #DCF7E7;
+}
+td {
+    background-color: white;
+}
+h1 {
+    width: 100vw;
+    text-align: center;
+    color: #603800;
+    background-color: #FBFCEF;
+}
+    th:last-child {
+        color: red;
+    }
+
+.button-container {
+    text-align: center;
+    margin: 10px;
+}
+.button-visit {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button-reserve {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #B5CD6D;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/*
+#map-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,13 +147,11 @@
     text-align: center;
     margin-top: 20px;
 }
-
 #map-container {
     height: 70vh;
     width: 50vw;
     position: absolute;
 }
-
 
 @media (max-width: 768px) {
     #map-container {
@@ -31,43 +169,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#title-container {
-    background-color: #f9f9f1;
-    padding: 5px;
-    text-align: center;
-    border: 1px solid #ddd;
-    width: 100%;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-#PlotDetailsTitle {
-    font-size: 56px;
-    color: #587b63;
-    text-align: center;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.image-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-    .image-container img {
-        display: block;
-        margin: 20px auto;
-    }
-
-
-
-#map-container {
-    display: inline-block;
-    width: 500px;
-    height: 500px;
-    border: 1px solid #ccc;
-}
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -81,86 +182,7 @@ body {
     margin-top: 50px;
 }
 
-h1 {
-    width: 100vw;
-    text-align: center;
-    color: #603800;
-    background-color: rgb(251,252,239);
-}
-
 .image {
     margin-top: 20px;
 }
-
-table {
-    margin-top: 20px;
-    width: 500px;
-    border-collapse: collapse;
-}
-
-th, td {
-    margin-top: 20px;
-    border: 1px solid black;
-    padding: 12px;
-    text-align: center;
-    font-weight: bold;
-}
-
-    th:last-child {
-        color: red;
-    }
-
-th {
-    background-color: lightblue;
-}
-
-.button-container {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.button-reservationbutton {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: rgb(181,205,109);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.button-visitbutton {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: red;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.button:hover {
-    background-color: rgb(162,192,73);
-}
-
-.content {
-    background-color: rgb(248,250,228);
-    padding: 20px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 200px;
-}
-
-.data-cell {
-    background-color: white;
-}
-
-.district-name {
-    background-color: rgb(51,182,104);
-    border-left: 10px solid #fff100;
-    color: white;
-    padding: 5px;
-    font-weight: bold;
-}
+*/
