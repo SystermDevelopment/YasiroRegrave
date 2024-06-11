@@ -53,8 +53,8 @@ namespace YasiroRegrave.Pages
             // —ì‰€AƒGƒŠƒAî•ñ‚Ìæ“¾
             ReienIndex = 0;
             AreaIndex = 0;
-            ReienCode = _context.Reiens.FirstOrDefault(r => r.Index == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.ReienCode ?? "";
-            ReienName = _context.Reiens.FirstOrDefault(r => r.Index == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.ReienName ?? "";
+            ReienCode = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.ReienCode ?? "";
+            ReienName = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.ReienName ?? "";
             AreaCode = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.AreaCode ?? "";
             AreaName = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.AreaName ?? "";
 

@@ -22,7 +22,7 @@ namespace YasiroRegrave.Pages
                 .Where(r => r.DeleteFlag == 0)
                 .Select(r => new Reien
                 {
-                    Index = r.Index,
+                    Index = r.ReienIndex,
                     Code = r.ReienCode,
                     ReienName = r.ReienName,
                     MailAddress = r.MailAddress,
@@ -33,7 +33,7 @@ namespace YasiroRegrave.Pages
         }
         public IActionResult OnPost(int index)
         {
-            var reienDelete = _context.Reiens.FirstOrDefault(r => r.Index == index);
+            var reienDelete = _context.Reiens.FirstOrDefault(r => r.ReienIndex == index);
             if (reienDelete != null)
             {
                 //DELITE

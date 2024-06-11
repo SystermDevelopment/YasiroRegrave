@@ -9,7 +9,7 @@ public class Reien
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("reien_index")]
-    public int Index { get; set; }
+    public int ReienIndex { get; set; }
     [Required]
     [Column("reien_code")]
     [MaxLength(10)]

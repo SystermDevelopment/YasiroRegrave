@@ -59,7 +59,7 @@ namespace YasiroRegrave.Pages
                 .Where(s => s.SectionIndex == SectionIndex && s.DeleteFlag == (int)Config.DeleteType.–¢íœ)
                 .Select(s => new SectionData
                 {
-                    ReienIndex = s.Area.Reien.Index,
+                    ReienIndex = s.Area.Reien.ReienIndex,
                     ReienCode = s.Area.Reien.ReienCode,
                     ReienName = s.Area.Reien.ReienName,
                     AreaIndex = s.Area.AreaIndex,

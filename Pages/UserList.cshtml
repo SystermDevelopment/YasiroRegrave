@@ -48,6 +48,7 @@
                     <tr>
                         <th>販売会社</th>
                         <th>ID</th>
+                        <th>権限</th>
                         <th>名前</th>
                         <th>操作</th>
                     </tr>
@@ -58,6 +59,16 @@
                         <tr>
                             <td>@user.VenderName</td>
                             <td>@user.Id</td>
+                            <td>
+                                @if (user.Authority == 0)
+                                {
+                                    @:管理者
+                                }
+                                else if (user.Authority == 1)
+                                {
+                                    @:担当者
+                                }
+                            </td>
                             <td>@user.Name</td>
                             <td class ="edit-btn-cell">
                                  <form method="get"class="btn-form" action="/UserEdit">

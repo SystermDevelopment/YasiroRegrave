@@ -81,7 +81,7 @@ namespace YasiroRegrave.Pages
                 else
                 {
                     var existingReien = _context.Reiens
-                        .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ && r.Index == index.Value)
+                        .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ && r.ReienIndex == index.Value)
                         .FirstOrDefault();
                     if (existingReien != null)
                     {

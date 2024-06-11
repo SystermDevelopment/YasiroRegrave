@@ -9,7 +9,7 @@ public class User
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("user_index")]
-    public int Index { get; set; }
+    public int UserIndex { get; set; }
     [Required]
     [Column("user_id")]
     [MaxLength(20)]
