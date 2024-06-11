@@ -6,7 +6,7 @@ namespace YasiroRegrave.Model;
 [Table("m_survey")]
 
 public class Surveys
-    {
+{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("survey_index")]
@@ -16,5 +16,5 @@ public class Surveys
         [Column("survey")]
         [MaxLength(100)]
         public string Survey { get; set; }
-    }
+}
 

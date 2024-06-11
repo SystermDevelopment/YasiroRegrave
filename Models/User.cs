@@ -19,11 +19,14 @@ public class User
     [MaxLength(100)]
     public string Name { get; set; }
     [Required]
-    [Column("vender_index")]
-    public int VenderIndex { get; set; }
+    [Column("authority")]
+    public int Authority { get; set; }
     [Required]
     [Column("password")]
     public string Password { get; set; }
+    [Required]
+    [Column("vender_index")]
+    public int VenderIndex { get; set; }
     [Column("create_date")]
     public DateTime? CreateDate { get; set; }
     [Column("create_user")]

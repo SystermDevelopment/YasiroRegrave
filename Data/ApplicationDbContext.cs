@@ -10,7 +10,6 @@ namespace YasiroRegrave.Data
         {
 
         }
-        
         public DbSet<Vender> Venders { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Reien> Reiens { get; set; }
@@ -18,8 +17,8 @@ namespace YasiroRegrave.Data
         public DbSet<AreaCoord> AreaCoords { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<ReserveInfo> ReserveInfos { get; set; }
-        public DbSet<SectionCoord> SectionCoords { get; set; }
         public DbSet<Cemetery> Cemeteries { get; set; }
         public DbSet<CemeteryInfo> CemeteryInfos { get; set; }
+        public DbSet<ReienInfo> ReienInfos { get; set; }
     }
 }
