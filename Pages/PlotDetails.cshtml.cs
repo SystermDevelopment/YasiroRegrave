@@ -24,7 +24,7 @@ namespace YasiroRegrave.Pages
 
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -38,7 +38,7 @@ namespace YasiroRegrave.Pages
             return;
         }
         /// <summary>
-        /// OnPostˆ—
+        /// OnPostå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -48,18 +48,18 @@ namespace YasiroRegrave.Pages
             return Page();
         }
         /// <summary>
-        /// ‰æ–Ê¶¬ˆ—
+        /// ç”»é¢ç”Ÿæˆå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
         public void GetPage()
         {
-            // —ì‰€AƒGƒŠƒAA‹æ‰æî•ñ‚Ìæ“¾
+            // éœŠåœ’ã€ã‚¨ãƒªã‚¢ã€åŒºç”»æƒ…å ±ã®å–å¾—
             SectionDatas = _context.Sections
-                .Where(s => s.SectionIndex == SectionIndex && s.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .Where(s => s.SectionIndex == SectionIndex && s.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                 .Select(s => new SectionData
                 {
-                    ReienIndex = s.Area.Reien.Index,
+                    ReienIndex = s.Area.Reien.ReienIndex,
                     ReienCode = s.Area.Reien.ReienCode,
                     ReienName = s.Area.Reien.ReienName,
                     AreaIndex = s.Area.AreaIndex,
@@ -79,13 +79,13 @@ namespace YasiroRegrave.Pages
             if (SectionDatas != null)
             {
                 var hostUrl = Request.Scheme + "://" + Request.Host + "/api/Files/";
-                // •æŠî•ñ‚Ìæ“¾
+                // å¢“æ‰€æƒ…å ±ã®å–å¾—
                 CemeteryDatas = _context.CemeteryInfos
                     .Where(c => c.Cemetery.SectionIndex == SectionDatas.SectionIndex
-                            && c.Cemetery.DeleteFlag == (int)Config.DeleteType.–¢íœ
-                            && c.DeleteFlag == (int)Config.DeleteType.–¢íœ
-                            && c.ReleaseStatus == (int)Config.ReleaseStatusType.”Ì”„’†
-                            && c.SectionStatus == (int)Config.SectionStatusType.‹ó
+                            && c.Cemetery.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤
+                            && c.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤
+                            && c.ReleaseStatus == (int)Config.ReleaseStatusType.è²©å£²ä¸­
+                            && c.SectionStatus == (int)Config.SectionStatusType.ç©º
                             )
                     .Select(c => new CemeteryData
                     {

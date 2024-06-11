@@ -36,7 +36,7 @@ namespace YasiroRegrave.Controllers
                 }
 
                 // エリア(工区)
-                var existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienIndex == existingReien.Index && r.AreaCode == info.工区番号);
+                var existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienIndex == existingReien.ReienIndex && r.AreaCode == info.工区番号);
                 if (existingArea == null)
                 {
                     return BadRequest($"Invalid value for 工区番号: {info.工区番号}. Expected value");

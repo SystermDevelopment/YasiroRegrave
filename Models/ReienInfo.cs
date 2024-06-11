@@ -11,10 +11,18 @@ public class ReienInfo
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("t_reien_index")]
     public int ReienTableIndex { get; set; }
+
     [Required]
-    [ForeignKey("Index")]
+    [Column("user_index")]
+    public int UserIndex { get; set; }
+
+    [ForeignKey("UserIndex")]
     public virtual User Users { get; set; } = new User();
+
     [Required]
-    [ForeignKey("Index")]
+    [Column("reien_index")]
+    public int ReienIndex { get; set; }
+
+    [ForeignKey("ReienIndex")]
     public virtual Reien Reiens { get; set; } = new Reien();
 }

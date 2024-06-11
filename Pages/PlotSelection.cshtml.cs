@@ -24,7 +24,7 @@ namespace YasiroRegrave.Pages
 
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -34,7 +34,7 @@ namespace YasiroRegrave.Pages
             return;
         }
         /// <summary>
-        /// OnPostˆ—
+        /// OnPostå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -44,23 +44,23 @@ namespace YasiroRegrave.Pages
             return Page();
         }
         /// <summary>
-        /// ‰æ–Ê¶¬ˆ—
+        /// ç”»é¢ç”Ÿæˆå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
         public void GetPage()
         {
-            // —ì‰€AƒGƒŠƒAî•ñ‚Ìæ“¾
+            // éœŠåœ’ã€ã‚¨ãƒªã‚¢æƒ…å ±ã®å–å¾—
             ReienIndex = 0;
             AreaIndex = 0;
-            ReienCode = _context.Reiens.FirstOrDefault(r => r.Index == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.ReienCode ?? "";
-            ReienName = _context.Reiens.FirstOrDefault(r => r.Index == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.ReienName ?? "";
-            AreaCode = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.AreaCode ?? "";
-            AreaName = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.AreaName ?? "";
+            ReienCode = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.ReienCode ?? "";
+            ReienName = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.ReienName ?? "";
+            AreaCode = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.AreaCode ?? "";
+            AreaName = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.AreaName ?? "";
 
-            // ‹æ‰æî•ñ‚Ìæ“¾
+            // åŒºç”»æƒ…å ±ã®å–å¾—
             SectionDatas = _context.Sections
-                            .Where(s => s.AreaIndex == AreaIndex && s.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                            .Where(s => s.AreaIndex == AreaIndex && s.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                             .Select(s => new SectionData
                             {
                                 SectionIndex = s.SectionIndex,
@@ -69,16 +69,16 @@ namespace YasiroRegrave.Pages
                             })
                             .ToList();
 
-            // ‹æ‰æ‚²‚Æ‚Éæ“¾
+            // åŒºç”»ã”ã¨ã«å–å¾—
             foreach (var section in SectionDatas)
             {
-                // ‹ó‚«•æŠî•ñ‚Ìæ“¾
+                // ç©ºãå¢“æ‰€æƒ…å ±ã®å–å¾—
                 section.NoReserveCount = _context.CemeteryInfos
                                             .Count(c => c.Cemetery.SectionIndex == section.SectionIndex
-                                                && c.Cemetery.DeleteFlag == (int)Config.DeleteType.–¢íœ
-                                                && c.DeleteFlag == (int)Config.DeleteType.–¢íœ
-                                                && c.ReleaseStatus == (int)Config.ReleaseStatusType.”Ì”„’†
-                                                && c.SectionStatus == (int)Config.SectionStatusType.‹ó
+                                                && c.Cemetery.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤
+                                                && c.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤
+                                                && c.ReleaseStatus == (int)Config.ReleaseStatusType.è²©å£²ä¸­
+                                                && c.SectionStatus == (int)Config.SectionStatusType.ç©º
                                             );
             }
             return;

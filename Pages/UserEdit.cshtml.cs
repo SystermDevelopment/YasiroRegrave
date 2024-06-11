@@ -6,6 +6,7 @@ using System.Diagnostics.SymbolStore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
+using static YasiroRegrave.Pages.UserListModel;
 
 namespace YasiroRegrave.Pages
 
@@ -18,6 +19,13 @@ namespace YasiroRegrave.Pages
         [Required(ErrorMessage = Message.M_E0003)]
 
         public string Id { get; set; } = string.Empty;
+
+        [BindProperty]
+        [Required(ErrorMessage = Message.M_E0008)]
+        public int Authority { get; set; } = 1;
+
+        [BindProperty]
+        public List<int> SelectedReiens { get; set; } = new List<int>();
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0001)]
@@ -37,6 +45,8 @@ namespace YasiroRegrave.Pages
         //[BindProperty]
         public int? Index { get; set; }
 
+        public List<Reien> reiens { get; set; } = new List<Reien>();
+
         private readonly ApplicationDbContext _context;
         public UserEditModel(ApplicationDbContext context)
         {
@@ -46,18 +56,26 @@ namespace YasiroRegrave.Pages
         public List<PageUser> Users { get; set; } = new List<PageUser>();
         public void OnGet(int? index)
         {
+            reiens = _context.Reiens
+                .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .ToList();
             Index = index;
             if (index.HasValue)
             {
                 var user = _context.Users
-                    .Where(u => u.Index == Index && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .Where(u => u.UserIndex == Index && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
                     .FirstOrDefault();
                 if (user != null)
                 {
                     Id = user.Id;
+                    Authority = user.Authority;
                     Name = user.Name;
                     Password = user.Password;
-                    SelectVenderIndex = user.VenderIndex;
+                    SelectedReiens = _context.ReienInfos
+                        .Where(ri => ri.Users.UserIndex == user.UserIndex)
+                        .Select(ri => ri.Reiens.ReienIndex)
+                        .ToList();
+                    SelectVenderIndex = user.Vender.Index;
                 }
             }
             Venders = _context.Venders
@@ -69,6 +87,19 @@ namespace YasiroRegrave.Pages
         {
             if (!ModelState.IsValid)
             {
+                if(index!=null)
+                {
+                    var user = _context.Users
+                        .Where(u => u.UserIndex == index && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                        .FirstOrDefault();
+                    if (user != null)
+                    {
+                        SelectVenderIndex = user.Vender.Index;
+                    }
+                }
+                reiens = _context.Reiens
+                    .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .ToList();
                 Venders = _context.Venders
                     .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ) 
                     .ToList();
@@ -76,21 +107,25 @@ namespace YasiroRegrave.Pages
             }
             try
             {
+                reiens = _context.Reiens
+                    .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .ToList();
+
                 if (index == null)
                 {
-                    // ššššTDB.VenderID‰¼‘Î‰žšššš
-                var forignVender = _context.Venders
-                    .Where(u => u.Index == SelectVenderIndex)
-                    .FirstOrDefault();
+                    var forignVender = _context.Venders
+                        .Where(u => u.Index == SelectVenderIndex)
+                        .FirstOrDefault();
 
-                if (forignVender == null)
-                {
-                    throw new InvalidOperationException();
-                }
+                    if (forignVender == null)
+                    {
+                        throw new InvalidOperationException();
+                    }
                     //INSERT
-                    var newUser = new User
+                    var newUser = new YasiroRegrave.Model.User
                     {
                         Id=Id,
+                        Authority = Authority,
                         Name = Name,
                         Password = Password,    
                         CreateDate = DateTime.UtcNow,
@@ -101,21 +136,43 @@ namespace YasiroRegrave.Pages
 
                     };
                     _context.Users.Add(newUser);
+                    foreach (var reienIndex in SelectedReiens)
+                    {
+                        if (!_context.ReienInfos.Any(ri => ri.Users.UserIndex == newUser.UserIndex && ri.Reiens.ReienIndex == reienIndex))
+                        {
+                            _context.ReienInfos.Add(new ReienInfo
+                            {
+                                Users = newUser,
+                                Reiens = _context.Reiens.Find(reienIndex)
+                            });
+                        }
+                    }
                     _context.SaveChanges();
                 }
                 else
                 {
-                    var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == 0 && v.Index == index.Value);
+                    var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == 0 && v.UserIndex == index.Value);
                     if (existingUser != null)
                     {
                         // UPDATE
                         existingUser.Id = Id;
+                        existingUser.Authority = Authority;
                         existingUser.Name = Name;
                         existingUser.Password = Password;
                         existingUser.UpdateDate = DateTime.UtcNow;
                         existingUser.VenderIndex = SelectVenderIndex ?? 0;
                         //existingVender.UpdateUser = LoginId,
+                        var existingReienInfos = _context.ReienInfos.Where(ri => ri.Users.UserIndex == existingUser.UserIndex).ToList();
+                        _context.ReienInfos.RemoveRange(existingReienInfos);
 
+                        foreach (var reienIndex in SelectedReiens)
+                        {
+                            _context.ReienInfos.Add(new ReienInfo
+                            {
+                                Users = existingUser,
+                                Reiens = _context.Reiens.Find(reienIndex)
+                            });
+                        }
                         _context.SaveChanges();
                     }
                 }

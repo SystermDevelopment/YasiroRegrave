@@ -22,8 +22,9 @@ namespace YasiroRegrave.Pages
                 .Where(u => u.DeleteFlag == 0)
                 .Select(u => new User
                 {
-                    Index = u.Index,
+                    Index = u.UserIndex,
                     Id = u.Id,
+                    Authority = u.Authority,
                     Name = u.Name,
                     VenderIndex = u.VenderIndex,
                     VenderName = u.Vender.Name,
@@ -34,7 +35,7 @@ namespace YasiroRegrave.Pages
         }
         public IActionResult OnPost(int index)
         {
-            var userDelete = _context.Users.FirstOrDefault(u => u.Index == index);
+            var userDelete = _context.Users.FirstOrDefault(u => u.UserIndex == index);
             if (userDelete != null)
             {
                 //DELITE
@@ -50,6 +51,7 @@ namespace YasiroRegrave.Pages
         {
             public int Index { get; set; }
             public string Id { get; set; }
+            public int Authority { get; set; }
             public string Name { get; set; }
             public int VenderIndex { get; set; }
             public string VenderName { get; set; }

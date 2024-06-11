@@ -49,7 +49,7 @@ namespace YasiroRegrave.Controllers
                     // INSERT
                     var newArea = new Area
                     {
-                        ReienIndex = existingReien.Index,
+                        ReienIndex = existingReien.ReienIndex,
                         AreaCode = info.工区番号,
                         AreaName = info.工区名,
                         CreateDate = DateTime.UtcNow,
