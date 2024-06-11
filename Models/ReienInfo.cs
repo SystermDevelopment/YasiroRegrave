@@ -12,7 +12,7 @@ public class ReienInfo
     [Column("t_reien_index")]
     public int ReienTableIndex { get; set; }
     [Required]
-    [ForeignKey("UserIndex")]
+    [ForeignKey("Index")]
     public virtual User Users { get; set; } = new User();
     [Required]
     [ForeignKey("Index")]
