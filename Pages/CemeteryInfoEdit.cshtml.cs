@@ -69,7 +69,6 @@ namespace YasiroRegrave.Pages
             GetPage(index);
             try
             {
-
                 var filePath = Path.Combine(Config.DataFilesRegravePath, "");
 
                 // Process Image1
@@ -82,9 +81,8 @@ namespace YasiroRegrave.Pages
                     }
                     Image1Fname = null;
                 }
-                else if (Image1 != null)
+                else if (Image1 != null && !Image1Deleted) // Ensure that the image is not deleted
                 {
-
                     var fileExtension1 = Path.GetExtension(Image1.FileName);
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-1{fileExtension1}";
                     using (var stream = System.IO.File.Create(imgPath))
@@ -92,8 +90,6 @@ namespace YasiroRegrave.Pages
                         Image1.CopyTo(stream);
                     }
                     Image1Fname = Image1.FileName;
-
-                    Image1Deleted = false; // Reset delete flag
                 }
 
                 // Process Image2
@@ -106,7 +102,7 @@ namespace YasiroRegrave.Pages
                     }
                     Image2Fname = null;
                 }
-                else if (Image2 != null)
+                else if (Image2 != null && !Image2Deleted) // Ensure that the image is not deleted
                 {
                     var fileExtension2 = Path.GetExtension(Image2.FileName);
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-2{fileExtension2}";
@@ -116,10 +112,7 @@ namespace YasiroRegrave.Pages
                         Image2.CopyTo(stream);
                     }
                     Image2Fname = Image2.FileName;
-
-                    Image2Deleted = false; // Reset delete flag
                 }
-
 
                 if (index == null)
                 {
@@ -133,7 +126,7 @@ namespace YasiroRegrave.Pages
                 else
                 {
                     var existingCemeteryinfo = _context.CemeteryInfos
-                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.Êú™ÂâäÈô§ && ci.CemeteryInfoIndex == index.Value)
+                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú && ci.CemeteryInfoIndex == index.Value)
                         .FirstOrDefault();
                     if (existingCemeteryinfo != null)
                     {
