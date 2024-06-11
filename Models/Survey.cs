@@ -11,15 +11,15 @@ public class Survey
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("survey_link_index")]
 
-        public int SurveyLinkIndex { get; set; }
+    public int SurveyLinkIndex { get; set; }
 
-        [Column("survey_index")]
-        public int SurveyIndex { get; set; }
+    [Column("survey_index")]
+    public int SurveyIndex { get; set; }
 
-        [Column("reserve_index")]
-        public int ReserveIndex { get; set; }
-        [Required]
-        [ForeignKey("SurveyLinkIndex")]
-        public virtual Survey Surveys { get; set; } = new Survey();
+    [Column("reserve_index")]
+    public int ReserveIndex { get; set; }
+    [Required]
+    [ForeignKey("SurveyLinkIndex")]
+    public virtual Survey Surveys { get; set; } = new Survey();
 }
 
