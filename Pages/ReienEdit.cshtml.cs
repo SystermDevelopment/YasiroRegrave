@@ -46,7 +46,7 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 var reien = _context.Reiens
-            .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+            .Where(r => r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                     .FirstOrDefault();
                 if (reien != null)
                 {
@@ -69,7 +69,7 @@ namespace YasiroRegrave.Pages
                         MailAddress = MailAddress,
                         CreateDate = DateTime.UtcNow,
                         //CreateUser = LoginId,
-                        DeleteFlag = (int)Config.DeleteType.–¢íœ,
+                        DeleteFlag = (int)Config.DeleteType.æœªå‰Šé™¤,
                         //Vendor = forignVender,
 
 
@@ -81,7 +81,7 @@ namespace YasiroRegrave.Pages
                 else
                 {
                     var existingReien = _context.Reiens
-                        .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ && r.ReienIndex == index.Value)
+                        .Where(r => r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤ && r.ReienIndex == index.Value)
                         .FirstOrDefault();
                     if (existingReien != null)
                     {
