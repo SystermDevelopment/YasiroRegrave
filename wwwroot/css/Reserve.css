@@ -1,5 +1,4 @@
 ﻿body {
-    font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     color: #333;
     background-image: url('/images/bg_reien.jpg');
@@ -16,7 +15,7 @@ header {
 }
 
 main {
-    max-width: 1100px;
+    max-width: 750px;
     margin: 20px auto;
     background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
@@ -24,13 +23,12 @@ main {
 }
 
 section {
-    font-family: serif;
+    font-family: '游ゴシック体', 'Yu Gothic', YuGothic, sans-serif;
     margin-bottom: 50px;
     text-align: center;
 }
 
 form {
-    display: grid;
     grid-template-columns: auto 1fr;
     gap: 15px;
     align-items: center;
@@ -55,27 +53,31 @@ p3 {
 }
 
 h1 {
-    font-family: serif;
+    font-family: '游ゴシック体', 'Yu Gothic', YuGothic, sans-serif;
+    color: #4c6955;
+    font-weight: bold;
 }
 
 h2 {
-    color: forestgreen;
+    color: #4c6955;
     margin-top: 20px;
+    font-weight: bold;
+    font-size: 27px;
 }
 
 label {
     text-align: left;
-    background-color: #ffe4b5;
+    background-color: #fffcf4;
     padding: 10px;
     border-radius: 5px;
-    min-width: 150px;
+    min-width: 100%;
     font-weight: bold;
+    color: #4c6955;
 }
 
 input, textarea, select, button {
     width: 100%;
-    padding: 10px;
-    font-size: 1.1em;
+    padding: 8px;
     box-sizing: border-box;
 }
 
@@ -93,12 +95,13 @@ input, textarea, select, button {
     .postal-code-wrapper button {
         flex-shrink: 0;
         padding: 10px;
-        background-color: #0056b3;
+        background-color: #4c6955;
+        border-radius: 5px;
         color: #fff;
         border: none;
         cursor: pointer;
         white-space: nowrap;
-        max-width: 200px;
+        max-width: 150px;
     }
 
 .email-note {
@@ -151,20 +154,22 @@ input, textarea, select, button {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 button[type="submit"] {
     grid-column: span 2;
     padding: 10px;
-    background-color: #0056b3;
+    background-color: #4c6955;
     color: #fff;
     border: none;
     cursor: pointer;
     width: 200px;
+    border-radius: 5px;
 }
 
 button:hover {
-    background-color: #004494;
+    background-color: #435a4a;
 }
 
 /* Name fields specific styling */
@@ -182,7 +187,7 @@ button:hover {
 }
 
     .name-group label {
-        background-color: #ffe4b5;
+        background-color: #fffcf4;
         margin-bottom: 5px;
         padding: 10px;
         border-radius: 5px;
@@ -201,10 +206,53 @@ button:hover {
     font-size: 0.8em;
     margin-bottom: 10px;
     display: block;
-    grid-column: span 2; /* 追加: エラーメッセージを全体の幅に広げる */
+    grid-column: span 2;
 }
 
 .postal-code-wrapper .text-danger {
     margin-top: 5px;
     margin-left: 0;
+}
+
+.postal-code-error {
+    margin-left: 0;
+}
+
+@media (max-width: 768px) {
+    main {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    form {
+        display: block;
+        padding: 10px;
+    }
+
+    label {
+        min-width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .postal-code-wrapper {
+        flex-direction: column;
+    }
+
+        .postal-code-wrapper button {
+            width: 100%;
+            max-width: none;
+            margin-top: 5px;
+        }
+
+    .name-wrapper {
+        flex-direction: column;
+    }
+
+    .name-group {
+        min-width: 100%;
+    }
+
+    .text-danger {
+        grid-column: span 1;
+    }
 }
