@@ -190,11 +190,11 @@ namespace YasiroRegrave.Pages
                 CemeteryCode = cemeteryinfo.CemeteryCode;
                 if (Image1Fname != "")
                 {
-                    Image1FnameURL = $"https://localhost:7147/api/Files/GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{CemeteryCode}&sel=1";
+                    Image1FnameURL = $"/api/Files/GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{CemeteryCode}&sel=1";
                 }
                 if (Image2Fname != "")
                 {
-                    Image2FnameURL = $"https://localhost:7147/api/Files/GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{CemeteryCode}&sel=2";
+                    Image2FnameURL = $"/api/Files/GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{CemeteryCode}&sel=2";
                 }
             }
         }
