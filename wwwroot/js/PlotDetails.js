@@ -39,20 +39,27 @@ function drawRect(coordinates) {
 
 
 // マップ初期表示
+var corrRate = 1.0;
 function initMap() {
     map = L.map('map-container', {
         crs: L.CRS.Simple,
         zoomControl: true
     });
 
-    var mapWidth = 517;
-    var mapheight = 759;
+    // (w,h)=(520,700) -> (w,h)=(400,539)
+    var baseWidth = 520;
+    var mapContainer = document.getElementById('map-container');
+    var mapWidth = mapContainer.offsetWidth;
+    var mapHeight = mapContainer.offsetHeight;
+    if (mapWidth <= baseWidth) {
+        corrRate = mapWidth / baseWidth;
+    }
 
-    var bounds = [[0, 0], [mapheight, mapWidth]];
+    var bounds = [[0, 0], [mapHeight, mapWidth]];
     var imagePath = '/images/SEC_' + ReienCode + '_' + AreaCode + '_' + SectionCode + '.png';
     var image = L.imageOverlay(imagePath, bounds).addTo(map);
 
-    var center = [mapheight / 2, mapWidth / 2];
+    var center = [mapHeight / 2, mapWidth / 2];
     var zoomLevel = 0;
     map.setView(center, zoomLevel);
     map.setMaxBounds(bounds);
@@ -73,7 +80,7 @@ function initMap() {
 
     // 矩形を描画
     function createPolygon(cemetery) {
-        const coordinates = cemetery.Coordinates[0].map(coord => [coord.y, coord.x]);
+        const coordinates = cemetery.Coordinates[0].map(coord => [(coord.y * corrRate), (coord.x * corrRate)]);
         var polygon = L.polygon(coordinates, {
             color: 'black',
             fillColor: 'yellow',

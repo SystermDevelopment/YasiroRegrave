@@ -23,6 +23,13 @@
     margin-bottom: 10px;
 }
 
+#PlotSelectionExplanation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 #PlotSelectionContainer {
     display: flex;
     position: relative; /* relativeに設定して子要素のabsolute配置を可能に */
