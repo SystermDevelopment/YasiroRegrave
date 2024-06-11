@@ -28,12 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
             coordDatas = data;
 
             sectionDatas.forEach(function (section) {
-                // 空きあり場合
-                if (section.noReserveCount > 0) {
+                // 空きあり場合（空き以外も初回のみ描画）
+                if (section.noReserveCount >= 0) {
                     const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
                     sectionCoords.Coordinates.forEach(function (coords) {
                         // 矩形と名前を描画
-                        drawRect(coords);
+                        drawRect(coords, section.noReserveCount);
                         drawName(coords, section.sectionName);
                         ctx.strokeStyle = 'black';
                         ctx.stroke();
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 矩形を描画
-function drawRect(coordinates) {
+function drawRect(coordinates, reserve) {
     ctx.beginPath();
     ctx.moveTo(coordinates[0].x, coordinates[0].y);
     for (let i = 1; i < coordinates.length; i++) {
@@ -55,7 +55,7 @@ function drawRect(coordinates) {
     }
 
     ctx.closePath();
-    ctx.fillStyle = '#ffea07';
+    ctx.fillStyle = reserve > 0 ? '#ffea07' : 'white';
     ctx.fill();
     ctx.stroke();
 }
@@ -152,7 +152,7 @@ canvas.addEventListener('mousemove', function (event) {
                 // 矩形と名前を描画
                 const isInside = isInsidePolygon(mouseX, mouseY, coords);
                 ctx.strokeStyle = isInside ? 'red' : 'black';
-                drawRect(coords);
+                drawRect(coords, section.noReserveCount);
                 drawName(coords, section.sectionName);
             });
         }
