@@ -40,7 +40,7 @@ public class ReserveInfo
     [MaxLength(7)]
     public string ZipCode { get; set; }
     [Required]
-    [Column("adress")]
+    [Column("address")]
     [MaxLength(255)]
     public string Adress { get; set; }
     [Required]
@@ -51,10 +51,9 @@ public class ReserveInfo
     [Column("e_mail")]
     [MaxLength(100)]
     public string EMail { get; set; }
-    [Required]
     [Column("question")]
     [MaxLength(500)]
-    public string Question { get; set; }
+    public string? Question { get; set; }
     [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }
