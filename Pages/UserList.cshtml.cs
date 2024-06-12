@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using YasiroRegrave.Data;
 
 namespace YasiroRegrave.Pages
@@ -12,9 +13,16 @@ namespace YasiroRegrave.Pages
             _context = context;
         }
         public List<User> Users { get; set; } = new List<User>();
-        public void OnGet()
+        public string? LoginId { get; private set; }
+        public IActionResult OnGet()
         {
+            LoginId = HttpContext.Session.GetString("LoginId");
+            if (string.IsNullOrEmpty(LoginId))
+            {
+                return RedirectToPage("/Index");
+            }
             GetPage();
+            return Page();
         }
         private void GetPage()
         {
