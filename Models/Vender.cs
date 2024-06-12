@@ -9,7 +9,7 @@ public class Vender
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("vender_index")]
-    public int Index { get; set; }
+    public int VenderIndex { get; set; }
     [Required]
     [Column("vender_name")]
     [MaxLength(100)]
