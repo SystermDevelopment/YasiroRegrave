@@ -89,3 +89,24 @@ html, body {
     padding: 10px 0; 
     width: 100%;
 }
+
+.form-search {
+    border: 1px solid #ccc;
+    padding: 10px 30px;
+    margin-bottom: 20px;
+}
+
+.search-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-select {
+    padding: 5px 10px;
+}
