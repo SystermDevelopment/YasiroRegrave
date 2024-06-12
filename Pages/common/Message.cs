@@ -17,20 +17,23 @@
         public const string M_E0013 = "500文字以内で入力してください";
         public const string M_E0014 = "ログインIDを入力してください";
         public const string M_E0015 = "ログインIDとパスワードを確認してください";
-        public const string M_E0016 = "苗字を入力してください";
-        public const string M_E0017 = "名前を入力してください";
-        public const string M_E0018 = "苗字のふりがなを入力してください";
-        public const string M_E0019 = "名前のふりがなを入力してください";
+        public const string M_E0016 = "姓を入力してください";
+        public const string M_E0017 = "名を入力してください";
+        public const string M_E0018 = "姓のふりがなを入力してください";
+        public const string M_E0019 = "名のふりがなを入力してください";
         public const string M_E0020 = "郵便番号を入力してください";
         public const string M_E0021 = "都道府県を入力してください";
         public const string M_E0022 = "市区群を入力してください";
         public const string M_E0023 = "町名・番地を入力してください";
         public const string M_E0024 = "電話番号を入力してください";
         public const string M_E0025 = "ご希望の連絡方法を選択してください";
-
+        public const string M_E0026 = "ご希望の連絡方法を選択してください";
 
 
         public const string M_Q0001 = "削除しますか？";
         public const string M_Q0002 = "編集内容が保存されていません。移動してもよろしいですか？";
+        public const string M_Q0003 = "住所が見つかりませんでした";
+        public const string M_Q0004 = "住所の取得に失敗しました";
+
     }
 }

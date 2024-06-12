@@ -41,7 +41,7 @@ p1, p2, p3 {
 }
 
 p1 {
-    font-size: 20px;
+    font-size: 18.7px;
 }
 
 p2 {
@@ -138,6 +138,7 @@ input, textarea, select, button {
             background-color: transparent;
             margin-left: 5px;
             margin-bottom: 0;
+            color:black;
         }
 
         .contact-options div input, .subscription-options div input {
