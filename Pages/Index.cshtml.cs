@@ -41,7 +41,7 @@ namespace YasiroRegrave.Pages
             var user = _context.Users.FirstOrDefault(u => u.Id == LoginId && u.Password == Password);
             if (user != null)
             {
-                return RedirectToPage("/PlotSelection");
+                return RedirectToPage("/UserList");
             }
             else
             {
