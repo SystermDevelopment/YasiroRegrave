@@ -52,7 +52,7 @@
                             <option value="">選択してください</option>
                             @foreach (var vender in Model.Venders)
                             {
-                                <option value="@vender.Index" selected="@(Model.SelectVenderIndex == vender.Index? "selected" : null)">@vender.Name</option>
+                                <option value="@vender.VenderIndex" selected="@(Model.SelectVenderIndex == vender.VenderIndex? "selected" : null)">@vender.Name</option>
                             }
                         </select>
                     </div>

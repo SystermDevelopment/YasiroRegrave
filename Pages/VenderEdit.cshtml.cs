@@ -42,7 +42,7 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 var vender = _context.Venders
-                    .Where(v => v.Index == Index && v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .Where(v => v.VenderIndex == Index && v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
 
                     .FirstOrDefault();
                 if (vender != null)
@@ -73,7 +73,7 @@ namespace YasiroRegrave.Pages
                 }
                 else
                 {
-                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == 0 && v.Index == index.Value).FirstOrDefault();
+                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == 0 && v.VenderIndex == index.Value).FirstOrDefault();
                     if (existingVender != null)
                     {
                         // UPDATE

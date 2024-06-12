@@ -30,6 +30,12 @@ namespace YasiroRegrave.Pages.common
             未 = 0,
             済 = 1,
         }
+        // 権限
+        public enum AuthorityType
+        {
+            管理者 = 0,
+            担当者 = 1,
+        }
         public static readonly Dictionary<string, string> MIME_IMAGE = new Dictionary<string, string>
         {
             {".jpg","image/jpeg"},

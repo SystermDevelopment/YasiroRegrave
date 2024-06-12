@@ -22,7 +22,7 @@ namespace YasiroRegrave.Pages
                 .Where(v => v.DeleteFlag == 0)
                 .Select(v => new Vender
                 {
-                    Index = v.Index,
+                    Index = v.VenderIndex,
                     Name = v.Name,
                 })
                 .ToList();
@@ -30,7 +30,7 @@ namespace YasiroRegrave.Pages
         }
         public IActionResult OnPost(int index)
         {
-            var venderDelete = _context.Venders.FirstOrDefault(v => v.Index == index);
+            var venderDelete = _context.Venders.FirstOrDefault(v => v.VenderIndex == index);
             if (venderDelete != null)
             {
                 //DELITE

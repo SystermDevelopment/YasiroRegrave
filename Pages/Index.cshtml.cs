@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using YasiroRegrave.Data;
@@ -38,17 +39,27 @@ namespace YasiroRegrave.Pages
                 return Page();
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Id == LoginId && u.Password == Password);
+            var user = _context.Users
+                .Include(u => u.Vender)
+                .FirstOrDefault(u => u.Id == LoginId && u.Password == Password);
             if (user != null && LoginId != null)
             {
                 HttpContext.Session.SetString("LoginId", LoginId);
-                return RedirectToPage("/UserList");
+                if (user.Authority == (int)Config.AuthorityType.管理者)
+                {
+                    return RedirectToPage("/UserList");
+                }
+                else if (user.Authority == (int)Config.AuthorityType.担当者 && user.Vender.VenderIndex == 0)
+                {
+                    return RedirectToPage("/CemeteryInfoList");
+                }
+                else
+                {
+                    return RedirectToPage("/PlotSelection");
+                }
             }
-            else
-            {
-                ShowConfirm = true;
-                return Page();
-            }
+            ShowConfirm = true;
+            return Page();
         }
     }
 }

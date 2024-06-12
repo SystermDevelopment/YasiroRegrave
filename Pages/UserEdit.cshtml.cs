@@ -75,7 +75,7 @@ namespace YasiroRegrave.Pages
                         .Where(ri => ri.Users.UserIndex == user.UserIndex)
                         .Select(ri => ri.Reiens.ReienIndex)
                         .ToList();
-                    SelectVenderIndex = user.Vender.Index;
+                    SelectVenderIndex = user.Vender.VenderIndex;
                 }
             }
             Venders = _context.Venders
@@ -94,7 +94,7 @@ namespace YasiroRegrave.Pages
                         .FirstOrDefault();
                     if (user != null)
                     {
-                        SelectVenderIndex = user.Vender.Index;
+                        SelectVenderIndex = user.Vender.VenderIndex;
                     }
                 }
                 reiens = _context.Reiens
@@ -114,7 +114,7 @@ namespace YasiroRegrave.Pages
                 if (index == null)
                 {
                     var forignVender = _context.Venders
-                        .Where(u => u.Index == SelectVenderIndex)
+                        .Where(u => u.VenderIndex == SelectVenderIndex)
                         .FirstOrDefault();
 
                     if (forignVender == null)
