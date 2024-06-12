@@ -45,6 +45,27 @@
                     </form>
                 </div>
             </div>
+
+            <!-- 検索条件 -->
+            <div class="form-search">
+                <form method="post">
+                    <div class="search-controls">
+                        <div class="search-group">
+                            <label for="filter-vender">販売会社</label>
+                            <select class="search-select" name="FilterVender" id="filter-vender">
+                                <option value="-1" selected>-</option>
+                                @foreach (var vender in Model.Venders)
+                                {
+                                    <option value="@vender.VenderIndex" selected="@(vender.VenderIndex == Model.FilterVender ? "selected" : null)">@vender.VenderName</option>
+                                }
+                            </select>
+                        </div>
+                        <input type="hidden" name="Action" value="Search" />
+                        <button type="submit" class="btn btn-secondary">検索</button>
+                    </div>
+                </form>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <table class="table">
@@ -81,6 +102,7 @@
                                         </form>
                                         <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
                                             <input type="hidden" name="Index" value="@user.Index" />
+                                            <input type="hidden" name="Action" value="Delete" />
                                             <button type="submit" class="btn btn-warnning">削除</button>
                                         </form>
                                     </td>
