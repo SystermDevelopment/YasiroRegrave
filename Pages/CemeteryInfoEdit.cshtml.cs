@@ -41,7 +41,7 @@ namespace YasiroRegrave.Pages
         public bool Image1Deleted { get; set; } = false;
         [BindProperty]
         public bool Image2Deleted { get; set; } = false;
-        public int Authority = (int)Config.AuthorityType.’S“–ŽÒ;
+        public int Authority = (int)Config.AuthorityType.æ‹…å½“è€…;
 
         private string? ReienCode { get; set; }
         private string? AreaCode { get; set; }
@@ -133,7 +133,7 @@ namespace YasiroRegrave.Pages
                 else
                 {
                     var existingCemeteryinfo = _context.CemeteryInfos
-                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.–¢íœ && ci.CemeteryInfoIndex == index.Value)
+                        .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤ && ci.CemeteryInfoIndex == index.Value)
                         .FirstOrDefault();
                     if (existingCemeteryinfo != null)
                     {

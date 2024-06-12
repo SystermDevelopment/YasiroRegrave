@@ -42,11 +42,11 @@ namespace YasiroRegrave.Pages
             if (user != null && LoginId != null)
             {
                 HttpContext.Session.SetString("LoginId", LoginId);
-                if (user.Authority == (int)Config.AuthorityType.ŠÇ—Ò)
+                if (user.Authority == (int)Config.AuthorityType.ç®¡ç†è€…)
                 {
                     return RedirectToPage("/UserList");
                 }
-                else if (user.Authority == (int)Config.AuthorityType.’S“–Ò)
+                else if (user.Authority == (int)Config.AuthorityType.æ‹…å½“è€…)
                 {
                     return RedirectToPage("/CemeteryInfoList");
                 }
