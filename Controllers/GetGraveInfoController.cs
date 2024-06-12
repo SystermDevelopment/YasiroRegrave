@@ -54,7 +54,7 @@ namespace YasiroRegrave.Controllers
             {
                 予約日時 = r.CreateDate.HasValue ? r.CreateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "",
                 霊園番号 = r.CemeteryInfo.Cemetery.Section.Area.Reien.ReienCode.ToString(),
-                区画番号 = r.CemeteryInfo.Cemetery.CemeteryCode.ToString(),
+                区画番号 = r.CemeteryInfo.Cemetery.Section.SectionCode.ToString() + "-" + r.CemeteryInfo.Cemetery.CemeteryCode.ToString(),
                 使用料 = r.CemeteryInfo.UsageFee ?? "",
                 管理料 = r.CemeteryInfo.ManagementFee ?? "",
                 仕置巻石料 = r.CemeteryInfo.StoneFee ?? "",

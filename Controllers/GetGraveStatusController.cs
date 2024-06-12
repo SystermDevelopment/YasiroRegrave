@@ -37,7 +37,7 @@ namespace YasiroRegrave.Controllers
                 .Select(r => new GetGraveStatusResponse
                 {
                     霊園番号 = r.Cemetery.CemeteryIndex.ToString(),
-                    区画番号 = r.Cemetery.CemeteryCode,
+                    区画番号 = r.Cemetery.Section.SectionCode.ToString() + "-" + r.Cemetery.CemeteryCode.ToString(),
                     面積 = r.AreaValue,
                     区画区分 = r.SectionType,
                     使用料 = r.UsageFee,
