@@ -17,7 +17,7 @@ namespace YasiroRegrave.Pages
         public List<CemeteryInfo> CemeteryInfos { get; set; } = new List<CemeteryInfo>();
         public List<int> SelectedReiens { get; set; } = new List<int>();
         public string? LoginId { get; private set; }
-        public int Authority = (int)Config.AuthorityType.’S“–ŽÒ;
+        public int Authority = (int)Config.AuthorityType.æ‹…å½“è€…;
         public IActionResult OnGet()
         {
             LoginId = HttpContext.Session.GetString("LoginId");
