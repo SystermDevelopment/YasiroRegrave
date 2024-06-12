@@ -1,6 +1,8 @@
 ﻿@page
 @model YasiroRegrave.Pages.Index1Model
 @{
+    @using YasiroRegrave.Pages.common;
+
     ViewData["Title"] = "予約のお申し込み";
 }
 
@@ -22,7 +24,7 @@
 
         <form method="post" id="reservation-form">
             <label for="section-number">ご希望の区画番号</label>
-            <input type="text" id="section-number" name="section-number" value="親鸞Ｅ区 ８列-０３" disabled>
+            <input type="text" id="section-number" name="section-number" value="@Model.SectionName" disabled>
 
             <label for="last-name">*お名前（全角）</label>
             <div class="name-wrapper">
@@ -54,7 +56,6 @@
 
             <label for="postal-code">
                 <span>郵便番号</span>
-                <span>必須</span>
             </label>
             <div class="postal-code-wrapper">
                 <input type="text" id="postal-code" name="postal-code" asp-for="PostalCode" placeholder="例）123-4567">
@@ -129,52 +130,57 @@
                 <option value="16:00">16:00</option>
             </select>
 
-
             <label for="inquiry">ご相談・お問い合わせ内容</label>
             <textarea id="inquiry" name="inquiry"></textarea>
 
-
             <div class="email-note">
                 <p>携帯メールアドレスをご入力の場合、携帯の設定により返信メールが届かないことがございます。</p>
-                <p>弊社からのメール（yasiro.co.jp）を受信できるよう設定をお願いいたします。</p>
+                <p>弊社からのメール（＠yasiro.co.jp）を受信できるよう設定をお願いいたします。</p>
             </div>
-            <form method="post" id="reservation-form" onsubmit="return validateForm()">
 
-                <label for="contact-methods">ご希望の連絡方法 <span class="note">※複数回答可</span></label>
-                <div class="contact-options">
-                    <div>
-                        <input type="checkbox" id="contact-phone" name="contact-method" value="phone">
-                        <label for="contact-phone">電話</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="contact-email" name="contact-method" value="email">
-                        <label for="contact-email">メール</label>
-                    </div>
+            <label for="contact-methods">ご希望の連絡方法 <span class="note">※複数回答可</span></label>
+            <div class="contact-options">
+                <div>
+                    <input type="checkbox" id="contact-phone" name="SelectCheckBox" value="phone">
+                    <label for="contact-phone">電話</label>
                 </div>
-                <label for="email-subscription">メール配信</label>
-                <div class="subscription-options">
-                    <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
-                    <div>
-                        <input type="radio" id="subscribe-yes" name="email-subscription" value="yes" checked>
-                        <label for="subscribe-yes">受信する</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="subscribe-no" name="email-subscription" value="no">
-                        <label for="subscribe-no">受信しない</label>
-                    </div>
+                <div>
+                    <input type="checkbox" id="contact-email" name="SelectCheckBox" value="email">
+                    <label for="contact-email">メール</label>
                 </div>
-            </form>
+            </div>
+            <span asp-validation-for="SelectCheckBox" class="text-danger"></span>
+
+            <label for="email-subscription">メール配信</label>
+            <div class="subscription-options">
+                <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
+                <div>
+                    <input type="radio" id="subscribe-yes" name="email-subscription" value="yes" checked>
+                    <label for="subscribe-yes">受信する</label>
+                </div>
+                <div>
+                    <input type="radio" id="subscribe-no" name="email-subscription" value="no">
+                    <label for="subscribe-no">受信しない</label>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <button type="submit" class="submit-button">確認画面へ</button>
+            </div>
         </form>
-        <div class="button-wrapper">
-            <button type="submit" class="submit-button" form="reservation-form">確認画面へ</button>
-        </div>
-
         <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
-
     </section>
 </main>
 
 <script>
+
+    $(document).ready(function () {
+        var today = new Date();
+        $("#date1, #date2, #date3").datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: today
+        });
+    });
+
     document.getElementById('auto-fill').addEventListener('click', function () {
         const postalCode = document.getElementById('postal-code').value;
         fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${postalCode}`)
@@ -186,12 +192,14 @@
                     document.getElementById('city').value = result.address2;
                     document.getElementById('address').value = result.address3;
                 } else {
-                    alert('住所が見つかりませんでした。');
+                    alert('@Html.Raw(Message.M_Q0003)');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('住所の取得に失敗しました。');
+                alert('@Html.Raw(Message.M_Q0004)。');
             });
+
     });
 </script>
+
