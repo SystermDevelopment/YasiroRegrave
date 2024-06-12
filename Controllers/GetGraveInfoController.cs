@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Data;
 
 namespace YasiroRegrave.Controllers
@@ -32,8 +33,13 @@ namespace YasiroRegrave.Controllers
             }
 
             var reserveInfos = _context.ReserveInfos
+                .Include(r => r.CemeteryInfo)
+                .ThenInclude(c => c.Cemetery)
+                .ThenInclude(c => c.Section)
+                .ThenInclude(s => s.Area)
+                .ThenInclude(a => a.Reien)
                 .Where(r => r.CemeteryInfo.DeleteFlag == 0)
-                .Where(r => !startDate.HasValue || r.CreateDate >= startDate)
+                .Where(r => !startDate.HasValue || r.CreateDate > startDate)
                 .Where(r => !endDate.HasValue || r.CreateDate <= endDate)
                 .ToList();
 
@@ -46,8 +52,9 @@ namespace YasiroRegrave.Controllers
 
             var response = reserveInfos.Select(r => new
             {
-                霊園番号 = r.CemeteryInfo.CemeteryIndex.ToString(),
-                区画番号 = r.CemeteryInfo.CemeteryInfoIndex.ToString(),
+                予約日時 = r.CreateDate.HasValue ? r.CreateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "",
+                霊園番号 = r.CemeteryInfo.Cemetery.Section.Area.Reien.ReienCode.ToString(),
+                区画番号 = r.CemeteryInfo.Cemetery.CemeteryCode.ToString(),
                 使用料 = r.CemeteryInfo.UsageFee ?? "",
                 管理料 = r.CemeteryInfo.ManagementFee ?? "",
                 仕置巻石料 = r.CemeteryInfo.StoneFee ?? "",
@@ -78,6 +85,7 @@ namespace YasiroRegrave.Controllers
 
     public class GetGraveInfoResponse
     {
+        public string? 予約日時 { get; set; }
         public string 霊園番号 { get; set; } = string.Empty;
         public string 区画番号 { get; set; } = string.Empty;
         public string 名前姓 { get; set; } = string.Empty;

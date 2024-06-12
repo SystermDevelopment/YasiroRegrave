@@ -32,7 +32,7 @@ namespace YasiroRegrave.Controllers
             }
             var response = _context.CemeteryInfos
                 .Where(r => r.DeleteFlag == 0)
-                .Where(r => !startDate.HasValue || r.UpdateDate >= startDate)
+                .Where(r => !startDate.HasValue || r.UpdateDate > startDate)
                 .Where(r => !endDate.HasValue || r.UpdateDate <= endDate)
                 .Select(r => new GetGraveStatusResponse
                 {
@@ -48,7 +48,7 @@ namespace YasiroRegrave.Controllers
                     販売ステータス = r.ReleaseStatus == 0 ? "準備中" : r.ReleaseStatus == 1 ? "販売中" : "不明",
                     画像1登録 = string.IsNullOrEmpty(r.Image1Fname) ? "未" : "済",
                     画像2登録 = string.IsNullOrEmpty(r.Image2Fname) ? "未" : "済",
-                    最終更新日時 = r.UpdateDate.HasValue ? r.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "N/A"
+                    最終更新日時 = r.UpdateDate.HasValue ? r.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""
                 }).ToList();
             return Ok(response);
         }
