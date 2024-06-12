@@ -24,6 +24,12 @@ namespace YasiroRegrave.Pages.common
             拠点予約 = 2,
             成約 = 3, 
         }
+        // 有無
+        public enum ExistType
+        {
+            未 = 0,
+            済 = 1,
+        }
         public static readonly Dictionary<string, string> MIME_IMAGE = new Dictionary<string, string>
         {
             {".jpg","image/jpeg"},

@@ -4,6 +4,7 @@
     @using YasiroRegrave.Pages.common;
     Layout = null;
 }
+
 <head>
     <meta charset="utf-8" />
     <title>販売会社情報一覧</title>
@@ -30,45 +31,46 @@
             </ul>
         </div>
         <div class="content">
-    <div class="header-container">
-        <img src="~/images/user.png" alt="User Icon" class="header-icon">
-        <h2 class="header-title">販売会社情報一覧</h2>
-        <div class="header-form">
-        <form method="get" action="/VenderEdit"style="margin-left: auto;">
-            <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
-        </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>名前</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var vender in Model.Venders)
-                    {
-                        <tr>
-                            <td>@vender.Name</td>
-                            <td class ="edit-btn-cell">
-                                 <form method="get"class="btn-form"action="/VenderEdit">
-                                    <input type="hidden" name="Index" value="@vender.Index" />
-                                    <button type="submit" class="btn btn-secondary">編集</button>
-                                 </form>
+            <div class="header-container">
+                <img src="~/images/user.png" alt="User Icon" class="header-icon">
+                <h2 class="header-title">販売会社情報一覧</h2>
+                <div class="header-form">
+                    <form method="get" action="/VenderEdit">
+                        <button type="submit" class="btn btn-primary new-user-btn">新規追加</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>名前</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var vender in Model.Venders)
+                            {
+                                <tr>
+                                    <td>@vender.Name</td>
+                                    <td class="edit-btn-cell">
+                                        <form method="get" class="btn-form" action="/VenderEdit">
+                                            <input type="hidden" name="Index" value="@vender.Index" />
+                                            <button type="submit" class="btn btn-secondary">編集</button>
+                                        </form>
 
-                                <form method="post"class="btn-form"onsubmit="return confirm('@Message.M_Q0001')">
-                                      <input type="hidden"name="Index" value="@vender.Index"/>
-                                      <button type="submit" class="btn btn-warnning">削除</button>
-                                  </form>
-                            </td class>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                        <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
+                                            <input type="hidden" name="Index" value="@vender.Index" />
+                                            <button type="submit" class="btn btn-warnning">削除</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </body>

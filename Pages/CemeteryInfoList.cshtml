@@ -1,9 +1,10 @@
 ﻿@page
-@model YasiroRegrave.Pages.CemeteryInfoListModel
+@model CemeteryInfoListModel
 @{
     @using YasiroRegrave.Pages.common;
     Layout = null;
 }
+
 <head>
     <meta charset="utf-8" />
     <title>墓所情報一覧</title>
@@ -60,8 +61,8 @@
                                     <td>@cemeteryinfo.AreaName</td>
                                     <td>@cemeteryinfo.SectionName</td>
                                     <td>@cemeteryinfo.CemeteryName</td>
-                                    <td>@(string.IsNullOrEmpty(cemeteryinfo.Image1Fname) ? "未" : "済")</td>
-                                    <td>@(string.IsNullOrEmpty(cemeteryinfo.Image2Fname) ? "未" : "済")</td>
+                                    <td>@(string.IsNullOrEmpty(cemeteryinfo.Image1Fname) ? Config.ExistType.未 : Config.ExistType.済)</td>
+                                    <td>@(string.IsNullOrEmpty(cemeteryinfo.Image2Fname) ? Config.ExistType.未 : Config.ExistType.済)</td>
                                     <td class="edit-btn-cell">
                                         <form method="get" class="btn-form" action="/CemeteryInfoEdit" style="display: inline-block; margin-right: 1px;">
                                             <input type="hidden" name="Index" value="@cemeteryinfo.CemeteryInfoIndex" />
