@@ -41,6 +41,7 @@ namespace YasiroRegrave.Pages
         public bool Image1Deleted { get; set; } = false;
         [BindProperty]
         public bool Image2Deleted { get; set; } = false;
+        public int Authority = (int)Config.AuthorityType.’S“–ŽÒ;
 
         private string? ReienCode { get; set; }
         private string? AreaCode { get; set; }
@@ -55,15 +56,21 @@ namespace YasiroRegrave.Pages
 
         public List<PageCemeteryInfo> CemeteryInfos { get; set; } = new List<PageCemeteryInfo>();
 
-        public void OnGet(int? index)
+        public string? LoginId { get; private set; }
+        public IActionResult OnGet(int? index)
         {
+            LoginId = HttpContext.Session.GetString("LoginId");
+            if (string.IsNullOrEmpty(LoginId))
+            {
+                return RedirectToPage("/Index");
+            }
             CemeteryInfoIndex = index;
             if (index.HasValue)
             {
                 GetPage(index);
             }
+            return Page();
         }
-
         public IActionResult OnPost(int? index)
         {
             GetPage(index);
@@ -148,25 +155,29 @@ namespace YasiroRegrave.Pages
         }
         private void GetPage(int? index)
         {
-
+            var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == 0 && v.Id == LoginId);
+            if (existingUser != null)
+            {
+                Authority = existingUser.Authority;
+            }
 
             var cemeteryinfo = _context.CemeteryInfos
-                .Where(ci => ci.DeleteFlag == 0 && ci.CemeteryInfoIndex == index)
-                .Select(ci => new PageCemeteryInfo
-                {
-                    CemeteryInfoIndex = ci.CemeteryInfoIndex,
-                    ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
-                    AreaName = ci.Cemetery.Section.Area.AreaName,
-                    SectionName = ci.Cemetery.Section.SectionName,
-                    CemeteryName = ci.Cemetery.CemeteryName,
-                    Image1Fname = ci.Image1Fname,
-                    Image2Fname = ci.Image2Fname,
-                    ReienCode = ci.Cemetery.Section.Area.Reien.ReienCode,
-                    AreaCode = ci.Cemetery.Section.Area.AreaCode,
-                    SectionCode = ci.Cemetery.Section.SectionCode,
-                    CemeteryCode = ci.Cemetery.CemeteryCode
-                })
-                .FirstOrDefault();
+            .Where(ci => ci.DeleteFlag == 0 && ci.CemeteryInfoIndex == index)
+            .Select(ci => new PageCemeteryInfo
+            {
+                CemeteryInfoIndex = ci.CemeteryInfoIndex,
+                ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
+                AreaName = ci.Cemetery.Section.Area.AreaName,
+                SectionName = ci.Cemetery.Section.SectionName,
+                CemeteryName = ci.Cemetery.CemeteryName,
+                Image1Fname = ci.Image1Fname,
+                Image2Fname = ci.Image2Fname,
+                ReienCode = ci.Cemetery.Section.Area.Reien.ReienCode,
+                AreaCode = ci.Cemetery.Section.Area.AreaCode,
+                SectionCode = ci.Cemetery.Section.SectionCode,
+                CemeteryCode = ci.Cemetery.CemeteryCode
+            })
+            .FirstOrDefault();
 
 
             if (cemeteryinfo != null)

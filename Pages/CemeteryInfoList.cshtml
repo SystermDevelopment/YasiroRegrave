@@ -29,9 +29,12 @@
                 </a>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="/UserList">ユーザー情報一覧</a></li>
-                <li><a href="/VenderList">販売会社情報一覧</a></li>
-                <li><a href="/ReienList">メール送信先一覧</a></li>
+                @if (Model.Authority == (int)Config.AuthorityType.管理者)
+                {
+                    <li><a href="/UserList">ユーザー情報一覧</a></li>
+                    <li><a href="/VenderList">販売会社情報一覧</a></li>
+                    <li><a href="/ReienList">メール送信先一覧</a></li>
+                }
                 <li><a href="/CemeteryInfoList">墓所情報一覧</a></li>
             </ul>
         </div>
