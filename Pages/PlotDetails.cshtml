@@ -1,6 +1,7 @@
 ﻿@page
 @model PlotDetailsModel
 @{
+    @using YasiroRegrave.Pages.common;
     ViewData["Title"] = "空き区画状況";
 }
 <link href="~/css/PlotDetails.css" rel="stylesheet">
@@ -64,8 +65,8 @@
             </table>
         </div>
         <div class="button-container">
-            <button class="button-visit" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=0'">見学予約のお申込み</button>
-            <button class="button-reserve" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=1'">仮予約のお申込み</button>
+            <button class="button-visit" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.見学予約)'">見学予約のお申込み</button>
+            <button class="button-reserve" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.仮予約)'">仮予約のお申込み</button>
         </div>
     </div>
 }

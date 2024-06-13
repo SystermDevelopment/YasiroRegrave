@@ -36,6 +36,12 @@ namespace YasiroRegrave.Pages.common
             管理者 = 0,
             担当者 = 1,
         }
+        // 予約種別
+        public enum ReserveType
+        {
+            見学予約 = 0,
+            仮予約 = 1,
+        }
         public static readonly Dictionary<string, string> MIME_IMAGE = new Dictionary<string, string>
         {
             {".jpg","image/jpeg"},

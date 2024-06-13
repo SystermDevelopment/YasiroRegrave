@@ -63,10 +63,13 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         public List<string> SelectCheckBox { get; set; } = new List<string>();
 
-        public int SectionIndex { get; private set; } = 0;
+        [BindProperty]
+        public int CemeteryIndex { get; private set; } = 0;
 
-        public int ReserveMode { get; set; } = 0;
+        [BindProperty]
+        public int ReserveMode { get; set; } = (int)Config.ReserveType.Œ©Šw—\–ñ;
 
+        [BindProperty]
         public string SectionName { get; set; } = "";
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 ReserveMode = mode;
-                SectionIndex = index ?? 0;
+                CemeteryIndex = index ?? 0;
                 GetPage();
             }
             return;
@@ -101,9 +104,16 @@ namespace YasiroRegrave.Pages
         }
         public void GetPage()
         {
-            SectionName = "eêa‚d‹æ ‚W—ñ-‚O‚R";
-            //SectionName = _context.CemeteryInfos.FirstOrDefault(c=>c.Cemetery.Section.SectionIndex == SectionIndex)?.Cemetery.Section.SectionCode ?? "";
-            return;
+            var existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryIndex == CemeteryIndex);
+            if (existingCemetery != null)
+            {
+                var existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionIndex == existingCemetery.SectionIndex);
+                if (existingSection != null)
+                {
+                    SectionName = Utils.SectionCode2Name(existingSection.SectionCode) + "-" + Utils.CemeteryCode2Name(existingCemetery.CemeteryCode);
+                    return;
+                }
+            }
         }
     }
 }
