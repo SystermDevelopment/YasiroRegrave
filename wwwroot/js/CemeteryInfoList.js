@@ -28,7 +28,9 @@
         filterArea.innerHTML = '';
 
         // 霊園リストボックスが未選択のとき無効
-        if (selectedReienIndex == '-1') {
+        if (selectedReienIndex == '' || selectedReienIndex == '-1') {
+            filterReien.value = -1;
+            filterArea.value = -1;
             filterArea.selectedIndex = -1;
             filterArea.disabled = true;
             return;
@@ -68,7 +70,7 @@
         filterSection.innerHTML = '';
 
         // エリアリストボックスが未選択のとき無効
-        if (selectedAreaIndex == '-1') {
+        if (selectedAreaIndex == '' || selectedAreaIndex == '-1') {
             filterSection.selectedIndex = -1;
             filterSection.disabled = true;
             return;
