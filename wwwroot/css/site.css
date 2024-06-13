@@ -100,13 +100,18 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .search-group {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-width: 100px;
+    margin: 5px;
 }
 
 .search-select {
     padding: 5px 10px;
+    width: 80%;
 }

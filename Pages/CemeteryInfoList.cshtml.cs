@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NuGet.Configuration;
+using System.Security.Cryptography;
 using YasiroRegrave.Data;
+using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
+using static YasiroRegrave.Pages.UserListModel;
 
 namespace YasiroRegrave.Pages
 {
@@ -16,8 +19,24 @@ namespace YasiroRegrave.Pages
         }
         public List<CemeteryInfo> CemeteryInfos { get; set; } = new List<CemeteryInfo>();
         public List<int> SelectedReiens { get; set; } = new List<int>();
+        public List<ReienData> Reiens { get; set; } = new List<ReienData>();
+        public List<AreaData> Areas { get; set; } = new List<AreaData>();
+        public List<SectionData> Sections { get; set; } = new List<SectionData>();
+        public int FilterReien { get; set; } = -1;
+        public int FilterArea { get; set; } = -1;
+        public int FilterSection { get; set; } = -1;
+        public int FilterImage { get; set; } = -1;
+        public int FilterReserve { get; set; } = -1;
+
         public string? LoginId { get; private set; }
         public int Authority = (int)Config.AuthorityType.担当者;
+
+
+        /// <summary>
+        /// OnGet処理
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
         public IActionResult OnGet()
         {
             LoginId = HttpContext.Session.GetString("LoginId");
@@ -25,12 +44,51 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+
+            FilterReserve = 0;
+
             GetPage();
             return Page();
         }
+        /// <summary>
+        /// OnPost処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
+        public IActionResult OnPost(int index)
+        {
+            LoginId = HttpContext.Session.GetString("LoginId");
+            if (string.IsNullOrEmpty(LoginId))
+            {
+                return RedirectToPage("/Index");
+            }
+
+            var action = Request.Form["Action"].ToString();
+            if (action == "Search")
+            {
+                if (!int.TryParse(Request.Form["FilterReien"], out int reien)) { reien = -1; }
+                if (!int.TryParse(Request.Form["FilterArea"], out int area)) { area = -1; }
+                if (!int.TryParse(Request.Form["FilterSection"], out int sect)) { sect = -1; }
+                if (!int.TryParse(Request.Form["FilterImage"], out int img)) { img = -1; }
+                if (!int.TryParse(Request.Form["FilterReserve"], out int rsv)) { rsv = 0; }
+                FilterReien = reien;
+                FilterArea = area;
+                FilterSection = sect;
+                FilterImage = img;
+                FilterReserve = rsv;
+
+                GetPage();
+            }
+            return Page();
+        }
+        /// <summary>
+        /// 画面生成処理
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
         private void GetPage()
         {
-            var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == 0 && v.Id == LoginId);
+            var existingUser = _context.Users.FirstOrDefault(u => u.DeleteFlag == 0 && u.Id == LoginId);
             if (existingUser != null)
             {
                 Authority = existingUser.Authority;
@@ -43,7 +101,7 @@ namespace YasiroRegrave.Pages
             .Where(ci => ci.DeleteFlag == 0 && SelectedReiens.Contains(ci.Cemetery.Section.Area.ReienIndex))
             .Select(ci => new CemeteryInfo
             {
-            CemeteryInfoIndex = ci.CemeteryInfoIndex,
+                CemeteryInfoIndex = ci.CemeteryInfoIndex,
                 CemeteryIndex = ci.CemeteryIndex,
                 CemeteryCode = ci.Cemetery.CemeteryCode,
                 CemeteryName = ci.Cemetery.CemeteryName,
@@ -58,30 +116,121 @@ namespace YasiroRegrave.Pages
                 ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
                 Image1Fname = ci.Image1Fname,
                 Image2Fname = ci.Image2Fname,
+                NoReserve = (ci.ReleaseStatus == (int)Config.ReleaseStatusType.販売中 && ci.SectionStatus == (int)Config.SectionStatusType.空)
             })
-                .ToList();
+            .ToList();
             CemeteryInfos = cemeteryinfoList;
+
+            // 検索機能
+            if (FilterReien != -1)
+            {
+                CemeteryInfos = CemeteryInfos
+                    .Where(c => c.ReienIndex == FilterReien)
+                    .ToList();
+            }
+            if (FilterArea != -1)
+            {
+                CemeteryInfos = CemeteryInfos
+                    .Where(c => c.AreaIndex == FilterArea)
+                    .ToList();
+            }
+            if (FilterSection != -1)
+            {
+                CemeteryInfos = CemeteryInfos
+                    .Where(c => c.SectionIndex == FilterSection)
+                    .ToList();
+            }
+            if (FilterImage != -1)
+            {
+                if(FilterImage == 0)
+                {
+                    CemeteryInfos = CemeteryInfos
+                        .Where(c => string.IsNullOrEmpty(c.Image1Fname) || string.IsNullOrEmpty(c.Image2Fname))
+                        .ToList();
+                }
+                else
+                {
+                    CemeteryInfos = CemeteryInfos
+                        .Where(c => !string.IsNullOrEmpty(c.Image1Fname) && !string.IsNullOrEmpty(c.Image2Fname))
+                        .ToList();
+                }
+            }
+            if (FilterReserve == 0)
+            {
+                CemeteryInfos = CemeteryInfos
+                    .Where(c => c.NoReserve == true)
+                    .ToList();
+            }
+
+            // 検索条件
+            var reienList = _context.Reiens
+                    .Where(r => r.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Select(r => new ReienData
+                    {
+                        ReienIndex = r.ReienIndex,
+                        ReienName = r.ReienName,
+                    })
+                    .ToList();
+            Reiens = reienList;
+
+            var areaList = _context.Areas
+                    .Where(a => a.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Select(a => new AreaData
+                    {
+                        ReienIndex = a.ReienIndex,
+                        AreaIndex = a.AreaIndex,
+                        AreaName = a.AreaName,
+                    })
+                    .ToList();
+            Areas = areaList;
+
+            var sectionList = _context.Sections
+                    .Where(s => s.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Select(s => new SectionData
+                    {
+                        AreaIndex = s.AreaIndex,
+                        SectionIndex = s.SectionIndex,
+                        SectionName = s.SectionName,
+                    })
+                    .ToList();
+            Sections = sectionList;
         }
 
         public class CemeteryInfo
         {
             public int CemeteryInfoIndex { get; set; }
             public int ReienIndex { get; set; }
-            public string ReienCode { get; set; }
-            public string ReienName { get; set; }
-            public string AreaCode { get; set; }
+            public string ReienCode { get; set; } = string.Empty;
+            public string ReienName { get; set; } = string.Empty;
+            public string AreaCode { get; set; } = string.Empty;
             public int AreaIndex { get; set; }
-            public string AreaName { get; set; }
-            public string SectionCode { get; set; }
+            public string AreaName { get; set; } = string.Empty;
+            public string SectionCode { get; set; } = string.Empty;
             public int SectionIndex { get; set; }
-            public string SectionName { get; set; }
-            public string CemeteryCode { get; set; }
+            public string SectionName { get; set; } = string.Empty;
+            public string CemeteryCode { get; set; } = string.Empty;
             public int CemeteryIndex { get; set; }
-            public string CemeteryName { get; set; }
-            public string? Image1Fname { get; set; }
-            public string? Image2Fname { get; set; }
-
+            public string CemeteryName { get; set; } = string.Empty;
+            public string? Image1Fname { get; set; } = string.Empty;
+            public string? Image2Fname { get; set; } = string.Empty;
+            public bool NoReserve { get; set; }
         }
-
+        public class ReienData
+        {
+            public int ReienIndex { get; set; }
+            public string ReienName { get; set; } = string.Empty;
+        }
+        public class AreaData
+        {
+            public int ReienIndex { get; set; }
+            public int AreaIndex { get; set; }
+            public string AreaName { get; set; } = string.Empty;
+        }
+        public class SectionData
+        {
+            public int AreaIndex { get; set; }
+            public int SectionIndex { get; set; }
+            public string SectionName { get; set; } = string.Empty;
+        }
     }
 }
