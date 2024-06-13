@@ -12,10 +12,10 @@ using YasiroRegrave.Pages.common;
 namespace YasiroRegrave.Pages
 {
 
-    public class Index1Model : PageModel
+    public class Reserve1Model : PageModel
     {
         private readonly ApplicationDbContext _context;
-        public Index1Model(ApplicationDbContext context)
+        public Reserve1Model(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -72,6 +72,7 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         public string SectionName { get; set; } = "";
 
+
         /// <summary>
         /// OnGet処理
         /// </summary>
@@ -88,6 +89,11 @@ namespace YasiroRegrave.Pages
             return;
         }
 
+        /// <summary>
+        /// OnPost処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
         public IActionResult OnPost()
         {
             if (SelectCheckBox.Count == 0)
@@ -102,18 +108,25 @@ namespace YasiroRegrave.Pages
 
             return RedirectToPage();
         }
+
+        /// <summary>
+        /// 画面生成処理
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
         public void GetPage()
         {
-            var existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryIndex == CemeteryIndex);
+            var existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.CemeteryIndex == CemeteryIndex);
             if (existingCemetery != null)
             {
-                var existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionIndex == existingCemetery.SectionIndex);
+                var existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.SectionIndex == existingCemetery.SectionIndex);
                 if (existingSection != null)
                 {
                     SectionName = Utils.SectionCode2Name(existingSection.SectionCode) + "-" + Utils.CemeteryCode2Name(existingCemetery.CemeteryCode);
                     return;
                 }
             }
+            return;
         }
     }
 }

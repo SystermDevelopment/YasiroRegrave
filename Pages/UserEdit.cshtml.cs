@@ -1,23 +1,23 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.SymbolStore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
-using static YasiroRegrave.Pages.UserListModel;
 
 namespace YasiroRegrave.Pages
-
 {
-
     public class UserEditModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+        public UserEditModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
         [StringLength(20, ErrorMessage = Message.M_E0010)]
         [Required(ErrorMessage = Message.M_E0003)]
-
         public string Id { get; set; } = string.Empty;
 
         [BindProperty]
@@ -30,32 +30,41 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0001)]
         [StringLength(100, ErrorMessage = Message.M_E0002)]
-
         public string Name { get; set; } = string.Empty;
 
         public List<Vender> Venders{ get; set; } = new List<Vender>();
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0004)]
-
         public string Password { get; set; } = string.Empty;
+
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0008)]
         public int? SelectVenderIndex { get; set; } 
+
         //[BindProperty]
         public int? Index { get; set; }
 
         public List<Reien> reiens { get; set; } = new List<Reien>();
 
-        private readonly ApplicationDbContext _context;
-        public UserEditModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         public List<PageUser> Users { get; set; } = new List<PageUser>();
-        public void OnGet(int? index)
+
+        public int? LoginId { get; private set; }
+
+
+        /// <summary>
+        /// OnGetèàóù
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
+        public IActionResult OnGet(int? index)
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
             reiens = _context.Reiens
                 .Where(r => r.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
                 .ToList();
@@ -82,9 +91,22 @@ namespace YasiroRegrave.Pages
             .Where(v => v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
             .ToList();
 
+            return Page();
         }
+
+        /// <summary>
+        /// OnPostèàóù
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
         public IActionResult OnPost(int? index)
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
             if (!ModelState.IsValid)
             {
                 if(index!=null)
@@ -128,11 +150,11 @@ namespace YasiroRegrave.Pages
                         Authority = Authority,
                         Name = Name,
                         Password = Password,    
-                        CreateDate = DateTime.UtcNow,
-                        //CreateUser = LoginId,
+                        CreateDate = DateTime.Now,
+                        CreateUser = LoginId,
                         DeleteFlag = (int)Config.DeleteType.ñ¢çÌèú,
                         Vender = forignVender,
-                        VenderIndex = SelectVenderIndex ??0,
+                        VenderIndex = SelectVenderIndex ?? 0,
 
                     };
                     _context.Users.Add(newUser);
@@ -151,7 +173,7 @@ namespace YasiroRegrave.Pages
                 }
                 else
                 {
-                    var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == 0 && v.UserIndex == index.Value);
+                    var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú && v.UserIndex == index.Value);
                     if (existingUser != null)
                     {
                         // UPDATE
@@ -159,9 +181,9 @@ namespace YasiroRegrave.Pages
                         existingUser.Authority = Authority;
                         existingUser.Name = Name;
                         existingUser.Password = Password;
-                        existingUser.UpdateDate = DateTime.UtcNow;
+                        existingUser.UpdateDate = DateTime.Now;
+                        existingUser.UpdateUser = LoginId;
                         existingUser.VenderIndex = SelectVenderIndex ?? 0;
-                        //existingVender.UpdateUser = LoginId,
                         var existingReienInfos = _context.ReienInfos.Where(ri => ri.Users.UserIndex == existingUser.UserIndex).ToList();
                         _context.ReienInfos.RemoveRange(existingReienInfos);
 
@@ -184,14 +206,15 @@ namespace YasiroRegrave.Pages
             return RedirectToPage("/UserList");
         }
 
+
         public class PageUser
         {
             public int Index { get; set; }
-            public string Id { get; set; }
-            public string Name { get; set; }
+            public string Id { get; set; } = string.Empty;
+            public string Name { get; set; } = string.Empty;
             public int VenderIndex { get; set; }
-            public string VenderName { get; set; }
-            public string Password { get; set; }
+            public string VenderName { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
         }
     }
 }

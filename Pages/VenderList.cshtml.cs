@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using YasiroRegrave.Data;
+using YasiroRegrave.Pages.common;
 
 namespace YasiroRegrave.Pages
 {
@@ -12,14 +13,61 @@ namespace YasiroRegrave.Pages
             _context = context;
         }
         public List<Vender> Venders { get; set; } = new List<Vender>();
-        public void OnGet()
+        
+        public int? LoginId { get; private set; }
+
+
+        /// <summary>
+        /// OnGetèàóù
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
+        public IActionResult OnGet()
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+            
             GetPage();
+            return Page();
         }
+
+        /// <summary>
+        /// OnPostèàóù
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
+        public IActionResult OnPost(int index)
+        {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+            
+            var venderDelete = _context.Venders.FirstOrDefault(v => v.VenderIndex == index);
+            if (venderDelete != null)
+            {
+                //DELITE
+                venderDelete.DeleteFlag = (int)Config.DeleteType.çÌèú;
+                venderDelete.UpdateDate = DateTime.Now;
+                venderDelete.UpdateUser = LoginId;
+                _context.SaveChanges();
+            }
+            return RedirectToPage("/VenderList");
+        }
+
+        /// <summary>
+        /// âÊñ ê∂ê¨èàóù
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
         private void GetPage()
         {
             var venderList = _context.Venders
-                .Where(v => v.DeleteFlag == 0)
+                .Where(v => v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
                 .Select(v => new Vender
                 {
                     Index = v.VenderIndex,
@@ -27,26 +75,15 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Venders = venderList;
-        }
-        public IActionResult OnPost(int index)
-        {
-            var venderDelete = _context.Venders.FirstOrDefault(v => v.VenderIndex == index);
-            if (venderDelete != null)
-            {
-                //DELITE
-                venderDelete.DeleteFlag = 1; 
-                //venderDelete.UpdateDate = DateTime.Now;
-                //venderDelete.UpdateUser = LoginID;
-                _context.SaveChanges();
-            }
-            return RedirectToPage("/VenderList");
+
+            return;
         }
 
 
         public class Vender
         {
             public int Index { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
         }
     }
 }

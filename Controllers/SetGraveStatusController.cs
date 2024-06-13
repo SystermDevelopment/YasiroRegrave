@@ -88,7 +88,7 @@ namespace YasiroRegrave.Controllers
                     default:
                         return BadRequest($"Invalid value for 区画状態: {info.区画状態}. Expected value");
                 }
-                existingCemeteryInfo.UpdateDate = DateTime.UtcNow;
+                existingCemeteryInfo.UpdateDate = DateTime.Now;
                 existingCemeteryInfo.UpdateUser = null;
                 existingCemeteryInfo.DeleteFlag = 0;
                 _context.SaveChanges();

@@ -14,7 +14,8 @@ namespace YasiroRegrave.Pages
         }
         public List<UserData> Users { get; set; } = new List<UserData>();
         public List<VenderData> Venders { get; set; } = new List<VenderData>();
-        public string? LoginId { get; private set; }
+
+        public int? LoginId { get; private set; }
         public int FilterVender { get; set; } = -1;
 
         /// <summary>
@@ -24,14 +25,15 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public IActionResult OnGet()
         {
-            LoginId = HttpContext.Session.GetString("LoginId");
-            if (string.IsNullOrEmpty(LoginId))
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
             {
                 return RedirectToPage("/Index");
             }
             GetPage();
             return Page();
         }
+
         /// <summary>
         /// OnPostèàóù
         /// </summary>
@@ -39,8 +41,8 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public IActionResult OnPost(int index)
         {
-            LoginId = HttpContext.Session.GetString("LoginId");
-            if (string.IsNullOrEmpty(LoginId))
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
             {
                 return RedirectToPage("/Index");
             }
@@ -52,9 +54,9 @@ namespace YasiroRegrave.Pages
                 if (userDelete != null)
                 {
                     //DELITE
-                    userDelete.DeleteFlag = 1;
+                    userDelete.DeleteFlag = (int)Config.DeleteType.çÌèú;
                     userDelete.UpdateDate = DateTime.Now;
-                    //userDelete.UpdateUser = LoginId;
+                    userDelete.UpdateUser = LoginId;
                     _context.SaveChanges();
                 }
                 return RedirectToPage("/UserList");
@@ -70,6 +72,7 @@ namespace YasiroRegrave.Pages
             }
             return Page();
         }
+
         /// <summary>
         /// âÊñ ê∂ê¨èàóù
         /// </summary>
@@ -109,7 +112,10 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Venders = venderList;
+
+            return;
         }
+
 
         public class UserData
         {

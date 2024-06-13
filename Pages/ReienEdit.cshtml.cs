@@ -11,6 +11,12 @@ namespace YasiroRegrave.Pages
 { 
     public class ReienEditModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+        public ReienEditModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0006)]
         [StringLength(500, ErrorMessage = Message.M_E0011)]
@@ -34,30 +40,53 @@ namespace YasiroRegrave.Pages
 
         public int SelectedReien = 0;
 
-        private readonly ApplicationDbContext _context;
-        public ReienEditModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
         public List<PageReien> Reiens { get; set; } = new List<PageReien>();
-        public void OnGet(int? index)
+
+        public int? LoginId { get; private set; }
+
+
+        /// <summary>
+        /// OnGet処理
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
+        public IActionResult OnGet(int? index)
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+            
             Index = index;
             if (index.HasValue)
             {
                 var reien = _context.Reiens
-            .Where(r => r.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Where(r => r.ReienIndex == Index && r.DeleteFlag == (int)Config.DeleteType.未削除)
                     .FirstOrDefault();
                 if (reien != null)
                 {
                     ReienCode = reien.ReienCode;
                     Name = reien.ReienName;
-                    MailAddress = reien.MailAddress;
+                    MailAddress = reien.MailAddress ?? "";
                 }
             }
+            return Page();
         }
+
+        /// <summary>
+        /// OnPost処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
         public IActionResult OnPost(int? index)
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+            
             try
             {
                 if (index == null)
@@ -67,13 +96,9 @@ namespace YasiroRegrave.Pages
                         ReienCode = ReienCode,
                         ReienName = Name,
                         MailAddress = MailAddress,
-                        CreateDate = DateTime.UtcNow,
-                        //CreateUser = LoginId,
+                        CreateDate = DateTime.Now,
+                        CreateUser = LoginId,
                         DeleteFlag = (int)Config.DeleteType.未削除,
-                        //Vendor = forignVender,
-
-
-
                     };
                     _context.Reiens.Add(newReien);
                     _context.SaveChanges();
@@ -89,9 +114,8 @@ namespace YasiroRegrave.Pages
                         existingReien.ReienCode = ReienCode;
                         existingReien.ReienName = Name;
                         existingReien.MailAddress = MailAddress;
-                        existingReien.UpdateDate = DateTime.UtcNow;
-                        //existingVender.UpdateUser = LoginId,
-
+                        existingReien.UpdateDate = DateTime.Now;
+                        existingReien.UpdateUser = LoginId;
                         _context.SaveChanges();
                     }
                 }
@@ -102,12 +126,14 @@ namespace YasiroRegrave.Pages
             }
             return RedirectToPage("/ReienList");
         }
+
+
         public class PageReien
         {
             public int Index { get; set; }
-            public string Code { get; set; }
-            public string Name { get; set; }
-            public string MailAddress { get; set; }
+            public string Code { get; set; } = string.Empty;
+            public string Name { get; set; } = string.Empty;
+            public string MailAddress { get; set; } = string.Empty;
         }
     }
 }
