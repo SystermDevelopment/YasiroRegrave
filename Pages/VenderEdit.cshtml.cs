@@ -13,6 +13,12 @@ namespace YasiroRegrave.Pages
 {
     public class VenderEditModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+        public VenderEditModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0007)]
         [StringLength(100, ErrorMessage = Message.M_E0011)]
@@ -25,35 +31,54 @@ namespace YasiroRegrave.Pages
         
         public Config.DeleteType DeleteFlag { get; set; }
     
-
         //[BindProperty]
         public int SelectedVender = 0;
 
-        private readonly ApplicationDbContext _context;
-        public VenderEditModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
         public List<PageVender> Venders { get; set; } = new List<PageVender>();
 
-        public void OnGet(int? index)
+        public int? LoginId { get; private set; }
+
+
+        /// <summary>
+        /// OnGetèàóù
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
+        public IActionResult OnGet(int? index)
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
             Index = index;
             if (index.HasValue)
             {
                 var vender = _context.Venders
                     .Where(v => v.VenderIndex == Index && v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
-
                     .FirstOrDefault();
                 if (vender != null)
                 {
                     VenderName = vender.Name;
                 }
             }
+            return Page();
         }
 
+        /// <summary>
+        /// OnPostèàóù
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
         public IActionResult OnPost(int? index)
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
             try
             {
                 if (index == null)
@@ -62,25 +87,22 @@ namespace YasiroRegrave.Pages
                     var newVender = new Vender
                     {
                         Name = VenderName,
-                        CreateDate = DateTime.UtcNow,
-                        //CreateUser = LoginId,
+                        CreateDate = DateTime.Now,
+                        CreateUser = LoginId,
                         DeleteFlag = (int)Config.DeleteType.ñ¢çÌèú,
-
-
                     };
                     _context.Venders.Add(newVender);
                     _context.SaveChanges();
                 }
                 else
                 {
-                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == 0 && v.VenderIndex == index.Value).FirstOrDefault();
+                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú && v.VenderIndex == index.Value).FirstOrDefault();
                     if (existingVender != null)
                     {
                         // UPDATE
                         existingVender.Name = VenderName;
-                        existingVender.UpdateDate = DateTime.UtcNow;
-                        //existingVender.UpdateUser = LoginId,
-
+                        existingVender.UpdateDate = DateTime.Now;
+                        existingVender.UpdateUser = LoginId;
                         _context.SaveChanges();
                     }
                 }
@@ -91,18 +113,12 @@ namespace YasiroRegrave.Pages
             }
             return RedirectToPage("/VenderList");
         }
-
-
-
-
-
-
     
 
         public class PageVender
         {
             public int Index { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
         }
     }
 }

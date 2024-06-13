@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +45,7 @@ namespace YasiroRegrave.Pages
                 .FirstOrDefault(u => u.Id == LoginId && u.Password == Password);
             if (user != null && LoginId != null)
             {
-                HttpContext.Session.SetString("LoginId", LoginId);
+                HttpContext.Session.SetInt32("LoginId", user.UserIndex);
                 if (user.Authority == (int)Config.AuthorityType.管理者)
                 {
                     return RedirectToPage("/UserList");

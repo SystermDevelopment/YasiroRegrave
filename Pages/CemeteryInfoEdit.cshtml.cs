@@ -12,6 +12,12 @@ namespace YasiroRegrave.Pages
 {
     public class CemeteryInfoEditModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+        public CemeteryInfoEditModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
         public string ReienName { get; set; }
         [BindProperty]
@@ -48,22 +54,23 @@ namespace YasiroRegrave.Pages
         private string? SectionCode { get; set; }
         private string? CemeteryCode { get; set; }
 
-        private readonly ApplicationDbContext _context;
-        public CemeteryInfoEditModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         public List<PageCemeteryInfo> CemeteryInfos { get; set; } = new List<PageCemeteryInfo>();
+        public int? LoginId { get; private set; }
 
-        public string? LoginId { get; private set; }
+
+        /// <summary>
+        /// OnGet処理
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
         public IActionResult OnGet(int? index)
         {
-            LoginId = HttpContext.Session.GetString("LoginId");
-            if (string.IsNullOrEmpty(LoginId))
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
             {
                 return RedirectToPage("/Index");
             }
+
             CemeteryInfoIndex = index;
             if (index.HasValue)
             {
@@ -71,8 +78,20 @@ namespace YasiroRegrave.Pages
             }
             return Page();
         }
+
+        /// <summary>
+        /// OnPost処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
         public IActionResult OnPost(int? index)
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
             GetPage(index);
             try
             {
@@ -123,12 +142,7 @@ namespace YasiroRegrave.Pages
 
                 if (index == null)
                 {
-                    var newCemeteryInfo = new CemeteryInfo
-                    {
-                        // Add properties here
-                    };
-                    _context.CemeteryInfos.Add(newCemeteryInfo);
-                    _context.SaveChanges();
+                    /* Nothing */
                 }
                 else
                 {
@@ -140,9 +154,8 @@ namespace YasiroRegrave.Pages
                         // UPDATE
                         existingCemeteryinfo.Image1Fname = Image1Fname;
                         existingCemeteryinfo.Image2Fname = Image2Fname;
-                        existingCemeteryinfo.UpdateDate = DateTime.UtcNow;
-                        //existingVender.UpdateUser = LoginId,
-
+                        existingCemeteryinfo.UpdateDate = DateTime.Now;
+                        existingCemeteryinfo.UpdateUser = LoginId;
                         _context.SaveChanges();
                     }
                 }
@@ -155,14 +168,14 @@ namespace YasiroRegrave.Pages
         }
         private void GetPage(int? index)
         {
-            var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == 0 && v.Id == LoginId);
+            var existingUser = _context.Users.FirstOrDefault(u => u.DeleteFlag == (int)Config.DeleteType.未削除 && u.UserIndex == LoginId);
             if (existingUser != null)
             {
                 Authority = existingUser.Authority;
             }
 
             var cemeteryinfo = _context.CemeteryInfos
-            .Where(ci => ci.DeleteFlag == 0 && ci.CemeteryInfoIndex == index)
+            .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.未削除 && ci.CemeteryInfoIndex == index)
             .Select(ci => new PageCemeteryInfo
             {
                 CemeteryInfoIndex = ci.CemeteryInfoIndex,
@@ -170,8 +183,8 @@ namespace YasiroRegrave.Pages
                 AreaName = ci.Cemetery.Section.Area.AreaName,
                 SectionName = ci.Cemetery.Section.SectionName,
                 CemeteryName = ci.Cemetery.CemeteryName,
-                Image1Fname = ci.Image1Fname,
-                Image2Fname = ci.Image2Fname,
+                Image1Fname = ci.Image1Fname ?? "",
+                Image2Fname = ci.Image2Fname ?? "",
                 ReienCode = ci.Cemetery.Section.Area.Reien.ReienCode,
                 AreaCode = ci.Cemetery.Section.Area.AreaCode,
                 SectionCode = ci.Cemetery.Section.SectionCode,
@@ -201,6 +214,7 @@ namespace YasiroRegrave.Pages
                     Image2FnameURL = $"/api/Files/GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{CemeteryCode}&sel=2";
                 }
             }
+            return;
         }
 
 
@@ -224,18 +238,16 @@ namespace YasiroRegrave.Pages
         public class PageCemeteryInfo
         {
             public int CemeteryInfoIndex { get; set; }
-            public string ReienName { get; set; }
-            public string AreaName { get; set; }
-            public string SectionName { get; set; }
-            public string CemeteryName { get; set; }
-            public string Image1Fname { get; set; }
-            public string Image2Fname { get; set; }
-            public string ReienCode { get; set; }
-            public string AreaCode { get; set; }
-            public string SectionCode { get; set; }
-
-            public string CemeteryCode { get; set; }
-
+            public string ReienName { get; set; } = string.Empty;
+            public string AreaName { get; set; } = string.Empty;
+            public string SectionName { get; set; } = string.Empty;
+            public string CemeteryName { get; set; } = string.Empty;
+            public string Image1Fname { get; set; } = string.Empty;
+            public string Image2Fname { get; set; } = string.Empty;
+            public string ReienCode { get; set; } = string.Empty;
+            public string AreaCode { get; set; } = string.Empty;
+            public string SectionCode { get; set; } = string.Empty;
+            public string CemeteryCode { get; set; } = string.Empty;
         }
     }
 }

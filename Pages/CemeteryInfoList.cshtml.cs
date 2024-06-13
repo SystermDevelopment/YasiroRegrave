@@ -9,7 +9,6 @@ using static YasiroRegrave.Pages.UserListModel;
 
 namespace YasiroRegrave.Pages
 {
-
     public class CemeteryInfoListModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -17,6 +16,7 @@ namespace YasiroRegrave.Pages
         {
             _context = context;
         }
+
         public List<CemeteryInfo> CemeteryInfos { get; set; } = new List<CemeteryInfo>();
         public List<int> SelectedReiens { get; set; } = new List<int>();
         public List<ReienData> Reiens { get; set; } = new List<ReienData>();
@@ -28,7 +28,7 @@ namespace YasiroRegrave.Pages
         public int FilterImage { get; set; } = -1;
         public int FilterReserve { get; set; } = -1;
 
-        public string? LoginId { get; private set; }
+        public int? LoginId { get; private set; }
         public int Authority = (int)Config.AuthorityType.担当者;
 
 
@@ -39,8 +39,8 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public IActionResult OnGet()
         {
-            LoginId = HttpContext.Session.GetString("LoginId");
-            if (string.IsNullOrEmpty(LoginId))
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
             {
                 return RedirectToPage("/Index");
             }
@@ -50,6 +50,7 @@ namespace YasiroRegrave.Pages
             GetPage();
             return Page();
         }
+
         /// <summary>
         /// OnPost処理
         /// </summary>
@@ -57,8 +58,8 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public IActionResult OnPost(int index)
         {
-            LoginId = HttpContext.Session.GetString("LoginId");
-            if (string.IsNullOrEmpty(LoginId))
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
             {
                 return RedirectToPage("/Index");
             }
@@ -81,6 +82,7 @@ namespace YasiroRegrave.Pages
             }
             return Page();
         }
+
         /// <summary>
         /// 画面生成処理
         /// </summary>
@@ -88,7 +90,7 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         private void GetPage()
         {
-            var existingUser = _context.Users.FirstOrDefault(u => u.DeleteFlag == 0 && u.Id == LoginId);
+            var existingUser = _context.Users.FirstOrDefault(u => u.DeleteFlag == (int)Config.DeleteType.未削除 && u.UserIndex == LoginId);
             if (existingUser != null)
             {
                 Authority = existingUser.Authority;
@@ -98,7 +100,7 @@ namespace YasiroRegrave.Pages
                  .ToList();
             }
             var cemeteryinfoList = _context.CemeteryInfos
-            .Where(ci => ci.DeleteFlag == 0 && SelectedReiens.Contains(ci.Cemetery.Section.Area.ReienIndex))
+            .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.未削除 && SelectedReiens.Contains(ci.Cemetery.Section.Area.ReienIndex))
             .Select(ci => new CemeteryInfo
             {
                 CemeteryInfoIndex = ci.CemeteryInfoIndex,
@@ -194,7 +196,10 @@ namespace YasiroRegrave.Pages
                     })
                     .ToList();
             Sections = sectionList;
+
+            return;
         }
+
 
         public class CemeteryInfo
         {

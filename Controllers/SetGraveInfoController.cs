@@ -52,9 +52,9 @@ namespace YasiroRegrave.Controllers
                         ReienIndex = existingReien.ReienIndex,
                         AreaCode = info.工区番号,
                         AreaName = info.工区名,
-                        CreateDate = DateTime.UtcNow,
+                        CreateDate = DateTime.Now,
                         CreateUser = null,
-                        UpdateDate = DateTime.UtcNow,
+                        UpdateDate = DateTime.Now,
                         UpdateUser = null,
                         DeleteFlag = 0,
                         Reien = existingReien
@@ -67,7 +67,7 @@ namespace YasiroRegrave.Controllers
                 {
                     // UPDATE
                     existingArea.AreaName = info.工区名;
-                    existingArea.UpdateDate = DateTime.UtcNow;
+                    existingArea.UpdateDate = DateTime.Now;
                     existingArea.UpdateUser = null;
                     existingArea.DeleteFlag = 0;
                     _context.SaveChanges();
@@ -83,9 +83,9 @@ namespace YasiroRegrave.Controllers
                         AreaIndex = existingArea.AreaIndex,
                         SectionCode = section,
                         SectionName = section, // TODO: 本来のNameをもらったら修正すること
-                        CreateDate = DateTime.UtcNow,
+                        CreateDate = DateTime.Now,
                         CreateUser = null,
-                        UpdateDate = DateTime.UtcNow,
+                        UpdateDate = DateTime.Now,
                         UpdateUser = null,
                         DeleteFlag = 0,
                         Area = existingArea,
@@ -98,7 +98,7 @@ namespace YasiroRegrave.Controllers
                 {
                     // UPDATE
                     existingSection.SectionName = section; // TODO: 本来のNameをもらったら修正すること
-                    existingSection.UpdateDate = DateTime.UtcNow;
+                    existingSection.UpdateDate = DateTime.Now;
                     existingSection.UpdateUser = null;
                     existingSection.DeleteFlag = 0;
                     _context.SaveChanges();
@@ -114,9 +114,9 @@ namespace YasiroRegrave.Controllers
                         SectionIndex = existingSection.SectionIndex,
                         CemeteryCode = cemetery,
                         CemeteryName = cemetery, // TODO: 本来のNameをもらったら修正すること
-                        CreateDate = DateTime.UtcNow,
+                        CreateDate = DateTime.Now,
                         CreateUser = null,
-                        UpdateDate = DateTime.UtcNow,
+                        UpdateDate = DateTime.Now,
                         UpdateUser = null,
                         DeleteFlag = 0,
                         Section = existingSection,
@@ -129,7 +129,7 @@ namespace YasiroRegrave.Controllers
                 {
                     // UPDATE
                     existingCemetery.CemeteryName = cemetery; // TODO: 本来のNameをもらったら修正すること
-                    existingCemetery.UpdateDate = DateTime.UtcNow;
+                    existingCemetery.UpdateDate = DateTime.Now;
                     existingCemetery.UpdateUser = null;
                     existingCemetery.DeleteFlag = 0;
                     _context.SaveChanges();
@@ -146,9 +146,9 @@ namespace YasiroRegrave.Controllers
                         AreaValue = info.面積,
                         ReleaseStatus = 0,
                         SectionStatus = 0,
-                        CreateDate = DateTime.UtcNow,
+                        CreateDate = DateTime.Now,
                         CreateUser = null,
-                        UpdateDate = DateTime.UtcNow,
+                        UpdateDate = DateTime.Now,
                         UpdateUser = null,
                         DeleteFlag = 0,
                         Cemetery = existingCemetery
@@ -166,7 +166,7 @@ namespace YasiroRegrave.Controllers
                     existingCemeteryInfo.ManagementFee = info.管理料;
                     existingCemeteryInfo.StoneFee = info.仕置巻石料;
                     existingCemeteryInfo.SetPrice = info.墓石セット価格;
-                    existingCemeteryInfo.UpdateDate = DateTime.UtcNow;
+                    existingCemeteryInfo.UpdateDate = DateTime.Now;
                     existingCemeteryInfo.UpdateUser = null;
                     existingCemeteryInfo.DeleteFlag = 0;
                     _context.SaveChanges();
