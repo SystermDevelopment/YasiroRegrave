@@ -13,3 +13,14 @@
     margin-top: 20px;
 }
 
+.table-responsive {
+    overflow-y: auto;
+    height: 600px;
+}
+
+.table th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 2;
+}
