@@ -67,13 +67,13 @@ namespace YasiroRegrave.Pages
         public int CemeteryIndex { get; private set; } = 0;
 
         [BindProperty]
-        public int ReserveMode { get; set; } = (int)Config.ReserveType.Œ©Šw—\–ñ;
+        public int ReserveMode { get; set; } = (int)Config.ReserveType.è¦‹å­¦äºˆç´„;
 
         [BindProperty]
         public string SectionName { get; set; } = "";
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
