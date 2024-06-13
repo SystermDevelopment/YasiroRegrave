@@ -68,48 +68,50 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>販売会社</th>
-                                <th>ID</th>
-                                <th>権限</th>
-                                <th>名前</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var user in Model.Users)
-                            {
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>@user.VenderName</td>
-                                    <td>@user.Id</td>
-                                    <td>
-                                        @if (user.Authority == 0)
-                                        {
-                                            @:管理者
-                                        }
-                                        else if (user.Authority == 1)
-                                        {
-                                            @:担当者
-                                        }
-                                    </td>
-                                    <td>@user.Name</td>
-                                    <td class="edit-btn-cell">
-                                        <form method="get" class="btn-form" action="/UserEdit">
-                                            <input type="hidden" name="Index" value="@user.Index" />
-                                            <button type="submit" class="btn btn-secondary">編集</button>
-                                        </form>
-                                        <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
-                                            <input type="hidden" name="Index" value="@user.Index" />
-                                            <input type="hidden" name="Action" value="Delete" />
-                                            <button type="submit" class="btn btn-warnning">削除</button>
-                                        </form>
-                                    </td>
+                                    <th>販売会社</th>
+                                    <th>ID</th>
+                                    <th>権限</th>
+                                    <th>名前</th>
+                                    <th>操作</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <td>@user.VenderName</td>
+                                        <td>@user.Id</td>
+                                        <td>
+                                            @if (user.Authority == 0)
+                                            {
+                                                @:管理者
+                                            }
+                                            else if (user.Authority == 1)
+                                            {
+                                                @:担当者
+                                            }
+                                        </td>
+                                        <td>@user.Name</td>
+                                        <td class="edit-btn-cell">
+                                            <form method="get" class="btn-form" action="/UserEdit">
+                                                <input type="hidden" name="Index" value="@user.Index" />
+                                                <button type="submit" class="btn btn-secondary">編集</button>
+                                            </form>
+                                            <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
+                                                <input type="hidden" name="Index" value="@user.Index" />
+                                                <input type="hidden" name="Action" value="Delete" />
+                                                <button type="submit" class="btn btn-warnning">削除</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
