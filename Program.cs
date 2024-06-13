@@ -17,13 +17,13 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// サービスにコントローラーを追加
+// 繧ｵ繝ｼ繝薙せ縺ｫ繧ｳ繝ｳ繝医Ο繝ｼ繝ｩ繝ｼ繧定ｿｽ蜉
 builder.Services.AddControllers();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // セッションの有効期限
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // 繧ｻ繝�繧ｷ繝ｧ繝ｳ縺ｮ譛牙柑譛滄剞
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
