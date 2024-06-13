@@ -32,7 +32,7 @@ namespace YasiroRegrave.Controllers
             }
             var response = _context.CemeteryInfos
                 .Where(r => r.DeleteFlag == 0)
-                .Where(r => !startDate.HasValue || r.UpdateDate > startDate)
+                .Where(r => !startDate.HasValue || r.UpdateDate.Value.AddSeconds(-1) > startDate)
                 .Where(r => !endDate.HasValue || r.UpdateDate <= endDate)
                 .Select(r => new GetGraveStatusResponse
                 {
