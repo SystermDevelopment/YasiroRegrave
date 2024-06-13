@@ -36,7 +36,7 @@ namespace YasiroRegrave.Controllers
                 .Where(r => !endDate.HasValue || r.UpdateDate <= endDate)
                 .Select(r => new GetGraveStatusResponse
                 {
-                    霊園番号 = r.Cemetery.CemeteryIndex.ToString(),
+                    霊園番号 = r.Cemetery.Section.Area.Reien.ReienCode.ToString(),
                     区画番号 = r.Cemetery.Section.SectionCode.ToString() + "-" + r.Cemetery.CemeteryCode.ToString(),
                     面積 = r.AreaValue,
                     区画区分 = r.SectionType,
