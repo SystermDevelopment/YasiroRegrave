@@ -1,6 +1,7 @@
-using Microsoft.EntityFrameworkCore.SqlServer;
+using Serilog;
 using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Data;
+using YasiroRegrave.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
        options.UseSqlServer(
@@ -8,6 +9,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/regrave_.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // サービスにコントローラーを追加
 builder.Services.AddControllers();
@@ -36,7 +44,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

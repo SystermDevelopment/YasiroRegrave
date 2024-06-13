@@ -39,7 +39,7 @@ namespace YasiroRegrave.Controllers
                 .ThenInclude(s => s.Area)
                 .ThenInclude(a => a.Reien)
                 .Where(r => r.CemeteryInfo.DeleteFlag == 0)
-                .Where(r => !startDate.HasValue || r.CreateDate > startDate)
+                .Where(r => !startDate.HasValue || r.CreateDate.Value.AddSeconds(-1) > startDate)
                 .Where(r => !endDate.HasValue || r.CreateDate <= endDate)
                 .ToList();
 
