@@ -10,6 +10,11 @@
 <link rel="stylesheet" href="./css/Reserve.css">
 <link rel="stylesheet" href="./css/Reserve-sp.css" media="only screen and (max-width: 768px)">
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 <header>
     <h1>空き区画仮予約のお申し込み</h1>
 </header>
@@ -84,52 +89,53 @@
 
             <label for="email">Eメール</label>
             <input type="email" id="email" name="email" placeholder="例）info@abcd.com">
+            @if (Model.ReserveMode == (int)Config.ReserveType.見学予約)
+            {
+                <label for="date1">希望日①</label>
+                <input type="text" id="date1" name="date1">
 
-            <label for="date1">希望日①</label>
-            <input type="date" id="date1" name="date1">
+                <label for="time1">希望時間①</label>
+                <select id="time1" name="time1">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                </select>
 
-            <label for="time1">希望時間①</label>
-            <select id="time1" name="time1">
-                <option value="09:00">09:00</option>
-                <option value="10:00">10:00</option>
-                <option value="11:00">11:00</option>
-                <option value="12:00">12:00</option>
-                <option value="13:00">13:00</option>
-                <option value="14:00">14:00</option>
-                <option value="15:00">15:00</option>
-                <option value="16:00">16:00</option>
-            </select>
+                <label for="date2">希望日②</label>
+                <input type="text" id="date2" name="date2">
 
-            <label for="date2">希望日②</label>
-            <input type="date" id="date2" name="date2">
+                <label for="time2">希望時間②</label>
+                <select id="time2" name="time2">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                </select>
 
-            <label for="time2">希望時間②</label>
-            <select id="time2" name="time2">
-                <option value="09:00">09:00</option>
-                <option value="10:00">10:00</option>
-                <option value="11:00">11:00</option>
-                <option value="12:00">12:00</option>
-                <option value="13:00">13:00</option>
-                <option value="14:00">14:00</option>
-                <option value="15:00">15:00</option>
-                <option value="16:00">16:00</option>
-            </select>
+                <label for="date3">希望日③</label>
+                <input type="text" id="date3" name="date3">
 
-            <label for="date3">希望日③</label>
-            <input type="date" id="date3" name="date3">
-
-            <label for="time3">希望時間③</label>
-            <select id="time3" name="time3">
-                <option value="09:00">09:00</option>
-                <option value="10:00">10:00</option>
-                <option value="11:00">11:00</option>
-                <option value="12:00">12:00</option>
-                <option value="13:00">13:00</option>
-                <option value="14:00">14:00</option>
-                <option value="15:00">15:00</option>
-                <option value="16:00">16:00</option>
-            </select>
-
+                <label for="time3">希望時間③</label>
+                <select id="time3" name="time3">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                </select>
+            }
             <label for="inquiry">ご相談・お問い合わせ内容</label>
             <textarea id="inquiry" name="inquiry"></textarea>
 
@@ -172,15 +178,40 @@
 </main>
 
 <script>
-
     $(document).ready(function () {
         var today = new Date();
+
+        function checkDateAndToggleTime() {
+            var date1 = $('#date1').datepicker('getDate');
+            var date2 = $('#date2').datepicker('getDate');
+            var date3 = $('#date3').datepicker('getDate');
+
+            var isDisabled1 = !date1 || date1.getDay() === 3;
+            var isDisabled2 = !date2 || date2.getDay() === 3;
+            var isDisabled3 = !date3 || date3.getDay() === 3;
+
+            $('#time1').prop('disabled', isDisabled1);
+            $('#time2').prop('disabled', isDisabled2);
+            $('#time3').prop('disabled', isDisabled3);
+        }
+
+        function noWednesday(date) {
+            var day = date.getDay();
+            return [day !== 3, "", "選択不可"];
+        }
+
         $("#date1, #date2, #date3").datepicker({
             dateFormat: "yy-mm-dd",
-            minDate: today
+            minDate: today,
+            beforeShowDay: noWednesday,
+            onSelect: checkDateAndToggleTime
+        }).blur(function () {
+            $(this).datepicker('hide');
         });
-    });
 
+        $('#date1, #date2, #date3').on('change', checkDateAndToggleTime);
+        checkDateAndToggleTime(); // 初期状態のチェック
+    });
     document.getElementById('auto-fill').addEventListener('click', function () {
         const postalCode = document.getElementById('postal-code').value;
         fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${postalCode}`)
