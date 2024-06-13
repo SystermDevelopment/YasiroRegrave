@@ -4,6 +4,7 @@
     @using YasiroRegrave.Pages.common;
     Layout = null;
 }
+
 <head>
     <meta charset="utf-8" />
     <title>メール送信先編集</title>
@@ -36,43 +37,47 @@
         </div>
         <div class="content">
             <div class="container mt-5">
-    <form method="post">
-        <div class="header-container">
-            <img src="~/images/user.png" alt="User Icon" class="header-icon">
-            <h2 class="header-title">メール送信先情報編集</h2>
-            <div class="header-form">
-            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
-            <input type="hidden" name="index" value="@Model.Index"/>
-            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
-        </div>
-        </div>
-
-        <div class="col-md-6 p-0">
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="Code">霊園コード</label>
-                            <span asp-validation-for="ReienCode" class="text-danger"></span>
-                            <input type="text" asp-for="ReienCode" class="form-control" value="@Model.ReienCode">
+                <form method="post">
+                    <div class="header-container">
+                        <img src="~/images/user.png" alt="User Icon" class="header-icon">
+                        <h2 class="header-title">メール送信先情報編集</h2>
+                        <div class="header-form">
+                            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
+                            <input type="hidden" name="index" value="@Model.Index" />
+                            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
                         </div>
+                    </div>
 
-                    <div class="form-group">
-                        <label for="Name">霊園名</label>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                        <input type="text" asp-for="Name" class="form-control" value="@Model.Name">
+                    <div class="col-md-6 p-0">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="Code">霊園コード</label>
+                                        <span asp-validation-for="ReienCode" class="text-danger"></span>
+                                        <input type="text" asp-for="ReienCode" class="form-control" value="@Model.ReienCode">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Name">霊園名</label>
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                        <input type="text" asp-for="Name" class="form-control" value="@Model.Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Mail_Address">メールアドレス</label>
+                                        <span asp-validation-for="MailAddress" class="text-danger"></span>
+                                        <input type="text" asp-for="MailAddress" class="form-control" value="@Model.MailAddress">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                            <label for="Mail_Address">メールアドレス</label>
-                            <span asp-validation-for="MailAddress" class="text-danger"></span>
-                            <input type="text" asp-for="MailAddress" class="form-control" value="@Model.MailAddress">
-                    </div>
-    </form>
-</div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </body>
+
 <script>
     let editDataStruct = {
         ReienCode: '',

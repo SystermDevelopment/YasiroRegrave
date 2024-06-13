@@ -3,8 +3,8 @@
 @{
     @using YasiroRegrave.Pages.common;
     Layout = null;
-
 }
+
 <head>
     <meta charset="utf-8" />
     <title>ユーザー情報編集</title>
@@ -37,76 +37,79 @@
         </div>
         <div class="content">
             <div class="container mt-5">
-    <form method="post">
-        <div class="header-container">
-            <img src="~/images/user.png" alt="User Icon" class="header-icon">
-            <h2 class="header-title">ユーザー情報編集</h2>
-            <div class="header-form">
-            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
-            <input type="hidden" name="index" value="@Model.Index"/>
-            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
-        </div>
-        </div>
-    <div class="col-md-6 p-0">
-        <div class="card">
-            <div class="card-body">
-                    <div class="form-group">
-                        <label for="vender">販売会社</label>
-                        <span asp-validation-for="SelectVenderIndex" class="text-danger"></span>
-                        <select asp-for="SelectVenderIndex" class="form-control">
-                            <option value="">選択してください</option>
-                            @foreach (var vender in Model.Venders)
-                            {
-                                <option value="@vender.VenderIndex" selected="@(Model.SelectVenderIndex == vender.VenderIndex? "selected" : null)">@vender.Name</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="Id">ID</label>
-                        <span asp-validation-for="Id" class="text-danger"></span>
-                        <input type="text" asp-for="Id" class="form-control" value="@Model.Id">
-                    </div>
-                    <div class="form-group">
-                        <label for="Authority">権限</label>
-                        <span asp-validation-for="Authority" class="text-danger"></span>
-                        <select asp-for="Authority" class="form-control">
-                            <option value="0" selected="@(Model.Authority == 0 ? "selected" : null)">管理者</option>
-                            <option value="1" selected="@(Model.Authority == 1 ? "selected" : null)">担当者</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="Cemeteries">霊園</label>
-                        <span asp-validation-for="SelectedReiens" class="text-danger"></span>
-                        <div>
-                            @foreach (var reien in Model.reiens)
-                            {
-                                 <div class="form-check">
-                                     <input class="form-check-input" type="checkbox" value="@reien.ReienIndex" name="SelectedReiens" id="reien-@reien.ReienIndex"
-                                        @(Model.SelectedReiens.Contains(reien.ReienIndex) ? "checked" : "")>
-                                     <label class="form-check-label" for="reien-@reien.ReienIndex">@reien.ReienName</label>
-                                 </div>
-                            }
+                <form method="post">
+                    <div class="header-container">
+                        <img src="~/images/user.png" alt="User Icon" class="header-icon">
+                        <h2 class="header-title">ユーザー情報編集</h2>
+                        <div class="header-form">
+                            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
+                            <input type="hidden" name="index" value="@Model.Index" />
+                            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Name">名前</label>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                        <input type="text" asp-for="Name" class="form-control" value="@Model.Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="Password">パスワード</label>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                        <input type="password" asp-for="Password" class="form-control" value="@Model.Password">
+                    <div class="col-md-6 p-0">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="vender">販売会社</label>
+                                    <span asp-validation-for="SelectVenderIndex" class="text-danger"></span>
+                                    <select asp-for="SelectVenderIndex" class="form-control">
+                                        <option value="">選択してください</option>
+                                        @foreach (var vender in Model.Venders)
+                                        {
+                                            <option value="@vender.VenderIndex" selected="@(Model.SelectVenderIndex == vender.VenderIndex? "selected" : null)">@vender.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Id">ID</label>
+                                    <span asp-validation-for="Id" class="text-danger"></span>
+                                    <input type="text" asp-for="Id" class="form-control" value="@Model.Id">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Authority">権限</label>
+                                    <span asp-validation-for="Authority" class="text-danger"></span>
+                                    <select asp-for="Authority" class="form-control">
+                                        <option value="0" selected="@(Model.Authority == 0 ? "selected" : null)">管理者</option>
+                                        <option value="1" selected="@(Model.Authority == 1 ? "selected" : null)">担当者</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Cemeteries">霊園</label>
+                                    <span asp-validation-for="SelectedReiens" class="text-danger"></span>
+                                    <div>
+                                        @foreach (var reien in Model.reiens)
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="@reien.ReienIndex" name="SelectedReiens" id="reien-@reien.ReienIndex"
+                                                @(Model.SelectedReiens.Contains(reien.ReienIndex) ? "checked" : "")>
+                                                <label class="form-check-label" for="reien-@reien.ReienIndex">@reien.ReienName</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Name">名前</label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                    <input type="text" asp-for="Name" class="form-control" value="@Model.Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password">パスワード</label>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                    <input type="password" asp-for="Password" class="form-control" value="@Model.Password">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 </body>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 <script>
     let editDataStruct = {
         Id: '',
@@ -145,5 +148,4 @@
             && initData.Password === editData.Password
             && initData.SelectVenderIndex === editData.SelectVenderIndex
     }
-
 </script>

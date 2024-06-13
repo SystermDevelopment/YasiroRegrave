@@ -11,6 +11,9 @@
 }
 
 .btn btn-primary save-btn {
-
     margin-left: auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
 }

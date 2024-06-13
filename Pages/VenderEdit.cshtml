@@ -3,7 +3,6 @@
 @{
     @using YasiroRegrave.Pages.common;
     Layout = null;
-
 }
 
 <head>
@@ -38,31 +37,33 @@
         </div>
         <div class="content">
             <div class="container mt-5">
-    <form method="post">
-        <div class="header-container">
-            <img src="~/images/user.png" alt="User Icon" class="header-icon">
-            <h2 class="header-title">販売会社情報編集</h2>
-            <div class="header-form">
-            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
-            <input type="hidden" name="index" value="@Model.Index"/>
-            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
-        </div>
-        </div>
-
-        <div class="col-md-6 p-0">
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="Name">名前</label>
-                        <span asp-validation-for="VenderName" class="text-danger"></span>
-                        <input type="text" asp-for="VenderName" class="form-control" value="@Model.VenderName">
+                <form method="post">
+                    <div class="header-container">
+                        <img src="~/images/user.png" alt="User Icon" class="header-icon">
+                        <h2 class="header-title">販売会社情報編集</h2>
+                        <div class="header-form">
+                            <button type="button" class="btn btn-secondary" onclick="onclickBack()">戻る</button>
+                            <input type="hidden" name="index" value="@Model.Index" />
+                            <button class="btn btn-primary new-user-btn" type="submit">保存</button>
+                        </div>
                     </div>
-                </div>
+                    <div class="col-md-6 p-0">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="Name">名前</label>
+                                    <span asp-validation-for="VenderName" class="text-danger"></span>
+                                    <input type="text" asp-for="VenderName" class="form-control" value="@Model.VenderName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
-</div>
+    </div>
 </body>
+
 <script>
     let editDataStruct = {
         VenderName: '',
