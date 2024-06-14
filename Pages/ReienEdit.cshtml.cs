@@ -57,7 +57,12 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-            
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.未削除)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.管理者)
+            {
+                return RedirectToPage("/Index");
+            }
+
             Index = index;
             if (index.HasValue)
             {

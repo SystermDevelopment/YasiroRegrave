@@ -70,6 +70,11 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            var checkVender = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.未削除)?.VenderIndex;
+            if (checkVender != 0)
+            {
+                return RedirectToPage("/Index");
+            }
 
             CemeteryInfoIndex = index;
             if (index.HasValue)
