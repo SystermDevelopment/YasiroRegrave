@@ -179,7 +179,7 @@ button[type="submit"] {
     background-color: #435a4a;
 }
 
-button[type="back"] {
+.back-button {
     grid-column: span 2;
     padding: 10px;
     background-color: #FF0000;

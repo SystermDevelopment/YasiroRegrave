@@ -75,7 +75,7 @@ namespace YasiroRegrave.Pages
         public int ReserveMode { get; set; } = (int)Config.ReserveType.見学予約;
 
         [BindProperty]
-        public string SectionName { get; set; } = "";
+        public string CemeteryName { get; set; } = "";
 
         [BindProperty]
         public List<DateOnly>? RegularHolidays { get; set; } = new List<DateOnly>();
@@ -138,19 +138,21 @@ namespace YasiroRegrave.Pages
                 .Include(s => s.Section)
                     .ThenInclude(s => s.Area)
                     .ThenInclude(a => a.Reien)
-                .Where(ci => ci.CemeteryIndex == ci.CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除)
+                .Where(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除)
                 .Where(ci => ci.Section.DeleteFlag == (int)Config.DeleteType.未削除)
                 .Where(ci => ci.Section.Area.DeleteFlag == (int)Config.DeleteType.未削除)
                 .Where(ci => ci.Section.Area.Reien.DeleteFlag == (int)Config.DeleteType.未削除)
                 .Select(ci => new
                 {
                     ReienCode = ci.Section.Area.Reien.ReienCode,
-                    ReienIndex = ci.Section.Area.Reien.ReienIndex
+                    ReienIndex = ci.Section.Area.Reien.ReienIndex,
+                    CemeteryName = Utils.SectionCode2Name(ci.Section.SectionCode) + " " + Utils.CemeteryCode2Name(ci.CemeteryCode),
                 })
                 .FirstOrDefault();
 
             if (reienData != null)
             {
+                CemeteryName = reienData.CemeteryName;
                 RegularHolidays = _context.Calenders.Where(c => c.ReienIndex == reienData.ReienIndex).Select(c=>c.RegularHoliday).ToList();
             }
         }
