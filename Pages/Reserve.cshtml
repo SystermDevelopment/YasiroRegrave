@@ -238,7 +238,12 @@
             beforeShowDay: noWednesday,
             onSelect: checkDateAndToggleTime
         }).blur(function () {
-            $(this).datepicker('hide');
+            var input = $(this);
+            setTimeout(function () {
+                if (!input.datepicker("widget").is(":visible")) {
+                    input.datepicker('hide');
+                }
+            }, 150);
         });
 
         $('#date1, #date2, #date3').on('change', checkDateAndToggleTime);
