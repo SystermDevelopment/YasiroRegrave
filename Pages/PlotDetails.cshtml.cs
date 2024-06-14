@@ -91,7 +91,7 @@ namespace YasiroRegrave.Pages
                     {
                         CemeteryIndex = c.CemeteryIndex,
                         CemeteryCode = c.Cemetery.CemeteryCode,
-                        CemeteryName = Utils.SectionCode2Name(c.Cemetery.CemeteryCode),
+                        CemeteryName = Utils.CemeteryCode2Name(c.Cemetery.CemeteryCode),
                         CemeteryDisp = Utils.CemeteryCode2Disp(c.Cemetery.CemeteryCode),
                         ImageFile1 = c.Image1Fname == "" ? "" : $"{hostUrl}GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{c.Cemetery.CemeteryCode}&sel=1",
                         ImageFile2 = c.Image2Fname == "" ? "" : $"{hostUrl}GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{c.Cemetery.CemeteryCode}&sel=2",

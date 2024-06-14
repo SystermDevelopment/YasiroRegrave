@@ -26,7 +26,7 @@
         public const string M_E0022 = "市区群を入力してください";
         public const string M_E0023 = "町名・番地を入力してください";
         public const string M_E0024 = "電話番号を入力してください";
-        public const string M_E0025 = "ご希望の連絡方法を選択してください";
+        public const string M_E0025 = "メールアドレスを入力してください";
         public const string M_E0026 = "ご希望の連絡方法を選択してください";
 
 

@@ -24,7 +24,7 @@ main {
 
 section {
     font-family: '游ゴシック体', 'Yu Gothic', YuGothic, sans-serif;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
@@ -52,6 +52,11 @@ p3 {
     font-size: 25px;
 }
 
+p {
+    font-size: 14px;
+    text-align: left;
+}
+
 h1 {
     font-family: '游ゴシック体', 'Yu Gothic', YuGothic, sans-serif;
     color: #4c6955;
@@ -60,7 +65,7 @@ h1 {
 
 h2 {
     color: #4c6955;
-    margin-top: 20px;
+    margin-top: 10px;
     font-weight: bold;
     font-size: 27px;
 }
@@ -101,7 +106,7 @@ input, textarea, select, button {
         border: none;
         cursor: pointer;
         white-space: nowrap;
-        max-width: 150px;
+        max-width: 200px;
     }
 
 .email-note {
@@ -205,9 +210,10 @@ button:hover {
 .text-danger {
     color: red;
     font-size: 0.8em;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: block;
     grid-column: span 2;
+    text-align: left;
 }
 
 .postal-code-wrapper .text-danger {
