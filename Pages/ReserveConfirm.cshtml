@@ -1,0 +1,119 @@
+﻿@page
+@model YasiroRegrave.Pages.ReserveConfirmModel
+@{
+    @using YasiroRegrave.Pages.common;
+    ViewData["Title"] = "予約のお申し込み確認";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/Reserve.css">
+<link rel="stylesheet" href="./css/Reserve-sp.css" media="only screen and (max-width: 768px)">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<header>
+    <h1>空き区画仮予約の<br>お申し込み確認</h1>
+</header>
+<main>
+    <section>
+        <h2>電話でのご予約も可能です。</h2>
+        <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
+        <h2>メールでのご予約</h2>
+        <div>下記内容をご確認の上、「メール送信」ボタンを押してください。</div>
+    </section>
+    <section>
+        <label for="section-number">ご希望の区画番号</label>
+        <span id="section-number" name="section-number">@Model.ReserveInfo.SectionNumber</span>
+
+        <label for="last-name">お名前</label>
+        <div class="name-wrapper">
+            <div class="name-group">
+                <label for="last-name">姓</label>
+                <span id="last-name" name="last-name">@Model.ReserveInfo.LastName</span>
+            </div>
+            <div class="name-group">
+                <label for="first-name">名</label>
+                <span id="first-name" name="first-name">@Model.ReserveInfo.FirstName</span>
+            </div>
+        </div>
+
+        <div class="name-wrapper">
+            <div class="name-group">
+                <label for="last-name-kana">せい</label>
+                <span id="last-name-kana" name="last-name-kana">@Model.ReserveInfo.LastNameKana</span>
+            </div>
+            <div class="name-group">
+                <label for="first-name-kana">めい</label>
+                <span id="first-name-kana" name="first-name-kana">@Model.ReserveInfo.FirstNameKana</span>
+            </div>
+        </div>
+
+        <label for="postal-code">ご住所</label>
+        <label for="postal-code">郵便番号</label>
+        <span id="postal-code" name="postal-code">@Model.ReserveInfo.PostalCode</span>
+
+        <label for="prefecture">都道府県</label>
+        <span id="prefecture" name="prefecture">@Model.ReserveInfo.Prefecture</span>
+
+        <label for="city">市区郡</label>
+        <span id="city" name="city">@Model.ReserveInfo.City</span>
+
+        <label for="address">町名・番地</label>
+        <span id="address" name="address">@Model.ReserveInfo.Address</span>
+
+        <label for="building">ビル・マンション名</label>
+        <span id="building" name="building">@Model.ReserveInfo.Building</span>
+
+        <label for="phone">電話番号</label>
+        <span id="phone" name="phone">@Model.ReserveInfo.Phone</span>
+
+        <label for="email">メールアドレス</label>
+        <span id="email" name="email">@Model.ReserveInfo.Email</span>
+
+        @if (Model.ReserveMode == (int)Config.ReserveType.見学予約)
+        {
+            <label for="date1">相談・見学希望日時</label>
+            <label for="date1">希望日①</label>
+            <span id="date1" name="date1">@Model.ReserveInfo.Date1</span>
+
+            <label for="time1">希望時間①</label>
+            <span id="time1" name="time1">@Model.ReserveInfo.Time1</span>
+
+            <label for="date2">希望日②</label>
+            <span id="date2" name="date2">@Model.ReserveInfo.Date2</span>
+
+            <label for="time2">希望時間②</label>
+            <span id="time2" name="time2">@Model.ReserveInfo.Time2</span>
+
+            <label for="date3">希望日③</label>
+            <span id="date3" name="date3">@Model.ReserveInfo.Date3</span>
+
+            <label for="time3">希望時間③</label>
+            <span id="time3" name="time3">@Model.ReserveInfo.Time3</span>
+        }
+
+        <label for="inquiry">お問い合わせ内容</label>
+        <label for="contact-methods">ご希望の連絡方法 <span class="note"></span></label>
+        <span id="contact-methods" name="contact-methods">
+            電話：@(Model.ReserveInfo.ContactPhone == 1 ? "希望する" : "希望しない")
+            <br>
+            メールアドレス：@(Model.ReserveInfo.ContactEmail == 1 ? "希望する" : "希望しない")
+        </span>
+
+        <label for="email-subscription">メール配信</label>
+        <span id="email-subscription" name="email-subscription">
+            メールアドレス：@(Model.ReserveInfo.Subscribe == 1 ? "受信する" : "受信しない")
+        </span>
+
+        <div class="button-wrapper">
+            <button type="back" class="back-button" onclick="history.back()">入力画面へ戻る</button>
+            <button type="submit" class="submit-button">メール送信</button>
+        </div>
+
+        <div class="announce-note">
+            <br>※申し込み後、仮予約の内容を記載した自動返信メールを送信致します。<br>届かない場合はお問い合わせください。<br><br>
+        </div>
+        <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
+    </section>
+</main>
