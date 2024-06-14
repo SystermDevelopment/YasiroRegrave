@@ -63,7 +63,7 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public void GetPage()
         {
-            ReserveInfo.SectionNumber = "親鸞E区-07列-03";
+            ReserveInfo.SectionNumber = "親鸞E区 07列-03";
             ReserveInfo.LastName = "生駒";
             ReserveInfo.FirstName = "太郎";
             ReserveInfo.LastNameKana = "いこま";
