@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -76,7 +77,8 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         public string SectionName { get; set; } = "";
 
-
+        [BindProperty]
+        public List<DateOnly>? RegularHolidays { get; set; } = new List<DateOnly>();
         /// <summary>
         /// OnGet処理
         /// </summary>
@@ -110,7 +112,19 @@ namespace YasiroRegrave.Pages
                 return Page();
             }
 
-            return RedirectToPage();
+            TempData["LastName"] = LastName;
+            TempData["FirstName"] = FirstName;
+            TempData["LastNameKana"] = LastNameKana;
+            TempData["FirstNameKana"] = FirstNameKana;
+            TempData["PostalCode"] = PostalCode;
+            TempData["Prefecture"] = Prefecture;
+            TempData["City"] = City;
+            TempData["Address"] = Address;
+            TempData["Phone"] = Phone;
+            TempData["Email"] = Email;
+            TempData["SelectCheckBox"] = string.Join(",", SelectCheckBox);
+
+            return RedirectToPage("ReserveConfirm");
         }
 
         /// <summary>
@@ -120,17 +134,25 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public void GetPage()
         {
-            var existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.CemeteryIndex == CemeteryIndex);
-            if (existingCemetery != null)
-            {
-                var existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.SectionIndex == existingCemetery.SectionIndex);
-                if (existingSection != null)
+            var reienData = _context.Cemeteries
+                .Include(s => s.Section)
+                    .ThenInclude(s => s.Area)
+                    .ThenInclude(a => a.Reien)
+                .Where(ci => ci.CemeteryIndex == ci.CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除)
+                .Where(ci => ci.Section.DeleteFlag == (int)Config.DeleteType.未削除)
+                .Where(ci => ci.Section.Area.DeleteFlag == (int)Config.DeleteType.未削除)
+                .Where(ci => ci.Section.Area.Reien.DeleteFlag == (int)Config.DeleteType.未削除)
+                .Select(ci => new
                 {
-                    SectionName = Utils.SectionCode2Name(existingSection.SectionCode) + "-" + Utils.CemeteryCode2Name(existingCemetery.CemeteryCode);
-                    return;
-                }
+                    ReienCode = ci.Section.Area.Reien.ReienCode,
+                    ReienIndex = ci.Section.Area.Reien.ReienIndex
+                })
+                .FirstOrDefault();
+
+            if (reienData != null)
+            {
+                RegularHolidays = _context.Calenders.Where(c => c.ReienIndex == reienData.ReienIndex).Select(c=>c.RegularHoliday).ToList();
             }
-            return;
         }
     }
 }
