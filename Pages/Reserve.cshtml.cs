@@ -8,6 +8,7 @@ using System.Linq;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace YasiroRegrave.Pages
@@ -88,8 +89,8 @@ namespace YasiroRegrave.Pages
         {
             if (index.HasValue)
             {
-                ReserveMode = mode;
                 CemeteryIndex = index ?? 0;
+                ReserveMode = mode;
                 GetPage();
             }
             return;
@@ -102,16 +103,18 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public IActionResult OnPost()
         {
-            if (SelectCheckBox.Count == 0)
-            {
-                ModelState.AddModelError("SelectCheckBox", Message.M_E0026);
-            }
+            //if (SelectCheckBox.Count == 0)
+            //{
+            //    ModelState.AddModelError("SelectCheckBox", Message.M_E0026);
+            //}
 
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
 
+            TempData["CemeteryIndex"] = CemeteryIndex;
+            TempData["ReserveMode"] = ReserveMode;
             TempData["LastName"] = LastName;
             TempData["FirstName"] = FirstName;
             TempData["LastNameKana"] = LastNameKana;
@@ -120,9 +123,18 @@ namespace YasiroRegrave.Pages
             TempData["Prefecture"] = Prefecture;
             TempData["City"] = City;
             TempData["Address"] = Address;
+            //TempData["Building"] = Building;
             TempData["Phone"] = Phone;
             TempData["Email"] = Email;
-            TempData["SelectCheckBox"] = string.Join(",", SelectCheckBox);
+            //TempData["Date1"] = Date1;
+            //TempData["Time1"] = Time1;
+            //TempData["Date2"] = Date2;
+            //TempData["Time2"] = Time2;
+            //TempData["Date3"] = Date3;
+            //TempData["Time3"] = Time3;
+            TempData["ContactPhone"] = string.Join(",", SelectCheckBox);
+            TempData["ContactEmail"] = string.Join(",", SelectCheckBox);
+            //TempData["Subscribe"] = Time3;
 
             return RedirectToPage("ReserveConfirm");
         }
