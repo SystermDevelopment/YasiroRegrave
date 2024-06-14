@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NuGet.Configuration;
 using YasiroRegrave.Data;
 using YasiroRegrave.Pages.common;
 
@@ -30,6 +31,12 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—Ò)
+            {
+                return RedirectToPage("/Index");
+            }
+
             GetPage();
             return Page();
         }

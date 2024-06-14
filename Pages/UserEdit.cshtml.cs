@@ -64,6 +64,11 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—Ò)
+            {
+                return RedirectToPage("/Index");
+            }
 
             reiens = _context.Reiens
                 .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
