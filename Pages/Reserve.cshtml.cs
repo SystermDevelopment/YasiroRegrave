@@ -61,6 +61,10 @@ namespace YasiroRegrave.Pages
         public string Phone { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0025)]
+        public string Email { get; set; }
+
+        [BindProperty]
         public List<string> SelectCheckBox { get; set; } = new List<string>();
 
         [BindProperty]
