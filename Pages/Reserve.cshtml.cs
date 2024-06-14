@@ -112,7 +112,19 @@ namespace YasiroRegrave.Pages
                 return Page();
             }
 
-            return RedirectToPage();
+            TempData["LastName"] = LastName;
+            TempData["FirstName"] = FirstName;
+            TempData["LastNameKana"] = LastNameKana;
+            TempData["FirstNameKana"] = FirstNameKana;
+            TempData["PostalCode"] = PostalCode;
+            TempData["Prefecture"] = Prefecture;
+            TempData["City"] = City;
+            TempData["Address"] = Address;
+            TempData["Phone"] = Phone;
+            TempData["Email"] = Email;
+            TempData["SelectCheckBox"] = string.Join(",", SelectCheckBox);
+
+            return RedirectToPage("ReserveConfirm");
         }
 
         /// <summary>
