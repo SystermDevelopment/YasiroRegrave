@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YasiroRegrave.Model;
 
-[Table("m_carender")]
+[Table("m_calender")]
 public class Calendar
     {
         [Key]
@@ -16,9 +16,9 @@ public class Calendar
         public int ReienIndex { get; set; }
 
         [Column("close_day")]
-        public DataType CloseDay { get; set; }
+        public DateOnly RegularHoliday { get; set; }
+
         [ForeignKey("ReienIndex")]
         public virtual Reien Reien { get; set; } = new Reien();
-
 }
 
