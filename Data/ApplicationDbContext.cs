@@ -20,5 +20,6 @@ namespace YasiroRegrave.Data
         public DbSet<Cemetery> Cemeteries { get; set; }
         public DbSet<CemeteryInfo> CemeteryInfos { get; set; }
         public DbSet<ReienInfo> ReienInfos { get; set; }
+        public DbSet<Calendar> Calenders { get; set; }
     }
 }

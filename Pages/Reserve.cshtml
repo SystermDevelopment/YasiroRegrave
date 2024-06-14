@@ -212,6 +212,7 @@
 <script>
     $(document).ready(function () {
         var today = new Date();
+        var regularHolidays = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.RegularHolidays));
 
         function checkDateAndToggleTime() {
             var date1 = $('#date1').datepicker('getDate');
@@ -227,23 +228,28 @@
             $('#time3').prop('disabled', isDisabled3);
         }
 
-        function noWednesday(date) {
+        function noWednesdayAndHolidays(date) {
             var day = date.getDay();
-            return [day !== 3, "", "選択不可"];
+            var dateString = $.datepicker.formatDate('yy-mm-dd', date);
+            if (day === 3) {
+                return [false, "", "選択不可"];
+            }
+
+            for (var i = 0; i < regularHolidays.length; i++) {
+                if (dateString === regularHolidays[i]) {
+                    return [false, "", "定休日"];
+                }
+            }
+            return [true, "", ""];
         }
 
         $("#date1, #date2, #date3").datepicker({
             dateFormat: "yy-mm-dd",
             minDate: today,
-            beforeShowDay: noWednesday,
+            beforeShowDay: noWednesdayAndHolidays,
             onSelect: checkDateAndToggleTime
         }).blur(function () {
-            var input = $(this);
-            setTimeout(function () {
-                if (!input.datepicker("widget").is(":visible")) {
-                    input.datepicker('hide');
-                }
-            }, 150);
+            $(this).datepicker('hide');
         });
 
         $('#date1, #date2, #date3').on('change', checkDateAndToggleTime);
