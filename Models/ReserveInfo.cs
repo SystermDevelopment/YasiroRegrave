@@ -54,6 +54,16 @@ public class ReserveInfo
     [Column("question")]
     [MaxLength(500)]
     public string? Question { get; set; }
+    [Column("area_value")]
+    public string? AreaValue { get; set; }
+    [Column("usage_fee")]
+    public string? UsageFee { get; set; }
+    [Column("management_fee")]
+    public string? ManagementFee { get; set; }
+    [Column("stone_fee")]
+    public string? StoneFee { get; set; }
+    [Column("set_price")]
+    public string? SetPrice { get; set; }
     [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }
