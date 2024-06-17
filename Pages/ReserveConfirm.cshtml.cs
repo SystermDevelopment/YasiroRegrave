@@ -28,6 +28,8 @@ namespace YasiroRegrave.Pages
         public int CemeteryIndex { get; private set; } = 0;
         [BindProperty]
         public int ReserveMode { get; set; } = (int)Config.ReserveType.見学予約;
+        [BindProperty]
+        public string ReserveName { get; set; } = "";
 
         [BindProperty]
         public string LastName { get; set; } = "";
@@ -84,6 +86,7 @@ namespace YasiroRegrave.Pages
             if (!int.TryParse(TempData["ReserveMode"]?.ToString(), out int mode)) { mode = -1; }
             CemeteryIndex = index;
             ReserveMode = mode;
+            ReserveName = mode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
 
             GetPage();
             return;
@@ -100,6 +103,7 @@ namespace YasiroRegrave.Pages
             if (!int.TryParse(TempData["ReserveMode"]?.ToString(), out int mode)) { mode = -1; }
             CemeteryIndex = index;
             ReserveMode = mode;
+            ReserveName = mode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
 
             if (!ModelState.IsValid)
             {
