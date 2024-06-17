@@ -242,6 +242,27 @@ button[type="submit"] {
     margin-left: 0;
 }
 
+
+.confirm-table {
+    text-align: center;
+}
+    .confirm-table table {
+        width: 80%;
+        margin: 0 auto;
+    }
+    .confirm-table td {
+        text-align: left;
+        vertical-align: top;
+        padding: 0 10px;
+    }
+        .confirm-table td span {
+            display: inline-block;
+            padding: 10px;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+
+
 @media (max-width: 768px) {
     main {
         margin: 10px;
@@ -279,4 +300,18 @@ button[type="submit"] {
     .text-danger {
         grid-column: span 1;
     }
+
+    .confirm-table table {
+        width: 100%;
+    }
+
+    .confirm-table td {
+        display: block;
+        text-align: center;
+    }
+
+        .confirm-table td label,
+        .confirm-table td span {
+            display: block;
+        }
 }
