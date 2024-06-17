@@ -13,7 +13,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 <header>
-    <h1>空き区画仮予約の<br>お申し込み確認</h1>
+    <h1>空き区画@(Model.ReserveName)の<br>お申し込み確認</h1>
 </header>
 <main>
     <section>
@@ -109,11 +109,11 @@
 
         <div class="button-wrapper">
             <button type="button" class="back-button" onclick="history.back()">入力画面へ戻る</button>
-            <button type="submit" class="submit-button">メール送信</button>
+            <button type="submit" class="submit-button">@(Model.ReserveName)</button>
         </div>
 
         <div class="announce-note">
-            <br>※申し込み後、仮予約の内容を記載した自動返信メールを送信致します。<br>届かない場合はお問い合わせください。<br><br>
+            <br>※申し込み後、@(Model.ReserveName)の内容を記載した自動返信メールを送信致します。<br>届かない場合はお問い合わせください。<br><br>
         </div>
         <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
     </section>

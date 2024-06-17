@@ -21,6 +21,9 @@
     <canvas id="plotCanvas" width="400" height="384"></canvas>
     <img src="images/AREA_@(Model.ReienCode)_@(Model.AreaCode).png" id="PlotSelectionImage" alt="区画" />
 </div>
+<div class="button-container">
+    <button type="button" class="back-button" onclick="history.back()">前画面へ戻る</button>
+</div>
 
 <script>
     var ReienCode = '@Model.ReienCode';
