@@ -1,5 +1,5 @@
 ﻿@page
-@model YasiroRegrave.Pages.Reserve1Model
+@model YasiroRegrave.Pages.ReserveModel
 @{
     @using YasiroRegrave.Pages.common;
     ViewData["Title"] = "予約のお申し込み";
@@ -26,18 +26,18 @@
 
         <form method="post" id="reservation-form">
             <label for="section-number">ご希望の区画番号</label>
-            <input type="text" id="section-number" name="section-number" value="@Model.CemeteryName" disabled>
+            <input type="text" id="section-number" value="@Model.CemeteryName" disabled>
 
             <label for="last-name">お名前（全角）　　※必須</label>
             <div class="name-wrapper">
                 <div class="name-group">
                     <label for="last-name">姓</label>
-                    <input type="text" id="last-name" name="last-name" asp-for="LastName" placeholder="生駒">
+                    <input type="text" id="last-name" asp-for="LastName" placeholder="生駒">
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="name-group">
                     <label for="first-name">名</label>
-                    <input type="text" id="first-name" name="first-name" asp-for="FirstName" placeholder="太郎">
+                    <input type="text" id="first-name" asp-for="FirstName" placeholder="太郎">
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
             </div>
@@ -45,12 +45,12 @@
             <div class="name-wrapper">
                 <div class="name-group">
                     <label for="last-name-kana">せい</label>
-                    <input type="text" id="last-name-kana" name="last-name-kana" asp-for="LastNameKana" placeholder="いこま">
+                    <input type="text" id="last-name-kana" asp-for="LastNameKana" placeholder="いこま">
                     <span asp-validation-for="LastNameKana" class="text-danger"></span>
                 </div>
                 <div class="name-group">
                     <label for="first-name-kana">めい</label>
-                    <input type="text" id="first-name-kana" name="first-name-kana" asp-for="FirstNameKana" placeholder="たろう">
+                    <input type="text" id="first-name-kana" asp-for="FirstNameKana" placeholder="たろう">
                     <span asp-validation-for="FirstNameKana" class="text-danger"></span>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 <span>郵便番号</span>
             </label>
             <div class="postal-code-wrapper">
-                <input type="text" id="postal-code" name="postal-code" asp-for="PostalCode" placeholder="例）1234567">
+                <input type="text" id="postal-code" asp-for="PostalCode" placeholder="例）1234567">
                 <button type="button" id="auto-fill">郵便番号から住所を検索</button>
             </div>
             <span asp-validation-for="PostalCode" class="text-danger postal-code-error"></span>
@@ -70,22 +70,22 @@
             </div>
 
             <label for="prefecture">都道府県</label>
-            <input type="text" id="prefecture" name="prefecture" asp-for="Prefecture" placeholder="例）大阪府">
+            <input type="text" id="prefecture" asp-for="Prefecture" placeholder="例）大阪府">
             <span asp-validation-for="Prefecture" class="text-danger"></span>
 
             <label for="city">市区郡</label>
-            <input type="text" id="city" name="city" asp-for="City" placeholder="例）四条畷市">
+            <input type="text" id="city" asp-for="City" placeholder="例）四条畷市">
             <span asp-validation-for="City" class="text-danger"></span>
 
             <label for="address">町名・番地</label>
-            <input type="text" id="address" name="address" asp-for="Address" placeholder="例）1366番地">
+            <input type="text" id="address" asp-for="Address" placeholder="例）1366番地">
             <span asp-validation-for="Address" class="text-danger"></span>
 
             <label for="building">ビル・マンション名</label>
-            <input type="text" id="building" name="building" placeholder="例）大阪生駒霊園">
+            <input type="text" id="building" asp-for="Building" placeholder="例）大阪生駒霊園">
 
             <label for="phone">電話番号　　※必須</label>
-            <input type="tel" id="phone" name="phone" asp-for="Phone" placeholder="例）0120758948">
+            <input type="tel" id="phone" asp-for="Phone" placeholder="例）0120758948">
             <span asp-validation-for="Phone" class="text-danger"></span>
             
             <div class="phone-note">
@@ -93,7 +93,7 @@
             </div>
 
             <label for="email">メールアドレス　　※必須</label>
-            <input type="email" id="email" name="email" asp-for="Email" placeholder="例）info@abcd.com">
+            <input type="email" id="email" asp-for="Email" placeholder="例）info@abcd.com">
             <span asp-validation-for="Email" class="text-danger"></span>
 
             <div class="email-note">
@@ -105,13 +105,13 @@
             {
                 <label for="date1">相談・見学希望日時　　※必須</label>
                 <label for="date1">希望日①</label>
-                <input type="text" id="date1" name="date1">
+                <input type="text" id="date1" asp-for="Date1">
                 <div class="date1-note">
                     <p>※水曜定休</p>
                 </div>
 
                 <label for="time1">希望時間①</label>
-                <select id="time1" name="time1">
+                <select id="time1" asp-for="Time1">
                     <option value="09:00">09:00</option>
                     <option value="10:00">10:00</option>
                     <option value="11:00">11:00</option>
@@ -126,13 +126,13 @@
                 </div>
 
                 <label for="date2">希望日②</label>
-                <input type="text" id="date2" name="date2">
+                <input type="text" id="date2" asp-for="Date2">
                 <div class="date2-note">
                     <p>※水曜定休</p>
                 </div>
 
                 <label for="time2">希望時間②</label>
-                <select id="time2" name="time2">
+                <select id="time2" asp-for="Time2">
                     <option value="09:00">09:00</option>
                     <option value="10:00">10:00</option>
                     <option value="11:00">11:00</option>
@@ -147,13 +147,13 @@
                 </div>
 
                 <label for="date3">希望日③</label>
-                <input type="text" id="date3" name="date3">
+                <input type="text" id="date3" asp-for="Date3">
                 <div class="date3-note">
                     <p>※水曜定休</p>
                 </div>
 
                 <label for="time3">希望時間③</label>
-                <select id="time3" name="time3">
+                <select id="time3" asp-for="Time3">
                     <option value="09:00">09:00</option>
                     <option value="10:00">10:00</option>
                     <option value="11:00">11:00</option>
@@ -171,16 +171,16 @@
             <div class="inquiry-note">
                 <p>ご質問等ございましたら、ご自由にお書きください。</p>
             </div>
-            <textarea id="inquiry" name="inquiry"></textarea>
+            <textarea id="inquiry" asp-for="Inquiry"></textarea>
 
             <label for="contact-methods">ご希望の連絡方法 <span class="note">　※複数回答可</span></label>
             <div class="contact-options">
                 <div>
-                    <input type="checkbox" id="contact-phone" name="SelectCheckBox" value="phone">
+                    <input type="checkbox" id="contact-phone" asp-for="IsContactByPhone">
                     <label for="contact-phone">電話</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="contact-email" name="SelectCheckBox" value="email">
+                    <input type="checkbox" id="contact-email" asp-for="IsContactByEmail">
                     <label for="contact-email">メール</label>
                 </div>
             </div>
@@ -190,16 +190,18 @@
             <div class="subscription-options">
                 <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
                 <div>
-                    <input type="radio" id="subscribe-yes" name="email-subscription" value="yes" checked>
+                    <input type="radio" id="subscribe-yes" asp-for="Subscription" value="1" checked>
                     <label for="subscribe-yes">受信する</label>
                 </div>
                 <div>
-                    <input type="radio" id="subscribe-no" name="email-subscription" value="no">
+                    <input type="radio" id="subscribe-no" asp-for="Subscription" value="0">
                     <label for="subscribe-no">受信しない</label>
                 </div>
             </div>
             <div class="button-wrapper">
                 <button type="button" class="back-button" onclick="history.back()">選択画面へ戻る</button>
+                <input type="hidden" name="index" value="@Model.CemeteryIndex" />
+                <input type="hidden" name="mode" value="@Model.ReserveMode" />
                 <button type="submit" class="submit-button">確認画面へ</button>
             </div>
         </form>
