@@ -156,7 +156,14 @@ namespace YasiroRegrave.Pages
                         .FirstOrDefault();
                     if (existingCemeteryinfo != null)
                     {
+                        var releaseStatus = (int)Config.ReleaseStatusType.準備中;
+                        if (!string.IsNullOrEmpty(Image1Fname) && !string.IsNullOrEmpty(Image2Fname))
+                        {
+                            releaseStatus = (int)Config.ReleaseStatusType.販売中;
+                        }
+
                         // UPDATE
+                        existingCemeteryinfo.ReleaseStatus = releaseStatus;
                         existingCemeteryinfo.Image1Fname = Image1Fname;
                         existingCemeteryinfo.Image2Fname = Image2Fname;
                         existingCemeteryinfo.UpdateDate = DateTime.Now;

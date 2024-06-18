@@ -30,7 +30,7 @@
         public const string M_E0026 = "ご希望の連絡方法を選択してください";
 
 
-        public const string M_Q0001 = "削除しますか？";
+        public const string M_Q0001 = "削除してもよろしいですか？";
         public const string M_Q0002 = "編集内容が保存されていません。移動してもよろしいですか？";
         public const string M_Q0003 = "住所が見つかりませんでした";
         public const string M_Q0004 = "住所の取得に失敗しました";
