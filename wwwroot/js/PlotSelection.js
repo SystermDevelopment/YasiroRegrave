@@ -1,12 +1,6 @@
 const canvas = document.getElementById('plotCanvas'); // canvas要素を取得
 const ctx = canvas.getContext('2d'); // 描画コンテキストを取得
 
-//// TextDecoderを使用して、SJISからUTF-8に変換する関数
-//function decodeSJIS(buffer) {
-//    const decoder = new TextDecoder("shift-jis");
-//    return decoder.decode(buffer);
-//}
-
 // jsonファイル読込
 let coordDatas;
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,10 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
             //return response.arrayBuffer();
         })
-        //.then(buffer => {
-        //    const utf8Text = decodeSJIS(buffer);
-        //    return JSON.parse(utf8Text);
-        //})
         .then(data => {
             // 座標データ読込成功
             coordDatas = data;
