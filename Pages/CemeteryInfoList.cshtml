@@ -89,10 +89,11 @@
                             </select>
                         </div>
                         <div class="search-group">
-                            <label for="filter-reserve">空き状況</label>
-                            <select class="search-select" name="FilterReserve" id="filter-reserve">
-                                <option value="0" selected="@(0 == Model.FilterReserve ? "selected" : null)">空きのみ</option>
-                                <option value="1" selected="@(1 == Model.FilterReserve ? "selected" : null)">すべて</option>
+                            <label for="filter-reserve">公開状態</label>
+                            <select class="search-select" name="FilterRelease" id="filter-reserve">
+                                <option value="-1" selected>-</option>
+                                <option value="@((int)Config.ReleaseStatusType.準備中)" selected="@((int)Config.ReleaseStatusType.準備中 == Model.FilterRelease ? "selected" : null)">@(Config.ReleaseStatusType.準備中)</option>
+                                <option value="@((int)Config.ReleaseStatusType.販売中)" selected="@((int)Config.ReleaseStatusType.販売中 == Model.FilterRelease ? "selected" : null)">@(Config.ReleaseStatusType.販売中)</option>
                             </select>
                         </div>
                         <input type="hidden" name="Action" value="Search" />
@@ -114,6 +115,7 @@
                                     <th>墓所名</th>
                                     <th>画像1</th>
                                     <th>画像2</th>
+                                    <th>公開状態</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -131,6 +133,9 @@
                                         </td>
                                         <td style="@(string.IsNullOrEmpty(cemeteryinfo.Image2Fname) ? "color: red;" : "")">
                                             @(string.IsNullOrEmpty(cemeteryinfo.Image2Fname) ? Config.ExistType.未 : Config.ExistType.済)
+                                        </td>
+                                        <td style="@(cemeteryinfo.ReleaseStatus == (int)Config.ReleaseStatusType.準備中 ? "color: red;" : "")">
+                                            @cemeteryinfo.ReleaseName
                                         </td>
                                         <td class="edit-btn-cell">
                                             <form method="get" class="btn-form" action="/CemeteryInfoEdit" style="display: inline-block; margin-right: 1px;">

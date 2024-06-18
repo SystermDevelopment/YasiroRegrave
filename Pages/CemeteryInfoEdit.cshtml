@@ -76,7 +76,8 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="Image1">墓石画像1</label>
+                                        <label for="Image1" style="margin-bottom: 10px; font-weight: bold;">区画画像</label>
+                                        <br>
                                         <span asp-validation-for="Image1" class="text-danger"></span>
                                         <input type="file" id="Image1" name="Image1" class="form-control-file" onchange="updateFileName(this, 'image1FileName', 'hiddenImage1Fname', 'image1Preview', 'Image1Deleted', 'deleteImage1Button')">
                                         <input type="hidden" id="hiddenImage1Fname" name="Image1Fname" value="@Model.Image1Fname">
@@ -96,7 +97,8 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label for="Image2">墓石画像2</label>
+                                        <label for="Image2" style="margin-bottom: 10px; font-weight: bold;">墓石画像</label>
+                                        <br>
                                         <span asp-validation-for="Image2" class="text-danger"></span>
                                         <input type="file" id="Image2" name="Image2" class="form-control-file" onchange="updateFileName(this, 'image2FileName', 'hiddenImage2Fname', 'image2Preview', 'Image2Deleted', 'deleteImage2Button')">
                                         <input type="hidden" id="hiddenImage2Fname" name="Image2Fname" value="@Model.Image2Fname">

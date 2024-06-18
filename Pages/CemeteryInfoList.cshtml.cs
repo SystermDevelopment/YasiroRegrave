@@ -26,7 +26,7 @@ namespace YasiroRegrave.Pages
         public int FilterArea { get; set; } = -1;
         public int FilterSection { get; set; } = -1;
         public int FilterImage { get; set; } = -1;
-        public int FilterReserve { get; set; } = -1;
+        public int FilterRelease { get; set; } = -1;
 
         public int? LoginId { get; private set; }
         public int Authority = (int)Config.AuthorityType.担当者;
@@ -49,8 +49,6 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-
-            FilterReserve = 0;
 
             GetPage();
             return Page();
@@ -76,12 +74,12 @@ namespace YasiroRegrave.Pages
                 if (!int.TryParse(Request.Form["FilterArea"], out int area)) { area = -1; }
                 if (!int.TryParse(Request.Form["FilterSection"], out int sect)) { sect = -1; }
                 if (!int.TryParse(Request.Form["FilterImage"], out int img)) { img = -1; }
-                if (!int.TryParse(Request.Form["FilterReserve"], out int rsv)) { rsv = 0; }
+                if (!int.TryParse(Request.Form["FilterRelease"], out int rls)) { rls = -1; }
                 FilterReien = reien;
                 FilterArea = area;
                 FilterSection = sect;
                 FilterImage = img;
-                FilterReserve = rsv;
+                FilterRelease = rls;
 
                 GetPage();
             }
@@ -106,6 +104,7 @@ namespace YasiroRegrave.Pages
             }
             var cemeteryinfoList = _context.CemeteryInfos
             .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.未削除 && SelectedReiens.Contains(ci.Cemetery.Section.Area.ReienIndex))
+            .Where(ci => ci.SectionStatus == (int)Config.SectionStatusType.空)
             .Select(ci => new CemeteryInfo
             {
                 CemeteryInfoIndex = ci.CemeteryInfoIndex,
@@ -123,7 +122,8 @@ namespace YasiroRegrave.Pages
                 ReienName = ci.Cemetery.Section.Area.Reien.ReienName,
                 Image1Fname = ci.Image1Fname,
                 Image2Fname = ci.Image2Fname,
-                NoReserve = (ci.ReleaseStatus == (int)Config.ReleaseStatusType.販売中 && ci.SectionStatus == (int)Config.SectionStatusType.空)
+                ReleaseStatus = ci.ReleaseStatus ?? 0,
+                ReleaseName = ci.ReleaseStatus == (int)Config.ReleaseStatusType.販売中 ? Config.ReleaseStatusType.販売中.ToString() : Config.ReleaseStatusType.準備中.ToString(),
             })
             .ToList();
             CemeteryInfos = cemeteryinfoList;
@@ -162,10 +162,10 @@ namespace YasiroRegrave.Pages
                         .ToList();
                 }
             }
-            if (FilterReserve == 0)
+            if (FilterRelease != -1)
             {
                 CemeteryInfos = CemeteryInfos
-                    .Where(c => c.NoReserve == true)
+                    .Where(c => c.ReleaseStatus == FilterRelease)
                     .ToList();
             }
 
@@ -223,7 +223,8 @@ namespace YasiroRegrave.Pages
             public string CemeteryName { get; set; } = string.Empty;
             public string? Image1Fname { get; set; } = string.Empty;
             public string? Image2Fname { get; set; } = string.Empty;
-            public bool NoReserve { get; set; }
+            public int ReleaseStatus { get; set; }
+            public string ReleaseName { get; set; } = string.Empty;
         }
         public class ReienData
         {
