@@ -19,26 +19,26 @@ namespace YasiroRegrave.Pages
         }
 
         [BindProperty]
-        public string ReienName { get; set; }
+        public string ReienName { get; set; } = "";
         [BindProperty]
-        public string SectionName { get; set; }
+        public string SectionName { get; set; } = "";
         [BindProperty]
-        public string AreaName { get; set; }
+        public string AreaName { get; set; } = "";
         [BindProperty]
-        public string CemeteryName { get; set; }
+        public string CemeteryName { get; set; } = "";
         [BindProperty]
-        public string Image1Fname { get; set; }
+        public string Image1Fname { get; set; } = "";
         [BindProperty]
-        public string Image2Fname { get; set; }
+        public string Image2Fname { get; set; } = "";
 
         [BindProperty]
-        public string Image1FnameURL { get; set; }
+        public string Image1FnameURL { get; set; } = "";
         [BindProperty]
-        public string Image2FnameURL { get; set; }
+        public string Image2FnameURL { get; set; } = "";
         [BindProperty]
-        public IFormFile Image1 { get; set; }
+        public IFormFile? Image1 { get; set; }
         [BindProperty]
-        public IFormFile Image2 { get; set; }
+        public IFormFile? Image2 { get; set; }
 
         [BindProperty]
         public int? CemeteryInfoIndex { get; set; }
@@ -110,7 +110,7 @@ namespace YasiroRegrave.Pages
                     {
                         System.IO.File.Delete(imgPath);
                     }
-                    Image1Fname = null;
+                    Image1Fname = "";
                 }
                 else if (Image1 != null && !Image1Deleted) // Ensure that the image is not deleted
                 {
@@ -118,6 +118,9 @@ namespace YasiroRegrave.Pages
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-1{fileExtension1}";
                     using (var stream = System.IO.File.Create(imgPath))
                     {
+                        // 画像を縮小
+                        Image1 = Utils.ResizeImage(Image1);
+                        // 画像をコピー
                         Image1.CopyTo(stream);
                     }
                     Image1Fname = Image1.FileName;
@@ -131,7 +134,7 @@ namespace YasiroRegrave.Pages
                     {
                         System.IO.File.Delete(imgPath);
                     }
-                    Image2Fname = null;
+                    Image2Fname = "";
                 }
                 else if (Image2 != null && !Image2Deleted) // Ensure that the image is not deleted
                 {
@@ -140,6 +143,9 @@ namespace YasiroRegrave.Pages
 
                     using (var stream = System.IO.File.Create(imgPath))
                     {
+                        // 画像を縮小
+                        Image2 = Utils.ResizeImage(Image2);
+                        // 画像をコピー
                         Image2.CopyTo(stream);
                     }
                     Image2Fname = Image2.FileName;
@@ -233,16 +239,16 @@ namespace YasiroRegrave.Pages
         public IActionResult OnPostDeleteImage1()
         {
             Image1Deleted = true;
-            Image1Fname = null;
-            Image1FnameURL = null;
+            Image1Fname = "";
+            Image1FnameURL = "";
             return Page();
         }
 
         public IActionResult OnPostDeleteImage2()
         {
             Image2Deleted = true;
-            Image2Fname = null;
-            Image2FnameURL = null;
+            Image2Fname = "";
+            Image2FnameURL = "";
             return Page();
         }
 
