@@ -35,8 +35,8 @@
 
 #map-container {
     display: inline-block;
-    width: 520px;
-    height: 700px;
+    width: 500px;
+    height: 680px;
     border: 1px solid #ccc;
 }
 .button:hover {
@@ -157,7 +157,7 @@ h1 {
     #map-container {
         display: inline-block;
         width: 400px;
-        height: 539px;
+        height: 544px;
         border: 1px solid #ccc;
     }
 

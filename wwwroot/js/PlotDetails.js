@@ -46,8 +46,8 @@ function initMap() {
         zoomControl: true
     });
 
-    // (w,h)=(520,700) -> (w,h)=(400,539)
-    var baseWidth = 520;
+    // (w,h)=(500,680) -> (w,h)=(400,544) *** #map-container(width,height)のwidthと同値を定義 ***
+    var baseWidth = 500;
     var mapContainer = document.getElementById('map-container');
     var mapWidth = mapContainer.offsetWidth;
     var mapHeight = mapContainer.offsetHeight;
