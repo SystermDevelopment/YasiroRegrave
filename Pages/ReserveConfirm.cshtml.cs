@@ -1,16 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace YasiroRegrave.Pages
@@ -25,7 +19,7 @@ namespace YasiroRegrave.Pages
 
         public string SectionNumber { get; set; } = "";
         [BindProperty]
-        public int CemeteryIndex { get; private set; } = 0;
+        public int CemeteryIndex { get; set; } = 0;
         [BindProperty]
         public int ReserveMode { get; set; } = (int)Config.ReserveType.見学予約;
         [BindProperty]
@@ -99,15 +93,83 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public IActionResult OnPost()
         {
-            if (!int.TryParse(TempData["CemeteryIndex"]?.ToString(), out int index)) { index = -1; }
-            if (!int.TryParse(TempData["ReserveMode"]?.ToString(), out int mode)) { mode = -1; }
-            CemeteryIndex = index;
-            ReserveMode = mode;
-            ReserveName = mode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
+            ReserveName = ReserveMode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
 
-            if (!ModelState.IsValid)
+            var userId = HttpContext.Session.GetInt32("LoginId");
+            var cemeteryInfo = _context.CemeteryInfos
+                .FirstOrDefault(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除);
+            User? user = null;
+            if (userId != null)
             {
-                return Page();
+                user = _context.Users
+                    .FirstOrDefault(u => u.UserIndex == userId && u.DeleteFlag == (int)Config.DeleteType.未削除);
+            }
+
+            var reserveInfo = new ReserveInfo
+            {
+                CemeteryInfoIndex = CemeteryIndex,
+                PreferredDate1 = DateTime.TryParse(Date1, out var date1) ? date1 : (DateTime?)null,
+                PreferredDate2 = DateTime.TryParse(Date2, out var date2) ? date2 : (DateTime?)null,
+                PreferredDate3 = DateTime.TryParse(Date3, out var date3) ? date3 : (DateTime?)null,
+                LastName = LastName,
+                FirstName = FirstName,
+                LastNameYomi = LastNameKana,
+                FirstNameYomi = FirstNameKana,
+                ZipCode = PostalCode,
+                Adress = Address,
+                TelephoneNumber = Phone,
+                EMail = Email,
+                Question = Inquiry,
+                AreaValue = cemeteryInfo.AreaValue,
+                UsageFee = cemeteryInfo.UsageFee,
+                ManagementFee = cemeteryInfo.ManagementFee,
+                StoneFee = cemeteryInfo.StoneFee,
+                SetPrice = cemeteryInfo.SetPrice,
+                VenderIndex = user?.VenderIndex,
+                Notification = 1,
+                CreateDate = DateTime.Now,
+                CreateUser = 1,
+                CemeteryInfo = cemeteryInfo
+            };
+
+            try
+            {
+                _context.ReserveInfos.Add(reserveInfo);
+                _context.SaveChanges();
+                cemeteryInfo.SectionStatus = 1;
+                _context.CemeteryInfos.Update(cemeteryInfo);
+                _context.SaveChanges();
+
+                var fromAddress = new MailAddress("your-email@example.com", "Your Name");
+                var toAddress = new MailAddress(Email, $"{LastName} {FirstName}");
+                const string fromPassword = "your-email-password";
+                const string subject = "Reservation Confirmation";
+                string body = $"Hello {FirstName},\n\nYour reservation has been confirmed.\n\nDetails:\nDate: {Date1} {Time1}\n\nThank you,\nYour Company";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.example.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                    Timeout = 20000
+                };
+
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                //ModelState.AddModelError(string.Empty, "An error occurred while processing your reservation.");
+                //return Page();
             }
             return RedirectToPage();
         }

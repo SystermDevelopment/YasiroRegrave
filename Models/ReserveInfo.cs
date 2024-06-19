@@ -64,9 +64,8 @@ public class ReserveInfo
     public string? StoneFee { get; set; }
     [Column("set_price")]
     public string? SetPrice { get; set; }
-    [Required]
     [Column("vender_index")]
-    public int VenderIndex { get; set; }
+    public int? VenderIndex { get; set; }
     [Required]
     [Column("notification")]
     public int Notification { get; set; }
