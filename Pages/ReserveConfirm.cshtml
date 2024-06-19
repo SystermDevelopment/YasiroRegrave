@@ -23,98 +23,152 @@
         <div>下記内容をご確認の上、「メール送信」ボタンを押してください。</div>
     </section>
     <section>
-        <div class="confirm-table">
-            <table>
-                <tr>
-                    <td><label for="section-number">ご希望の区画番号</label></td>
-                    <td><span id="section-number" name="section-number">@Model.SectionNumber</span></td>
-                </tr>
-                <tr>
-                    <td><label for="last-name">姓名</label></td>
-                    <td><span id="last-name" name="last-name">@Model.LastName　@Model.FirstName</span></td>
-                </tr>
-                <tr>
-                    <td><label for="last-name-kana">せいめい</label></td>
-                    <td><span id="last-name-kana" name="last-name-kana">@Model.LastNameKana　@Model.FirstNameKana</span></td>
-                </tr>
-                <tr>
-                    <td><label for="postal-code">郵便番号</label></td>
-                    <td><span id="postal-code" name="postal-code">@Model.PostalCode</span></td>
-                </tr>
-                <tr>
-                    <td><label for="prefecture">都道府県</label></td>
-                    <td><span id="prefecture" name="prefecture">@Model.Prefecture</span></td>
-                </tr>
-                <tr>
-                    <td><label for="city">市区郡</label></td>
-                    <td><span id="city" name="city">@Model.City</span></td>
-                </tr>
-                <tr>
-                    <td><label for="address">町名・番地</label></td>
-                    <td><span id="address" name="address">@Model.Address</span></td>
-                </tr>
-                <tr>
-                    <td><label for="building">ビル・マンション名</label></td>
-                    <td><span id="building" name="building">@Model.Building</span></td>
-                </tr>
-                <tr>
-                    <td><label for="phone">電話番号</label></td>
-                    <td><span id="phone" name="phone">@Model.Phone</span></td>
-                </tr>
-                <tr>
-                    <td><label for="email">メールアドレス</label></td>
-                    <td><span id="email" name="email">@Model.Email</span></td>
-                </tr>
-
-                @if (Model.ReserveMode == (int)Config.ReserveType.見学予約)
-                {
+        <form method="post">
+            <div class="confirm-table">
+                <table>
                     <tr>
-                        <td><label for="date1">希望日時①</label></td>
-                        <td><span id="date1" name="date1">@Model.Date1　@Model.Time1</span></td>
+                        <td><label for="section-number">ご希望の区画番号</label></td>
+                        <td>
+                            <span>@Model.SectionNumber</span>
+                            <input type="hidden" id="section-number" name="SectionNumber" value="@Model.SectionNumber" />
+                        </td>
                     </tr>
                     <tr>
-                        <td><label for="date2">希望日時②</label></td>
-                        <td><span id="date2" name="date2">@Model.Date2　@Model.Time2</span></td>
+                        <td><label for="last-name">姓名</label></td>
+                        <td>
+                            <span>@Model.LastName @Model.FirstName</span>
+                            <input type="hidden" id="last-name" name="LastName" value="@Model.LastName" />
+                            <input type="hidden" id="first-name" name="FirstName" value="@Model.FirstName" />
+                        </td>
                     </tr>
                     <tr>
-                        <td><label for="date3">希望日時③</label></td>
-                        <td><span id="date3" name="date3">@Model.Date3　@Model.Time3</span></td>
+                        <td><label for="last-name-kana">せいめい</label></td>
+                        <td>
+                            <span>@Model.LastNameKana @Model.FirstNameKana</span>
+                            <input type="hidden" id="last-name-kana" name="LastNameKana" value="@Model.LastNameKana" />
+                            <input type="hidden" id="first-name-kana" name="FirstNameKana" value="@Model.FirstNameKana" />
+                        </td>
                     </tr>
-                }
+                    <tr>
+                        <td><label for="postal-code">郵便番号</label></td>
+                        <td>
+                            <span>@Model.PostalCode</span>
+                            <input type="hidden" id="postal-code" name="PostalCode" value="@Model.PostalCode" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="prefecture">都道府県</label></td>
+                        <td>
+                            <span>@Model.Prefecture</span>
+                            <input type="hidden" id="prefecture" name="Prefecture" value="@Model.Prefecture" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="city">市区郡</label></td>
+                        <td>
+                            <span>@Model.City</span>
+                            <input type="hidden" id="city" name="City" value="@Model.City" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="address">町名・番地</label></td>
+                        <td>
+                            <span>@Model.Address</span>
+                            <input type="hidden" id="address" name="Address" value="@Model.Address" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="building">ビル・マンション名</label></td>
+                        <td>
+                            <span>@Model.Building</span>
+                            <input type="hidden" id="building" name="Building" value="@Model.Building" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="phone">電話番号</label></td>
+                        <td>
+                            <span>@Model.Phone</span>
+                            <input type="hidden" id="phone" name="Phone" value="@Model.Phone" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">メールアドレス</label></td>
+                        <td>
+                            <span>@Model.Email</span>
+                            ReserveMode
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td><label for="inquiry">お問い合わせ内容</label></td>
-                    <td><span id="inquiry" name="inquiry">@Html.Raw(Model.Inquiry.Replace("\r\n", "<br>").Replace("\n", "<br>"))</span></td>
-                </tr>
-                <tr>
-                    <td><label for="contact-methods">ご希望の連絡方法 <span class="note"></span></label></td>
-                    <td>
-                        <span id="contact-methods" name="contact-methods">
-                            電話：@(Model.IsContactByPhone == "1" ? "希望する" : "希望しない")
-                            <br>
-                            メールアドレス：@(Model.IsContactByEmail == "1" ? "希望する" : "希望しない")
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="email-subscription">メール配信</label></td>
-                    <td>
-                        <span id="email-subscription" name="email-subscription">
-                            メールアドレス：@(Model.Subscription == "1" ? "受信する" : "受信しない")
-                        </span>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                    @if (Model.ReserveMode == (int)Config.ReserveType.見学予約)
+                    {
+                        <tr>
+                            <td><label for="date1">希望日時①</label></td>
+                            <td>
+                                <span>@Model.Date1 @Model.Time1</span>
+                                <input type="hidden" id="date1" name="Date1" value="@Model.Date1" />
+                                <input type="hidden" id="time1" name="Time1" value="@Model.Time1" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="date2">希望日時②</label></td>
+                            <td>
+                                <span>@Model.Date2 @Model.Time2</span>
+                                <input type="hidden" id="date2" name="Date2" value="@Model.Date2" />
+                                <input type="hidden" id="time2" name="Time2" value="@Model.Time2" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="date3">希望日時③</label></td>
+                            <td>
+                                <span>@Model.Date3 @Model.Time3</span>
+                                <input type="hidden" id="date3" name="Date3" value="@Model.Date3" />
+                                <input type="hidden" id="time3" name="Time3" value="@Model.Time3" />
+                            </td>
+                        </tr>
+                    }
 
-        <div class="button-wrapper">
-            <button type="button" class="back-button" onclick="history.back()">入力画面へ戻る</button>
-            <button type="submit" class="submit-button">@(Model.ReserveName)</button>
-        </div>
+                    <tr>
+                        <td><label for="inquiry">お問い合わせ内容</label></td>
+                        <td>
+                            <span>@Html.Raw(Model.Inquiry.Replace("\r\n", "<br>").Replace("\n", "<br>"))</span>
+                            <input type="hidden" id="inquiry" name="Inquiry" value="@Model.Inquiry" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="contact-methods">ご希望の連絡方法 <span class="note"></span></label></td>
+                        <td>
+                            <span>
+                                電話：@(Model.IsContactByPhone == "1" ? "希望する" : "希望しない")
+                                <br>
+                                メールアドレス：@(Model.IsContactByEmail == "1" ? "希望する" : "希望しない")
+                            </span>
+                            <input type="hidden" id="is-contact-by-phone" name="IsContactByPhone" value="@Model.IsContactByPhone" />
+                            <input type="hidden" id="is-contact-by-email" name="IsContactByEmail" value="@Model.IsContactByEmail" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="email-subscription">メール配信</label></td>
+                        <td>
+                            <span>
+                                メールアドレス：@(Model.Subscription == "1" ? "受信する" : "受信しない")
+                            </span>
+                            <input type="hidden" id="subscription" name="Subscription" value="@Model.Subscription" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-        <div class="announce-note">
-            <br>※申し込み後、@(Model.ReserveName)の内容を記載した自動返信メールを送信致します。<br>届かない場合はお問い合わせください。<br><br>
-        </div>
-        <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
+            <div class="button-wrapper">
+                <input type="hidden" id="CemeteryIndex" name="CemeteryIndex" value="@Model.CemeteryIndex" />
+                <input type="hidden" id="ReserveMode" name="ReserveMode" value="@Model.ReserveMode" />
+                <button type="button" class="back-button" onclick="history.back()">入力画面へ戻る</button>
+                <button type="submit" class="submit-button">メール送信</button>
+            </div>
+
+            <div class="announce-note">
+                <br>※申し込み後、@(Model.ReserveName)の内容を記載した自動返信メールを送信致します。<br>届かない場合はお問い合わせください。<br><br>
+            </div>
+            <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
+        </form>
     </section>
 </main>
