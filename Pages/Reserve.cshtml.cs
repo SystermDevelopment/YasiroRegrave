@@ -24,7 +24,6 @@ namespace YasiroRegrave.Pages
         public int CemeteryIndex { get; private set; } = 0;
         [BindProperty]
         public int ReserveMode { get; set; } = (int)Config.ReserveType.見学予約;
-        [BindProperty]
         public string ReserveName { get; set; } = "";
 
         [BindProperty]
@@ -78,6 +77,7 @@ namespace YasiroRegrave.Pages
         public string Inquiry { get; set; } = "";
 
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0027)]
         public string Date1 { get; set; } = "";
         [BindProperty]
         public string Time1 { get; set; } = "";
@@ -136,16 +136,30 @@ namespace YasiroRegrave.Pages
                 ReserveName = mode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
             }
 
-            //if (!IsContactByPhone && !IsContactByEmail)
-            //{
-            //    ModelState.AddModelError("SelectCheckBox", Message.M_E0026);
-            //    return Page();
-            //}
+            if (!IsContactByPhone && !IsContactByEmail)
+            {
+                ModelState.AddModelError("SelectCheckBox", Message.M_E0026);
+                return Page();
+            }
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
+            // バリデーションエラーを除外
+            ModelState.Remove("Building");
+            ModelState.Remove("Date2");
+            ModelState.Remove("Time2");
+            ModelState.Remove("Date3");
+            ModelState.Remove("Time3");
+            ModelState.Remove("Inquiry");
+            if (ReserveMode != (int)Config.ReserveType.見学予約)
+            {
+                ModelState.Remove("Date1");
+                ModelState.Remove("Time1");
+            }
+
+            // バリデーションエラーチェック
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             TempData["CemeteryIndex"] = CemeteryIndex;
             TempData["ReserveMode"] = ReserveMode;
