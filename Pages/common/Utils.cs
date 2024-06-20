@@ -21,8 +21,8 @@ namespace YasiroRegrave.Pages.common
             dst = dst.Replace("ｼﾝ", "新");
             dst = dst.Replace("ﾄｸ", "特");
 
-            // 接尾語
-            if (dst != "日蓮" && dst != "緑風")
+            // 接尾語（付与可）
+            //if (dst != "日蓮" && dst != "緑風")
             {
                 dst = dst + "区";
             }
@@ -141,85 +141,5 @@ namespace YasiroRegrave.Pages.common
                 }
             }
         }
-
-        ///// <summary>
-        ///// 画像を圧縮
-        ///// </summary>
-        ///// <param name="imageFile"></param>
-        ///// <returns>IFormFile</returns>
-        //public static IFormFile CompressImage(IFormFile imageFile)
-        //{
-        //    // 画像サイズ閾値：700KB
-        //    var MAX_SIZE_BYTES = 700 * 1024;
-
-        //    // 画像の品質を0から100の間で制限（元画像／閾値の30％）
-        //    var quality = Math.Min(100, Math.Max(0, MAX_SIZE_BYTES * 30 / imageFile.Length));
-
-        //    var fileName = imageFile.FileName;
-
-        //    // JPEG形式またはPNG形式の画像を処理
-        //    if (imageFile.ContentType != "image/jpeg" && imageFile.ContentType != "image/png")
-        //    {
-        //        return imageFile;
-        //    }
-
-        //    // 画像サイズが閾値を超える場合、画像を圧縮
-        //    if (imageFile.Length >= MAX_SIZE_BYTES)
-        //    {
-        //        using (var memoryStream = new MemoryStream())
-        //        {
-        //            // 画像をメモリストリームにコピー
-        //            imageFile.CopyTo(memoryStream);
-        //            memoryStream.Position = 0; // ストリームの位置をリセット
-
-        //            // メモリストリームで画像の圧縮を行う
-        //            using (var image = Image.FromStream(memoryStream))
-        //            {
-        //                // 圧縮した画像を保存するメモリストリーム
-        //                var compressedStream = new MemoryStream();
-
-        //                // 画像のエンコーダー情報を取得
-        //                var format = imageFile.ContentType == "image/jpeg" ? ImageFormat.Jpeg : ImageFormat.Png;
-        //                var codecInfo = GetEncoderInfo(format);
-        //                if (codecInfo == null)
-        //                {
-        //                    return imageFile;
-        //                }
-
-        //                var encoder = System.Drawing.Imaging.Encoder.Quality;
-        //                var encoderParameters = new EncoderParameters(1);
-        //                encoderParameters.Param[0] = new EncoderParameter(encoder, quality);
-
-        //                // 画像を圧縮して保存
-        //                image.Save(compressedStream, codecInfo, encoderParameters);
-
-        //                // 圧縮された画像のファイル名を生成
-        //                var compressedFileName = fileName;
-
-        //                // 圧縮された画像を返す
-        //                return new FormFile(compressedStream, 0, compressedStream.Length, "compressedImage", compressedFileName);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // 画像変更なし
-        //        return imageFile;
-        //    }
-        //}
-
-        //// 画像のエンコーダー情報を取得
-        //private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
-        //{
-        //    var codecs = ImageCodecInfo.GetImageDecoders();
-        //    foreach (var codec in codecs)
-        //    {
-        //        if (codec.FormatID == format.Guid)
-        //        {
-        //            return codec;
-        //        }
-        //    }
-        //    return null;
-        //}
     }
 }
