@@ -19,23 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
             initMap();
         })
         .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+            //console.error('There was a problem with the fetch operation:', error);
         });
 });
-
-// 矩形を描画
-function drawRect(coordinates) {
-    ctx.beginPath();
-    ctx.moveTo(coordinates[0].x, coordinates[0].y);
-    for (let i = 1; i < coordinates.length; i++) {
-        ctx.lineTo(coordinates[i].x, coordinates[i].y);
-    }
-
-    ctx.closePath();
-    ctx.fillStyle = '#ffea07';
-    ctx.fill();
-    ctx.stroke();
-}
 
 
 // マップ初期表示

@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
             sectionDatas.forEach(function (section) {
                 // 空きあり場合（空き以外も初回のみ描画）
                 if (section.noReserveCount >= 0) {
+                    // ↓↓↓ 画像作成用処理（通常コメント化）↓↓↓
+                    //section.noReserveCount = 0;
+                    //if (section.sectionCode == "緑風") {
+                    //    section.noReserveCount = 1;
+                    //}
+                    // ↑↑↑ 画像作成用処理（通常コメント化）↑↑↑
+
                     const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
                     sectionCoords.Coordinates.forEach(function (coords) {
                         // 矩形と名前を描画
@@ -32,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         })
         .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+            //console.error('There was a problem with the fetch operation:', error);
     });
 });
 
