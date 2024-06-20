@@ -23,7 +23,6 @@
         <div>下記フォームに必要事項を入力の上、<br>「確認画面へ」ボタンを押してください。</div>
     </section>
     <section>
-
         <form method="post" id="reservation-form">
             <label for="section-number">ご希望の区画番号</label>
             <input type="text" id="section-number" value="@Model.CemeteryName" disabled>
@@ -106,6 +105,7 @@
                 <label for="date1">相談・見学希望日時　　※必須</label>
                 <label for="date1">希望日①</label>
                 <input type="text" id="date1" asp-for="Date1">
+                <span asp-validation-for="Date1" class="text-danger"></span>
                 <div class="date1-note">
                     <p>※水曜定休</p>
                 </div>
@@ -259,7 +259,17 @@
 
         $('#date1, #date2, #date3').on('change', checkDateAndToggleTime);
         checkDateAndToggleTime(); // 初期状態のチェック
+
+        //EnterKey無効
+        $(document).keydown(function (event) {
+            if (event.key === 'Enter') {
+                if (event.target.tagName.toLowerCase() !== 'textarea') {
+                    event.preventDefault();
+                }
+            }
+        });
     });
+
     document.getElementById('auto-fill').addEventListener('click', function () {
         const postalCode = document.getElementById('postal-code').value;
         fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${postalCode}`)

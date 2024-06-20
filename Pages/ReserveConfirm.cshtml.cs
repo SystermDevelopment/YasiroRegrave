@@ -5,6 +5,7 @@ using System.Net.Mail;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
+using static YasiroRegrave.Pages.common.Config;
 
 
 namespace YasiroRegrave.Pages
@@ -16,6 +17,8 @@ namespace YasiroRegrave.Pages
         {
             _context = context;
         }
+
+        public int? LoginId { get; private set; }
 
         public string SectionNumber { get; set; } = "";
         [BindProperty]
@@ -93,6 +96,12 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public IActionResult OnPost()
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId == null)
+            {
+                return RedirectToPage("/Index");
+            }
+
             ReserveName = ReserveMode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
 
             var userId = HttpContext.Session.GetInt32("LoginId");
@@ -128,7 +137,7 @@ namespace YasiroRegrave.Pages
                 VenderIndex = user?.VenderIndex,
                 Notification = 1,
                 CreateDate = DateTime.Now,
-                CreateUser = 1,
+                CreateUser = LoginId,
                 CemeteryInfo = cemeteryInfo
             };
 
@@ -136,7 +145,9 @@ namespace YasiroRegrave.Pages
             {
                 _context.ReserveInfos.Add(reserveInfo);
                 _context.SaveChanges();
-                cemeteryInfo.SectionStatus = 1;
+                cemeteryInfo.SectionStatus = (int)SectionStatusType.WEB予約;
+                cemeteryInfo.UpdateDate = DateTime.Now;
+                cemeteryInfo.UpdateUser = LoginId;
                 _context.CemeteryInfos.Update(cemeteryInfo);
                 _context.SaveChanges();
 
@@ -223,28 +234,28 @@ namespace YasiroRegrave.Pages
 
 
             //// テストータ
-            SectionNumber = "親鸞E区 07列-03";
-            LastName = "生駒";
-            FirstName = "太郎";
-            LastNameKana = "いこま";
-            FirstNameKana = "たろう";
-            PostalCode = "5750014";
-            Prefecture = "大阪府";
-            City = "四條畷市";
-            Address = "上田原";
-            Building = "1366番地";
-            Phone = "0120753948";
-            Email = "yoyaku@yashiro.co.jp";
-            Date1 = "2024/07/01";
-            Time1 = "11:00";
-            Date2 = "2024/07/02";
-            Time2 = "12:00";
-            Date3 = "2024/07/03";
-            Time3 = "13:00";
+            //SectionNumber = "親鸞E区 07列-03";
+            //LastName = "生駒";
+            //FirstName = "太郎";
+            //LastNameKana = "いこま";
+            //FirstNameKana = "たろう";
+            //PostalCode = "5750014";
+            //Prefecture = "大阪府";
+            //City = "四條畷市";
+            //Address = "上田原";
+            //Building = "1366番地";
+            //Phone = "0120753948";
+            //Email = "yoyaku@yashiro.co.jp";
+            //Date1 = "2024/07/01";
+            //Time1 = "11:00";
+            //Date2 = "2024/07/02";
+            //Time2 = "12:00";
+            //Date3 = "2024/07/03";
+            //Time3 = "13:00";
             //Inquiry = "ああああああああああ";
-            IsContactByPhone = "1";
-            IsContactByEmail = "1";
-            Subscription = "1";
+            //IsContactByPhone = "1";
+            //IsContactByEmail = "1";
+            //Subscription = "1";
 
             return;
         }
