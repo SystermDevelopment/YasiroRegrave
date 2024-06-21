@@ -46,6 +46,3 @@ msbuild.wrn
 
 # Logs directory
 Logs/
-
-# Tools directory
-Tools/
