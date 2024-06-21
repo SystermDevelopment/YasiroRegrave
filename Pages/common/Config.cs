@@ -86,7 +86,7 @@ namespace YasiroRegrave.Pages.common
             }
         }
         /// <summary>
-        /// 実践事例のファイルデータ格納先
+        /// ファイルデータ格納先
         /// </summary>
         public static string DataFilesRegravePath
         {
@@ -96,6 +96,11 @@ namespace YasiroRegrave.Pages.common
                 return Path.Combine(rootPath, "images");
             }
         }
+        public static string SendMailAddress { get { return "test@technosphere.co.jp"; } }
+        public static string SendMailName { get { return "テストメール送信元"; } }
+        public static string SMTPHost { get { return "mail11.onamae.ne.jp"; } }
+        public static string SMTPId { get { return "test@technosphere.co.jp"; } }
+        public static string SMTPPass { get { return "yasiroyasiro1#"; } }
     }
 
 }
