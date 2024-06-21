@@ -64,6 +64,12 @@ function initMap() {
         createPolygon(cemeteryCoords);
     });
 
+    // ↓↓↓ 画像作成用処理（通常コメント化）↓↓↓
+    //coordDatas.forEach(function (coordData) {
+    //    createPolygon(coordData);
+    //});
+    // ↑↑↑ 画像作成用処理（通常コメント化）↑↑↑
+
     // 矩形を描画
     function createPolygon(cemetery) {
         const coordinates = cemetery.Coordinates[0].map(coord => [(coord.y * corrRate), (coord.x * corrRate)]);
