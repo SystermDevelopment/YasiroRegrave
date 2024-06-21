@@ -39,6 +39,12 @@ namespace YasiroRegrave.Pages
         public string Password { get; set; } = string.Empty;
 
         [BindProperty]
+        [Required(ErrorMessage = Message.M_E0002)]
+        [StringLength(100, ErrorMessage = Message.M_E0013)]
+
+        public string MailAddress { get; set; } = string.Empty;
+
+        [BindProperty]
         [Required(ErrorMessage = Message.M_E0008)]
         public int? SelectVenderIndex { get; set; } 
 
@@ -85,6 +91,7 @@ namespace YasiroRegrave.Pages
                     Authority = user.Authority;
                     Name = user.Name;
                     Password = user.Password;
+                    MailAddress = user.MailAddress;
                     SelectedReiens = _context.ReienInfos
                         .Where(ri => ri.Users.UserIndex == user.UserIndex)
                         .Select(ri => ri.Reiens.ReienIndex)
@@ -154,7 +161,8 @@ namespace YasiroRegrave.Pages
                         Id=Id,
                         Authority = Authority,
                         Name = Name,
-                        Password = Password,    
+                        Password = Password,  
+                        MailAddress = MailAddress,
                         CreateDate = DateTime.Now,
                         CreateUser = LoginId,
                         DeleteFlag = (int)Config.DeleteType.ñ¢çÌèú,
@@ -186,6 +194,7 @@ namespace YasiroRegrave.Pages
                         existingUser.Authority = Authority;
                         existingUser.Name = Name;
                         existingUser.Password = Password;
+                        existingUser.MailAddress = MailAddress;
                         existingUser.UpdateDate = DateTime.Now;
                         existingUser.UpdateUser = LoginId;
                         existingUser.VenderIndex = SelectVenderIndex ?? 0;
