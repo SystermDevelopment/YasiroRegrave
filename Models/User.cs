@@ -24,6 +24,7 @@ public class User
     [Required]
     [Column("password")]
     public string Password { get; set; }
+    [Required]
     [Column("e_mail")]
     [MaxLength(100)]
     public string? MailAddress { get; set; }
