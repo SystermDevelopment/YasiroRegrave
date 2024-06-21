@@ -98,6 +98,11 @@
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                     <input type="password" asp-for="Password" class="form-control" value="@Model.Password">
                                 </div>
+                                <div class="form-group">
+                                    <label for="Mail_Address">メールアドレス</label>
+                                    <span asp-validation-for="MailAddress" class="text-danger"></span>
+                                    <input type="text" asp-for="MailAddress" class="form-control" value="@Model.MailAddress">
+                                </div>
                             </div>
                         </div>
                     </div>
