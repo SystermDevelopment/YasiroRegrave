@@ -83,7 +83,12 @@ namespace YasiroRegrave.Controllers
                         existingCemeteryInfo.SectionStatus = 2;
                         break;
                     case "成約":
-                        existingCemeteryInfo.SectionStatus = 3;
+                        var cemeteryToDelete = _context.Cemeteries.FirstOrDefault(c => c.CemeteryIndex == existingCemetery.CemeteryIndex);
+                        if (cemeteryToDelete != null)
+                        {
+                            _context.Cemeteries.Remove(cemeteryToDelete);
+                        }
+                        _context.CemeteryInfos.Remove(existingCemeteryInfo);
                         break;
                     default:
                         return BadRequest($"Invalid value for 区画状態: {info.区画状態}. Expected value");
