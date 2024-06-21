@@ -24,6 +24,9 @@ public class User
     [Required]
     [Column("password")]
     public string Password { get; set; }
+    [Column("e_mail")]
+    [MaxLength(100)]
+    public string? MailAddress { get; set; }
     [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }
