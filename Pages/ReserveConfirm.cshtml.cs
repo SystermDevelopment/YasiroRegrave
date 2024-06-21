@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Net;
 using System.Net.Mail;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
 using static YasiroRegrave.Pages.common.Config;
+using static YasiroRegrave.Pages.common.Utils;
 
 
 namespace YasiroRegrave.Pages
@@ -88,7 +91,6 @@ namespace YasiroRegrave.Pages
             GetPage();
             return;
         }
-
         /// <summary>
         /// OnPost処理
         /// </summary>
@@ -97,21 +99,16 @@ namespace YasiroRegrave.Pages
         public IActionResult OnPost()
         {
             LoginId = HttpContext.Session.GetInt32("LoginId");
-            if (LoginId == null)
-            {
-                return RedirectToPage("/Index");
-            }
 
             ReserveName = ReserveMode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
 
-            var userId = HttpContext.Session.GetInt32("LoginId");
             var cemeteryInfo = _context.CemeteryInfos
                 .FirstOrDefault(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除);
             User? user = null;
-            if (userId != null)
+            if (LoginId != null)
             {
                 user = _context.Users
-                    .FirstOrDefault(u => u.UserIndex == userId && u.DeleteFlag == (int)Config.DeleteType.未削除);
+                    .FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.未削除);
             }
 
             var reserveInfo = new ReserveInfo
@@ -151,36 +148,109 @@ namespace YasiroRegrave.Pages
                 _context.CemeteryInfos.Update(cemeteryInfo);
                 _context.SaveChanges();
 
-                var fromAddress = new MailAddress("your-email@example.com", "Your Name");
-                var toAddress = new MailAddress(Email, $"{LastName} {FirstName}");
-                const string fromPassword = "your-email-password";
-                const string subject = "Reservation Confirmation";
-                string body = $"Hello {FirstName},\n\nYour reservation has been confirmed.\n\nDetails:\nDate: {Date1} {Time1}\n\nThank you,\nYour Company";
+                var fromAddress = new MailAddress(Config.SendMailAddress, Config.SendMailName);
+
+                string templatePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Data", "email_template.txt");
+                var emailContent = EmailHelper.ParseEmailTemplate(templatePath, new
+                {
+                    LastName,
+                    FirstName,
+                    SectionNumber,
+                    LastNameKana,
+                    FirstNameKana,
+                    PostalCode,
+                    Prefecture,
+                    City,
+                    Address,
+                    Building,
+                    Phone,
+                    Email,
+                    Date1,
+                    Time1,
+                    Date2,
+                    Time2,
+                    Date3,
+                    Time3,
+                    Inquiry,
+                    IsContactByPhone = IsContactByPhone == "1" ? "希望する" : "希望しない",
+                    IsContactByEmail = IsContactByEmail == "1" ? "希望する" : "希望しない",
+                    Subscription = Subscription == "1" ? "受信する" : "受信しない"
+                });
 
                 var smtp = new SmtpClient
                 {
-                    Host = "smtp.example.com",
+                    Host = Config.SMTPHost,
                     Port = 587,
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                    Credentials = new NetworkCredential(Config.SMTPId, Config.SMTPPass),
                     Timeout = 20000
                 };
 
-                using (var message = new MailMessage(fromAddress, toAddress)
+                if (LoginId == null)
                 {
-                    Subject = subject,
-                    Body = body
-                })
+                    //一般ユーザー
+                    var toAddress = new MailAddress($"{Email}", $"{LastName} {FirstName} 様");
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = emailContent.Subject,
+                        Body = emailContent.Body,
+                        BodyEncoding = System.Text.Encoding.UTF8,
+                        SubjectEncoding = System.Text.Encoding.UTF8
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+                }
+                else if (user != null)
                 {
-                    smtp.Send(message);
+                    //担当者
+                    var toAddress = new MailAddress($"{user.MailAddress}", $"{user.Name} 様");
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = emailContent.Subject,
+                        Body = emailContent.Body,
+                        BodyEncoding = System.Text.Encoding.UTF8,
+                        SubjectEncoding = System.Text.Encoding.UTF8
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+                }
+                var reienData = _context.Cemeteries
+                    .Include(s => s.Section)
+                        .ThenInclude(s => s.Area)
+                        .ThenInclude(a => a.Reien)
+                    .Where(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Where(ci => ci.Section.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Where(ci => ci.Section.Area.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Where(ci => ci.Section.Area.Reien.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Select(ci => new
+                    {
+                        ReienName = ci.Section.Area.Reien.ReienName,
+                        ReienMail = ci.Section.Area.Reien.MailAddress,
+                    })
+                    .FirstOrDefault();
+                if (reienData != null)
+                {
+                    var toAddress = new MailAddress($"{reienData.ReienMail}", $"{reienData.ReienName} 営業担当者様");
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = emailContent.Subject,
+                        Body = emailContent.Body,
+                        BodyEncoding = System.Text.Encoding.UTF8,
+                        SubjectEncoding = System.Text.Encoding.UTF8
+                    })
+                    {
+                        smtp.Send(message);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                //ModelState.AddModelError(string.Empty, "An error occurred while processing your reservation.");
-                //return Page();
+                ModelState.AddModelError(string.Empty, "An error occurred while processing your reservation.");
+                return Page();
             }
             return RedirectToPage("ReserveComplate");
         }

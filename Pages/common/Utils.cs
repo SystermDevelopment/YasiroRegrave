@@ -141,5 +141,28 @@ namespace YasiroRegrave.Pages.common
                 }
             }
         }
+        public static class EmailHelper
+        {
+            public static (string Subject, string Body) ParseEmailTemplate(string templatePath, object model)
+            {
+                string template = File.ReadAllText(templatePath, System.Text.Encoding.UTF8);
+
+                // 件名を取得
+                var lines = template.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                string subjectLine = lines.FirstOrDefault(line => line.StartsWith("件名:"));
+                string subject = subjectLine != null ? subjectLine.Replace("件名:", "").Trim() : "No Subject";
+
+                // 本文を取得
+                string body = string.Join("\n", lines.SkipWhile(line => !line.StartsWith("件名:")).Skip(1));
+
+                foreach (var prop in model.GetType().GetProperties())
+                {
+                    body = body.Replace($"{{{prop.Name}}}", prop.GetValue(model, null)?.ToString());
+                    subject = subject.Replace($"{{{prop.Name}}}", prop.GetValue(model, null)?.ToString());
+                }
+
+                return (subject, body);
+            }
+        }
     }
 }
