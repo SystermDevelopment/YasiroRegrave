@@ -76,6 +76,7 @@ function initMap() {
         var polygon = L.polygon(coordinates, {
             color: 'black',
             fillColor: 'yellow',
+            fillOpacity: 0.5,
             weight: 1,
             polygonId: 'table-container-' + cemetery.CemeteryCode
         }).addTo(map);
