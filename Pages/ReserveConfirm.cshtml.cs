@@ -232,17 +232,29 @@ namespace YasiroRegrave.Pages
                         ReienMail = ci.Section.Area.Reien.MailAddress,
                     })
                     .FirstOrDefault();
-                if (reienData != null)
+                if (reienData != null && reienData.ReienMail != null)
                 {
-                    var toAddress = new MailAddress($"{reienData.ReienMail}", $"{reienData.ReienName} 営業担当者様");
-                    using (var message = new MailMessage(fromAddress, toAddress)
+                    string[] emailAddresses = reienData.ReienMail.Split(',');
+                    var toAddresses = new MailAddressCollection();
+
+                    foreach (string emailAddress in emailAddresses)
                     {
+                        toAddresses.Add(new MailAddress(emailAddress.Trim()));
+                    }
+
+                    using (var message = new MailMessage()
+                    {
+                        From = fromAddress,
                         Subject = emailContent.Subject,
                         Body = emailContent.Body,
                         BodyEncoding = System.Text.Encoding.UTF8,
                         SubjectEncoding = System.Text.Encoding.UTF8
                     })
                     {
+                        foreach (var address in toAddresses)
+                        {
+                            message.To.Add(address);
+                        }
                         smtp.Send(message);
                     }
                 }
