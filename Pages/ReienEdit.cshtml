@@ -55,18 +55,18 @@
                                     <div class="form-group">
                                         <label for="Code">霊園コード</label>
                                         <span asp-validation-for="ReienCode" class="text-danger"></span>
-                                        <input type="text" asp-for="ReienCode" class="form-control" value="@Model.ReienCode">
+                                        <input type="text" asp-for="ReienCode" class="form-control" value="@Model.ReienCode" autocomplete="off">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="Name">霊園名</label>
                                         <span asp-validation-for="Name" class="text-danger"></span>
-                                        <input type="text" asp-for="Name" class="form-control" value="@Model.Name">
+                                        <input type="text" asp-for="Name" class="form-control" value="@Model.Name" autocomplete="off">
                                     </div>
                                     <div class="form-group">
                                         <label for="Mail_Address">メールアドレス</label>
                                         <span asp-validation-for="MailAddress" class="text-danger"></span>
-                                        <input type="text" asp-for="MailAddress" class="form-control" value="@Model.MailAddress">
+                                        <input type="text" asp-for="MailAddress" class="form-control" value="@Model.MailAddress" autocomplete="off">
                                     </div>
                                 </div>
                             </div>

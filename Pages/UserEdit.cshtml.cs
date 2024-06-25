@@ -91,7 +91,7 @@ namespace YasiroRegrave.Pages
                     Authority = user.Authority;
                     Name = user.Name;
                     Password = user.Password;
-                    MailAddress = user.MailAddress;
+                    MailAddress = user.MailAddress ?? "";
                     SelectedReiens = _context.ReienInfos
                         .Where(ri => ri.Users.UserIndex == user.UserIndex)
                         .Select(ri => ri.Reiens.ReienIndex)
