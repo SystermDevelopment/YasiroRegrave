@@ -104,7 +104,7 @@
             {
                 <label for="date1">相談・見学希望日時　　※必須</label>
                 <label for="date1">希望日①</label>
-                <input type="text" id="date1" asp-for="Date1">
+                <input type="text" id="date1" asp-for="Date1" autocomplete="off">
                 <span asp-validation-for="Date1" class="text-danger"></span>
                 <div class="date1-note">
                     <p>※水曜定休</p>
@@ -126,7 +126,7 @@
                 </div>
 
                 <label for="date2">希望日②</label>
-                <input type="text" id="date2" asp-for="Date2">
+                <input type="text" id="date2" asp-for="Date2" autocomplete="off">
                 <div class="date2-note">
                     <p>※水曜定休</p>
                 </div>
@@ -147,7 +147,7 @@
                 </div>
 
                 <label for="date3">希望日③</label>
-                <input type="text" id="date3" asp-for="Date3">
+                <input type="text" id="date3" asp-for="Date3" autocomplete="off">
                 <div class="date3-note">
                     <p>※水曜定休</p>
                 </div>
@@ -236,14 +236,23 @@
         function noWednesdayAndHolidays(date) {
             var day = date.getDay();
             var dateString = $.datepicker.formatDate('yy-mm-dd', date);
+            var isRegularHoliday = false;
+            var isSpecialHoliday = false;
             if (day === 3) {
-                return [false, "", "選択不可"];
+                isRegularHoliday = true;
             }
 
             for (var i = 0; i < regularHolidays.length; i++) {
                 if (dateString === regularHolidays[i]) {
-                    return [false, "", "定休日"];
+                    isSpecialHoliday = true;
+                    break;
                 }
+            }
+
+            if (isRegularHoliday && !isSpecialHoliday) {
+                return [false, "", "選択不可"];
+            } else if (!isRegularHoliday && isSpecialHoliday) {
+                return [false, "", "定休日"];
             }
             return [true, "", ""];
         }
@@ -254,7 +263,12 @@
             beforeShowDay: noWednesdayAndHolidays,
             onSelect: checkDateAndToggleTime
         }).blur(function () {
-            $(this).datepicker('hide');
+            var input = $(this);
+            setTimeout(function () {
+                if (!input.datepicker("widget").is(":visible")) {
+                    input.datepicker('hide');
+                }
+            }, 150);
         });
 
         $('#date1, #date2, #date3').on('change', checkDateAndToggleTime);
@@ -268,6 +282,15 @@
                 }
             }
         });
+
+        // Textareaの高さを自動調整
+        var textarea = document.getElementById('inquiry');
+        function adjustTextareaHeight() {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+        adjustTextareaHeight();
+        textarea.addEventListener('input', adjustTextareaHeight);
     });
 
     document.getElementById('auto-fill').addEventListener('click', function () {

@@ -86,6 +86,14 @@ input, textarea, select, button {
     box-sizing: border-box;
 }
 
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    resize: vertical;
+    min-height: 3em;
+}
+
 .postal-code-wrapper {
     display: flex;
     align-items: flex-start;
