@@ -91,11 +91,20 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+
+            // メールアドレスチェック
+            string[] addresses = MailAddress.Split(',');
+            if (addresses.Any(address => !Utils.IsValidMailAddress(address)))
+            {
+                ModelState.AddModelError("MailAddress", Message.M_E0028);
+                return Page();
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            
+
             try
             {
                 if (index == null)
