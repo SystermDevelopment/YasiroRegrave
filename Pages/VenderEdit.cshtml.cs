@@ -83,6 +83,10 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             try
             {

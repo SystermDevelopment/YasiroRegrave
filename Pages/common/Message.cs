@@ -29,6 +29,7 @@
         public const string M_E0025 = "メールアドレスを入力してください";
         public const string M_E0026 = "ご希望の連絡方法を選択してください";
         public const string M_E0027 = "希望日を選択してください";
+        public const string M_E0028 = "有効なメールアドレスを入力してください";
 
 
         public const string M_Q0001 = "削除してもよろしいですか？";
