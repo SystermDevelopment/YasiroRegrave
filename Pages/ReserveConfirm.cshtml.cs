@@ -262,7 +262,6 @@ namespace YasiroRegrave.Pages
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "An error occurred while processing your reservation.");
-                return Page();
             }
             return RedirectToPage("ReserveComplate");
         }
