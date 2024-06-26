@@ -41,6 +41,7 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0002)]
         [StringLength(100, ErrorMessage = Message.M_E0013)]
+        [EmailAddress(ErrorMessage = Message.M_E0028)]
 
         public string MailAddress { get; set; } = string.Empty;
 

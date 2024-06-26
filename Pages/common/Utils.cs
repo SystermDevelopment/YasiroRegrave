@@ -1,5 +1,6 @@
 ﻿using System.Drawing.Imaging;
 using System.Drawing;
+using System.Net.Mail;
 
 namespace YasiroRegrave.Pages.common
 {
@@ -90,6 +91,30 @@ namespace YasiroRegrave.Pages.common
             {
                 return 0;
             }
+        }
+
+        /// <summary>
+        /// メールアドレス形式チェック
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns>int</returns>
+        public static bool IsValidMailAddress(string address)
+        {
+            if (string.IsNullOrEmpty(address))
+            {
+                return false;
+            }
+            try
+            {
+                var mailAddress = new MailAddress(address);
+                //System.Net.Mail.MailAddress a =
+                //    new System.Net.Mail.MailAddress(address);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>

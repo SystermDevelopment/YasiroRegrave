@@ -43,7 +43,7 @@ namespace YasiroRegrave.Pages
             var user = _context.Users
                 .Include(u => u.Vender)
                 .FirstOrDefault(u => u.Id == LoginId && u.Password == Password);
-            if (user != null && LoginId != null)
+            if (user != null && LoginId != null && user.Id == LoginId && user.Password == Password)
             {
                 HttpContext.Session.SetInt32("LoginId", user.UserIndex);
                 if (user.Authority == (int)Config.AuthorityType.管理者)
