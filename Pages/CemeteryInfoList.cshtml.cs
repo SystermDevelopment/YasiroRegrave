@@ -107,7 +107,8 @@ namespace YasiroRegrave.Pages
             .Where(ci => ci.SectionStatus == (int)Config.SectionStatusType.空)
             .OrderBy(ci => ci.Cemetery.Section.Area.Reien.ReienCode)
             .ThenBy(ci => ci.Cemetery.Section.Area.AreaCode)
-            .ThenBy(ci => ci.Cemetery.CemeteryName)
+            .ThenBy(ci => ci.Cemetery.Section.SectionCode)
+            .ThenBy(ci => ci.Cemetery.CemeteryCode)
             .Select(ci => new CemeteryInfo
             {
                 CemeteryInfoIndex = ci.CemeteryInfoIndex,
