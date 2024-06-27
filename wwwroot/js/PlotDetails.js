@@ -29,7 +29,8 @@ var corrRate = 1.0;
 function initMap() {
     map = L.map('map-container', {
         crs: L.CRS.Simple,
-        zoomControl: true
+        zoomControl: true,
+        maxZoom: 1.2 // 最大ズーム（120％）
     });
 
     // (w,h)=(500,750) -> (w,h)=(400,600) *** #map-container(width,height)のwidthと同値を定義 ***
