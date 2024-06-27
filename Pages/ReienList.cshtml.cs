@@ -73,13 +73,13 @@ namespace YasiroRegrave.Pages
         {
             var reienList = _context.Reiens
                 .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .OrderBy(r => r.ReienCode)
                 .Select(r => new Reien
                 {
                     Index = r.ReienIndex,
                     Code = r.ReienCode,
                     ReienName = r.ReienName,
                     MailAddress = r.MailAddress ?? "",
-
                 })
                 .ToList();
             Reiens = reienList;

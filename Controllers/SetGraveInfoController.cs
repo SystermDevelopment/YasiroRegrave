@@ -82,7 +82,7 @@ namespace YasiroRegrave.Controllers
                     {
                         AreaIndex = existingArea.AreaIndex,
                         SectionCode = section,
-                        SectionName = section, // TODO: 本来のNameをもらったら修正すること
+                        SectionName = section, // 未使用
                         CreateDate = DateTime.Now,
                         CreateUser = null,
                         UpdateDate = DateTime.Now,
@@ -97,7 +97,7 @@ namespace YasiroRegrave.Controllers
                 else
                 {
                     // UPDATE
-                    existingSection.SectionName = section; // TODO: 本来のNameをもらったら修正すること
+                    existingSection.SectionName = section; // 未使用
                     existingSection.UpdateDate = DateTime.Now;
                     existingSection.UpdateUser = null;
                     existingSection.DeleteFlag = 0;
@@ -113,7 +113,7 @@ namespace YasiroRegrave.Controllers
                     {
                         SectionIndex = existingSection.SectionIndex,
                         CemeteryCode = cemetery,
-                        CemeteryName = cemetery, // TODO: 本来のNameをもらったら修正すること
+                        CemeteryName = cemetery, // 未使用
                         CreateDate = DateTime.Now,
                         CreateUser = null,
                         UpdateDate = DateTime.Now,
@@ -128,7 +128,7 @@ namespace YasiroRegrave.Controllers
                 else
                 {
                     // UPDATE
-                    existingCemetery.CemeteryName = cemetery; // TODO: 本来のNameをもらったら修正すること
+                    existingCemetery.CemeteryName = cemetery; // 未使用
                     existingCemetery.UpdateDate = DateTime.Now;
                     existingCemetery.UpdateUser = null;
                     existingCemetery.DeleteFlag = 0;

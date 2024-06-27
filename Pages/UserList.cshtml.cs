@@ -89,6 +89,8 @@ namespace YasiroRegrave.Pages
         {
             var userList = _context.Users
                 .Where(u => u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .OrderBy(u => u.VenderIndex)
+                .ThenBy(u => u.Id)
                 .Select(u => new UserData
                 {
                     Index = u.UserIndex,
@@ -112,6 +114,7 @@ namespace YasiroRegrave.Pages
 
             var venderList = _context.Venders
                 .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .OrderBy(v => v.VenderIndex)
                 .Select(v => new VenderData
                 {
                     VenderIndex = v.VenderIndex,
