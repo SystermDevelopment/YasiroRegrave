@@ -43,7 +43,7 @@ namespace YasiroRegrave.Controllers
                 string cemetery = parts[1] + "-" + parts[2];
 
                 // エリア(工区)
-                existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.AreaCode == info.工区番号);
+                existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienIndex == existingReien.ReienIndex && r.AreaCode == info.工区番号);
                 if (existingArea == null)
                 {
                     // INSERT
@@ -74,7 +74,7 @@ namespace YasiroRegrave.Controllers
                 }
 
                 // 区画
-                existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionCode == section);
+                existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.AreaIndex == existingArea.AreaIndex && r.SectionCode == section);
                 if (existingSection == null)
                 {
                     // INSERT
@@ -105,7 +105,7 @@ namespace YasiroRegrave.Controllers
                 }
 
                 // 墓所
-                existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryCode == cemetery);
+                existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionIndex == existingSection.SectionIndex && r.CemeteryCode == cemetery);
                 if (existingCemetery == null)
                 {
                     // INSERT
