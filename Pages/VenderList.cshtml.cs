@@ -73,6 +73,7 @@ namespace YasiroRegrave.Pages
         {
             var venderList = _context.Venders
                 .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .OrderBy(v => v.VenderIndex)
                 .Select(v => new Vender
                 {
                     Index = v.VenderIndex,

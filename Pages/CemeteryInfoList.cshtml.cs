@@ -105,15 +105,18 @@ namespace YasiroRegrave.Pages
             var cemeteryinfoList = _context.CemeteryInfos
             .Where(ci => ci.DeleteFlag == (int)Config.DeleteType.未削除 && SelectedReiens.Contains(ci.Cemetery.Section.Area.ReienIndex))
             .Where(ci => ci.SectionStatus == (int)Config.SectionStatusType.空)
+            .OrderBy(ci => ci.Cemetery.Section.Area.Reien.ReienCode)
+            .ThenBy(ci => ci.Cemetery.Section.Area.AreaCode)
+            .ThenBy(ci => ci.Cemetery.CemeteryCode)
             .Select(ci => new CemeteryInfo
             {
                 CemeteryInfoIndex = ci.CemeteryInfoIndex,
                 CemeteryIndex = ci.CemeteryIndex,
                 CemeteryCode = ci.Cemetery.CemeteryCode,
-                CemeteryName = ci.Cemetery.CemeteryName,
+                CemeteryName = Utils.CemeteryCode2Name(ci.Cemetery.CemeteryCode),
                 SectionIndex = ci.Cemetery.Section.SectionIndex,
                 SectionCode = ci.Cemetery.Section.SectionCode,
-                SectionName = ci.Cemetery.Section.SectionName,
+                SectionName = Utils.SectionCode2Name(ci.Cemetery.Section.SectionCode),
                 AreaIndex = ci.Cemetery.Section.Area.AreaIndex,
                 AreaCode = ci.Cemetery.Section.Area.AreaCode,
                 AreaName = ci.Cemetery.Section.Area.AreaName,
@@ -172,6 +175,7 @@ namespace YasiroRegrave.Pages
             // 検索条件
             var reienList = _context.Reiens
                     .Where(r => r.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .OrderBy(r => r.ReienCode)
                     .Select(r => new ReienData
                     {
                         ReienIndex = r.ReienIndex,
@@ -182,6 +186,8 @@ namespace YasiroRegrave.Pages
 
             var areaList = _context.Areas
                     .Where(a => a.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .OrderBy(a => a.Reien.ReienCode)
+                    .ThenBy(a => a.AreaCode)
                     .Select(a => new AreaData
                     {
                         ReienIndex = a.ReienIndex,
@@ -193,11 +199,14 @@ namespace YasiroRegrave.Pages
 
             var sectionList = _context.Sections
                     .Where(s => s.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .OrderBy(s => s.Area.Reien.ReienCode)
+                    .ThenBy(s => s.Area.AreaCode)
+                    .ThenBy(s => s.SectionCode)
                     .Select(s => new SectionData
                     {
                         AreaIndex = s.AreaIndex,
                         SectionIndex = s.SectionIndex,
-                        SectionName = s.SectionName,
+                        SectionName = Utils.SectionCode2Name(s.SectionCode),
                     })
                     .ToList();
             Sections = sectionList;
