@@ -321,4 +321,8 @@ button[type="submit"] {
         .confirm-table td span {
             display: block;
         }
+
+    .contact-options, .subscription-options {
+        display: block;
+    }
 }

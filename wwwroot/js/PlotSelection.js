@@ -126,9 +126,22 @@ function calculateCenter(coordinates) {
 function isInsidePolygon(x, y, coordinates) {
     let inside = false;
     let i, j = coordinates.length - 1;
+
+    // (h)=(500) -> (h)=(400) *** #PlotSelectionContainer(height)のheightと同値を定義 ***
+    var baseHeight = 500;
+    var mapContainer = document.getElementById('PlotSelectionContainer');
+    var mapHeight = mapContainer.offsetHeight;
+    var corrRate = 1.0;
+    if (mapHeight < baseHeight) {
+        corrRate = mapHeight / baseHeight;
+    }
+
     for (i = 0; i < coordinates.length; i++) {
-        if ((coordinates[i].y > y) !== (coordinates[j].y > y) &&
-            x < (coordinates[j].x - coordinates[i].x) * (y - coordinates[i].y) / (coordinates[j].y - coordinates[i].y) + coordinates[i].x) {
+        var ix = coordinates[i].x * corrRate;
+        var iy = coordinates[i].y * corrRate;
+        var jx = coordinates[j].x * corrRate;
+        var jy = coordinates[j].y * corrRate;
+        if ((iy > y) !== (jy > y) && (x < (jx - ix) * (y - iy) / (jy - iy) + ix)) {
             inside = !inside;
         }
         j = i;
