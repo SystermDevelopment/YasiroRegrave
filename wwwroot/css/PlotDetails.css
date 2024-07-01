@@ -109,7 +109,10 @@ h1 {
     th:last-child {
         color: red;
     }
-
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 .button-container {
     text-align: center;
     margin: 10px;

@@ -52,25 +52,36 @@
                 </tr>
                 <tr>
                     <th>墓地使用料</th>
-                    <td>¥@string.Format("{0:#,0}", cemetery.UsageFee)</td>
+                    <td>@string.Format("{0:#,0}", cemetery.UsageFee)円</td>
                 </tr>
                 <tr>
                     <th>永代管理料</th>
-                    <td>¥@string.Format("{0:#,0}", cemetery.ManagementFee)</td>
+                    <td>@string.Format("{0:#,0}", cemetery.ManagementFee)円</td>
                 </tr>
                 <tr>
                     <th>墓石セット価格</th>
-                    <td>¥@string.Format("{0:#,0}", cemetery.SetPrice)</td>
+                    <td>@string.Format("{0:#,0}", cemetery.SetPrice)円</td>
                 </tr>
                 <tr>
                     <th>合計</th>
-                    <td style="color: red;">¥@string.Format("{0:#,0}", cemetery.TotalPrice)</td>
+                    <td style="color: red;">@string.Format("{0:#,0}", cemetery.TotalPrice)円</td>
                 </tr>
             </table>
         </div>
+        <label>
+            ＼<span style="color: red;">区画の仮予約</span>が可能です／
+            <br>
+            (仮予約期間：１週間)
+        </label>
         <div class="button-container">
             <button class="button-visit" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.見学予約)'">見学予約のお申込み</button>
             <button class="button-reserve" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.仮予約)'">仮予約のお申込み</button>
+        </div>
+        <label>
+            お電話でも承ります。
+        </label>
+        <div>
+            <img src="images/PhoneNumber.png" style="border: 1px solid black;">
         </div>
     </div>
 }
