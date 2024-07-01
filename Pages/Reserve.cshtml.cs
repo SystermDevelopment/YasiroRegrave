@@ -139,6 +139,7 @@ namespace YasiroRegrave.Pages
             if (!IsContactByPhone && !IsContactByEmail)
             {
                 ModelState.AddModelError("SelectCheckBox", Message.M_E0026);
+                GetPage();
                 return Page();
             }
 
@@ -158,6 +159,7 @@ namespace YasiroRegrave.Pages
             // バリデーションエラーチェック
             if (!ModelState.IsValid)
             {
+                GetPage();
                 return Page();
             }
 
