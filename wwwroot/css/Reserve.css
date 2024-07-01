@@ -325,4 +325,24 @@ button[type="submit"] {
     .contact-options, .subscription-options {
         display: block;
     }
+
+    .select-item {
+        display: flex;
+        align-items: center;
+    }
+        .select-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .select-item input {
+            width: 20px;
+        }
+
+        .select-item label {
+            flex: 0 0 auto;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 }

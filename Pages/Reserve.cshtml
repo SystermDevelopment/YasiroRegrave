@@ -175,11 +175,11 @@
 
             <label for="contact-methods">ご希望の連絡方法 <span class="note">　※複数回答可</span></label>
             <div class="contact-options">
-                <div>
+                <div class="select-item">
                     <input type="checkbox" id="contact-phone" asp-for="IsContactByPhone">
                     <label for="contact-phone">電話</label>
                 </div>
-                <div>
+                <div class="select-item">
                     <input type="checkbox" id="contact-email" asp-for="IsContactByEmail">
                     <label for="contact-email">メール</label>
                 </div>
@@ -189,11 +189,11 @@
             <label for="email-subscription">メール配信</label>
             <div class="subscription-options">
                 <p>メール限定キャンペーンなどの最新情報や、これからの供養に役立つ終活情報をお届けします。</p>
-                <div>
+                <div class="select-item">
                     <input type="radio" id="subscribe-yes" asp-for="Subscription" value="1" checked>
                     <label for="subscribe-yes">受信する</label>
                 </div>
-                <div>
+                <div class="select-item">
                     <input type="radio" id="subscribe-no" asp-for="Subscription" value="0">
                     <label for="subscribe-no">受信しない</label>
                 </div>
