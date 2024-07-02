@@ -147,6 +147,7 @@ namespace YasiroRegrave.Controllers
                         ReleaseStatus = 0,
                         SectionStatus = 0,
                         UsageFee = info.使用料,
+                        SectionType = info.区画区分,
                         ManagementFee = info.管理料,
                         StoneFee = info.仕置巻石料,
                         SetPrice = info.墓石セット価格,
