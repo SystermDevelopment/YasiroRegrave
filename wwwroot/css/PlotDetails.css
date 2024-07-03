@@ -155,6 +155,9 @@ label {
         background-color: #FFC0CB;
     }
 
+.leaflet-control-attribution {
+    display: none !important;
+}
 
 @media (max-width: 520px) {
     #map-container {
