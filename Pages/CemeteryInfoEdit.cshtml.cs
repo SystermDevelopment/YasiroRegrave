@@ -162,10 +162,24 @@ namespace YasiroRegrave.Pages
                         .FirstOrDefault();
                     if (existingCemeteryinfo != null)
                     {
+                        // 画像登録済
                         var releaseStatus = (int)Config.ReleaseStatusType.準備中;
                         if (!string.IsNullOrEmpty(Image1Fname) && !string.IsNullOrEmpty(Image2Fname))
                         {
-                            releaseStatus = (int)Config.ReleaseStatusType.販売中;
+                            // 価格設定済
+                            decimal usageFee = 0;
+                            decimal managFee = 0;
+                            decimal stoneFee = 0;
+                            decimal setPrice = 0;
+                            decimal.TryParse(existingCemeteryinfo.UsageFee, out usageFee);
+                            decimal.TryParse(existingCemeteryinfo.ManagementFee, out managFee);
+                            decimal.TryParse(existingCemeteryinfo.StoneFee, out stoneFee);
+                            decimal.TryParse(existingCemeteryinfo.SetPrice, out setPrice);
+                            decimal totalPrice = usageFee + managFee + stoneFee + setPrice;
+                            if (totalPrice > 0)
+                            {
+                                releaseStatus = (int)Config.ReleaseStatusType.販売中;
+                            }
                         }
 
                         // UPDATE

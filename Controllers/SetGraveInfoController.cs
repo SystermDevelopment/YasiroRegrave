@@ -2,6 +2,7 @@
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using System.Linq;
+using YasiroRegrave.Pages.common;
 
 namespace YasiroRegrave.Controllers
 {
@@ -56,7 +57,7 @@ namespace YasiroRegrave.Controllers
                         CreateUser = null,
                         UpdateDate = DateTime.Now,
                         UpdateUser = null,
-                        DeleteFlag = 0,
+                        DeleteFlag = (int)Config.DeleteType.未削除,
                         Reien = existingReien
                     };
                     _context.Areas.Add(newArea);
@@ -69,7 +70,7 @@ namespace YasiroRegrave.Controllers
                     existingArea.AreaName = info.工区名;
                     existingArea.UpdateDate = DateTime.Now;
                     existingArea.UpdateUser = null;
-                    existingArea.DeleteFlag = 0;
+                    existingArea.DeleteFlag = (int)Config.DeleteType.未削除;
                     _context.SaveChanges();
                 }
 
@@ -87,7 +88,7 @@ namespace YasiroRegrave.Controllers
                         CreateUser = null,
                         UpdateDate = DateTime.Now,
                         UpdateUser = null,
-                        DeleteFlag = 0,
+                        DeleteFlag = (int)Config.DeleteType.未削除,
                         Area = existingArea,
                     };
                     _context.Sections.Add(newSection);
@@ -100,7 +101,7 @@ namespace YasiroRegrave.Controllers
                     existingSection.SectionName = section; // 未使用
                     existingSection.UpdateDate = DateTime.Now;
                     existingSection.UpdateUser = null;
-                    existingSection.DeleteFlag = 0;
+                    existingSection.DeleteFlag = (int)Config.DeleteType.未削除;
                     _context.SaveChanges();
                 }
 
@@ -118,7 +119,7 @@ namespace YasiroRegrave.Controllers
                         CreateUser = null,
                         UpdateDate = DateTime.Now,
                         UpdateUser = null,
-                        DeleteFlag = 0,
+                        DeleteFlag = (int)Config.DeleteType.未削除,
                         Section = existingSection,
                     };
                     _context.Cemeteries.Add(newCemetery);
@@ -131,7 +132,7 @@ namespace YasiroRegrave.Controllers
                     existingCemetery.CemeteryName = cemetery; // 未使用
                     existingCemetery.UpdateDate = DateTime.Now;
                     existingCemetery.UpdateUser = null;
-                    existingCemetery.DeleteFlag = 0;
+                    existingCemetery.DeleteFlag = (int)Config.DeleteType.未削除;
                     _context.SaveChanges();
                 }
 
@@ -143,11 +144,11 @@ namespace YasiroRegrave.Controllers
                     var newCemeteryInfo = new CemeteryInfo
                     {
                         CemeteryIndex = existingCemetery.CemeteryIndex,
-                        AreaValue = info.面積,
-                        ReleaseStatus = 0,
-                        SectionStatus = 0,
-                        UsageFee = info.使用料,
+                        ReleaseStatus = (int)Config.ReleaseStatusType.準備中,
+                        SectionStatus = (int)Config.SectionStatusType.空,
                         SectionType = info.区画区分,
+                        AreaValue = info.面積,
+                        UsageFee = info.使用料,
                         ManagementFee = info.管理料,
                         StoneFee = info.仕置巻石料,
                         SetPrice = info.墓石セット価格,
@@ -155,7 +156,7 @@ namespace YasiroRegrave.Controllers
                         CreateUser = null,
                         UpdateDate = DateTime.Now,
                         UpdateUser = null,
-                        DeleteFlag = 0,
+                        DeleteFlag = (int)Config.DeleteType.未削除,
                         Cemetery = existingCemetery
                     };
                     _context.CemeteryInfos.Add(newCemeteryInfo);
@@ -164,16 +165,37 @@ namespace YasiroRegrave.Controllers
                 }
                 else
                 {
+                    // 画像登録済
+                    var releaseStatus = (int)Config.ReleaseStatusType.準備中;
+                    if (!string.IsNullOrEmpty(existingCemeteryInfo.Image1Fname) && !string.IsNullOrEmpty(existingCemeteryInfo.Image2Fname))
+                    {
+                        // 価格設定済
+                        decimal usageFee = 0;
+                        decimal managFee = 0;
+                        decimal stoneFee = 0;
+                        decimal setPrice = 0;
+                        decimal.TryParse(info.使用料, out usageFee);
+                        decimal.TryParse(info.管理料, out managFee);
+                        decimal.TryParse(info.仕置巻石料, out stoneFee);
+                        decimal.TryParse(info.墓石セット価格, out setPrice);
+                        decimal totalPrice = usageFee + managFee + stoneFee + setPrice;
+                        if (totalPrice > 0)
+                        {
+                            releaseStatus = (int)Config.ReleaseStatusType.販売中;
+                        }
+                    }
+
                     // UPDATE
-                    existingCemeteryInfo.AreaValue = info.面積;
+                    existingCemeteryInfo.ReleaseStatus = releaseStatus;
                     existingCemeteryInfo.SectionType = info.区画区分;
+                    existingCemeteryInfo.AreaValue = info.面積;
                     existingCemeteryInfo.UsageFee = info.使用料;
                     existingCemeteryInfo.ManagementFee = info.管理料;
                     existingCemeteryInfo.StoneFee = info.仕置巻石料;
                     existingCemeteryInfo.SetPrice = info.墓石セット価格;
                     existingCemeteryInfo.UpdateDate = DateTime.Now;
                     existingCemeteryInfo.UpdateUser = null;
-                    existingCemeteryInfo.DeleteFlag = 0;
+                    existingCemeteryInfo.DeleteFlag = (int)Config.DeleteType.未削除;
                     _context.SaveChanges();
                 }
             }

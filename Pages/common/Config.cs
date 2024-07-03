@@ -42,6 +42,12 @@ namespace YasiroRegrave.Pages.common
             見学予約 = 0,
             仮予約 = 1,
         }
+        // 通知フラグ
+        public enum NotificationType
+        {
+            未通知 = 0,
+            通知済 = 1,
+        }
         public static readonly Dictionary<string, string> MIME_IMAGE = new Dictionary<string, string>
         {
             {".jpg","image/jpeg"},
