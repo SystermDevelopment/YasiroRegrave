@@ -1,0 +1,37 @@
+件名: ＜ヤシロの霊園 見学・仮予約　通知メール＞
+---------------------------------------------------------------------
+販売協力会者による空き墓所の見学・仮予約がありました。
+下記内容をご確認ください。
+---------------------------------------------------------------------
+◇受付日　：　{ReceptionDate}
+◇受付時刻　：　{ReceptionTime}
+◇会社名：{VenderName}
+◇担当者名：{UserName}
+◇お名前　：　{LastName}{FirstName}
+◇ふりがな　：　{LastNameKana}{FirstNameKana}
+◇郵便番号　：　{PostalCode}
+◇住所1　：　{Prefecture}{City}{Address}
+◇住所2　：　{Building}
+◇お電話番号　：　{Phone}
+◇メールアドレス　：　{Email}
+◇ご希望の連絡方法　：　{IsContact}
+◇メール配信　：　{Subscription}
+◇お問い合わせ・ご質問など　：
+　{Inquiry}
+
+ 
+以下の内容で承りましたのでご確認ください。
+ 
+◇見学希望の霊園　：　
+　・{ReienName}
+◇ご希望の区画番号　：
+　・{CemeteryName}
+◇見学予約/仮予約　：
+　・{ReserveName}
+
+<!-- Start 希望日時 -->
+◇希望日時　：　
+　・第1希望　{Date1} {Time1}
+　・第2希望　{Date2} {Time2}
+　・第3希望　{Date3} {Time3}
+<!-- End 希望日時 -->

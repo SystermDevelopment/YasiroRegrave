@@ -99,8 +99,8 @@ namespace YasiroRegrave.Pages
 
         [BindProperty]
         public string Subscription { get; set; } = "";
-        
 
+        [BindProperty]
         public string CemeteryName { get; set; } = "";
         public List<DateOnly>? RegularHolidays { get; set; } = new List<DateOnly>();
 
@@ -164,6 +164,7 @@ namespace YasiroRegrave.Pages
             }
 
             TempData["CemeteryIndex"] = CemeteryIndex;
+            TempData["CemeteryName"] = CemeteryName;
             TempData["ReserveMode"] = ReserveMode;
             TempData["LastName"] = LastName;
             TempData["FirstName"] = FirstName;
