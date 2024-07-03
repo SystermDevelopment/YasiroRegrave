@@ -9,7 +9,7 @@ using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
 using static YasiroRegrave.Pages.common.Config;
 using static YasiroRegrave.Pages.common.Utils;
-
+using System.IO;
 
 namespace YasiroRegrave.Pages
 {
@@ -23,6 +23,8 @@ namespace YasiroRegrave.Pages
 
         public int? LoginId { get; private set; }
 
+        [BindProperty]
+        public string CemeteryName { get; set; } = "";
         public string SectionNumber { get; set; } = "";
         [BindProperty]
         public int CemeteryIndex { get; set; } = 0;
@@ -108,9 +110,10 @@ namespace YasiroRegrave.Pages
             if (LoginId != null)
             {
                 user = _context.Users
+                    .Include(u => u.Vender)
                     .FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.未削除);
             }
-
+            DateTime ReceptionHours = DateTime.Now;
             var reserveInfo = new ReserveInfo
             {
                 CemeteryInfoIndex = CemeteryIndex,
@@ -133,7 +136,7 @@ namespace YasiroRegrave.Pages
                 SetPrice = cemeteryInfo.SetPrice,
                 VenderIndex = user?.VenderIndex,
                 Notification = 1,
-                CreateDate = DateTime.Now,
+                CreateDate = ReceptionHours,
                 CreateUser = LoginId,
                 CemeteryInfo = cemeteryInfo
             };
@@ -150,9 +153,59 @@ namespace YasiroRegrave.Pages
 
                 var fromAddress = new MailAddress(Config.SendMailAddress, Config.SendMailName);
 
-                string templatePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Data", "email_template.txt");
+                string templatePath;
+                string templateReienPath;
+
+                // 一般ユーザー
+                if (LoginId == null)
+                {
+                    templatePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Data", "EMAIL_一般.txt");
+                    templateReienPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Data", "EMAIL_一般_霊園.txt");
+                }
+                // 販売会社
+                else
+                {
+                    templatePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Data", "EMAIL_販社.txt");
+                    templateReienPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Data", "EMAIL_販社_霊園.txt");
+                }
+
+                var reienData = _context.Cemeteries
+                    .Include(s => s.Section)
+                        .ThenInclude(s => s.Area)
+                        .ThenInclude(a => a.Reien)
+                    .Where(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Where(ci => ci.Section.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Where(ci => ci.Section.Area.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Where(ci => ci.Section.Area.Reien.DeleteFlag == (int)Config.DeleteType.未削除)
+                    .Select(ci => new
+                    {
+                        ReienName = ci.Section.Area.Reien.ReienName,
+                        ReienMail = ci.Section.Area.Reien.MailAddress,
+                        ReienCode = ci.Section.Area.Reien.ReienCode,
+                    })
+                    .FirstOrDefault();
+
+                string IsContact = "";
+                if (IsContactByPhone == "1" && IsContactByEmail == "1")
+                {
+                    IsContact = "電話またはメール";
+                }
+                else if (IsContactByPhone == "1")
+                {
+                    IsContact = "電話";
+                }
+                else if (IsContactByEmail == "1")
+                {
+                    IsContact = "メール";
+                }
+
                 var emailContent = EmailHelper.ParseEmailTemplate(templatePath, new
                 {
+                    CemeteryName,    
+                    VenderName = user?.Vender.Name ?? "",
+                    UserName = user?.Name ?? "",
+                    ReienName = reienData?.ReienName ?? "",
+                    ReserveName,
                     LastName,
                     FirstName,
                     SectionNumber,
@@ -172,10 +225,49 @@ namespace YasiroRegrave.Pages
                     Date3,
                     Time3,
                     Inquiry,
-                    IsContactByPhone = IsContactByPhone == "1" ? "希望する" : "希望しない",
-                    IsContactByEmail = IsContactByEmail == "1" ? "希望する" : "希望しない",
+                    IsContact,
                     Subscription = Subscription == "1" ? "受信する" : "受信しない"
                 });
+
+                var emailReienContent = EmailHelper.ParseEmailTemplate(templateReienPath, new
+                {
+                    CemeteryName,
+                    VenderName = user?.Vender.Name ?? "",
+                    UserName = user?.Name ?? "",
+                    ReienName = reienData?.ReienName ?? "",
+                    ReceptionDate = ReceptionHours.ToString("yyyy/MM/dd"),
+                    ReceptionTime = ReceptionHours.ToString("HH:mm"),
+                    ReserveName,
+                    LastName,
+                    FirstName,
+                    SectionNumber,
+                    LastNameKana,
+                    FirstNameKana,
+                    PostalCode,
+                    Prefecture,
+                    City,
+                    Address,
+                    Building,
+                    Phone,
+                    Email,
+                    Date1,
+                    Time1,
+                    Date2,
+                    Time2,
+                    Date3,
+                    Time3,
+                    Inquiry,
+                    IsContact,
+                    Subscription = Subscription == "1" ? "受信する" : "受信しない"
+                });
+
+                string signaturePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Data", $"SIGNATURE_{reienData?.ReienCode}.txt");
+                string signatureText = System.IO.File.Exists(signaturePath) ? System.IO.File.ReadAllText(signaturePath, System.Text.Encoding.UTF8) : "";
+
+
+                // 署名をメール本文に追加
+                emailContent.Body += signatureText;
+
 
                 var smtp = new SmtpClient
                 {
@@ -218,20 +310,6 @@ namespace YasiroRegrave.Pages
                         smtp.Send(message);
                     }
                 }
-                var reienData = _context.Cemeteries
-                    .Include(s => s.Section)
-                        .ThenInclude(s => s.Area)
-                        .ThenInclude(a => a.Reien)
-                    .Where(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除)
-                    .Where(ci => ci.Section.DeleteFlag == (int)Config.DeleteType.未削除)
-                    .Where(ci => ci.Section.Area.DeleteFlag == (int)Config.DeleteType.未削除)
-                    .Where(ci => ci.Section.Area.Reien.DeleteFlag == (int)Config.DeleteType.未削除)
-                    .Select(ci => new
-                    {
-                        ReienName = ci.Section.Area.Reien.ReienName,
-                        ReienMail = ci.Section.Area.Reien.MailAddress,
-                    })
-                    .FirstOrDefault();
                 if (reienData != null && reienData.ReienMail != null)
                 {
                     string[] emailAddresses = reienData.ReienMail.Split(',');
@@ -245,8 +323,8 @@ namespace YasiroRegrave.Pages
                     using (var message = new MailMessage()
                     {
                         From = fromAddress,
-                        Subject = emailContent.Subject,
-                        Body = emailContent.Body,
+                        Subject = emailReienContent.Subject,
+                        Body = emailReienContent.Body,
                         BodyEncoding = System.Text.Encoding.UTF8,
                         SubjectEncoding = System.Text.Encoding.UTF8
                     })
@@ -291,6 +369,7 @@ namespace YasiroRegrave.Pages
             }
 
             // 入力項目
+            CemeteryName = TempData["CemeteryName"]?.ToString() ?? "";
             LastName = TempData["LastName"]?.ToString() ?? "";
             FirstName = TempData["FirstName"]?.ToString() ?? "";
             LastNameKana = TempData["LastNameKana"]?.ToString() ?? "";

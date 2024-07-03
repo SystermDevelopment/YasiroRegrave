@@ -185,9 +185,44 @@ namespace YasiroRegrave.Pages.common
                     body = body.Replace($"{{{prop.Name}}}", prop.GetValue(model, null)?.ToString());
                     subject = subject.Replace($"{{{prop.Name}}}", prop.GetValue(model, null)?.ToString());
                 }
+                var reserveModeProp = model.GetType().GetProperty("ReserveName");
+                string reserveMode = reserveModeProp.GetValue(model, null)?.ToString();
+
+                // 仮予約の場合は希望日時部分を削除
+                if (reserveMode == "仮予約")
+                {
+                    body = RemoveDateSection(body);
+                }
 
                 return (subject, body);
             }
+        }
+        private static string RemoveDateSection(string body)
+        {
+            string startTag = "<!-- Start 希望日時 -->";
+            string endTag = "<!-- End 希望日時 -->";
+
+            int startIndex = body.IndexOf(startTag);
+            int endIndex = body.IndexOf(endTag) + endTag.Length;
+
+            if (startIndex != -1 && endIndex != -1)
+            {
+                // 開始タグの前の改行も削除
+                int lineStartIndex = body.LastIndexOf('\n', startIndex) + 1;
+                // 終了タグの後の改行も削除
+                int lineEndIndex = body.IndexOf('\n', endIndex);
+
+                if (lineStartIndex > 0 && lineEndIndex > 0)
+                {
+                    body = body.Remove(lineStartIndex, lineEndIndex - lineStartIndex + 1);
+                }
+                else
+                {
+                    body = body.Remove(startIndex, endIndex - startIndex);
+                }
+            }
+
+            return body;
         }
     }
 }
