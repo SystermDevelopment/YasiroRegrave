@@ -18,6 +18,7 @@ namespace YasiroRegrave.Pages
 
         public int? LoginId { get; private set; }
         public int FilterVender { get; set; } = -1;
+        public int YsrMngCnt { get; set; } = 0;
 
         /// <summary>
         /// OnGetˆ—
@@ -122,6 +123,13 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Venders = venderList;
+
+            // ƒ„ƒVƒŠÇ—Ò”
+            YsrMngCnt = _context.Users
+                .Where(u => u.DeleteFlag == (int)Config.DeleteType.–¢íœ
+                    && u.Authority == (int)Config.AuthorityType.ŠÇ—Ò
+                    && u.VenderIndex == 0)  // ƒ„ƒVƒ
+                .Count();
 
             return;
         }

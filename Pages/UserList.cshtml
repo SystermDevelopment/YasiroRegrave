@@ -86,11 +86,11 @@
                                         <td>@user.VenderName</td>
                                         <td>@user.Id</td>
                                         <td>
-                                            @if (user.Authority == 0)
+                                            @if (user.Authority == (int)Config.AuthorityType.管理者)
                                             {
                                                 @:管理者
                                             }
-                                            else if (user.Authority == 1)
+                                            else if (user.Authority == (int)Config.AuthorityType.担当者)
                                             {
                                                 @:担当者
                                             }
