@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YasiroRegrave.Data;
+using YasiroRegrave.Pages.common;
 
 namespace YasiroRegrave.Controllers
 {
@@ -31,7 +32,7 @@ namespace YasiroRegrave.Controllers
                 endDate = DateTime.Parse(end);
             }
             var response = _context.CemeteryInfos
-                .Where(r => r.DeleteFlag == 0)
+                .Where(r => r.DeleteFlag == (int)Config.DeleteType.未削除)
                 .Where(r => !startDate.HasValue || r.UpdateDate.Value.AddSeconds(-1) > startDate)
                 .Where(r => !endDate.HasValue || r.UpdateDate <= endDate)
                 .Select(r => new GetGraveStatusResponse

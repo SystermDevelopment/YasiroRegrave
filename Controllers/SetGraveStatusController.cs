@@ -2,6 +2,7 @@
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using System.Linq;
+using YasiroRegrave.Pages.common;
 
 namespace YasiroRegrave.Controllers
 {
@@ -29,35 +30,35 @@ namespace YasiroRegrave.Controllers
                 string cemetery = parts[1] + "-" + parts[2];
 
                 // 霊園
-                var existingReien = _context.Reiens.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienCode == info.霊園番号);
+                var existingReien = _context.Reiens.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.ReienCode == info.霊園番号);
                 if (existingReien == null)
                 {
                     return BadRequest($"Invalid value for 霊園番号: {info.霊園番号}. Expected value");
                 }
 
                 // エリア(工区)
-                var existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienIndex == existingReien.ReienIndex && r.AreaCode == info.工区番号);
+                var existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.ReienIndex == existingReien.ReienIndex && r.AreaCode == info.工区番号);
                 if (existingArea == null)
                 {
                     return BadRequest($"Invalid value for 工区番号: {info.工区番号}. Expected value");
                 }
 
                 // 区画
-                var existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.AreaIndex == existingArea.AreaIndex && r.SectionCode == section);
+                var existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.AreaIndex == existingArea.AreaIndex && r.SectionCode == section);
                 if (existingSection == null)
                 {
                     return BadRequest($"Invalid value for 区画番号: {section}. Expected value");
                 }
 
                 // 墓所
-                var existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionIndex == existingSection.SectionIndex && r.CemeteryCode == cemetery);
+                var existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.SectionIndex == existingSection.SectionIndex && r.CemeteryCode == cemetery);
                 if (existingCemetery == null)
                 {
                     return BadRequest($"Invalid value for 墓所番号: {cemetery}. Expected value");
                 }
 
                 // 墓所情報
-                var existingCemeteryInfo = _context.CemeteryInfos.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryIndex == existingCemetery.CemeteryIndex);
+                var existingCemeteryInfo = _context.CemeteryInfos.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.CemeteryIndex == existingCemetery.CemeteryIndex);
                 if (existingCemeteryInfo == null)
                 {
                     return BadRequest($"Invalid value for 墓所情報: {existingCemetery.CemeteryIndex}. Expected value");
@@ -68,7 +69,7 @@ namespace YasiroRegrave.Controllers
                 if (existingReserveInfo != null)
                 {
                     // 未通知の予約情報があった場合の状態変更抑止
-                    if (existingReserveInfo.Notification == 0)
+                    if (existingReserveInfo.Notification == (int)Config.NotificationType.未通知)
                     {
                         return BadRequest($"There is an unnotified reservation. {existingReserveInfo.LastName}様　{(existingReserveInfo.CreateDate.HasValue ? existingReserveInfo.CreateDate.Value.ToString("yyyy年MM月dd日 HH:mm:ss") : "日付が不明")}");
                     }
@@ -77,10 +78,10 @@ namespace YasiroRegrave.Controllers
                 switch (info.区画状態)
                 {
                     case "空":
-                        existingCemeteryInfo.SectionStatus = 0;
+                        existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.空;
                         break;
                     case "拠点予約":
-                        existingCemeteryInfo.SectionStatus = 2;
+                        existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.拠点予約;
                         break;
                     case "成約":
                         var cemeteryToDelete = _context.Cemeteries.FirstOrDefault(c => c.CemeteryIndex == existingCemetery.CemeteryIndex);
@@ -95,7 +96,7 @@ namespace YasiroRegrave.Controllers
                 }
                 existingCemeteryInfo.UpdateDate = DateTime.Now;
                 existingCemeteryInfo.UpdateUser = null;
-                existingCemeteryInfo.DeleteFlag = 0;
+                existingCemeteryInfo.DeleteFlag = (int)Config.DeleteType.未削除;
                 _context.SaveChanges();
             }
 

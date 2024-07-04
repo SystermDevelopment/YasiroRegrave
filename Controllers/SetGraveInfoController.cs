@@ -28,7 +28,7 @@ namespace YasiroRegrave.Controllers
 
                 // 霊園
                 var reienCode = info.霊園番号;
-                existingReien = _context.Reiens.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienCode == reienCode);
+                existingReien = _context.Reiens.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.ReienCode == reienCode);
                 if (existingReien == null)
                 {
                     // 当初は霊園番号がないことはないのでエラーとする
@@ -44,7 +44,7 @@ namespace YasiroRegrave.Controllers
                 string cemetery = parts[1] + "-" + parts[2];
 
                 // エリア(工区)
-                existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == 0 && r.ReienIndex == existingReien.ReienIndex && r.AreaCode == info.工区番号);
+                existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.ReienIndex == existingReien.ReienIndex && r.AreaCode == info.工区番号);
                 if (existingArea == null)
                 {
                     // INSERT
@@ -75,7 +75,7 @@ namespace YasiroRegrave.Controllers
                 }
 
                 // 区画
-                existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == 0 && r.AreaIndex == existingArea.AreaIndex && r.SectionCode == section);
+                existingSection = _context.Sections.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.AreaIndex == existingArea.AreaIndex && r.SectionCode == section);
                 if (existingSection == null)
                 {
                     // INSERT
@@ -106,7 +106,7 @@ namespace YasiroRegrave.Controllers
                 }
 
                 // 墓所
-                existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == 0 && r.SectionIndex == existingSection.SectionIndex && r.CemeteryCode == cemetery);
+                existingCemetery = _context.Cemeteries.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.SectionIndex == existingSection.SectionIndex && r.CemeteryCode == cemetery);
                 if (existingCemetery == null)
                 {
                     // INSERT
@@ -137,7 +137,7 @@ namespace YasiroRegrave.Controllers
                 }
 
                 // 墓所情報
-                var existingCemeteryInfo = _context.CemeteryInfos.FirstOrDefault(r => r.DeleteFlag == 0 && r.CemeteryIndex == existingCemetery.CemeteryIndex);
+                var existingCemeteryInfo = _context.CemeteryInfos.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.CemeteryIndex == existingCemetery.CemeteryIndex);
                 if (existingCemeteryInfo == null)
                 {
                     // INSERT
