@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Data;
+using YasiroRegrave.Pages.common;
 
 namespace YasiroRegrave.Controllers
 {
@@ -38,14 +39,14 @@ namespace YasiroRegrave.Controllers
                 .ThenInclude(c => c.Section)
                 .ThenInclude(s => s.Area)
                 .ThenInclude(a => a.Reien)
-                .Where(r => r.CemeteryInfo.DeleteFlag == 0)
+                .Where(r => r.CemeteryInfo.DeleteFlag == (int)Config.DeleteType.未削除)
                 .Where(r => !startDate.HasValue || r.CreateDate.Value.AddSeconds(-1) > startDate)
                 .Where(r => !endDate.HasValue || r.CreateDate <= endDate)
                 .ToList();
 
             foreach (var reserveInfo in reserveInfos)
             {
-                reserveInfo.Notification = 1;
+                reserveInfo.Notification = (int)Config.NotificationType.通知済;
             }
 
             _context.SaveChanges();
@@ -71,7 +72,7 @@ namespace YasiroRegrave.Controllers
                 希望日時1 = r.PreferredDate1.HasValue ? r.PreferredDate1.Value.ToString("yyyy/MM/dd HH:mm:ss") : "",
                 希望日時2 = r.PreferredDate2.HasValue ? r.PreferredDate2.Value.ToString("yyyy/MM/dd HH:mm:ss") : "",
                 希望日時3 = r.PreferredDate3.HasValue ? r.PreferredDate3.Value.ToString("yyyy/MM/dd HH:mm:ss") : "",
-                連携内容 = r.Notification == 0 ? "仮予約" : "見学予約",
+                連携内容 = r.PreferredDate1.HasValue ? "見学予約" : "仮予約",
                 販売協力会社index = r.VenderIndex.ToString()
             }).ToList();
             return Ok(response);
