@@ -84,6 +84,7 @@
                                 {
                                     <tr>
                                         <td>@user.VenderName</td>
+                                        <td>@user.Name</td>
                                         <td>@user.Id</td>
                                         <td>
                                             @if (user.Authority == (int)Config.AuthorityType.管理者)
@@ -95,7 +96,6 @@
                                                 @:担当者
                                             }
                                         </td>
-                                        <td>@user.Name</td>
                                         <td class="edit-btn-cell">
                                             <form method="get" class="btn-form" action="/UserEdit">
                                                 <input type="hidden" name="Index" value="@user.Index" />
