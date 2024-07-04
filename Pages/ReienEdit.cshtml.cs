@@ -93,11 +93,13 @@ namespace YasiroRegrave.Pages
             }
 
             // メールアドレスチェック
-            string[] addresses = MailAddress.Split(',');
-            if (addresses.Any(address => !Utils.IsValidMailAddress(address)))
+            if (!string.IsNullOrEmpty(MailAddress))
             {
-                ModelState.AddModelError("MailAddress", Message.M_E0028);
-                return Page();
+                string[] addresses = MailAddress.Split(',');
+                if (addresses.Any(address => !Utils.IsValidMailAddress(address)))
+                {
+                    ModelState.AddModelError("MailAddress", Message.M_E0028);
+                }
             }
 
             if (!ModelState.IsValid)
