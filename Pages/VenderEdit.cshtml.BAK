@@ -44,7 +44,7 @@ namespace YasiroRegrave.Pages
         public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
-        /// OnGetå‡¦ç†
+        /// OnGetˆ—
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -56,8 +56,8 @@ namespace YasiroRegrave.Pages
                 return RedirectToPage("/Index");
             }
             LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
-            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.Authority;
-            if (checkAuthority != (int)Config.AuthorityType.ç®¡ç†è€…)
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—Ò)
             {
                 return RedirectToPage("/Index");
             }
@@ -66,7 +66,7 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 var vender = _context.Venders
-                    .Where(v => v.VenderIndex == Index && v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
+                    .Where(v => v.VenderIndex == Index && v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
                     .FirstOrDefault();
                 if (vender != null)
                 {
@@ -77,7 +77,7 @@ namespace YasiroRegrave.Pages
         }
 
         /// <summary>
-        /// OnPostå‡¦ç†
+        /// OnPostˆ—
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -104,14 +104,14 @@ namespace YasiroRegrave.Pages
                         Name = VenderName,
                         CreateDate = DateTime.Now,
                         CreateUser = LoginId,
-                        DeleteFlag = (int)Config.DeleteType.æœªå‰Šé™¤,
+                        DeleteFlag = (int)Config.DeleteType.–¢íœ,
                     };
                     _context.Venders.Add(newVender);
                     _context.SaveChanges();
                 }
                 else
                 {
-                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤ && v.VenderIndex == index.Value).FirstOrDefault();
+                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ && v.VenderIndex == index.Value).FirstOrDefault();
                     if (existingVender != null)
                     {
                         // UPDATE

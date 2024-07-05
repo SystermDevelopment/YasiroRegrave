@@ -18,7 +18,7 @@ namespace YasiroRegrave.Pages
         public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
-        /// OnGetå‡¦ç†
+        /// OnGet½èÍı
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -29,8 +29,8 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.Authority;
-            if (checkAuthority != (int)Config.AuthorityType.ç®¡ç†è€…)
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.Ì¤ºï½ü)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.´ÉÍı¼Ô)
             {
                 return RedirectToPage("/Index");
             }
@@ -40,7 +40,7 @@ namespace YasiroRegrave.Pages
         }
         
         /// <summary>
-        /// OnPostå‡¦ç†
+        /// OnPost½èÍı
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -56,7 +56,7 @@ namespace YasiroRegrave.Pages
             if (reienDelete != null)
             {
                 //DELITE
-                reienDelete.DeleteFlag = (int)Config.DeleteType.å‰Šé™¤;
+                reienDelete.DeleteFlag = (int)Config.DeleteType.ºï½ü;
                 reienDelete.UpdateDate = DateTime.Now;
                 reienDelete.UpdateUser = LoginId;
                 _context.SaveChanges();
@@ -65,14 +65,14 @@ namespace YasiroRegrave.Pages
         }
 
         /// <summary>
-        /// ç”»é¢ç”Ÿæˆå‡¦ç†
+        /// ²èÌÌÀ¸À®½èÍı
         /// </summary>
         /// <param</param>
         /// <returns></returns>
         private void GetPage()
         {
             var reienList = _context.Reiens
-                .Where(r => r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
+                .Where(r => r.DeleteFlag == (int)Config.DeleteType.Ì¤ºï½ü)
                 .OrderBy(r => r.ReienCode)
                 .Select(r => new Reien
                 {
