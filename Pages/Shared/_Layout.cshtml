@@ -12,6 +12,13 @@
         <div id="header-container">
             <img src="~/images/logo_yasiro.png" alt="ヤシロのロゴ" id="logo">
             <span id="site-title">大阪生駒霊園</span>
+            @if (ViewBag.LoggedInUser != null)
+            {
+                <div class="login-info">
+                    <span>@ViewBag.LoggedInUser.VenderName<br /></span>
+                    <span>@ViewBag.LoggedInUser.Name</span>
+                </div>
+            }
         </div>
     </header>
     <div class="body-container">

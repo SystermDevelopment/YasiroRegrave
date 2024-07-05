@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Configuration;
+using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Pages.common;
 
@@ -16,12 +16,14 @@ namespace YasiroRegrave.Pages
         public List<UserData> Users { get; set; } = new List<UserData>();
         public List<VenderData> Venders { get; set; } = new List<VenderData>();
 
+        [BindProperty]
         public int? LoginId { get; private set; }
+        public LoginUserData? LoggedInUser { get; private set; }
         public int FilterVender { get; set; } = -1;
         public int YsrMngCnt { get; set; } = 0;
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -32,18 +34,17 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
-            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—ŽÒ)
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ç®¡ç†è€…)
             {
                 return RedirectToPage("/Index");
             }
-
             GetPage();
             return Page();
         }
 
         /// <summary>
-        /// OnPostˆ—
+        /// OnPostå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -62,7 +63,7 @@ namespace YasiroRegrave.Pages
                 if (userDelete != null)
                 {
                     //DELITE
-                    userDelete.DeleteFlag = (int)Config.DeleteType.íœ;
+                    userDelete.DeleteFlag = (int)Config.DeleteType.å‰Šé™¤;
                     userDelete.UpdateDate = DateTime.Now;
                     userDelete.UpdateUser = LoginId;
                     _context.SaveChanges();
@@ -82,14 +83,15 @@ namespace YasiroRegrave.Pages
         }
 
         /// <summary>
-        /// ‰æ–Ê¶¬ˆ—
+        /// ç”»é¢ç”Ÿæˆå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
         private void GetPage()
         {
             var userList = _context.Users
-                .Where(u => u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .Include(u => u.Vender)
+                .Where(u => u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                 .OrderBy(u => u.VenderIndex)
                 .ThenBy(u => u.Id)
                 .Select(u => new UserData
@@ -100,12 +102,12 @@ namespace YasiroRegrave.Pages
                     Name = u.Name,
                     VenderIndex = u.VenderIndex,
                     VenderName = u.Vender.Name,
-                    Password = u.Password
+                    Password = u.Password,
                 })
                 .ToList();
             Users = userList;
 
-            // ŒŸõ‹@”\
+            // æ¤œç´¢æ©Ÿèƒ½
             if (FilterVender != -1)
             {
                 Users = Users
@@ -114,7 +116,7 @@ namespace YasiroRegrave.Pages
             }
 
             var venderList = _context.Venders
-                .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .Where(v => v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                 .OrderBy(v => v.VenderIndex)
                 .Select(v => new VenderData
                 {
@@ -123,17 +125,15 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Venders = venderList;
-
-            // ƒ„ƒVƒŠÇ—ŽÒ”
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
+            // ãƒ¤ã‚·ãƒ­ç®¡ç†è€…æ•°
             YsrMngCnt = _context.Users
-                .Where(u => u.DeleteFlag == (int)Config.DeleteType.–¢íœ
-                    && u.Authority == (int)Config.AuthorityType.ŠÇ—ŽÒ
-                    && u.VenderIndex == 0)  // ƒ„ƒVƒ
+                .Where(u => u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤
+                    && u.Authority == (int)Config.AuthorityType.ç®¡ç†è€…
+                    && u.VenderIndex == 0)  // ãƒ¤ã‚·ãƒ­
                 .Count();
-
             return;
         }
-
 
         public class UserData
         {
@@ -144,6 +144,7 @@ namespace YasiroRegrave.Pages
             public int VenderIndex { get; set; }
             public string VenderName { get; set; } = string.Empty;
             public string Password { get; set; } = string.Empty;
+            public VenderData Vender { get; set; } = new VenderData();  
         }
         public class VenderData
         {

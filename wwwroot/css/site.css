@@ -34,6 +34,12 @@ body {
     position: relative; 
 }
 
+.login-info {
+    color: blue;
+    font-weight: bold;
+    margin-top: 10px
+}
+
 #logo {
     height: 50px;
     margin-right: 10px;

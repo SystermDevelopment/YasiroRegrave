@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.SymbolStore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
 using static YasiroRegrave.Pages.common.Config;
+using static YasiroRegrave.Pages.UserListModel;
 
 
 namespace YasiroRegrave.Pages
@@ -28,7 +30,9 @@ namespace YasiroRegrave.Pages
         public List<string> VenderNames { get; set; } = new List<string>();
 
         public int? Index { get; set; }
-        
+
+        public List<UserData> Users { get; set; } = new List<UserData>();
+
         public Config.DeleteType DeleteFlag { get; set; }
     
         //[BindProperty]
@@ -37,10 +41,10 @@ namespace YasiroRegrave.Pages
         public List<PageVender> Venders { get; set; } = new List<PageVender>();
 
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -51,8 +55,9 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
-            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—Ò)
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ç®¡ç†è€…)
             {
                 return RedirectToPage("/Index");
             }
@@ -61,7 +66,7 @@ namespace YasiroRegrave.Pages
             if (index.HasValue)
             {
                 var vender = _context.Venders
-                    .Where(v => v.VenderIndex == Index && v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .Where(v => v.VenderIndex == Index && v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                     .FirstOrDefault();
                 if (vender != null)
                 {
@@ -72,7 +77,7 @@ namespace YasiroRegrave.Pages
         }
 
         /// <summary>
-        /// OnPostˆ—
+        /// OnPostå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -83,6 +88,7 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -98,14 +104,14 @@ namespace YasiroRegrave.Pages
                         Name = VenderName,
                         CreateDate = DateTime.Now,
                         CreateUser = LoginId,
-                        DeleteFlag = (int)Config.DeleteType.–¢íœ,
+                        DeleteFlag = (int)Config.DeleteType.æœªå‰Šé™¤,
                     };
                     _context.Venders.Add(newVender);
                     _context.SaveChanges();
                 }
                 else
                 {
-                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ && v.VenderIndex == index.Value).FirstOrDefault();
+                    var existingVender = _context.Venders.Where(v => v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤ && v.VenderIndex == index.Value).FirstOrDefault();
                     if (existingVender != null)
                     {
                         // UPDATE

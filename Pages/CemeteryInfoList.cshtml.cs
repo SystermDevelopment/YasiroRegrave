@@ -29,6 +29,7 @@ namespace YasiroRegrave.Pages
         public int FilterRelease { get; set; } = -1;
 
         public int? LoginId { get; private set; }
+        public LoginUserData? LoggedInUser { get; private set; }
         public int Authority = (int)Config.AuthorityType.担当者;
 
 
@@ -211,7 +212,7 @@ namespace YasiroRegrave.Pages
                     })
                     .ToList();
             Sections = sectionList;
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return;
         }
 

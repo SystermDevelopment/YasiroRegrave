@@ -57,10 +57,10 @@ namespace YasiroRegrave.Pages
         public List<PageUser> Users { get; set; } = new List<PageUser>();
 
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -71,20 +71,20 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
-            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—Ò)
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ç®¡ç†è€…)
             {
                 return RedirectToPage("/Index");
             }
 
             reiens = _context.Reiens
-                .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .Where(r => r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                 .ToList();
             Index = index;
             if (index.HasValue)
             {
                 var user = _context.Users
-                    .Where(u => u.UserIndex == Index && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .Where(u => u.UserIndex == Index && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                     .FirstOrDefault();
                 if (user != null)
                 {
@@ -101,14 +101,14 @@ namespace YasiroRegrave.Pages
                 }
             }
             Venders = _context.Venders
-            .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+            .Where(v => v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
             .ToList();
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return Page();
         }
 
         /// <summary>
-        /// OnPostˆ—
+        /// OnPostå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -119,13 +119,13 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             if (!ModelState.IsValid)
             {
                 if(index!=null)
                 {
                     var user = _context.Users
-                        .Where(u => u.UserIndex == index && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                        .Where(u => u.UserIndex == index && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                         .FirstOrDefault();
                     if (user != null)
                     {
@@ -133,17 +133,17 @@ namespace YasiroRegrave.Pages
                     }
                 }
                 reiens = _context.Reiens
-                    .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .Where(r => r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                     .ToList();
                 Venders = _context.Venders
-                    .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ) 
+                    .Where(v => v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤) 
                     .ToList();
                 return Page();
             }
             try
             {
                 reiens = _context.Reiens
-                    .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                    .Where(r => r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                     .ToList();
 
                 if (index == null)
@@ -166,7 +166,7 @@ namespace YasiroRegrave.Pages
                         MailAddress = MailAddress,
                         CreateDate = DateTime.Now,
                         CreateUser = LoginId,
-                        DeleteFlag = (int)Config.DeleteType.–¢íœ,
+                        DeleteFlag = (int)Config.DeleteType.æœªå‰Šé™¤,
                         Vender = forignVender,
                         VenderIndex = SelectVenderIndex ?? 0,
 
@@ -187,7 +187,7 @@ namespace YasiroRegrave.Pages
                 }
                 else
                 {
-                    var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ && v.UserIndex == index.Value);
+                    var existingUser = _context.Users.FirstOrDefault(v => v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤ && v.UserIndex == index.Value);
                     if (existingUser != null)
                     {
                         // UPDATE

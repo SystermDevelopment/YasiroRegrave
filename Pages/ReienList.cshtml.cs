@@ -15,10 +15,10 @@ namespace YasiroRegrave.Pages
         public List<Reien> Reiens { get; set; } = new List<Reien>();
 
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -29,8 +29,8 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
-            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—Ò)
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ç®¡ç†è€…)
             {
                 return RedirectToPage("/Index");
             }
@@ -40,7 +40,7 @@ namespace YasiroRegrave.Pages
         }
         
         /// <summary>
-        /// OnPostˆ—
+        /// OnPostå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -56,7 +56,7 @@ namespace YasiroRegrave.Pages
             if (reienDelete != null)
             {
                 //DELITE
-                reienDelete.DeleteFlag = (int)Config.DeleteType.íœ;
+                reienDelete.DeleteFlag = (int)Config.DeleteType.å‰Šé™¤;
                 reienDelete.UpdateDate = DateTime.Now;
                 reienDelete.UpdateUser = LoginId;
                 _context.SaveChanges();
@@ -65,14 +65,14 @@ namespace YasiroRegrave.Pages
         }
 
         /// <summary>
-        /// ‰æ–Ê¶¬ˆ—
+        /// ç”»é¢ç”Ÿæˆå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
         private void GetPage()
         {
             var reienList = _context.Reiens
-                .Where(r => r.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .Where(r => r.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                 .OrderBy(r => r.ReienCode)
                 .Select(r => new Reien
                 {
@@ -83,7 +83,7 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Reiens = reienList;
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return;
         }
 

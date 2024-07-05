@@ -104,6 +104,8 @@ namespace YasiroRegrave.Pages
         public string CemeteryName { get; set; } = "";
         public List<DateOnly>? RegularHolidays { get; set; } = new List<DateOnly>();
 
+        public int? LoginId { get; private set; }
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGet処理
@@ -198,6 +200,13 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public void GetPage()
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId != null)
+            {
+                LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
+                ViewData["LoggedInUser"] = LoggedInUser;
+            }
+
             var reienData = _context.Cemeteries
                 .Include(s => s.Section)
                     .ThenInclude(s => s.Area)

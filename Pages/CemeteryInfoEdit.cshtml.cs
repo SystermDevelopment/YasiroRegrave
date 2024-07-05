@@ -56,7 +56,7 @@ namespace YasiroRegrave.Pages
 
         public List<PageCemeteryInfo> CemeteryInfos { get; set; } = new List<PageCemeteryInfo>();
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGet処理
@@ -246,6 +246,7 @@ namespace YasiroRegrave.Pages
                     Image2FnameURL = $"/api/Files/GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{CemeteryCode}&sel=2";
                 }
             }
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return;
         }
 
