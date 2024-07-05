@@ -73,28 +73,6 @@ namespace YasiroRegrave.Pages
                     VenderName = vender.Name;
                 }
             }
-            var userList = _context.Users
-                .Include(u => u.Vender)
-                .Where(u => u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
-                .OrderBy(u => u.VenderIndex)
-                .ThenBy(u => u.Id)
-                .Select(u => new UserData
-                {
-                    Index = u.UserIndex,
-                    Id = u.Id,
-                    Authority = u.Authority,
-                    Name = u.Name,
-                    VenderIndex = u.VenderIndex,
-                    VenderName = u.Vender.Name,
-                    Password = u.Password,
-                    Vender = new VenderData
-                    {
-                        VenderIndex = u.VenderIndex,
-                        VenderName = u.Vender.Name,
-                    }
-                })
-                .ToList();
-            Users = userList;
             return Page();
         }
 
