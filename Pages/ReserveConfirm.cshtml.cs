@@ -22,6 +22,7 @@ namespace YasiroRegrave.Pages
         }
 
         public int? LoginId { get; private set; }
+        public LoginUserData? LoggedInUser { get; private set; }
 
         [BindProperty]
         public string CemeteryName { get; set; } = "";
@@ -351,6 +352,12 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public void GetPage()
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId != null)
+            {
+                LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
+                ViewData["LoggedInUser"] = LoggedInUser;
+            }
             // 区画番号
             var cemeteryData = _context.Cemeteries
                 .Where(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除)
