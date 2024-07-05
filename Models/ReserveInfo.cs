@@ -81,5 +81,4 @@ public class ReserveInfo
     public virtual CemeteryInfo CemeteryInfo { get; set; } = new CemeteryInfo();
     [ForeignKey("VenderIndex")]
     public virtual Vender? Vender { get; set; }
-
 }

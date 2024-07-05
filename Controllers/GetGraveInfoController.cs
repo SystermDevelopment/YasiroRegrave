@@ -73,7 +73,7 @@ namespace YasiroRegrave.Controllers
                 希望日時2 = r.PreferredDate2.HasValue ? r.PreferredDate2.Value.ToString("yyyy/MM/dd HH:mm:ss") : "",
                 希望日時3 = r.PreferredDate3.HasValue ? r.PreferredDate3.Value.ToString("yyyy/MM/dd HH:mm:ss") : "",
                 連携内容 = r.PreferredDate1.HasValue ? "見学予約" : "仮予約",
-                販売協力会社index = r.VenderIndex.ToString()
+                販売協力会社index = r.VenderIndex == 0 ? null : r.VenderIndex.ToString()
             }).ToList();
             return Ok(response);
         }
