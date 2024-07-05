@@ -72,12 +72,13 @@ namespace YasiroRegrave.Pages
         {
             var venderList = _context.Venders
                 .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
-                .OrderBy(v => v.VenderIndex)
                 .Select(v => new Vender
                 {
                     Index = v.VenderIndex,
                     Name = v.Name,
+                    Member = _context.Users.Count(u => u.VenderIndex == v.VenderIndex && u.DeleteFlag == (int)Config.DeleteType.–¢íœ),
                 })
+                .OrderBy(v => v.Index)
                 .ToList();
             Venders = venderList;
             LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
@@ -87,6 +88,7 @@ namespace YasiroRegrave.Pages
         {
             public int Index { get; set; }
             public string Name { get; set; } = string.Empty;
+            public int Member { get; set; }
         }
     }
 }
