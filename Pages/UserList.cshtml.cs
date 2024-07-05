@@ -102,11 +102,6 @@ namespace YasiroRegrave.Pages
                     VenderIndex = u.VenderIndex,
                     VenderName = u.Vender.Name,
                     Password = u.Password,
-                    Vender = new VenderData
-                    {
-                        VenderIndex = u.VenderIndex,
-                        VenderName = u.Vender.Name,
-                    }
                 })
                 .ToList();
             Users = userList;

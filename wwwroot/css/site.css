@@ -34,7 +34,7 @@ body {
     position: relative; 
 }
 
-#login-info {
+.login-info {
     color: blue;
     font-weight: bold;
 }
