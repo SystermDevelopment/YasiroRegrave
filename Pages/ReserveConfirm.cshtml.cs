@@ -281,7 +281,7 @@ namespace YasiroRegrave.Pages
                     Timeout = 20000
                 };
 
-                if (LoginId == null)
+                if (LoginId == null || (user != null && user.VenderIndex == 0))
                 {
                     //一般ユーザー
                     var toAddress = new MailAddress($"{Email}", $"{LastName} {FirstName} 様");
