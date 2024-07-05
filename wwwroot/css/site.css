@@ -37,6 +37,7 @@ body {
 .login-info {
     color: blue;
     font-weight: bold;
+    margin-top: 10px
 }
 
 #logo {
