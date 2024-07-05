@@ -43,7 +43,7 @@ namespace YasiroRegrave.Pages
         public List<PageReien> Reiens { get; set; } = new List<PageReien>();
 
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGet処理
@@ -57,6 +57,7 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.未削除)?.Authority;
             if (checkAuthority != (int)Config.AuthorityType.管理者)
             {
@@ -91,7 +92,7 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             // メールアドレスチェック
             string[] addresses = MailAddress.Split(',');
             if (addresses.Any(address => !Utils.IsValidMailAddress(address)))

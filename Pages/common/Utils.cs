@@ -1,6 +1,8 @@
 ﻿using System.Drawing.Imaging;
 using System.Drawing;
 using System.Net.Mail;
+using Microsoft.EntityFrameworkCore;
+using YasiroRegrave.Data;
 
 namespace YasiroRegrave.Pages.common
 {
@@ -224,5 +226,41 @@ namespace YasiroRegrave.Pages.common
 
             return body;
         }
+        /// <summary>
+        /// ログインユーザー情報を取得
+        /// </summary>
+        public static LoginUserData? GetLoggedInUser(ApplicationDbContext context, int? loginId)
+        {
+            if (!loginId.HasValue)
+            {
+                return null;
+            }
+
+            return context.Users
+                .Include(u => u.Vender)
+                .Where(u => u.UserIndex == loginId.Value && u.DeleteFlag == (int)Config.DeleteType.未削除)
+                .Select(u => new LoginUserData
+                {
+                    Index = u.UserIndex,
+                    Id = u.Id,
+                    Authority = u.Authority,
+                    Name = u.Name,
+                    VenderIndex = u.VenderIndex,
+                    VenderName = u.Vender.Name,
+                    Password = u.Password,
+                })
+                .FirstOrDefault();
+        }
+    }
+
+    public class LoginUserData
+    {
+        public int Index { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public int Authority { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int VenderIndex { get; set; }
+        public string VenderName { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 }

@@ -51,6 +51,13 @@
         background-color: #d5a5a5;
     }
 
+.sidebar-footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #c5e1f5;
+    color: blue;
+}
+
 .content {
     padding: 20px;
     overflow-y: auto; /* コンテンツエリアのオーバーフローを自動スクロールに設定 */

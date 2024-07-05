@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using YasiroRegrave.Data;
 using YasiroRegrave.Pages.common;
 
@@ -22,6 +23,8 @@ namespace YasiroRegrave.Pages
         public string SectionCode { get; private set; } = "";
         public string SectionName { get; private set; } = "";
 
+        public int? LoginId { get; private set; }
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGet処理
@@ -54,6 +57,12 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public void GetPage()
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId != null)
+            {
+                LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
+                ViewData["LoggedInUser"] = LoggedInUser;
+            }
             // 霊園、エリア、区画情報の取得
             SectionDatas = _context.Sections
                 .Where(s => s.SectionIndex == SectionIndex && s.DeleteFlag == (int)Config.DeleteType.未削除)

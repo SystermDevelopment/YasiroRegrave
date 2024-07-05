@@ -57,7 +57,7 @@ namespace YasiroRegrave.Pages
         public List<PageUser> Users { get; set; } = new List<PageUser>();
 
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGetèàóù
@@ -103,7 +103,7 @@ namespace YasiroRegrave.Pages
             Venders = _context.Venders
             .Where(v => v.DeleteFlag == (int)Config.DeleteType.ñ¢çÌèú)
             .ToList();
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return Page();
         }
 
@@ -119,7 +119,7 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             if (!ModelState.IsValid)
             {
                 if(index!=null)

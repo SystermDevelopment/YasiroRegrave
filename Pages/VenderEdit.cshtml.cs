@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.SymbolStore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
 using static YasiroRegrave.Pages.common.Config;
+using static YasiroRegrave.Pages.UserListModel;
 
 
 namespace YasiroRegrave.Pages
@@ -28,7 +30,9 @@ namespace YasiroRegrave.Pages
         public List<string> VenderNames { get; set; } = new List<string>();
 
         public int? Index { get; set; }
-        
+
+        public List<UserData> Users { get; set; } = new List<UserData>();
+
         public Config.DeleteType DeleteFlag { get; set; }
     
         //[BindProperty]
@@ -37,7 +41,7 @@ namespace YasiroRegrave.Pages
         public List<PageVender> Venders { get; set; } = new List<PageVender>();
 
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGetˆ—
@@ -51,6 +55,7 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
             if (checkAuthority != (int)Config.AuthorityType.ŠÇ—ŽÒ)
             {
@@ -68,6 +73,28 @@ namespace YasiroRegrave.Pages
                     VenderName = vender.Name;
                 }
             }
+            var userList = _context.Users
+                .Include(u => u.Vender)
+                .Where(u => u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .OrderBy(u => u.VenderIndex)
+                .ThenBy(u => u.Id)
+                .Select(u => new UserData
+                {
+                    Index = u.UserIndex,
+                    Id = u.Id,
+                    Authority = u.Authority,
+                    Name = u.Name,
+                    VenderIndex = u.VenderIndex,
+                    VenderName = u.Vender.Name,
+                    Password = u.Password,
+                    Vender = new VenderData
+                    {
+                        VenderIndex = u.VenderIndex,
+                        VenderName = u.Vender.Name,
+                    }
+                })
+                .ToList();
+            Users = userList;
             return Page();
         }
 
@@ -83,6 +110,7 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             if (!ModelState.IsValid)
             {
                 return Page();

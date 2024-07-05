@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using YasiroRegrave.Data;
 using YasiroRegrave.Pages.common;
 
@@ -22,6 +23,8 @@ namespace YasiroRegrave.Pages
         public string AreaCode { get; private set; } = "";
         public string AreaName { get; private set; } = "";
 
+        public int? LoginId { get; private set; }
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGet処理
@@ -50,6 +53,13 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public void GetPage()
         {
+            LoginId = HttpContext.Session.GetInt32("LoginId");
+            if (LoginId != null)
+            {
+                LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
+                ViewData["LoggedInUser"] = LoggedInUser;
+            }
+
             // 霊園、エリア情報の取得（大阪生駒霊園、第１期、固定とする）
             ReienIndex = _context.Reiens.FirstOrDefault(r => r.ReienName == "大阪生駒霊園" && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienIndex ?? 0;
             AreaIndex = _context.Areas.FirstOrDefault(a => a.AreaName == "第１期" && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaIndex ?? 0;

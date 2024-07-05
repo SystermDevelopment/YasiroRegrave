@@ -15,7 +15,7 @@ namespace YasiroRegrave.Pages
         public List<Vender> Venders { get; set; } = new List<Vender>();
         
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGetˆ—
@@ -34,7 +34,6 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-
             GetPage();
             return Page();
         }
@@ -81,11 +80,9 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Venders = venderList;
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return;
         }
-
-
         public class Vender
         {
             public int Index { get; set; }

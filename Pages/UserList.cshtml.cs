@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Configuration;
+using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Pages.common;
 
@@ -16,7 +16,9 @@ namespace YasiroRegrave.Pages
         public List<UserData> Users { get; set; } = new List<UserData>();
         public List<VenderData> Venders { get; set; } = new List<VenderData>();
 
+        [BindProperty]
         public int? LoginId { get; private set; }
+        public LoginUserData? LoggedInUser { get; private set; }
         public int FilterVender { get; set; } = -1;
 
         /// <summary>
@@ -36,7 +38,6 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-
             GetPage();
             return Page();
         }
@@ -88,6 +89,7 @@ namespace YasiroRegrave.Pages
         private void GetPage()
         {
             var userList = _context.Users
+                .Include(u => u.Vender)
                 .Where(u => u.DeleteFlag == (int)Config.DeleteType.–¢íœ)
                 .OrderBy(u => u.VenderIndex)
                 .ThenBy(u => u.Id)
@@ -99,7 +101,12 @@ namespace YasiroRegrave.Pages
                     Name = u.Name,
                     VenderIndex = u.VenderIndex,
                     VenderName = u.Vender.Name,
-                    Password = u.Password
+                    Password = u.Password,
+                    Vender = new VenderData
+                    {
+                        VenderIndex = u.VenderIndex,
+                        VenderName = u.Vender.Name,
+                    }
                 })
                 .ToList();
             Users = userList;
@@ -122,10 +129,9 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Venders = venderList;
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return;
         }
-
 
         public class UserData
         {
@@ -136,6 +142,7 @@ namespace YasiroRegrave.Pages
             public int VenderIndex { get; set; }
             public string VenderName { get; set; } = string.Empty;
             public string Password { get; set; } = string.Empty;
+            public VenderData Vender { get; set; } = new VenderData();  
         }
         public class VenderData
         {

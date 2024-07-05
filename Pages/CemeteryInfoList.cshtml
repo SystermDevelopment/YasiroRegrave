@@ -36,6 +36,13 @@
                     <li><a href="/ReienList">メール送信先一覧</a></li>
                 }
                 <li><a href="/CemeteryInfoList">墓所情報一覧</a></li>
+                @if (Model.LoginId != null && Model.LoggedInUser != null)
+                {
+                    <div class="sidebar-footer">
+                        <span>@Model.LoggedInUser.VenderName<br /></span>
+                        <span>@Model.LoggedInUser.Name</span>
+                    </div>
+                }
             </ul>
         </div>
         <div class="content">

@@ -15,7 +15,7 @@ namespace YasiroRegrave.Pages
         public List<Reien> Reiens { get; set; } = new List<Reien>();
 
         public int? LoginId { get; private set; }
-
+        public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
         /// OnGetèàóù
@@ -83,7 +83,7 @@ namespace YasiroRegrave.Pages
                 })
                 .ToList();
             Reiens = reienList;
-
+            LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             return;
         }
 

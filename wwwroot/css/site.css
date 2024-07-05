@@ -34,6 +34,11 @@ body {
     position: relative; 
 }
 
+#login-info {
+    color: blue;
+    font-weight: bold;
+}
+
 #logo {
     height: 50px;
     margin-right: 10px;
