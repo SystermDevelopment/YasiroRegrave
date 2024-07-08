@@ -173,3 +173,15 @@
         </form>
     </section>
 </main>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var errorMessage = @Html.Raw(Json.Serialize(Model.ReserveError));
+            if (errorMessage) {
+                alert(errorMessage);
+                window.location.href = '/PlotSelection';
+            }
+        });
+    </script>
+}
