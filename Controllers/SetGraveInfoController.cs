@@ -43,26 +43,29 @@ namespace YasiroRegrave.Controllers
                 string section = parts[0];
                 string cemetery = parts[1] + "-" + parts[2];
 
+                // 価格の確認（使用料、管理料、仕置巻石料、墓石セット価格）
+                if (!decimal.TryParse(info.使用料, out _))
+                {
+                    return BadRequest($"Invalid value for 使用料: {info.使用料}. Expected numeric value.");
+                }
+                if (!decimal.TryParse(info.管理料, out _))
+                {
+                    return BadRequest($"Invalid value for 管理料: {info.管理料}. Expected numeric value.");
+                }
+                if (!decimal.TryParse(info.仕置巻石料, out _))
+                {
+                    return BadRequest($"Invalid value for 仕置巻石料: {info.仕置巻石料}. Expected numeric value.");
+                }
+                if (!decimal.TryParse(info.墓石セット価格, out _))
+                {
+                    return BadRequest($"Invalid value for 墓石セット価格: {info.墓石セット価格}. Expected numeric value.");
+                }
+
                 // エリア(工区)
                 existingArea = _context.Areas.FirstOrDefault(r => r.DeleteFlag == (int)Config.DeleteType.未削除 && r.ReienIndex == existingReien.ReienIndex && r.AreaCode == info.工区番号);
                 if (existingArea == null)
                 {
-                    // INSERT
-                    var newArea = new Area
-                    {
-                        ReienIndex = existingReien.ReienIndex,
-                        AreaCode = info.工区番号,
-                        AreaName = info.工区名,
-                        CreateDate = DateTime.Now,
-                        CreateUser = null,
-                        UpdateDate = DateTime.Now,
-                        UpdateUser = null,
-                        DeleteFlag = (int)Config.DeleteType.未削除,
-                        Reien = existingReien
-                    };
-                    _context.Areas.Add(newArea);
-                    _context.SaveChanges();
-                    existingArea = newArea;
+                    return BadRequest($"Invalid value for 工区番号: {info.工区番号}. Expected value");
                 }
                 else
                 {
