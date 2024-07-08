@@ -77,6 +77,7 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         public string Subscription { get; set; } = "";
 
+        public string ReserveError { get; set; } = "";
 
         /// <summary>
         /// OnGet処理
@@ -107,6 +108,14 @@ namespace YasiroRegrave.Pages
 
             var cemeteryInfo = _context.CemeteryInfos
                 .FirstOrDefault(ci => ci.CemeteryIndex == CemeteryIndex && ci.DeleteFlag == (int)Config.DeleteType.未削除);
+
+            // 予約エラー（区画状態：空、公開状態：販売中でない）
+            if (cemeteryInfo == null || cemeteryInfo.SectionStatus != (int)Config.SectionStatusType.空 || cemeteryInfo.ReleaseStatus != (int)Config.ReleaseStatusType.販売中)
+            {
+                ReserveError = Message.M_E0029;
+                return Page();
+            }
+
             User? user = null;
             if (LoginId != null)
             {
