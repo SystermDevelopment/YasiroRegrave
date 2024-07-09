@@ -64,7 +64,7 @@
 .image-content {
     padding: 20px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     margin-bottom: 20px;
 }
@@ -76,6 +76,11 @@
         max-width: 250px;
         display: block;
     }
+    .image-container p {
+        text-align: left;
+        font-size: 14px;
+        margin: 10px 0;
+    }
 
 table {
     margin: 0 10px;
@@ -86,6 +91,7 @@ caption {
     display: block;
     color: black;
     font-weight: bold;
+    text-align: left;
 }
 th, td {
     margin-top: 20px;
