@@ -29,6 +29,8 @@ namespace YasiroRegrave.Model
         public string? StoneFee { get; set; }
         [Column("set_price")]
         public string? SetPrice { get; set; }
+        [Column("change_status_date")]
+        public DateTime? ChangeStatusDate { get; set; }
         [Column("create_date")]
         public DateTime? CreateDate { get; set; }
         [Column("create_user")]

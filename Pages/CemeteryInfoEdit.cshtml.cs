@@ -182,6 +182,11 @@ namespace YasiroRegrave.Pages
                             }
                         }
 
+                        if (existingCemeteryinfo.ReleaseStatus != releaseStatus)
+                        {
+                            existingCemeteryinfo.ChangeStatusDate = DateTime.Now;
+                        }
+
                         // UPDATE
                         existingCemeteryinfo.ReleaseStatus = releaseStatus;
                         existingCemeteryinfo.Image1Fname = Image1Fname;

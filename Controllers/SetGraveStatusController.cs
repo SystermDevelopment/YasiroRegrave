@@ -74,7 +74,7 @@ namespace YasiroRegrave.Controllers
                         return BadRequest($"There is an unnotified reservation. {existingReserveInfo.LastName}様　{(existingReserveInfo.CreateDate.HasValue ? existingReserveInfo.CreateDate.Value.ToString("yyyy年MM月dd日 HH:mm:ss") : "日付が不明")}");
                     }
                 }
-
+                existingCemeteryInfo.ChangeStatusDate = DateTime.Now;
                 switch (info.区画状態)
                 {
                     case "空":
