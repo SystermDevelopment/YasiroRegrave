@@ -3,6 +3,11 @@ using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using System.Linq;
 using YasiroRegrave.Pages.common;
+using static YasiroRegrave.Pages.ReienListModel;
+using Newtonsoft.Json;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Net.Mail;
+using System.Net;
 
 namespace YasiroRegrave.Controllers
 {
@@ -10,10 +15,13 @@ namespace YasiroRegrave.Controllers
     [Route("api/[controller]")]
     public class SetGraveInfoController : Controller
     {
+        private List<Cemetery> cemeteries;
+        private string JsonFilePath = "";    //jsonのファイルパス
         private readonly ApplicationDbContext _context;
         public SetGraveInfoController(ApplicationDbContext context)
         {
             _context = context;
+            JsonFilePath = Path.Combine(Config.JsonDataFilesPath, ""); //ファイル名はIDで格納
         }
 
         [HttpPost]
@@ -21,7 +29,7 @@ namespace YasiroRegrave.Controllers
         {
             foreach (var info in infos)
             {
-                Reien? existingReien;
+                YasiroRegrave.Model.Reien? existingReien;
                 Area? existingArea;
                 Section? existingSection;
                 Cemetery? existingCemetery;
@@ -207,6 +215,51 @@ namespace YasiroRegrave.Controllers
                     existingCemeteryInfo.DeleteFlag = (int)Config.DeleteType.未削除;
                     _context.SaveChanges();
                 }
+
+                var JsonPath = $"{JsonFilePath}\\SEC_{reienCode}_{info.工区番号}_{section}.json";
+                bool exists = System.IO.File.Exists(JsonPath);
+                if(exists)
+                {
+                    string json = System.IO.File.ReadAllText(JsonPath);
+                    cemeteries = JsonConvert.DeserializeObject<List<Cemetery>>(json);
+                    exists = cemeteries.Any(c => c.CemeteryCode == cemetery);
+                }
+                if (!exists)
+                {
+                    var smtp = new SmtpClient
+                    {
+                        Host = Config.SMTPHost,
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(Config.SMTPId, Config.SMTPPass),
+                        Timeout = 20000
+                    };
+                    var fromAddress = new MailAddress(Config.SendMailAddress, Config.SendMailName);
+                    var toAddress = new MailAddress($"{Config.AlartNotificationMailAddress}", $"");
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = "<再販webシステム　アラートメール>",
+                        Body = $"区画番号「{info.区画番号}」のjsonファイルが存在しません。",
+                        BodyEncoding = System.Text.Encoding.UTF8,
+                        SubjectEncoding = System.Text.Encoding.UTF8
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+                    var toAddress2 = new MailAddress($"{Config.AlartNotificationMailAddressTechno}", $"");
+                    using (var message = new MailMessage(fromAddress, toAddress2)
+                    {
+                        Subject = "<再販webシステム　アラートメール>",
+                        Body = $"区画番号「{info.区画番号}」のjsonファイルが存在しません。",
+                        BodyEncoding = System.Text.Encoding.UTF8,
+                        SubjectEncoding = System.Text.Encoding.UTF8
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+                }
             }
 
             // ここでリクエストを処理し、レスポンスを作成します。
@@ -216,6 +269,16 @@ namespace YasiroRegrave.Controllers
                 message = "Reyasiro情報の設定に成功しました。"
             };
             return Ok(response);
+        }
+        private class Coordinate
+        {
+            public int x { get; set; }
+            public int y { get; set; }
+        }
+        private class CemeteryJson
+        {
+            public string? CemeteryCode { get; set; }
+            public List<List<Coordinate>>? Coordinates { get; set; }
         }
     }
 
