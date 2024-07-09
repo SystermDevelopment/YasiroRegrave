@@ -97,7 +97,7 @@ namespace YasiroRegrave.Pages
                         .Where(ri => ri.Users.UserIndex == user.UserIndex)
                         .Select(ri => ri.Reiens.ReienIndex)
                         .ToList();
-                    SelectVenderIndex = user.Vender.VenderIndex;
+                    SelectVenderIndex = user.VenderIndex;
                 }
             }
             Venders = _context.Venders

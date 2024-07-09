@@ -73,7 +73,7 @@
                                             <button type="submit" class="btn btn-secondary">編集</button>
                                         </form>
 
-                                        <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
+                                        <form method="post" class="btn-form" onsubmit="return onClickDelete(@vender.Member)">
                                             <input type="hidden" name="Index" value="@vender.Index" />
                                             <button type="submit" class="btn btn-warnning">削除</button>
                                         </form>
@@ -87,3 +87,15 @@
         </div>
     </div>
 </body>
+
+<script>
+    function onClickDelete(member) {
+        var message = @Html.Raw(Json.Serialize(Message.M_Q0001));
+        if (member > 0) {
+            message = @Html.Raw(Json.Serialize(Message.M_E0030));
+            alert(message);
+            return false;
+        }
+        return confirm(message);
+    }
+</script>

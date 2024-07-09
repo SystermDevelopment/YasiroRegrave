@@ -20,7 +20,6 @@ namespace YasiroRegrave.Pages
         public int? LoginId { get; private set; }
         public LoginUserData? LoggedInUser { get; private set; }
         public int FilterVender { get; set; } = -1;
-        public int YsrMngCnt { get; set; } = 0;
 
         /// <summary>
         /// OnGet処理
@@ -126,12 +125,6 @@ namespace YasiroRegrave.Pages
                 .ToList();
             Venders = venderList;
             LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
-            // ヤシロ管理者数
-            YsrMngCnt = _context.Users
-                .Where(u => u.DeleteFlag == (int)Config.DeleteType.未削除
-                    && u.Authority == (int)Config.AuthorityType.管理者
-                    && u.VenderIndex == 0)  // ヤシロ
-                .Count();
             return;
         }
 

@@ -112,17 +112,18 @@ namespace YasiroRegrave.Pages
             {
                 if (index == null)
                 {
-                    var newReien = new Reien
-                    {
-                        ReienCode = ReienCode,
-                        ReienName = Name,
-                        MailAddress = MailAddress,
-                        CreateDate = DateTime.Now,
-                        CreateUser = LoginId,
-                        DeleteFlag = (int)Config.DeleteType.未削除,
-                    };
-                    _context.Reiens.Add(newReien);
-                    _context.SaveChanges();
+                    // INSERT
+                    //var newReien = new Reien
+                    //{
+                    //    ReienCode = ReienCode,
+                    //    ReienName = Name,
+                    //    MailAddress = MailAddress,
+                    //    CreateDate = DateTime.Now,
+                    //    CreateUser = LoginId,
+                    //    DeleteFlag = (int)Config.DeleteType.未削除,
+                    //};
+                    //_context.Reiens.Add(newReien);
+                    //_context.SaveChanges();
                 }
                 else
                 {

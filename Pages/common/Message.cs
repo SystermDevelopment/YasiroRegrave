@@ -31,6 +31,7 @@
         public const string M_E0027 = "希望日を選択してください";
         public const string M_E0028 = "有効なメールアドレスを入力してください";
         public const string M_E0029 = "空き区画ではありません。再度区画を選択してください";
+        public const string M_E0030 = "所属ユーザーが登録されているため削除できません";
 
 
         public const string M_Q0001 = "削除してもよろしいですか？";
