@@ -33,8 +33,8 @@ namespace YasiroRegrave.Controllers
             }
             var response = _context.CemeteryInfos
                 .Where(r => r.DeleteFlag == (int)Config.DeleteType.未削除)
-                .Where(r => !startDate.HasValue || r.UpdateDate.Value.AddSeconds(-1) > startDate)
-                .Where(r => !endDate.HasValue || r.UpdateDate <= endDate)
+                .Where(r => !startDate.HasValue || r.ChangeStatusDate.Value.AddSeconds(-1) > startDate)
+                .Where(r => !endDate.HasValue || r.ChangeStatusDate <= endDate)
                 .Select(r => new GetGraveStatusResponse
                 {
                     霊園番号 = r.Cemetery.Section.Area.Reien.ReienCode.ToString(),
