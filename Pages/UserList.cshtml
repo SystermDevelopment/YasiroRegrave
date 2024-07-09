@@ -112,7 +112,7 @@
                                             <form method="post" class="btn-form" onsubmit="return confirm('@Message.M_Q0001')">
                                                 <input type="hidden" name="Index" value="@user.Index" />
                                                 <input type="hidden" name="Action" value="Delete" />
-                                                <button type="submit" class="btn btn-warnning">削除</button>
+                                                <button type="submit" class="btn btn-warnning" @(user.Id == "admin" ? "disabled" : "")>削除</button>
                                             </form>
                                         </td>
                                     </tr>
