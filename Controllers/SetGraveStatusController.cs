@@ -84,6 +84,7 @@ namespace YasiroRegrave.Controllers
                         existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.拠点予約;
                         break;
                     case "成約":
+                    case "削除":
                         var reserveToDelete = _context.ReserveInfos.Where(r => r.CemeteryInfoIndex == existingCemeteryInfo.CemeteryInfoIndex).ToList();
                         if (reserveToDelete.Any())
                         {
