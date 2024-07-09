@@ -18,7 +18,7 @@
 <main>
     <section>
         <h2>電話でのご予約も可能です。</h2>
-        <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
+        <img src="~/images/PhoneNumber.png?v=@DateTime.Now.Ticks" alt="Sidebar Icon">
         <h2>メールでのご予約</h2>
         <div>下記内容をご確認の上、「メール送信」ボタンを押してください。</div>
     </section>
@@ -140,7 +140,7 @@
                             <span>
                                 電話：@(Model.IsContactByPhone == "1" ? "希望する" : "希望しない")
                                 <br>
-                                メールアドレス：@(Model.IsContactByEmail == "1" ? "希望する" : "希望しない")
+                                メール：@(Model.IsContactByEmail == "1" ? "希望する" : "希望しない")
                             </span>
                             <input type="hidden" id="is-contact-by-phone" name="IsContactByPhone" value="@Model.IsContactByPhone" />
                             <input type="hidden" id="is-contact-by-email" name="IsContactByEmail" value="@Model.IsContactByEmail" />
@@ -150,7 +150,7 @@
                         <td><label for="email-subscription">メール配信</label></td>
                         <td>
                             <span>
-                                メールアドレス：@(Model.Subscription == "1" ? "受信する" : "受信しない")
+                                @(Model.Subscription == "1" ? "受信する" : "受信しない")
                             </span>
                             <input type="hidden" id="subscription" name="Subscription" value="@Model.Subscription" />
                         </td>
@@ -169,7 +169,7 @@
             <div class="announce-note">
                 <br>※申し込み後、@(Model.ReserveName)の内容を記載した自動返信メールを送信致します。<br>届かない場合はお問い合わせください。<br><br>
             </div>
-            <img src="~/images/PhoneNumber.png" alt="Sidebar Icon">
+            <img src="~/images/PhoneNumber.png?v=@DateTime.Now.Ticks" alt="Sidebar Icon">
         </form>
     </section>
 </main>
