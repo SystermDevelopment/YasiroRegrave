@@ -22,10 +22,10 @@
             sectionname = Model.SectionDatas.SectionName;
         }
     }
-    <img src="@thumbnail" style="border: 1px solid black; width: 200px; height: 200px; object-fit: contain;" alt="選択区画">
-    <img src="images/figure1.png">
+    <img src="@(thumbnail)?v=@DateTime.Now.Ticks" style="border: 1px solid black; width: 200px; height: 200px; object-fit: contain;" alt="選択区画">
+    <img src="images/figure1.png?v=@DateTime.Now.Ticks">
     <div id="map-container"></div>
-    <img src="images/figure2.png">
+    <img src="images/figure2.png?v=@DateTime.Now.Ticks">
     <div class="button-container">
         <button type="button" class="back-button" onclick="history.back()">前画面へ戻る</button>
     </div>
@@ -71,7 +71,7 @@
         <label>
             ＼<span style="color: red;">区画の仮予約</span>が可能です／
             <br>
-            (仮予約期間：１週間)
+            (仮予約期間：お申し込みから約１ヶ月)
         </label>
         <div class="button-container">
             <button class="button-visit" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.見学予約)'">見学予約のお申込み</button>
@@ -81,7 +81,7 @@
             お電話でも承ります。
         </label>
         <div>
-            <img src="images/PhoneNumber.png" style="border: 1px solid black;">
+            <img src="images/PhoneNumber.png?v=@DateTime.Now.Ticks" style="border: 1px solid black;">
         </div>
     </div>
 }
