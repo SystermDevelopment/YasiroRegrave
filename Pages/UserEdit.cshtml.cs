@@ -114,11 +114,21 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public IActionResult OnPost(int? index)
         {
+            Index = index;
             LoginId = HttpContext.Session.GetInt32("LoginId");
             if (LoginId == null)
             {
                 return RedirectToPage("/Index");
             }
+
+            var userCount = index.HasValue
+                                ? _context.Users.Count(v => v.DeleteFlag == (int)Config.DeleteType.未削除 && v.Id == Id && v.UserIndex != index)
+                                : _context.Users.Count(v => v.DeleteFlag == (int)Config.DeleteType.未削除 && v.Id == Id);
+            if (userCount > 0)
+            {
+                ModelState.AddModelError("Id", Message.M_E0031);
+            }
+
             LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
             if (!ModelState.IsValid)
             {

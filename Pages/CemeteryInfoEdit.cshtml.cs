@@ -91,6 +91,7 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public IActionResult OnPost(int? index)
         {
+            CemeteryInfoIndex = index;
             LoginId = HttpContext.Session.GetInt32("LoginId");
             if (LoginId == null)
             {
