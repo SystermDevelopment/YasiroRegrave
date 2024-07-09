@@ -155,6 +155,7 @@ namespace YasiroRegrave.Controllers
                         ManagementFee = info.管理料,
                         StoneFee = info.仕置巻石料,
                         SetPrice = info.墓石セット価格,
+                        ChangeStatusDate = DateTime.Now,
                         CreateDate = DateTime.Now,
                         CreateUser = null,
                         UpdateDate = DateTime.Now,
@@ -186,6 +187,11 @@ namespace YasiroRegrave.Controllers
                         {
                             releaseStatus = (int)Config.ReleaseStatusType.販売中;
                         }
+                    }
+
+                    if (existingCemeteryInfo.ReleaseStatus != releaseStatus || existingCemeteryInfo.SectionType == null || existingCemeteryInfo.SectionType != info.区画区分)
+                    {
+                        existingCemeteryInfo.ChangeStatusDate = DateTime.Now;
                     }
 
                     // UPDATE
