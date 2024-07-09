@@ -102,11 +102,34 @@ namespace YasiroRegrave.Pages.common
                 return Path.Combine(rootPath, "images");
             }
         }
+        /// <summary>
+        /// jsonデータ格納先
+        /// </summary>
+        public static string JsonDataFilesPath
+        {
+            get
+            {
+                string rootPath = wwwRootPath;
+                return Path.Combine(rootPath, "data");
+            }
+        }
+        /// <summary>
+        /// wwwrootのパス
+        /// </summary>
+        public static string wwwRootPath
+        {
+            get
+            {
+                return Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            }
+        }
         public static string SendMailAddress { get { return "test@technosphere.co.jp"; } }
         public static string SendMailName { get { return "テストメール送信元"; } }
         public static string SMTPHost { get { return "mail11.onamae.ne.jp"; } }
         public static string SMTPId { get { return "test@technosphere.co.jp"; } }
         public static string SMTPPass { get { return "yasiroyasiro1#"; } }
-    }
 
+        public static string AlartNotificationMailAddress { get { return "web_yoyaku_alert@yasiro.co.jp"; } }
+        public static string AlartNotificationMailAddressTechno { get { return "alert@technosphere.co.jp"; } }
+    }
 }
