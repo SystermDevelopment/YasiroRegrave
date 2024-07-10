@@ -129,7 +129,7 @@ label {
     font-size: 16px;
     font-weight: bold;
     color: white;
-    background-color: red;
+    background-color: #ED220A;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -140,7 +140,7 @@ label {
     font-size: 16px;
     font-weight: bold;
     color: white;
-    background-color: #B5CD6D;
+    background-color: #A3AB63;
     border: none;
     border-radius: 5px;
     cursor: pointer;
