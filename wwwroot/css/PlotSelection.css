@@ -29,6 +29,10 @@
     align-items: center;
     margin-bottom: 10px;
 }
+    #PlotSelectionExplanation img {
+        max-width: 400px;
+        height: auto;
+    }
 
 #PlotSelectionContainer {
     display: flex;
