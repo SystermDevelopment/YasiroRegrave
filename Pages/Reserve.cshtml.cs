@@ -164,7 +164,6 @@ namespace YasiroRegrave.Pages
                 GetPage();
                 return Page();
             }
-
             TempData["CemeteryIndex"] = CemeteryIndex;
             TempData["CemeteryName"] = CemeteryName;
             TempData["ReserveMode"] = ReserveMode;

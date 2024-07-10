@@ -22,9 +22,9 @@
             sectionname = Model.SectionDatas.SectionName;
         }
     }
-    <img src="@(thumbnail)?v=@DateTime.Now.Ticks" onclick="history.back()" style="border: 1px solid black; width: 200px; height: 200px; object-fit: contain;" alt="選択区画">
+    <img src="@(thumbnail)?v=@DateTime.Now.Ticks" onclick="window.location.href = '/PlotSelection'" style="border: 1px solid black; width: 200px; height: 200px; object-fit: contain;" alt="選択区画">
     <div class="button-container">
-        <button type="button" class="back-button" onclick="history.back()">全体図に戻る</button>
+        <button type="button" class="back-button" onclick="window.location.href = '/PlotSelection'">全体図に戻る</button>
     </div>
     <img src="images/figure1.png?v=@DateTime.Now.Ticks">
     <div id="map-container"></div>

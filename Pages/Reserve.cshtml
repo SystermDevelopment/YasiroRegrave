@@ -199,7 +199,7 @@
                 </div>
             </div>
             <div class="button-wrapper">
-                <button type="button" class="back-button" onclick="history.back()">区画図に戻る</button>
+                <button type="button" class="back-button" onclick="window.location.href = '/PlotDetails'">区画図に戻る</button>
                 <input type="hidden" id="CemeteryName" name="CemeteryName" value="@Model.CemeteryName" />
                 <input type="hidden" name="index" value="@Model.CemeteryIndex" />
                 <input type="hidden" name="mode" value="@Model.ReserveMode" />
