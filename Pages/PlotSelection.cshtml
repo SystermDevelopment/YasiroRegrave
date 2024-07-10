@@ -7,7 +7,7 @@
 
 <div id="PlotSelectionHeader">
     <div id="PlotSelectionTitle">
-        @Model.AreaName<br>空き区画予約
+        @(Model.AreaName) 空き区画予約
     </div>
     <div id="PlotSelectionSubtitle">
         大阪生駒霊園の空き区画のご確認ができます。<br>
@@ -28,7 +28,7 @@
     <img src="images/reservationImage.png?v=@DateTime.Now.Ticks">
 </div>
 <div class="button-container">
-    <button type="button" class="back-button" onclick="history.back()">前画面へ戻る</button>
+    <button type="button" class="back-button" onclick="history.back()">前画面に戻る</button>
 </div>
 
 <script>
