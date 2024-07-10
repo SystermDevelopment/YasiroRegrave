@@ -33,6 +33,9 @@ body {
     align-items: center;
     position: relative; 
 }
+    #header-container a {
+        text-decoration: none;
+    }
 
 .login-info {
     background-color: #3071B5;
