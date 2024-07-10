@@ -25,6 +25,8 @@ namespace YasiroRegrave.Pages
 
         public int? LoginId { get; private set; }
         public LoginUserData? LoggedInUser { get; private set; }
+        public string hrefBack { get; private set; } = "https://www.yasiro.co.jp/reien/ikoma/";
+        public string strBack { get; private set; } = "ホームページ";
 
         /// <summary>
         /// OnGet処理
@@ -58,6 +60,24 @@ namespace YasiroRegrave.Pages
             {
                 LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
                 ViewData["LoggedInUser"] = LoggedInUser;
+
+                // 前画面の戻り先
+                var user = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId);
+                if (user.Authority == (int)Config.AuthorityType.管理者)
+                {
+                    hrefBack = "/UserList";
+                    strBack = "管理画面";
+                }
+                else if (user.Authority == (int)Config.AuthorityType.担当者 && user.VenderIndex == 0)
+                {
+                    hrefBack = "/CemeteryInfoList";
+                    strBack = "管理画面";
+                }
+                else
+                {
+                    hrefBack = "/Index";
+                    strBack = "ログイン画面";
+                }
             }
 
             // 霊園、エリア情報の取得（大阪生駒霊園、第１期、固定とする）

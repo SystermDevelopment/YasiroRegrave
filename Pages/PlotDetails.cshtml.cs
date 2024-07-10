@@ -38,6 +38,11 @@ namespace YasiroRegrave.Pages
                 SectionIndex = index ?? 0;
                 GetPage();
             }
+            else if (TempData["SectionIndex"] is int tempSectionIndex)
+            {
+                SectionIndex = tempSectionIndex;
+                GetPage();
+            }
             return;
         }
         /// <summary>
@@ -57,6 +62,7 @@ namespace YasiroRegrave.Pages
         /// <returns></returns>
         public void GetPage()
         {
+            TempData["SectionIndex"] = SectionIndex;
             LoginId = HttpContext.Session.GetInt32("LoginId");
             if (LoginId != null)
             {
