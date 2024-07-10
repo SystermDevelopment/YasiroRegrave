@@ -18,7 +18,7 @@ namespace YasiroRegrave.Pages
         public LoginUserData? LoggedInUser { get; private set; }
 
         /// <summary>
-        /// OnGetˆ—
+        /// OnGetå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
@@ -29,8 +29,8 @@ namespace YasiroRegrave.Pages
             {
                 return RedirectToPage("/Index");
             }
-            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.–¢íœ)?.Authority;
-            if (checkAuthority != (int)Config.AuthorityType.ŠÇ—Ò)
+            var checkAuthority = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)?.Authority;
+            if (checkAuthority != (int)Config.AuthorityType.ç®¡ç†è€…)
             {
                 return RedirectToPage("/Index");
             }
@@ -39,7 +39,7 @@ namespace YasiroRegrave.Pages
         }
 
         /// <summary>
-        /// OnPostˆ—
+        /// OnPostå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
@@ -55,7 +55,7 @@ namespace YasiroRegrave.Pages
             if (venderDelete != null)
             {
                 //DELITE
-                venderDelete.DeleteFlag = (int)Config.DeleteType.íœ;
+                venderDelete.DeleteFlag = (int)Config.DeleteType.å‰Šé™¤;
                 venderDelete.UpdateDate = DateTime.Now;
                 venderDelete.UpdateUser = LoginId;
                 _context.SaveChanges();
@@ -64,19 +64,19 @@ namespace YasiroRegrave.Pages
         }
 
         /// <summary>
-        /// ‰æ–Ê¶¬ˆ—
+        /// ç”»é¢ç”Ÿæˆå‡¦ç†
         /// </summary>
         /// <param</param>
         /// <returns></returns>
         private void GetPage()
         {
             var venderList = _context.Venders
-                .Where(v => v.DeleteFlag == (int)Config.DeleteType.–¢íœ)
+                .Where(v => v.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤)
                 .Select(v => new Vender
                 {
                     Index = v.VenderIndex,
                     Name = v.Name,
-                    Member = _context.Users.Count(u => u.VenderIndex == v.VenderIndex && u.DeleteFlag == (int)Config.DeleteType.–¢íœ),
+                    Member = _context.Users.Count(u => u.VenderIndex == v.VenderIndex && u.DeleteFlag == (int)Config.DeleteType.æœªå‰Šé™¤),
                 })
                 .OrderBy(v => v.Index)
                 .ToList();
