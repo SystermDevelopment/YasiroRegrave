@@ -127,15 +127,15 @@ namespace YasiroRegrave.Pages
             var reserveInfo = new ReserveInfo
             {
                 CemeteryInfoIndex = CemeteryIndex,
-                PreferredDate1 = DateTime.TryParse(Date1, out var date1) ? date1 : (DateTime?)null,
-                PreferredDate2 = DateTime.TryParse(Date2, out var date2) ? date2 : (DateTime?)null,
-                PreferredDate3 = DateTime.TryParse(Date3, out var date3) ? date3 : (DateTime?)null,
+                PreferredDate1 = DateTime.TryParse($"{Date1} {Time1}", out var date1) ? date1 : (DateTime?)null,
+                PreferredDate2 = DateTime.TryParse($"{Date2} {Time2}", out var date2) ? date2 : (DateTime?)null,
+                PreferredDate3 = DateTime.TryParse($"{Date3} {Time3}", out var date3) ? date3 : (DateTime?)null,
                 LastName = LastName,
                 FirstName = FirstName,
                 LastNameYomi = LastNameKana,
                 FirstNameYomi = FirstNameKana,
                 ZipCode = PostalCode,
-                Adress = Address,
+                Adress = Prefecture + City + Address + "　" + Building,
                 TelephoneNumber = Phone,
                 EMail = Email,
                 Question = Inquiry,
@@ -407,31 +407,6 @@ namespace YasiroRegrave.Pages
             IsContactByPhone = TempData["IsContactByPhone"]?.ToString() ?? "";
             IsContactByEmail = TempData["IsContactByEmail"]?.ToString() ?? "";
             Subscription = TempData["Subscription"]?.ToString() ?? "";
-
-
-            //// テストータ
-            //SectionNumber = "親鸞E区 07列-03";
-            //LastName = "生駒";
-            //FirstName = "太郎";
-            //LastNameKana = "いこま";
-            //FirstNameKana = "たろう";
-            //PostalCode = "5750014";
-            //Prefecture = "大阪府";
-            //City = "四條畷市";
-            //Address = "上田原";
-            //Building = "1366番地";
-            //Phone = "0120753948";
-            //Email = "yoyaku@yashiro.co.jp";
-            //Date1 = "2024/07/01";
-            //Time1 = "11:00";
-            //Date2 = "2024/07/02";
-            //Time2 = "12:00";
-            //Date3 = "2024/07/03";
-            //Time3 = "13:00";
-            //Inquiry = "ああああああああああ";
-            //IsContactByPhone = "1";
-            //IsContactByEmail = "1";
-            //Subscription = "1";
 
             return;
         }
