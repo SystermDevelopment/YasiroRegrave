@@ -31,13 +31,14 @@
             </div>
             <ul class="sidebar-menu">
                 <li><a href="/UserList">ユーザー情報一覧</a></li>
-                <li><a href="/VenderList">販売会社情報一覧</a></li>
+                <li><a href="/VenderList" style="font-weight: bold;">販売会社情報一覧</a></li>
                 <li><a href="/ReienList">メール送信先一覧</a></li>
                 <li><a href="/CemeteryInfoList">墓所情報一覧</a></li>
             </ul>
             @if (Model.LoginId != null && Model.LoggedInUser != null)
             {
                 <div class="sidebar-footer">
+                    <span>＜ログインユーザー＞<br /></span>
                     <span>@Model.LoggedInUser.VenderName<br /></span>
                     <span>@Model.LoggedInUser.Name</span>
                 </div>

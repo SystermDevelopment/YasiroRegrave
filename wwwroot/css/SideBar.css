@@ -53,9 +53,10 @@
 
 .sidebar-footer {
     text-align: center;
-    padding: 20px 0;
-    background-color: #c5e1f5;
-    color: blue;
+    padding: 10px 0;
+    background-color: #3071B5;
+    color: white;
+    margin: 10 25px;
 }
 
 .content {

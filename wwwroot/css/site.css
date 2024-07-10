@@ -35,9 +35,11 @@ body {
 }
 
 .login-info {
-    color: blue;
-    font-weight: bold;
-    margin-top: 10px
+    background-color: #3071B5;
+    color: white;
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 16px;
 }
 
 #logo {
