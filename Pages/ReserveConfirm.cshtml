@@ -18,7 +18,9 @@
 <main>
     <section>
         <h2>電話でのご予約も可能です。</h2>
-        <img src="~/images/PhoneNumber.png?v=@DateTime.Now.Ticks" alt="Sidebar Icon">
+        <a href="tel:0120-753-948">
+            <img src="~/images/PhoneNumber.png?v=@DateTime.Now.Ticks" alt="Sidebar Icon">
+        </a>
         <h2>メールでのご予約</h2>
         <div>下記内容をご確認の上、「メール送信」ボタンを押してください。</div>
     </section>
@@ -169,7 +171,9 @@
             <div class="announce-note">
                 <br>※申し込み後、@(Model.ReserveName)の内容を記載した自動返信メールを送信致します。<br>届かない場合はお問い合わせください。<br><br>
             </div>
-            <img src="~/images/PhoneNumber.png?v=@DateTime.Now.Ticks" alt="Sidebar Icon">
+            <a href="tel:0120-753-948">
+                <img src="~/images/PhoneNumber.png?v=@DateTime.Now.Ticks" alt="Sidebar Icon">
+            </a>
         </form>
     </section>
 </main>
