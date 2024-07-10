@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Middleware;
 var builder = WebApplication.CreateBuilder(args);
+// Kestrelのエンドポイント設定を読み込み
+builder.WebHost.UseKestrel(options =>
+{
+    options.ListenAnyIP(5006, listenOptions => listenOptions.UseHttps()); // API用のポート
+});
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
        options.UseSqlServer(
            builder.Configuration.GetConnectionString("DefaultConnection")));
