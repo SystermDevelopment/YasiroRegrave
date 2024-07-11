@@ -45,10 +45,14 @@ body {
     font-size: 16px;
 }
 
-.sidebar-button button {
-    background-color: #6c757d !important;
-    border-color: #6c757d !important;
-    color: white !important;
+.logout-button button {
+    background-color: #F0F0F0 !important;
+    border-color: #F0F0F0 !important;
+    color: Black !important;
+    padding: 5px !important;
+    width: 85px !important;
+    height: 40px !important;
+    border-radius: 5px;
 }
 
 #logo {

@@ -28,13 +28,13 @@ section {
     text-align: center;
 }
 
-form {
+/*form {
     grid-template-columns: auto 1fr;
     gap: 15px;
     align-items: center;
     border: 1px solid #e5e4e4;
     padding: 20px;
-}
+}*/
 
 p1, p2, p3 {
     font-weight: bold;
