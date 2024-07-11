@@ -204,6 +204,18 @@ namespace YasiroRegrave.Pages
             }
             return RedirectToPage("/CemeteryInfoList");
         }
+
+        /// <summary>
+        /// ログアウト処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
+        public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Index");
+        }
+
         private void GetPage(int? index)
         {
             var existingUser = _context.Users.FirstOrDefault(u => u.DeleteFlag == (int)Config.DeleteType.未削除 && u.UserIndex == LoginId);
