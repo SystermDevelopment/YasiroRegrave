@@ -353,6 +353,16 @@ namespace YasiroRegrave.Pages
             }
             return RedirectToPage("ReserveComplate");
         }
+        /// <summary>
+        /// ログアウト処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
+        public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Index");
+        }
 
         /// <summary>
         /// 画面生成処理

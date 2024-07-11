@@ -18,8 +18,13 @@
             {
                 <div class="login-info">
                     <span>＜ログインユーザー＞<br /></span>
-                    <span>@ViewBag.LoggedInUser.VenderName　</span>
+                    <span>@ViewBag.LoggedInUser.VenderName<br /></span>
                     <span>@ViewBag.LoggedInUser.Name</span>
+                    <div class="logout-button">
+                        <form method="post" asp-page-handler="Logout">
+                            <button type="submit" class="btn btn-danger">ログアウト</button>
+                        </form>
+                    </div>
                 </div>
             }
         </div>

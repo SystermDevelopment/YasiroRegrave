@@ -216,6 +216,16 @@ namespace YasiroRegrave.Pages
             return;
         }
 
+        /// <summary>
+        /// ログアウト処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
+        public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Index");
+        }
 
         public class CemeteryInfo
         {

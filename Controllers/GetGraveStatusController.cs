@@ -48,7 +48,7 @@ namespace YasiroRegrave.Controllers
                     区画状態 = r.SectionStatus == 0 ? "空" : r.SectionStatus == 1 ? "予約中" : r.SectionStatus == 2 ? "拠点予約" : r.SectionStatus == 3 ? "成約" : "不明",
                     販売ステータス = r.ReleaseStatus == 0 ? "準備中" : r.ReleaseStatus == 1 ? "販売中" : "不明",
                     画像情報登録状態 = (string.IsNullOrEmpty(r.Image1Fname)|| string.IsNullOrEmpty(r.Image2Fname) ) ? "未" : "済",
-                    最終更新日時 = r.UpdateDate.HasValue ? r.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""
+                    最終更新日時 = r.UpdateDate.HasValue ? r.ChangeStatusDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""
                 }).ToList();
             return Ok(response);
         }

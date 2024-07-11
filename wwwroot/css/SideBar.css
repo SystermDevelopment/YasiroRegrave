@@ -59,6 +59,18 @@
     margin: 10 25px;
 }
 
+.sidebar-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+    .sidebar-button button {
+        background-color: #6c757d !important;
+        border-color: #6c757d !important;
+        color: white !important;
+    }
+
 .content {
     padding: 20px;
     overflow-y: auto; /* コンテンツエリアのオーバーフローを自動スクロールに設定 */
