@@ -75,9 +75,15 @@ namespace YasiroRegrave.Controllers
                     }
                 }
                 existingCemeteryInfo.ChangeStatusDate = DateTime.Now;
+                // 予約情報(削除用)
+                var reserveToDelete = _context.ReserveInfos.Where(r => r.CemeteryInfoIndex == existingCemeteryInfo.CemeteryInfoIndex).ToList();
                 switch (info.区画状態)
                 {
                     case "空":
+                        if (reserveToDelete.Any())
+                        {
+                            _context.ReserveInfos.RemoveRange(reserveToDelete);
+                        }
                         existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.空;
                         break;
                     case "拠点予約":
@@ -85,7 +91,6 @@ namespace YasiroRegrave.Controllers
                         break;
                     case "成約":
                     case "削除":
-                        var reserveToDelete = _context.ReserveInfos.Where(r => r.CemeteryInfoIndex == existingCemeteryInfo.CemeteryInfoIndex).ToList();
                         if (reserveToDelete.Any())
                         {
                             _context.ReserveInfos.RemoveRange(reserveToDelete);
