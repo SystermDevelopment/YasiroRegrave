@@ -156,7 +156,8 @@ namespace YasiroRegrave.Pages
                 _context.ReserveInfos.Add(reserveInfo);
                 _context.SaveChanges();
                 cemeteryInfo.SectionStatus = (int)SectionStatusType.WEB予約;
-                cemeteryInfo.UpdateDate = DateTime.Now;
+                cemeteryInfo.ChangeStatusDate = DateTime.Now;
+                cemeteryInfo.UpdateDate = cemeteryInfo.ChangeStatusDate;
                 cemeteryInfo.UpdateUser = LoginId;
                 _context.CemeteryInfos.Update(cemeteryInfo);
                 _context.SaveChanges();
