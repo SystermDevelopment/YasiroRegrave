@@ -47,7 +47,11 @@ namespace YasiroRegrave.Pages
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0008)]
-        public int? SelectVenderIndex { get; set; } 
+        public int? SelectVenderIndex { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = Message.M_E0032)]
+        public int? ReyasiroUserId { get; set; }
 
         //[BindProperty]
         public int? Index { get; set; }
@@ -98,6 +102,7 @@ namespace YasiroRegrave.Pages
                         .Select(ri => ri.Reiens.ReienIndex)
                         .ToList();
                     SelectVenderIndex = user.VenderIndex;
+                    ReyasiroUserId = user.ReyasiroUserId;
                 }
             }
             Venders = _context.Venders
@@ -127,6 +132,15 @@ namespace YasiroRegrave.Pages
             if (userCount > 0)
             {
                 ModelState.AddModelError("Id", Message.M_E0031);
+            }
+            ModelState.Remove("ReyasiroUserId");
+            if (!int.TryParse(Request.Form["ReyasiroUserId"], out int value) || value < 0 || value > 999)
+            {
+                ModelState.AddModelError("ReyasiroUserId", Message.M_E0032);
+            }
+            if((SelectVenderIndex == 0 && ReyasiroUserId != 0) || (SelectVenderIndex != 0 && ReyasiroUserId == 0))
+            {
+                ModelState.AddModelError("ReyasiroUserId", Message.M_E0033);
             }
 
             LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
@@ -179,7 +193,7 @@ namespace YasiroRegrave.Pages
                         DeleteFlag = (int)Config.DeleteType.未削除,
                         Vender = forignVender,
                         VenderIndex = SelectVenderIndex ?? 0,
-
+                        ReyasiroUserId = ReyasiroUserId ?? 0,
                     };
                     _context.Users.Add(newUser);
                     foreach (var reienIndex in SelectedReiens)
@@ -209,6 +223,7 @@ namespace YasiroRegrave.Pages
                         existingUser.UpdateDate = DateTime.Now;
                         existingUser.UpdateUser = LoginId;
                         existingUser.VenderIndex = SelectVenderIndex ?? 0;
+                        existingUser.ReyasiroUserId = ReyasiroUserId ?? 0;
                         var existingReienInfos = _context.ReienInfos.Where(ri => ri.Users.UserIndex == existingUser.UserIndex).ToList();
                         _context.ReienInfos.RemoveRange(existingReienInfos);
 

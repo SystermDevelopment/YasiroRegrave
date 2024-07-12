@@ -29,6 +29,9 @@ public class User
     [MaxLength(100)]
     public string? MailAddress { get; set; }
     [Required]
+    [Column("reyasiro_user_id")]
+    public int ReyasiroUserId { get; set; }
+    [Required]
     [Column("vender_index")]
     public int VenderIndex { get; set; }
     [Column("create_date")]
