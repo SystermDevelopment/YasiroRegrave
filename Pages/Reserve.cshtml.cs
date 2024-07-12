@@ -39,41 +39,53 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0018)]
         [StringLength(100, ErrorMessage = Message.M_E0011)]
+        [RegularExpression(@"^[\u3040-\u309Fー]+$", ErrorMessage = Message.M_E0035)]
         public string LastNameKana { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0019)]
         [StringLength(100, ErrorMessage = Message.M_E0011)]
+        [RegularExpression(@"^[\u3040-\u309Fー]+$", ErrorMessage = Message.M_E0035)]
         public string FirstNameKana { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0020)]
+        [StringLength(7, ErrorMessage = Message.M_E0011)]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = Message.M_E0034)]
         public string PostalCode { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0021)]
+        [StringLength(20, ErrorMessage = Message.M_E0011)]
         public string Prefecture { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0022)]
+        [StringLength(30, ErrorMessage = Message.M_E0011)]
         public string City { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0023)]
+        [StringLength(100, ErrorMessage = Message.M_E0011)]
         public string Address { get; set; } = "";
 
         [BindProperty]
+        [StringLength(100, ErrorMessage = Message.M_E0011)]
         public string Building { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0024)]
+        [StringLength(11, ErrorMessage = Message.M_E0011)]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = Message.M_E0034)]
         public string Phone { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0025)]
+        [StringLength(100, ErrorMessage = Message.M_E0011)]
         public string Email { get; set; } = "";
 
         [BindProperty]
+        [StringLength(500, ErrorMessage = Message.M_E0011)]
         public string Inquiry { get; set; } = "";
 
         [BindProperty]
@@ -119,6 +131,35 @@ namespace YasiroRegrave.Pages
                 CemeteryIndex = index ?? 0;
                 ReserveMode = mode;
                 ReserveName = mode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
+                GetPage();
+            }
+            else if ((TempData["CemeteryIndex"] is int tempCemeteryIndex) && (TempData["ReserveMode"] is int tempReserveMode))
+            {
+                CemeteryIndex = tempCemeteryIndex;
+                CemeteryName = TempData["CemeteryName"] as string ?? "";
+                ReserveMode = tempReserveMode;
+                ReserveName = TempData["ReserveName"] as string ?? "";
+                LastName = TempData["LastName"] as string　?? "";
+                FirstName = TempData["FirstName"] as string ?? "";
+                LastNameKana = TempData["LastNameKana"] as string ?? "";
+                FirstNameKana = TempData["FirstNameKana"] as string ?? "";
+                PostalCode = TempData["PostalCode"] as string ?? "";
+                Prefecture = TempData["Prefecture"] as string ?? "";
+                City = TempData["City"] as string ?? "";
+                Address = TempData["Address"] as string ?? "";
+                Building = TempData["Building"] as string ?? "";
+                Phone = TempData["Phone"] as string ?? "";
+                Email = TempData["Email"] as string ?? "";
+                Date1 = TempData["Date1"] as string ?? "";
+                Time1 = TempData["Time1"] as string ?? "";
+                Date2 = TempData["Date2"] as string ?? "";
+                Time2 = TempData["Time2"] as string ?? "";
+                Date3 = TempData["Date3"] as string ?? "";
+                Time3 = TempData["Time3"] as string ?? "";
+                Inquiry = TempData["Inquiry"] as string ?? "";
+                IsContactByPhone = (TempData["IsContactByPhone"] as string) == "1";
+                IsContactByEmail = (TempData["IsContactByEmail"] as string) == "1";
+                Subscription = TempData["Subscription"] as string ?? "";
                 GetPage();
             }
             return;
@@ -167,6 +208,7 @@ namespace YasiroRegrave.Pages
             TempData["CemeteryIndex"] = CemeteryIndex;
             TempData["CemeteryName"] = CemeteryName;
             TempData["ReserveMode"] = ReserveMode;
+            TempData["ReserveName"] = ReserveName;
             TempData["LastName"] = LastName;
             TempData["FirstName"] = FirstName;
             TempData["LastNameKana"] = LastNameKana;

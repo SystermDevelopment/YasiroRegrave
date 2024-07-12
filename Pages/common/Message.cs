@@ -35,6 +35,8 @@
         public const string M_E0031 = "このIDは使用済みのため登録できません";
         public const string M_E0032 = "0～999の数値で入力してください";
         public const string M_E0033 = "ReYashiro登録IDが正しくありません";
+        public const string M_E0034 = "半角数字で入力してください";
+        public const string M_E0035 = "ひらがなで入力してください";
 
 
         public const string M_Q0001 = "削除してもよろしいですか？";

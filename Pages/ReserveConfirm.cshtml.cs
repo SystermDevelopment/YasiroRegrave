@@ -100,8 +100,40 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns>IActionResult</returns>
-        public IActionResult OnPost()
+        public IActionResult OnPost(string submitButton)
         {
+            // [予約入力に戻る]ボタンの処理
+            if (submitButton == "back")
+            {
+                TempData["CemeteryIndex"] = CemeteryIndex;
+                TempData["CemeteryName"] = CemeteryName;
+                TempData["ReserveMode"] = ReserveMode;
+                TempData["ReserveName"] = ReserveName;
+                TempData["LastName"] = LastName;
+                TempData["FirstName"] = FirstName;
+                TempData["LastNameKana"] = LastNameKana;
+                TempData["FirstNameKana"] = FirstNameKana;
+                TempData["PostalCode"] = PostalCode;
+                TempData["Prefecture"] = Prefecture;
+                TempData["City"] = City;
+                TempData["Address"] = Address;
+                TempData["Building"] = Building;
+                TempData["Phone"] = Phone;
+                TempData["Email"] = Email;
+                TempData["Date1"] = Date1;
+                TempData["Time1"] = Time1;
+                TempData["Date2"] = Date2;
+                TempData["Time2"] = Time2;
+                TempData["Date3"] = Date3;
+                TempData["Time3"] = Time3;
+                TempData["Inquiry"] = Inquiry;
+                TempData["IsContactByPhone"] = IsContactByPhone;
+                TempData["IsContactByEmail"] = IsContactByEmail;
+                TempData["Subscription"] = Subscription;
+                return RedirectToPage("Reserve");
+            }
+
+            // [メール送信]ボタンの処理
             LoginId = HttpContext.Session.GetInt32("LoginId");
 
             ReserveName = ReserveMode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
