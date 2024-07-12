@@ -33,6 +33,8 @@
         public const string M_E0029 = "空き区画ではありません。再度区画を選択してください";
         public const string M_E0030 = "所属ユーザーが登録されているため削除できません";
         public const string M_E0031 = "このIDは使用済みのため登録できません";
+        public const string M_E0032 = "0～999の数値で入力してください";
+        public const string M_E0033 = "ReYashiro登録IDが正しくありません";
 
 
         public const string M_Q0001 = "削除してもよろしいですか？";
