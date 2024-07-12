@@ -1,5 +1,6 @@
 ﻿body {
     background-color: #f0f0f0;
+    font-family: '游ゴシック体', 'Yu Gothic', YuGothic, sans-serif;
     color: #333;
     background-image: url('/images/bg_reien.jpg');
     background-size: cover;
