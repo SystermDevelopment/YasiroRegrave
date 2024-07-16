@@ -176,7 +176,7 @@ namespace YasiroRegrave.Pages
                 ManagementFee = cemeteryInfo.ManagementFee,
                 StoneFee = cemeteryInfo.StoneFee,
                 SetPrice = cemeteryInfo.SetPrice,
-                VenderIndex = user != null ? user.ReyasiroUserId : 0,
+                VenderIndex = user != null ? user.Vender.ReyasiroUserId : 0,
                 Notification = (int)Config.NotificationType.未通知,
                 CreateDate = ReceptionHours,
                 CreateUser = LoginId,
