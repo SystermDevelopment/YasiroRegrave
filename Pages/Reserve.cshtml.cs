@@ -8,6 +8,7 @@ using YasiroRegrave.Data;
 using YasiroRegrave.Model;
 using YasiroRegrave.Pages.common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace YasiroRegrave.Pages
@@ -124,7 +125,7 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns></returns>
-        public void OnGet(int? index, int mode)
+        public IActionResult OnGet(int? index, int mode)
         {
             if (index.HasValue)
             {
@@ -162,7 +163,12 @@ namespace YasiroRegrave.Pages
                 Subscription = TempData["Subscription"] as string ?? "";
                 GetPage();
             }
-            return;
+
+            if (CemeteryName.IsNullOrEmpty())
+            {
+                return RedirectToPage("/PlotDetails");
+            }
+            return Page();
         }
 
         /// <summary>

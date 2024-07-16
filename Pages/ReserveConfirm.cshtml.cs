@@ -10,6 +10,7 @@ using YasiroRegrave.Pages.common;
 using static YasiroRegrave.Pages.common.Config;
 using static YasiroRegrave.Pages.common.Utils;
 using System.IO;
+using Microsoft.IdentityModel.Tokens;
 
 namespace YasiroRegrave.Pages
 {
@@ -84,16 +85,20 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns></returns>
-        public void OnGet()
+        public IActionResult OnGet()
         {
             if (!int.TryParse(TempData["CemeteryIndex"]?.ToString(), out int index)) { index = -1; }
             if (!int.TryParse(TempData["ReserveMode"]?.ToString(), out int mode)) { mode = -1; }
             CemeteryIndex = index;
             ReserveMode = mode;
             ReserveName = mode == (int)Config.ReserveType.見学予約 ? Config.ReserveType.見学予約.ToString() : Config.ReserveType.仮予約.ToString();
-
             GetPage();
-            return;
+
+            if (SectionNumber.IsNullOrEmpty())
+            {
+                return RedirectToPage("/Reserve");
+            }
+            return Page();
         }
         /// <summary>
         /// OnPost処理
