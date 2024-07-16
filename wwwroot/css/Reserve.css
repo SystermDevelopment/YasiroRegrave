@@ -188,6 +188,16 @@ button[type="submit"] {
     background-color: #435a4a;
 }
 
+.logout-button button {
+    background-color: #F0F0F0 !important;
+    border-color: #F0F0F0 !important;
+    color: Black !important;
+    padding: 5px !important;
+    width: 90px !important;
+    height: 38px !important;
+    border-radius: 5px;
+}
+
 .back-button {
     grid-column: span 2 !important;
     padding: 10px !important;
