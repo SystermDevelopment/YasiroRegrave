@@ -14,6 +14,9 @@ public class Vender
     [Column("vender_name")]
     [MaxLength(100)]
     public string Name { get; set; } = string.Empty;
+    [Required]
+    [Column("reyasiro_user_id")]
+    public int ReyasiroUserId { get; set; }
     [Column("create_date")]
     public DateTime? CreateDate { get; set; }
     [Column("create_user")]

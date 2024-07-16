@@ -24,8 +24,10 @@ namespace YasiroRegrave.Pages
         [BindProperty]
         [Required(ErrorMessage = Message.M_E0007)]
         [StringLength(100, ErrorMessage = Message.M_E0011)]
-
         public string VenderName { get; set; } = string.Empty;
+        [BindProperty]
+        [Required(ErrorMessage = Message.M_E0032)]
+        public int? ReyasiroUserId { get; set; }
 
         public List<string> VenderNames { get; set; } = new List<string>();
 
@@ -71,6 +73,7 @@ namespace YasiroRegrave.Pages
                 if (vender != null)
                 {
                     VenderName = vender.Name;
+                    ReyasiroUserId = vender.ReyasiroUserId;
                 }
             }
             return Page();
@@ -90,6 +93,13 @@ namespace YasiroRegrave.Pages
                 return RedirectToPage("/Index");
             }
             LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
+
+            ModelState.Remove("ReyasiroUserId");
+            if (!int.TryParse(Request.Form["ReyasiroUserId"], out int value) || value < 0 || value > 999)
+            {
+                ModelState.AddModelError("ReyasiroUserId", Message.M_E0032);
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -103,6 +113,7 @@ namespace YasiroRegrave.Pages
                     var newVender = new Vender
                     {
                         Name = VenderName,
+                        ReyasiroUserId = ReyasiroUserId ?? 0,
                         CreateDate = DateTime.Now,
                         CreateUser = LoginId,
                         DeleteFlag = (int)Config.DeleteType.未削除,
@@ -117,6 +128,7 @@ namespace YasiroRegrave.Pages
                     {
                         // UPDATE
                         existingVender.Name = VenderName;
+                        existingVender.ReyasiroUserId = ReyasiroUserId ?? 0;
                         existingVender.UpdateDate = DateTime.Now;
                         existingVender.UpdateUser = LoginId;
                         _context.SaveChanges();
