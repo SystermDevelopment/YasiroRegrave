@@ -87,6 +87,10 @@ namespace YasiroRegrave.Controllers
                         existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.空;
                         break;
                     case "拠点予約":
+                        if (existingCemeteryInfo.SectionStatus == (int)Config.SectionStatusType.WEB予約)
+                        {
+                            return BadRequest($"Invalid value for 区画状態: {info.区画状態}. Expected value");
+                        }
                         existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.拠点予約;
                         break;
                     case "成約":
