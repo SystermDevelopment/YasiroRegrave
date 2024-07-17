@@ -51,6 +51,12 @@ namespace YasiroRegrave.Controllers
                 string section = parts[0];
                 string cemetery = parts[1] + "-" + parts[2];
 
+                // 区画区分の確認
+                if (info.区画区分 != "新規" && info.区画区分 != "再販")
+                {
+                    return BadRequest($"Invalid value for 区画区分: {info.区画区分}. Expected value");
+                }
+
                 // 価格の確認（使用料、管理料、仕置巻石料、墓石セット価格）
                 if (!decimal.TryParse(info.使用料, out _))
                 {
