@@ -38,13 +38,18 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns></returns>
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? FilterReien, int? FilterArea, int? FilterSection, int? FilterImage, int? FilterRelease)
         {
             LoginId = HttpContext.Session.GetInt32("LoginId");
             if (LoginId == null)
             {
                 return RedirectToPage("/Index");
             }
+            if (FilterReien.HasValue) this.FilterReien = FilterReien.Value;
+            if (FilterArea.HasValue) this.FilterArea = FilterArea.Value;
+            if (FilterSection.HasValue) this.FilterSection = FilterSection.Value;
+            if (FilterImage.HasValue) this.FilterImage = FilterImage.Value;
+            if (FilterRelease.HasValue) this.FilterRelease = FilterRelease.Value;
             var checkVender = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.未削除)?.VenderIndex;
             if (checkVender != 0)
             {
@@ -81,7 +86,11 @@ namespace YasiroRegrave.Pages
                 FilterSection = sect;
                 FilterImage = img;
                 FilterRelease = rls;
-
+                HttpContext.Session.SetInt32("FilterReien", FilterReien);
+                HttpContext.Session.SetInt32("FilterArea", FilterArea);
+                HttpContext.Session.SetInt32("FilterSection", FilterSection);
+                HttpContext.Session.SetInt32("FilterImage", FilterImage);
+                HttpContext.Session.SetInt32("FilterRelease", FilterRelease);
                 GetPage();
             }
             return Page();

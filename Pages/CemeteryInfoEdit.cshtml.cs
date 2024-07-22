@@ -202,7 +202,14 @@ namespace YasiroRegrave.Pages
             {
                 return Page();
             }
-            return RedirectToPage("/CemeteryInfoList");
+            return RedirectToPage("/CemeteryInfoList", new
+            {
+                FilterReien = HttpContext.Session.GetInt32("FilterReien") ?? -1,
+                FilterArea = HttpContext.Session.GetInt32("FilterArea") ?? -1,
+                FilterSection = HttpContext.Session.GetInt32("FilterSection") ?? -1,
+                FilterImage = HttpContext.Session.GetInt32("FilterImage") ?? -1,
+                FilterRelease = HttpContext.Session.GetInt32("FilterRelease") ?? -1
+            });
         }
 
         /// <summary>
