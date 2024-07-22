@@ -28,6 +28,15 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+// Kestrel サーバーの設定を追加
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(5006, listenOptions =>
+    {
+        listenOptions.UseHttps(); // 必要に応じてHTTPSを設定
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -57,5 +66,7 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.MapControllers();
+
+app.MapControllers().RequireHost("*:5006");
 
 app.Run();
