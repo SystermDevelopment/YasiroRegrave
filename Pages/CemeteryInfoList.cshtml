@@ -103,6 +103,14 @@
                             </select>
                         </div>
                         <div class="search-group">
+                            <label for="filter-image">価格</label>
+                            <select class="search-select" name="FilterPrice" id="filter-price">
+                                <option value="-1" selected>-</option>
+                                <option value="0" selected="@(0 == Model.FilterPrice ? "selected" : null)">未</option>
+                                <option value="1" selected="@(1 == Model.FilterPrice ? "selected" : null)">済</option>
+                            </select>
+                        </div>
+                        <div class="search-group">
                             <label for="filter-reserve">公開状態</label>
                             <select class="search-select" name="FilterRelease" id="filter-reserve">
                                 <option value="-1" selected>-</option>
@@ -129,6 +137,7 @@
                                     <th>墓所名</th>
                                     <th>区画画像</th>
                                     <th>墓石画像</th>
+                                    <th>価格登録</th>
                                     <th>公開状態</th>
                                     <th>操作</th>
                                 </tr>
@@ -147,6 +156,9 @@
                                         </td>
                                         <td style="@(string.IsNullOrEmpty(cemeteryinfo.Image2Fname) ? "color: red;" : "")">
                                             @(string.IsNullOrEmpty(cemeteryinfo.Image2Fname) ? Config.ExistType.未 : Config.ExistType.済)
+                                        </td>
+                                        <td style="@(cemeteryinfo.TotalPrice == 0 ? " color: red;" : "" )">
+                                            @(cemeteryinfo.TotalPrice == 0 ? Config.ExistType.未 : Config.ExistType.済)
                                         </td>
                                         <td style="@(cemeteryinfo.ReleaseStatus == (int)Config.ReleaseStatusType.準備中 ? "color: red;" : "")">
                                             @cemeteryinfo.ReleaseName
