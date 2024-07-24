@@ -26,6 +26,7 @@ namespace YasiroRegrave.Pages
         public int FilterArea { get; set; } = -1;
         public int FilterSection { get; set; } = -1;
         public int FilterImage { get; set; } = -1;
+        public int FilterPrice { get; set; } = -1;
         public int FilterRelease { get; set; } = -1;
 
         public int? LoginId { get; private set; }
@@ -38,7 +39,7 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns></returns>
-        public IActionResult OnGet(int? FilterReien, int? FilterArea, int? FilterSection, int? FilterImage, int? FilterRelease)
+        public IActionResult OnGet(int? FilterReien, int? FilterArea, int? FilterSection, int? FilterImage, int? FilterPrice, int? FilterRelease)
         {
             LoginId = HttpContext.Session.GetInt32("LoginId");
             if (LoginId == null)
@@ -49,6 +50,7 @@ namespace YasiroRegrave.Pages
             if (FilterArea.HasValue) this.FilterArea = FilterArea.Value;
             if (FilterSection.HasValue) this.FilterSection = FilterSection.Value;
             if (FilterImage.HasValue) this.FilterImage = FilterImage.Value;
+            if (FilterPrice.HasValue) this.FilterPrice = FilterPrice.Value;
             if (FilterRelease.HasValue) this.FilterRelease = FilterRelease.Value;
             var checkVender = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId && u.DeleteFlag == (int)Config.DeleteType.未削除)?.VenderIndex;
             if (checkVender != 0)
@@ -80,16 +82,19 @@ namespace YasiroRegrave.Pages
                 if (!int.TryParse(Request.Form["FilterArea"], out int area)) { area = -1; }
                 if (!int.TryParse(Request.Form["FilterSection"], out int sect)) { sect = -1; }
                 if (!int.TryParse(Request.Form["FilterImage"], out int img)) { img = -1; }
+                if (!int.TryParse(Request.Form["FilterPrice"], out int price)) {  price = -1; }
                 if (!int.TryParse(Request.Form["FilterRelease"], out int rls)) { rls = -1; }
                 FilterReien = reien;
                 FilterArea = area;
                 FilterSection = sect;
                 FilterImage = img;
+                FilterPrice = price;
                 FilterRelease = rls;
                 HttpContext.Session.SetInt32("FilterReien", FilterReien);
                 HttpContext.Session.SetInt32("FilterArea", FilterArea);
                 HttpContext.Session.SetInt32("FilterSection", FilterSection);
                 HttpContext.Session.SetInt32("FilterImage", FilterImage);
+                HttpContext.Session.SetInt32("FilterPrice", FilterPrice);
                 HttpContext.Session.SetInt32("FilterRelease", FilterRelease);
                 GetPage();
             }
@@ -138,6 +143,7 @@ namespace YasiroRegrave.Pages
                 Image2Fname = ci.Image2Fname,
                 ReleaseStatus = ci.ReleaseStatus ?? 0,
                 ReleaseName = ci.ReleaseStatus == (int)Config.ReleaseStatusType.販売中 ? Config.ReleaseStatusType.販売中.ToString() : Config.ReleaseStatusType.準備中.ToString(),
+                TotalPrice = Utils.StringToInt(ci.UsageFee) + Utils.StringToInt(ci.ManagementFee) + Utils.StringToInt(ci.SetPrice) + Utils.StringToInt(ci.StoneFee),
             })
             .ToList();
             CemeteryInfos = cemeteryinfoList;
@@ -174,6 +180,21 @@ namespace YasiroRegrave.Pages
                     CemeteryInfos = CemeteryInfos
                         .Where(c => !string.IsNullOrEmpty(c.Image1Fname) && !string.IsNullOrEmpty(c.Image2Fname))
                         .ToList();
+                }
+            }
+            if (FilterPrice != -1)
+            {
+                if(FilterPrice == 0)
+                {
+                    CemeteryInfos = CemeteryInfos
+                    .Where(c => c.TotalPrice == 0)
+                    .ToList();
+                }
+                else
+                {
+                    CemeteryInfos = CemeteryInfos
+                    .Where(c => c.TotalPrice > 0)
+                    .ToList();
                 }
             }
             if (FilterRelease != -1)
@@ -255,6 +276,7 @@ namespace YasiroRegrave.Pages
             public string? Image2Fname { get; set; } = string.Empty;
             public int ReleaseStatus { get; set; }
             public string ReleaseName { get; set; } = string.Empty;
+            public int TotalPrice { get; set; } = 0;
         }
         public class ReienData
         {

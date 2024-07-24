@@ -208,6 +208,7 @@ namespace YasiroRegrave.Pages
                 FilterArea = HttpContext.Session.GetInt32("FilterArea") ?? -1,
                 FilterSection = HttpContext.Session.GetInt32("FilterSection") ?? -1,
                 FilterImage = HttpContext.Session.GetInt32("FilterImage") ?? -1,
+                FilterPrice = HttpContext.Session.GetInt32("FilterPrice") ?? -1,
                 FilterRelease = HttpContext.Session.GetInt32("FilterRelease") ?? -1
             });
         }

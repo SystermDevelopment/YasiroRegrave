@@ -170,9 +170,10 @@
         let filterArea = '@HttpContext.Session.GetInt32("FilterArea")' || -1;
         let filterSection = '@HttpContext.Session.GetInt32("FilterSection")' || -1;
         let filterImage = '@HttpContext.Session.GetInt32("FilterImage")' || -1;
+        let filterPrice = '@HttpContext.Session.GetInt32("FilterPrice")' || -1;
         let filterRelease = '@HttpContext.Session.GetInt32("FilterRelease")' || -1;
 
-        let url = `/CemeteryInfoList?FilterReien=${filterReien}&FilterArea=${filterArea}&FilterSection=${filterSection}&FilterImage=${filterImage}&FilterRelease=${filterRelease}`;
+        let url = `/CemeteryInfoList?FilterReien=${filterReien}&FilterArea=${filterArea}&FilterSection=${filterSection}&FilterImage=${filterImage}&FilterPrice=${filterPrice}&FilterRelease=${filterRelease}`;
 
         window.location.href = url;
     }
