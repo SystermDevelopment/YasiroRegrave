@@ -89,11 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-var ReienCode = document.getElementById('ReienCode').value;
-var AreaCode = document.getElementById('AreaCode').value;
-var SectionCode = unescapeHtml(document.getElementById('SectionCode').value);
-var CemeteryDatas = JSON.parse(document.getElementById('CemeteryDatas').value);
-
 // マップ初期表示
 var corrRate = 1.0;
 function initMap() {
