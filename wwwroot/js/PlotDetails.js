@@ -1,5 +1,67 @@
-﻿var map = null; // 地図データ
-// jsonファイル読込
+﻿function printCemeteryInfo(cemeteryCode) {
+    var cemeteryContainer = document.getElementById('table-container-' + cemeteryCode);
+    if (cemeteryContainer) {
+        var districtNameElement = cemeteryContainer.querySelector('.district-name');
+        var imageContentElement = cemeteryContainer.querySelector('.image-content');
+        var dataTableElement = cemeteryContainer.querySelector('.data-table');
+        var contactInfoElement = cemeteryContainer.querySelector('.contact-info');
+        var buttonContainerElement = cemeteryContainer.querySelector('.button-container');
+        var reserveLabelElements = Array.from(cemeteryContainer.querySelectorAll('label'));
+        var phoneDivElement = cemeteryContainer.querySelector('div > a[href^="tel:"]').parentNode;
+
+        // 各要素の内容を取得し、存在しない場合は空の文字列を設定
+        var districtName = districtNameElement ? districtNameElement.innerHTML : '';
+        var imageContent = imageContentElement ? imageContentElement.innerHTML.replace(dataTableElement.outerHTML, '') : '';
+        var dataTable = dataTableElement ? dataTableElement.outerHTML : '';
+        var contactInfo = contactInfoElement ? contactInfoElement.outerHTML : '';
+
+        // ボタンコンテナから「印刷する」ボタンを除外
+        var buttonContainer = buttonContainerElement ? buttonContainerElement.cloneNode(true) : null;
+        if (buttonContainer) {
+            var printButton = buttonContainer.querySelector('.button-print');
+            if (printButton) {
+                printButton.parentNode.removeChild(printButton);
+            }
+        }
+
+        var reserveLabels = reserveLabelElements.map(label => label.outerHTML).join('');
+        var phoneDivHTML = phoneDivElement ? phoneDivElement.outerHTML : '';
+
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>印刷</title>');
+        printWindow.document.write('<link href="/css/PlotDetails.css?v=' + Date.now() + '" rel="stylesheet" type="text/css" />');
+        printWindow.document.write('<style>@media print { body { font-size: 12pt; line-height: 1.5; } .PlotInfoContainer { border: 1px solid #000; padding: 10px; margin: 10px 0; } .district-name { font-size: 16pt; font-weight: bold; margin-bottom: 10px; } .image-content { display: flex; justify-content: space-between; margin-bottom: 10px; } .image-container img { max-width: 100%; height: auto; border: 1px solid #000; } .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; } .data-table th, .data-table td { border: 1px solid #000; padding: 5px; text-align: left; } .data-table th { background-color: #f0f0f0; } .data-table td { background-color: #fff; } .button-container { display: block; text-align: center; margin-top: 20px; } .contact-info { text-align: center; margin-top: 20px; } .contact-info img { display: inline-block; vertical-align: middle; } .qr-code { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); } }</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<div class="PlotInfoContainer">');
+        printWindow.document.write('<p class="district-name">' + districtName + '</p>');
+        printWindow.document.write('<div class="image-content">' + imageContent + '</div>');
+        printWindow.document.write(dataTable); // データテーブルをここで表示
+        printWindow.document.write(reserveLabels); // 印刷用に表示
+        if (buttonContainer) {
+            printWindow.document.write(buttonContainer.outerHTML); // 印刷用に表示
+        }
+        printWindow.document.write(contactInfo); // 印刷用に表示
+        printWindow.document.write(phoneDivHTML); // 印刷用に表示
+        printWindow.document.write('<div class="qr-code"><img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://yasiro.jp" alt="QR Code"></div>'); // QRコードを表示
+        printWindow.document.write('</div>');
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.onload = function () {
+            printWindow.print();
+            printWindow.close();
+        };
+
+        // 元のデータテーブルを非表示にする
+        if (dataTableElement) {
+            dataTableElement.style.display = 'none';
+        }
+    } else {
+        alert('指定された墓所情報が見つかりませんでした。');
+    }
+}
+
+var map = null; // 地図データ
+// jsonファイル読込3
 let coordDatas;
 let dispWidth;
 let dispHeight;
@@ -27,6 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
+var ReienCode = document.getElementById('ReienCode').value;
+var AreaCode = document.getElementById('AreaCode').value;
+var SectionCode = unescapeHtml(document.getElementById('SectionCode').value);
+var CemeteryDatas = JSON.parse(document.getElementById('CemeteryDatas').value);
 
 // マップ初期表示
 var corrRate = 1.0;
