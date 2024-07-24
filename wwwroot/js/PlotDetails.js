@@ -11,7 +11,7 @@
 
         // 各要素の内容を取得し、存在しない場合は空の文字列を設定
         var districtName = districtNameElement ? districtNameElement.innerHTML : '';
-        var imageContent = imageContentElement ? imageContentElement.innerHTML.replace(dataTableElement.outerHTML, '') : '';
+        var imageContent = imageContentElement ? imageContentElement.innerHTML : '';
         var dataTable = dataTableElement ? dataTableElement.outerHTML : '';
         var contactInfo = contactInfoElement ? contactInfoElement.outerHTML : '';
 
@@ -30,7 +30,7 @@
         var printWindow = window.open('', '_blank');
         printWindow.document.write('<html><head><title>印刷</title>');
         printWindow.document.write('<link href="/css/PlotDetails.css?v=' + Date.now() + '" rel="stylesheet" type="text/css" />');
-        printWindow.document.write('<style>@media print { body { font-size: 12pt; line-height: 1.5; } .PlotInfoContainer { border: 1px solid #000; padding: 10px; margin: 10px 0; } .district-name { font-size: 16pt; font-weight: bold; margin-bottom: 10px; } .image-content { display: flex; justify-content: space-between; margin-bottom: 10px; } .image-container img { max-width: 100%; height: auto; border: 1px solid #000; } .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; } .data-table th, .data-table td { border: 1px solid #000; padding: 5px; text-align: left; } .data-table th { background-color: #f0f0f0; } .data-table td { background-color: #fff; } .button-container { display: block; text-align: center; margin-top: 20px; } .contact-info { text-align: center; margin-top: 20px; } .contact-info img { display: inline-block; vertical-align: middle; } .qr-code { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); } }</style>');
+        printWindow.document.write('<style>@media print { body { font-size: 12pt; line-height: 1.5; } .PlotInfoContainer { border: 1px solid #000; padding: 10px; margin: 10px 0; } .district-name { font-size: 16pt; font-weight: bold; margin-bottom: 10px; } .image-content { display: flex; justify-content: space-between; margin-bottom: 10px; } .image-container img { max-width: 100%; height: auto; border: 1px solid #000; } .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; } .data-table th, .data-table td { border: 1px solid #000; padding: 5px; text-align: left; } .data-table th { background-color: #f0f0f0; } .data-table td { background-color: #fff; } .button-container { display: block; text-align: center; margin-top: 20px; } .contact-info { text-align: center; margin-top: 20px; } .contact-info img { display: inline-block; vertical-align: middle; } .qr-code { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); } @page { margin: 0; } body { margin: 1cm; } }</style>');
         printWindow.document.write('</head><body>');
         printWindow.document.write('<div class="PlotInfoContainer">');
         printWindow.document.write('<p class="district-name">' + districtName + '</p>');
@@ -51,14 +51,12 @@
             printWindow.close();
         };
 
-        // 元のデータテーブルを非表示にする
-        if (dataTableElement) {
-            dataTableElement.style.display = 'none';
-        }
+        // 元のデータテーブルを非表示にしない
     } else {
         alert('指定された墓所情報が見つかりませんでした。');
     }
 }
+
 
 var map = null; // 地図データ
 // jsonファイル読込3
