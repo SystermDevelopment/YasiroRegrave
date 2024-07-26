@@ -195,6 +195,9 @@ namespace YasiroRegrave.Pages.common
                 {
                     body = RemoveDateSection(body);
                 }
+                string startTag = "<!-- Start 希望日時 -->";
+                string endTag = "<!-- End 希望日時 -->";
+                body = body.Replace(startTag, "").Replace(endTag, "");
 
                 return (subject, body);
             }
