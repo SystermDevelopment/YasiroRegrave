@@ -168,6 +168,11 @@
                                                 <input type="hidden" name="Index" value="@cemeteryinfo.CemeteryInfoIndex" />
                                                 <button type="submit" class="btn btn-secondary">編集</button>
                                             </form>
+                                            <form method="post" class="btn-form" asp-page-handler="GenerateQRCode">
+                                                <input type="hidden" name="sectionIndex" value="@cemeteryinfo.SectionIndex" />
+                                                <input type="hidden" name="index" value="@cemeteryinfo.CemeteryInfoIndex" />
+                                                <button type="submit" class="btn btn-primary">QR画像</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 }

@@ -257,6 +257,25 @@ namespace YasiroRegrave.Pages
             return RedirectToPage("/Index");
         }
 
+        /// <summary>
+        /// QR画像処理
+        /// </summary>
+        /// <param</param>
+        /// <returns>IActionResult</returns>
+        public async Task<IActionResult> OnPostGenerateQRCodeAsync(int sectionIndex, int index)
+        {
+            var request = HttpContext.Request;
+            string baseUrl = $"{request.Scheme}://{request.Host}";
+            string data = $"{baseUrl}/PlotDetails?Index={sectionIndex}&CemeteryInfoIndex={index}";
+            string qrCodeUrl = $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={Uri.EscapeDataString(data)}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                byte[] qrCodeImage = await client.GetByteArrayAsync(qrCodeUrl);
+                return File(qrCodeImage, "image/png", "qrcode.png");
+            }
+        }
+
         public class CemeteryInfo
         {
             public int CemeteryInfoIndex { get; set; }
