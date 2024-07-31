@@ -30,17 +30,17 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
-    // Kestrel サーバーの設定を追加
-    builder.WebHost.ConfigureKestrel(serverOptions =>
-    {
-        serverOptions.ListenAnyIP(5006, listenOptions =>
-        {
-            listenOptions.UseHttps(); // 必要に応じてHTTPSを設定
-        });
-    });
-}
+//if (!app.Environment.IsDevelopment())
+//{
+//    // Kestrel サーバーの設定を追加
+//    builder.WebHost.ConfigureKestrel(serverOptions =>
+//    {
+//        serverOptions.ListenAnyIP(5006, listenOptions =>
+//        {
+//            listenOptions.UseHttps(); // 必要に応じてHTTPSを設定
+//        });
+//    });
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
