@@ -139,6 +139,16 @@ function initMap() {
             createPolygon(cemeteryCoords);
         });
 
+        // QRコードから遷移の場合
+        if (InitCemeteryCode != "") {
+            // 墓所情報の表示
+            const element = document.getElementById('table-container-' + InitCemeteryCode);
+            if (element) {
+                element.style.display = 'block';
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
         // ↓↓↓ 画像作成用処理（通常コメント化）↓↓↓
         //coordDatas.forEach(function (coordData) {
         //    createPolygon(coordData);
@@ -157,6 +167,16 @@ function initMap() {
             }).addTo(map);
             polygon.on('click', onPolygonClick);
             polygons.push(polygon);
+
+            // QRコードから遷移の場合
+            if (cemetery.CemeteryCode == InitCemeteryCode) {
+                // 墓所矩形の選択
+                var event = {
+                    latlng: polygon.getBounds().getCenter(),
+                    target: polygon
+                };
+                polygon.fire('click', event);
+            }
         }
 
         // 矩形のクリックイベント
@@ -169,7 +189,7 @@ function initMap() {
             }
 
             activePolygon = e.target;
-            activePolygon.setStyle({ fillColor: '#ff0000' });
+            activePolygon.setStyle({ fillColor: 'red' });
 
             var polygonId = e.target.options.polygonId;
             showTable(polygonId);

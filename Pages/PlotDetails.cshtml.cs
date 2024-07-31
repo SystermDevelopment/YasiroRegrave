@@ -22,6 +22,7 @@ namespace YasiroRegrave.Pages
         public int SectionIndex { get; private set; } = 0;
         public string SectionCode { get; private set; } = "";
         public string SectionName { get; private set; } = "";
+        public string InitCemeteryCode { get; private set; } = "";
 
         public int? LoginId { get; private set; }
         public LoginUserData? LoggedInUser { get; private set; }
@@ -31,11 +32,18 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns></returns>
-        public void OnGet(int? index)
+        public void OnGet(int? index, int? CemeteryInfoIndex)
         {
             if (index.HasValue)
             {
                 SectionIndex = index ?? 0;
+                // QRコードから遷移の場合
+                if (CemeteryInfoIndex.HasValue)
+                {
+                    InitCemeteryCode = _context.CemeteryInfos
+                                        .Where(c => c.CemeteryInfoIndex == CemeteryInfoIndex)
+                                        .Select(c => c.Cemetery.CemeteryCode).FirstOrDefault() ?? "";
+                }
                 GetPage();
             }
             else if (TempData["SectionIndex"] is int tempSectionIndex)
