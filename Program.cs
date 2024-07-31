@@ -28,16 +28,19 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Kestrel サーバーの設定を追加
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(5006, listenOptions =>
-    {
-        listenOptions.UseHttps(); // 必要に応じてHTTPSを設定
-    });
-});
-
 var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    // Kestrel サーバーの設定を追加
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(5006, listenOptions =>
+        {
+            listenOptions.UseHttps(); // 必要に応じてHTTPSを設定
+        });
+    });
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -67,6 +70,9 @@ app.MapRazorPages();
 
 app.MapControllers();
 
-app.MapControllers().RequireHost("*:5006");
+if (!app.Environment.IsDevelopment())
+{
+    app.MapControllers().RequireHost("*:5006");
+}
 
 app.Run();
