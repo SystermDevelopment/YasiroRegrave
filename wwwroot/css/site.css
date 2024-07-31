@@ -58,14 +58,14 @@ body {
 }
 
 #logo {
-    height: 50px;
+    height: 28px;
     margin-right: 10px;
     vertical-align: middle;
 }
 
 #site-title {
-    font-size: 24px;
-    color: #587b63;
+    font-size: 30px;
+    color: black;
     font-weight: bold;
     vertical-align: middle;
 }

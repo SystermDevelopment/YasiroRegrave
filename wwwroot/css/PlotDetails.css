@@ -188,3 +188,18 @@ label {
         margin: 5px 10px;
     }
 }
+
+@media (max-width: 400px) {
+    #map-container {
+        display: inline-block;
+        width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+    }
+
+    @media (max-width: 400px) {
+        #fig {
+            width: 100%;
+            height: auto;
+        }
+    }

@@ -15,17 +15,17 @@
     </div>
 </div>
 <div id="PlotSelectionExplanation">
-    <img src="images/figure1.png?v=@DateTime.Now.Ticks">
+    <img src="images/figure1.png?v=@DateTime.Now.Ticks" id="fig">
 </div>
 <div id="PlotSelectionExplanation">
-    <img src="images/figure3.png?v=@DateTime.Now.Ticks">
+    <img src="images/figure3.png?v=@DateTime.Now.Ticks" id="fig">
 </div>
 <div id="PlotSelectionContainer">
     <canvas id="plotCanvas" width="500" height="500"></canvas>
     <img src="images/AREA_@(Model.ReienCode)_@(Model.AreaCode).png?v=@DateTime.Now.Ticks" id="PlotSelectionImage" alt="区画" />
 </div>
 <div id="PlotSelectionExplanation">
-    <img src="images/howto.png?v=@DateTime.Now.Ticks">
+    <img src="images/howto.png?v=@DateTime.Now.Ticks" id="fig">
 </div>
 <div class="button-container">
     <button type="button" class="back-button" onclick="window.location.href = '@Model.hrefBack'">@(Model.strBack)に戻る</button>
