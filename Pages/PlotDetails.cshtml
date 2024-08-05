@@ -77,10 +77,7 @@
         <div class="button-container">
             <button class="button-visit" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.見学予約)'">見学予約のお申込み</button>
             <button class="button-reserve" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.仮予約)'">仮予約のお申込み</button>
-            @if (ViewBag.LoggedInUser != null)
-            {
-                <button class="button-print" onclick="printCemeteryInfo('@cemetery.CemeteryCode')">印刷する</button>
-            }
+            <button class="button-print" onclick="printCemeteryInfo('@cemetery.CemeteryCode')">印刷する</button>
         </div>
         <label>
             お電話でも承ります。
