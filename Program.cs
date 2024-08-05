@@ -72,7 +72,36 @@ app.MapControllers();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.MapControllers().RequireHost("*:5006");
+    // 特定のパスのみポート5006を使用するように設定
+    app.MapWhen(context => context.Request.Path.StartsWithSegments("/api/Files"), builder =>
+    {
+        builder.Use(async (context, next) =>
+        {
+            context.Request.Host = new HostString("yasiro.jp:443");
+            await next();
+        });
+        builder.UseRouting();
+        builder.UseAuthorization();
+        builder.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    });
+
+    app.MapWhen(context => !context.Request.Path.StartsWithSegments("/api/Files"), builder =>
+    {
+        builder.Use(async (context, next) =>
+        {
+            context.Request.Host = new HostString("yasiro.jp:5006");
+            await next();
+        });
+        builder.UseRouting();
+        builder.UseAuthorization();
+        builder.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    });
 }
 
 app.Run();
