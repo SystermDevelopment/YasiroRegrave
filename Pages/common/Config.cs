@@ -124,7 +124,7 @@ namespace YasiroRegrave.Pages.common
             }
         }
         public static string SendMailAddress { get { return "r-haka@yasiro.jp"; } }
-        public static string SendMailName { get { return "テストメール送信元"; } }
+        public static string SendMailName { get { return "霊園・墓石のヤシロ"; } }
         public static string SMTPHost { get { return "mail11.onamae.ne.jp"; } }
         public static string SMTPId { get { return "r-haka@yasiro.jp"; } }
         public static string SMTPPass { get { return "yasiroyasiro1#"; } }
