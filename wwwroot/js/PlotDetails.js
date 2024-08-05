@@ -27,10 +27,14 @@
         var reserveLabels = reserveLabelElements.map(label => label.outerHTML).join('');
         var phoneDivHTML = phoneDivElement ? phoneDivElement.outerHTML : '';
 
-        var printWindow = window.open('', '_blank');
+        var printWindow = window.open('', '_blank', 'width=800,height=600');
         printWindow.document.write('<html><head><title>印刷</title>');
         printWindow.document.write('<link href="/css/PlotDetails.css?v=' + Date.now() + '" rel="stylesheet" type="text/css" />');
-        printWindow.document.write('<style>@media print { body { font-size: 12pt; line-height: 1.5; } .PlotInfoContainer { border: 1px solid #000; padding: 10px; margin: 10px 0; } .district-name { font-size: 16pt; font-weight: bold; margin-bottom: 10px; } .image-content { display: flex; justify-content: space-between; margin-bottom: 10px; } .image-container img { max-width: 100%; height: auto; border: 1px solid #000; } .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; margin-left: auto; margin-right: auto; } .data-table th, .data-table td { border: 1px solid #000; padding: 5px; text-align: left; } .data-table th { background-color: #f0f0f0; } .data-table td { background-color: #fff; } .button-container { display: block; text-align: center; margin-top: 20px; } .contact-info { text-align: center; margin-top: 20px; } .contact-info img { display: inline-block; vertical-align: middle; } .qr-code { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); } @page { margin: 0; } body { margin: 1cm; } }</style>');
+        printWindow.document.write('<style>');
+        printWindow.document.write('@media print { .qr-code { display: block !important; } }');
+        printWindow.document.write('@media screen { .qr-code { display: none; } }');
+        printWindow.document.write('body { font-size: 12pt; line-height: 1.5; } .PlotInfoContainer { border: 1px solid #000; padding: 10px; margin: 10px 0; } .district-name { font-size: 16pt; font-weight: bold; margin-bottom: 10px; } .image-content { display: flex; justify-content: space-between; margin-bottom: 10px; } .image-container img { max-width: 100%; height: auto; border: 1px solid #000; } .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; margin-left: auto; margin-right: auto; } .data-table th, .data-table td { border: 1px solid #000; padding: 5px; text-align: left; } .data-table th { background-color: #f0f0f0; } .data-table td { background-color: #fff; } .button-container { display: block; text-align: center; margin-top: 20px; } .contact-info { text-align: center; margin-top: 20px; } .contact-info img { display: inline-block; vertical-align: middle; } .qr-code { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); display: none; } @page { margin: 0; } body { margin: 1cm; }');
+        printWindow.document.write('</style>');
         printWindow.document.write('</head><body>');
         printWindow.document.write('<div class="PlotInfoContainer">');
         printWindow.document.write('<p class="district-name">' + districtName + '</p>');
