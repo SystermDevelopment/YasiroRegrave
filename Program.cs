@@ -2,6 +2,7 @@ using Serilog;
 using Microsoft.EntityFrameworkCore;
 using YasiroRegrave.Data;
 using YasiroRegrave.Middleware;
+using System.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
        options.UseSqlServer(
@@ -29,6 +30,8 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
+var configuration = app.Services.GetRequiredService<IConfiguration>();
+var defaultHost = configuration.GetValue<string>("HostSettings:DefaultHost");
 
 //if (!app.Environment.IsDevelopment())
 //{
@@ -77,7 +80,7 @@ if (!app.Environment.IsDevelopment())
     {
         builder.Use(async (context, next) =>
         {
-            context.Request.Host = new HostString("yasiro.jp:443");
+            context.Request.Host = new HostString($"{defaultHost}:443");
             await next();
         });
         builder.UseRouting();
@@ -92,7 +95,7 @@ if (!app.Environment.IsDevelopment())
     {
         builder.Use(async (context, next) =>
         {
-            context.Request.Host = new HostString("yasiro.jp:5006");
+            context.Request.Host = new HostString($"{defaultHost}:5006");
             await next();
         });
         builder.UseRouting();
