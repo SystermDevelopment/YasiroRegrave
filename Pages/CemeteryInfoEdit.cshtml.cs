@@ -84,6 +84,23 @@ namespace YasiroRegrave.Pages
             return Page();
         }
 
+        private void DeleteFilesWithDifferentExtensions(string imgPath)
+        {
+            string directory = Path.GetDirectoryName(imgPath) ?? "";
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(imgPath);
+            string[] files = Directory.GetFiles(directory, fileNameWithoutExtension + ".*");
+            foreach (var file in files)
+            {
+                try
+                {
+                    System.IO.File.Delete(file);
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
         /// <summary>
         /// OnPost処理
         /// </summary>
@@ -109,7 +126,7 @@ namespace YasiroRegrave.Pages
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-1{Path.GetExtension(Image1Fname)}";
                     if (System.IO.File.Exists(imgPath))
                     {
-                        System.IO.File.Delete(imgPath);
+                        DeleteFilesWithDifferentExtensions(imgPath);
                     }
                     Image1Fname = "";
                 }
@@ -117,6 +134,7 @@ namespace YasiroRegrave.Pages
                 {
                     var fileExtension1 = Path.GetExtension(Image1.FileName);
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-1{fileExtension1}";
+                    DeleteFilesWithDifferentExtensions(imgPath);
                     using (var stream = System.IO.File.Create(imgPath))
                     {
                         // 画像を縮小
@@ -133,7 +151,7 @@ namespace YasiroRegrave.Pages
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-2{Path.GetExtension(Image2Fname)}";
                     if (System.IO.File.Exists(imgPath))
                     {
-                        System.IO.File.Delete(imgPath);
+                        DeleteFilesWithDifferentExtensions(imgPath);
                     }
                     Image2Fname = "";
                 }
@@ -141,7 +159,7 @@ namespace YasiroRegrave.Pages
                 {
                     var fileExtension2 = Path.GetExtension(Image2.FileName);
                     var imgPath = $"{filePath}\\{ReienCode}\\{AreaCode}\\{SectionCode}-{CemeteryCode}-2{fileExtension2}";
-
+                    DeleteFilesWithDifferentExtensions(imgPath);
                     using (var stream = System.IO.File.Create(imgPath))
                     {
                         // 画像を縮小
