@@ -75,14 +75,14 @@
             (仮予約期間：お申し込みから約１ヶ月)
         </label>
         <div class="button-container">
-            <button class="button-visit" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.見学予約)'">見学予約のお申込み</button>
-            <button class="button-reserve" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.仮予約)'">仮予約のお申込み</button>
-            <button class="button-print" onclick="printCemeteryInfo('@cemetery.CemeteryCode')">印刷する</button>
+            <button class="button-visit" data-section-index="@Model.SectionIndex" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.見学予約)'">見学予約のお申込み</button>
+            <button class="button-reserve" data-section-index="@Model.SectionIndex" onclick="location.href='Reserve?index=@(cemetery.CemeteryIndex)&mode=@((int)Config.ReserveType.仮予約)'">仮予約のお申込み</button>
+            <button class="button-print" data-section-index="@Model.SectionIndex" onclick="printCemeteryInfo('@cemetery.CemeteryCode','@cemetery.CemeteryInfoIndex', this)">印刷する</button>
         </div>
         <label>
             お電話でも承ります。
         </label>
-        <div>
+        <div class="centered">
             <a href="tel:0120-753-948">
                 <img src="images/PhoneNumber.png?v=@DateTime.Now.Ticks" style="border: 1px solid black;">
             </a>

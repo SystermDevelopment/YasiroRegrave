@@ -113,6 +113,7 @@ namespace YasiroRegrave.Pages
                     .Select(c => new CemeteryData
                     {
                         CemeteryIndex = c.CemeteryIndex,
+                        CemeteryInfoIndex = c.CemeteryInfoIndex,   
                         CemeteryCode = c.Cemetery.CemeteryCode,
                         CemeteryName = Utils.CemeteryCode2Name(c.Cemetery.CemeteryCode),
                         CemeteryDisp = Utils.CemeteryCode2Disp(c.Cemetery.CemeteryCode),
@@ -156,6 +157,7 @@ namespace YasiroRegrave.Pages
         public class CemeteryData
         {
             public int CemeteryIndex { get; set; } = 0;
+            public int CemeteryInfoIndex { get; set; } = 0;
             public string CemeteryCode { get; set; } = string.Empty;
             public string CemeteryName { get; set; } = string.Empty;
             public string CemeteryDisp { get; set; } = string.Empty;

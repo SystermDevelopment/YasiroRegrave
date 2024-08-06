@@ -171,6 +171,10 @@ label {
     transform: translateX(-50%);
 }
 
+.centered {
+    text-align: center;
+}
+
 @media (max-width: 520px) {
     #map-container {
         display: inline-block;
