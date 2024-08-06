@@ -203,3 +203,27 @@ label {
             height: auto;
         }
     }
+}
+
+@media print {
+    .image-content {
+        gap: 0 !important;
+        justify-content: space-around !important;
+    }
+
+    .image-container {
+        margin: 0 !important;
+        width: 48% !important;
+    }
+
+        .image-container img {
+            max-height: 160px !important;
+            margin: 0 !important;
+        }
+
+        .image-container .caption {
+            display: block !important;
+            margin: 0;
+            padding: 0;
+        }
+}
