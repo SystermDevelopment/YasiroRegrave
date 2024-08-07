@@ -264,6 +264,10 @@ namespace YasiroRegrave.Pages
         /// <returns>IActionResult</returns>
         public async Task<IActionResult> OnPostGenerateQRCodeAsync(int sectionIndex, int index)
         {
+            var code = _context.CemeteryInfos
+                    .Where(c => c.CemeteryInfoIndex == index)
+                    .Select(c => c.Cemetery.Section.SectionCode + "-" + c.Cemetery.CemeteryCode).FirstOrDefault() ?? "";
+
             var request = HttpContext.Request;
             string baseUrl = $"{request.Scheme}://{request.Host}";
             string data = $"{baseUrl}/PlotDetails?Index={sectionIndex}&CemeteryInfoIndex={index}";
@@ -272,7 +276,7 @@ namespace YasiroRegrave.Pages
             using (HttpClient client = new HttpClient())
             {
                 byte[] qrCodeImage = await client.GetByteArrayAsync(qrCodeUrl);
-                return File(qrCodeImage, "image/png", "qrcode.png");
+                return File(qrCodeImage, "image/png", "QR_" + code + ".png");
             }
         }
 
