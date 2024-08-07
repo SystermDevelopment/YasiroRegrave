@@ -32,7 +32,7 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns></returns>
-        public void OnGet(int? index, int? CemeteryInfoIndex)
+        public IActionResult OnGet(int? index, int? CemeteryInfoIndex)
         {
             if (index.HasValue)
             {
@@ -43,6 +43,18 @@ namespace YasiroRegrave.Pages
                     InitCemeteryCode = _context.CemeteryInfos
                                         .Where(c => c.CemeteryInfoIndex == CemeteryInfoIndex)
                                         .Select(c => c.Cemetery.CemeteryCode).FirstOrDefault() ?? "";
+
+                    // 販売中・空き区画でない場合は準備中画面へ
+                    int count = _context.CemeteryInfos
+                                    .Where(c => c.CemeteryInfoIndex == CemeteryInfoIndex
+                                            && c.ReleaseStatus == (int)Config.ReleaseStatusType.販売中
+                                            && c.SectionStatus == (int)Config.SectionStatusType.空
+                                            && c.DeleteFlag == (int)Config.DeleteType.未削除)
+                                    .Count();
+                    if (count == 0)
+                    {
+                        return RedirectToPage("/Pending");
+                    }
                 }
                 GetPage();
             }
@@ -51,7 +63,7 @@ namespace YasiroRegrave.Pages
                 SectionIndex = tempSectionIndex;
                 GetPage();
             }
-            return;
+            return Page();
         }
         /// <summary>
         /// OnPost処理
