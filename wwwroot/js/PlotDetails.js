@@ -1,4 +1,4 @@
-﻿function printCemeteryInfo(cemeteryCode) {
+﻿function printCemeteryInfo(cemeteryCode, cemeteryInfoIndex, buttonElement) {
     var cemeteryContainer = document.getElementById('table-container-' + cemeteryCode);
     if (cemeteryContainer) {
         var districtNameElement = cemeteryContainer.querySelector('.district-name');
@@ -7,7 +7,6 @@
         var contactInfoElement = cemeteryContainer.querySelector('.contact-info');
         var buttonContainerElement = cemeteryContainer.querySelector('.button-container');
         var reserveLabelElements = Array.from(cemeteryContainer.querySelectorAll('label'));
-        var phoneDivElement = cemeteryContainer.querySelector('div > a[href^="tel:"]').parentNode;
 
         // 各要素の内容を取得し、存在しない場合は空の文字列を設定
         var districtName = districtNameElement ? districtNameElement.innerHTML : '';
@@ -25,15 +24,20 @@
         }
 
         var reserveLabels = reserveLabelElements.map(label => label.outerHTML).join('');
-        var phoneDivHTML = phoneDivElement ? phoneDivElement.outerHTML : '';
+
+        // URLの動的生成のための変数
+        var sectionIndex = buttonElement.getAttribute('data-section-index');
+
+        var requestUrl = window.location.origin + window.location.pathname;
+        var qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(requestUrl + '?Index=' + sectionIndex + '&CemeteryInfoIndex=' + cemeteryInfoIndex)}`;
 
         var printWindow = window.open('', '_blank', 'width=800,height=600');
         printWindow.document.write('<html><head><title>印刷</title>');
         printWindow.document.write('<link href="/css/PlotDetails.css?v=' + Date.now() + '" rel="stylesheet" type="text/css" />');
         printWindow.document.write('<style>');
-        printWindow.document.write('@media print { .qr-code { display: block !important; } }');
+        printWindow.document.write('@media print { .qr-code { display: block !important; } .image-content { gap: 0 !important; justify-content: space-around !important; } .image-container { margin: 0 !important; width: 48% !important; } .image-container img { max-height: 350px !important; margin: 0 !important; } .image-container .caption { display: block !important; margin: 0; padding: 0; } }');
         printWindow.document.write('@media screen { .qr-code { display: none; } }');
-        printWindow.document.write('body { font-size: 12pt; line-height: 1.5; } .PlotInfoContainer { border: 1px solid #000; padding: 10px; margin: 10px 0; } .district-name { font-size: 16pt; font-weight: bold; margin-bottom: 10px; } .image-content { display: flex; justify-content: space-between; margin-bottom: 10px; } .image-container img { max-width: 100%; height: auto; border: 1px solid #000; } .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; margin-left: auto; margin-right: auto; } .data-table th, .data-table td { border: 1px solid #000; padding: 5px; text-align: left; } .data-table th { background-color: #f0f0f0; } .data-table td { background-color: #fff; } .button-container { display: block; text-align: center; margin-top: 20px; } .contact-info { text-align: center; margin-top: 20px; } .contact-info img { display: inline-block; vertical-align: middle; } .qr-code { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); display: none; } @page { margin: 0; } body { margin: 1cm; }');
+        printWindow.document.write('body { font-size: 12pt; line-height: 1.5; } .PlotInfoContainer { border: 1px solid #000; padding: 10px; margin: 10px 0; } .district-name { font-size: 16pt; font-weight: bold; margin-bottom: 10px; } .image-content { display: flex; justify-content: space-between; margin-bottom: 10px; } .image-container { display: flex; flex-direction: column; align-items: center; } .image-container img { max-width: 100%; height: auto; border: 1px solid #000; max-height: 350px; margin-bottom: 0; } .image-container .caption { font-size: 10pt; text-align: center; margin-top: 5px; margin-bottom: 0; } .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; margin-left: auto; margin-right: auto; } .data-table th, .data-table td { border: 1px solid #000; padding: 5px; text-align: left; } .data-table th { background-color: #f0f0f0; } .data-table td { background-color: #fff; } .button-container { display: block; text-align: center; margin-top: 20px; } .contact-info { text-align: center; margin-top: 20px; } .contact-info img { display: inline-block; vertical-align: middle; } .qr-code { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); display: none; } @page { margin: 0; } body { margin: 1cm; }');
         printWindow.document.write('</style>');
         printWindow.document.write('</head><body>');
         printWindow.document.write('<div class="PlotInfoContainer">');
@@ -45,8 +49,8 @@
             printWindow.document.write(buttonContainer.outerHTML); // 印刷用に表示
         }
         printWindow.document.write(contactInfo); // 印刷用に表示
-        printWindow.document.write(phoneDivHTML); // 印刷用に表示
-        printWindow.document.write('<div class="qr-code"><img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://yasiro.jp" alt="QR Code"></div>'); // QRコードを表示
+        printWindow.document.write('<div class="qr-code"><img src="' + qrCodeUrl + '" alt="QR Code"></div>'); // QRコードを表示
+        printWindow.document.write('<div class="centered"><a href="tel:0120-753-948"><img src="images/PhoneNumber.png" style="border: 1px solid black;"></a></div>'); // 電話番号を表示
         printWindow.document.write('</div>');
         printWindow.document.write('</body></html>');
         printWindow.document.close();

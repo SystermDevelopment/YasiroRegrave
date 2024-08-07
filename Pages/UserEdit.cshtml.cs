@@ -183,14 +183,11 @@ namespace YasiroRegrave.Pages
                     _context.Users.Add(newUser);
                     foreach (var reienIndex in SelectedReiens)
                     {
-                        if (!_context.ReienInfos.Any(ri => ri.Users.UserIndex == newUser.UserIndex && ri.Reiens.ReienIndex == reienIndex))
+                        _context.ReienInfos.Add(new ReienInfo
                         {
-                            _context.ReienInfos.Add(new ReienInfo
-                            {
-                                Users = newUser,
-                                Reiens = _context.Reiens.Find(reienIndex)
-                            });
-                        }
+                            Users = newUser,
+                            Reiens = _context.Reiens.Find(reienIndex)
+                        });
                     }
                     _context.SaveChanges();
                 }
