@@ -74,9 +74,19 @@ namespace YasiroRegrave.Controllers
                         return BadRequest($"There is an unnotified reservation. {existingReserveInfo.LastName}様　{(existingReserveInfo.CreateDate.HasValue ? existingReserveInfo.CreateDate.Value.ToString("yyyy年MM月dd日 HH:mm:ss") : "日付が不明")}");
                     }
                 }
+
+                // 無縁調査区画
+                var unrelatedStatus = (int)Config.UnrelatedStatusType.未設定;
+                if (((info.区画状態 == "空") && (info.無縁調査 != "未設定"))
+                 || ((info.区画状態 == "拠点予約") && (info.無縁調査 != "未設定")))
+                {
+                    return BadRequest($"Invalid value for 無縁調査: {info.無縁調査}. When 区画状態 is {info.区画状態}, 無縁調査 must have a valid value.");
+                }
+
                 existingCemeteryInfo.ChangeStatusDate = DateTime.Now;
                 // 予約情報(削除用)
                 var reserveToDelete = _context.ReserveInfos.Where(r => r.CemeteryInfoIndex == existingCemeteryInfo.CemeteryInfoIndex).ToList();
+                // 区画状態
                 switch (info.区画状態)
                 {
                     case "空":
@@ -94,6 +104,30 @@ namespace YasiroRegrave.Controllers
                         existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.拠点予約;
                         break;
                     case "成約":
+                        if (info.無縁調査 == "調査終了")
+                        {
+                            goto case "削除";
+                        }
+                        else
+                        {
+                            switch (info.無縁調査)
+                            {
+                                case "看板設置待ち":
+                                    unrelatedStatus = (int)Config.UnrelatedStatusType.看板設置待ち;
+                                    break;
+                                case "看板設置中":
+                                    unrelatedStatus = (int)Config.UnrelatedStatusType.看板設置中;
+                                    break;
+                                case "官報掲載中":
+                                    unrelatedStatus = (int)Config.UnrelatedStatusType.官報掲載中;
+                                    break;
+                                default:
+                                    return BadRequest($"Invalid value for 無縁調査: {info.無縁調査}. When 区画状態 is {info.区画状態}, 無縁調査 must have a valid value.");
+                            }
+                            existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.拠点予約;
+                        }
+                        existingCemeteryInfo.SectionStatus = (int)Config.SectionStatusType.成約;
+                        break;
                     case "削除":
                         if (reserveToDelete.Any())
                         {
@@ -109,6 +143,7 @@ namespace YasiroRegrave.Controllers
                     default:
                         return BadRequest($"Invalid value for 区画状態: {info.区画状態}. Expected value");
                 }
+                existingCemeteryInfo.UnrelatedStatus = unrelatedStatus;   // 無縁調査区画
                 existingCemeteryInfo.UpdateDate = DateTime.Now;
                 existingCemeteryInfo.UpdateUser = null;
                 existingCemeteryInfo.DeleteFlag = (int)Config.DeleteType.未削除;
@@ -131,5 +166,6 @@ namespace YasiroRegrave.Controllers
         public string 工区番号 { get; set; } = string.Empty;
         public string 区画番号 { get; set; } = string.Empty;
         public string 区画状態 { get; set; } = string.Empty;
+        public string 無縁調査 { get; set; } = string.Empty;
     }
 }

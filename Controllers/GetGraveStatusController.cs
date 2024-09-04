@@ -46,6 +46,7 @@ namespace YasiroRegrave.Controllers
                     仕置巻石料 = r.StoneFee,
                     石碑代金 = r.SetPrice,
                     区画状態 = r.SectionStatus == 0 ? "空" : r.SectionStatus == 1 ? "WEB予約" : r.SectionStatus == 2 ? "拠点予約" : r.SectionStatus == 3 ? "成約" : "不明",
+                    無縁調査 = r.UnrelatedStatus == 0 ? "未設定" : r.UnrelatedStatus == 1 ? "看板設置待ち" : r.UnrelatedStatus == 2 ? "看板設置中" : r.UnrelatedStatus == 3 ? "官報掲載中" : "不明",
                     販売ステータス = r.ReleaseStatus == 0 ? "準備中" : r.ReleaseStatus == 1 ? "販売中" : "不明",
                     画像情報登録状態 = (string.IsNullOrEmpty(r.Image1Fname)|| string.IsNullOrEmpty(r.Image2Fname) ) ? "未" : "済",
                     最終更新日時 = r.UpdateDate.HasValue ? r.ChangeStatusDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""
@@ -70,6 +71,7 @@ namespace YasiroRegrave.Controllers
         public string 仕置巻石料 { get; set; }
         public string 石碑代金 { get; set; }
         public string 区画状態 { get; set; }
+        public string 無縁調査 { get; set; }
         public string 販売ステータス { get; set; }
         public string 画像情報登録状態 { get; set; }
         public string 最終更新日時 { get; set; }

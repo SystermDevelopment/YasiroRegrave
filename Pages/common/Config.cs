@@ -24,6 +24,15 @@ namespace YasiroRegrave.Pages.common
             拠点予約 = 2,
             成約 = 3, 
         }
+        // 無縁調査区画
+        public enum UnrelatedStatusType
+        {
+            未設定 = 0,
+            看板設置待ち = 1,
+            看板設置中 = 2,
+            官報掲載中 = 3,
+            調査終了 = 9,
+        }
         // 有無
         public enum ExistType
         {

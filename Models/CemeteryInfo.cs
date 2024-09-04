@@ -17,6 +17,8 @@ namespace YasiroRegrave.Model
         public string? AreaValue { get; set; }
         [Column("release_status")]
         public int? ReleaseStatus { get; set; }
+        [Column("unrelated_status")]
+        public int? UnrelatedStatus { get; set; } = 0;
         [Column("section_status")]
         public int? SectionStatus { get; set; }
         [Column("section_type")]
