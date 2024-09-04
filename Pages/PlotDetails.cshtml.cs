@@ -132,6 +132,7 @@ namespace YasiroRegrave.Pages
                         ImageFile1 = c.Image1Fname == "" ? "" : $"{hostUrl}GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{c.Cemetery.CemeteryCode}&sel=1",
                         ImageFile2 = c.Image2Fname == "" ? "" : $"{hostUrl}GraveImg?r={ReienCode}&a={AreaCode}&k={SectionCode}-{c.Cemetery.CemeteryCode}&sel=2",
                         SectionStatus = c.SectionStatus ?? 0,
+                        SectionType = c.SectionType ?? "",
                         AreaValue = c.AreaValue ?? "",
                         UsageFee = Utils.StringToInt(c.UsageFee),
                         ManagementFee = Utils.StringToInt(c.ManagementFee),
@@ -176,6 +177,7 @@ namespace YasiroRegrave.Pages
             public string ImageFile1 { get; set; } = string.Empty;
             public string ImageFile2 { get; set; } = string.Empty;
             public int SectionStatus { get; set; } = 0;
+            public string SectionType { get; set; } = string.Empty;
             public string AreaValue { get; set; } = string.Empty;
             public int UsageFee { get; set; } = 0;
             public int ManagementFee { get; set; } = 0;

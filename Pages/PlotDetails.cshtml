@@ -36,7 +36,14 @@
 {
     var cemetery = Model.CemeteryDatas[i];
     <div class="PlotInfoContainer" id="table-container-@(cemetery.CemeteryCode)" style="display: none;">
-        <p class="district-name" id="district-name-@(cemetery.CemeteryCode)">@sectionname @cemetery.CemeteryName</p>
+        <p class="district-name" id="district-name-@(cemetery.CemeteryCode)">
+            @sectionname @cemetery.CemeteryName
+            @* ヤシロ様御担当向け仕様 *@
+            @if (Model.LoggedInUser != null && Model.LoggedInUser.VenderIndex == 0)
+            {
+                @cemetery.SectionType
+            }
+        </p>
         <div class="image-content">
             <div class="image-container" id="image-container1-@(cemetery.CemeteryCode)">
                 <img class="image" src="@cemetery.ImageFile1" alt="画像1">
