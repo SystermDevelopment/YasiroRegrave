@@ -43,7 +43,7 @@ namespace YasiroRegrave.Pages.common
             string dst = src;
 
             // 置換
-            if (!dst.Contains("㎡"))
+            if (!dst.Contains("㎡") && !dst.Contains("."))
             {
                 dst = dst.Replace("-", "列-");
             }

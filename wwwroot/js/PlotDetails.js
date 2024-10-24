@@ -165,6 +165,9 @@ function initMap() {
 
         // 矩形を描画
         function createPolygon(cemetery) {
+            if (!cemetery) {
+                return;
+            }
             const coordinates = cemetery.Coordinates[0].map(coord => [(coord.y * corrRate), (coord.x * corrRate)]);
             var polygon = L.polygon(coordinates, {
                 color: 'black',

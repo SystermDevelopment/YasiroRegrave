@@ -18,8 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
             coordDatas = data;
 
             sectionDatas.forEach(function (section) {
+                const sectionCoords = coordDatas?.find(data => data["SectionCode"] == section.sectionCode);
                 // 空きあり場合（空き以外も初回のみ描画）
-                if (section.noReserveCount >= 0) {
+                if (sectionCoords && section.noReserveCount >= 0) {
                     // ↓↓↓ 画像作成用処理（通常コメント化）↓↓↓
                     //section.noReserveCount = 0;
                     //if (section.sectionCode == "緑風") {
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //}
                     // ↑↑↑ 画像作成用処理（通常コメント化）↑↑↑
 
-                    const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
+                    //const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
                     sectionCoords.Coordinates.forEach(function (coords) {
                         // 矩形と名前を描画
                         drawRect(coords, section.noReserveCount);
@@ -155,9 +156,10 @@ canvas.addEventListener('mousemove', function (event) {
     const mouseY = event.clientY - canvas.getBoundingClientRect().top;
 
     sectionDatas.forEach(function (section) {
+        const sectionCoords = coordDatas?.find(data => data["SectionCode"] == section.sectionCode);
         // 空きあり場合
-        if (section.noReserveCount > 0) {
-            const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
+        if (sectionCoords && section.noReserveCount > 0) {
+            //const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
             sectionCoords.Coordinates.forEach(function (coords) {
                 // 矩形と名前を描画
                 const isInside = isInsidePolygon(mouseX, mouseY, coords);
@@ -176,9 +178,10 @@ canvas.addEventListener('click', function (event) {
 
     for (let i = 0; i < sectionDatas.length; i++) {
         const section = sectionDatas[i];
+        const sectionCoords = coordDatas?.find(data => data["SectionCode"] == section.sectionCode);
         // 空きあり場合
-        if (section.noReserveCount > 0) {
-            const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
+        if (sectionCoords && section.noReserveCount > 0) {
+            //const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
             sectionCoords.Coordinates.forEach(function (coords) {
                 // 矩形選択
                 const isInside = isInsidePolygon(clickX, clickY, coords);
