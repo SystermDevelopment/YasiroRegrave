@@ -110,7 +110,7 @@ function initMap() {
         map = L.map('map-container', {
             crs: L.CRS.Simple,
             zoomControl: true,
-            maxZoom: 1.2
+            maxZoom: 1.5
         });
 
         // マップコンテナのサイズを実際の表示範囲に合わせる
@@ -158,7 +158,7 @@ function initMap() {
         }
 
         // ↓↓↓ 画像作成用処理（通常コメント化）↓↓↓
-        //coordDatas.forEach(function (coordData) {
+        //coordDatas.slice(1).forEach(function (coordData) {
         //    createPolygon(coordData);
         //});
         // ↑↑↑ 画像作成用処理（通常コメント化）↑↑↑
@@ -173,7 +173,7 @@ function initMap() {
                 color: 'black',
                 fillColor: 'yellow',
                 fillOpacity: 0.5,
-                weight: 1,
+                weight: 0,  //枠線なしに変更
                 polygonId: 'table-container-' + cemetery.CemeteryCode
             }).addTo(map);
             polygon.on('click', onPolygonClick);

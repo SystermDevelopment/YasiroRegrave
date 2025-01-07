@@ -41,6 +41,8 @@
     height: 500px;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 #plotCanvas {
@@ -49,14 +51,19 @@
     left: 50%;
     transform: translate(-50%, -50%); /* 親要素の中央に配置 */
     z-index: 1; /* 画像の上に表示 */
+    border: 1px solid black;
 }
 
 #PlotSelectionImage {
     position: relative; /* 絶対位置に設定 */
-    object-fit: cover; /* 画像がコンテナ内に収まるように調整 */
+    object-fit: contain;
     top: 0;
     left: 0;
     z-index: 0;
+    max-width: 500px;
+    max-height: 500px;
+    width: 100%;
+    height: auto;
 }
 
 #PlotSelectionContainer:focus {
