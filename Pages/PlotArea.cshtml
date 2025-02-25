@@ -14,6 +14,13 @@
         ご希望の区画を仮予約することも可能です。
     </div>
 </div>
+
+<div id="PlotAreaContainer">
+    <canvas id="plotCanvas" width="500" height="500"></canvas>
+    <img src="images/REIEN_@(Model.ReienCode).png?v=@DateTime.Now.Ticks" id="PlotAreaImage" alt="エリア" />
+</div>
+
+@* 
 <div id="PlotAreaExplanation">
     <img src="images/REIEN_@(Model.ReienCode).png?v=@DateTime.Now.Ticks" id="PlotAreaImage" alt="エリア" style="border: 1px solid black;" />
 </div>
@@ -25,8 +32,14 @@
         </button>
     }
 </div>
-
+ *@
 <div class="button-container">
     <button type="button" class="back-button" onclick="window.location.href = '@Model.hrefBack'">@(Model.strBack)に戻る</button>
 </div>
 
+<script>
+    var ReienCode = '@Model.ReienCode';
+    var AreaCode = '@Model.AreaCode';
+    var areaDatas = @Html.Raw(Json.Serialize(Model.AreaDatas));
+</script>
+<script src="~/js/PlotArea.js"></script>

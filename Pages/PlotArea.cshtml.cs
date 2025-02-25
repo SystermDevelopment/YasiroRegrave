@@ -103,12 +103,12 @@ namespace YasiroRegrave.Pages
 
             // 霊園、エリア情報の取得（大阪生駒霊園、第１期、固定とする）
             ReienIndex = _context.Reiens.FirstOrDefault(r => r.ReienName == "大阪生駒霊園" && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienIndex ?? 0;
-            AreaIndex = _context.Areas.FirstOrDefault(a => a.AreaName == "第１期" && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaIndex ?? 0;
+            //AreaIndex = _context.Areas.FirstOrDefault(a => a.AreaName == "第１期" && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaIndex ?? 0;
             // 霊園、エリア情報の取得
             ReienCode = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienCode ?? "";
-            ReienName = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienName ?? "";
-            AreaCode = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaCode ?? "";
-            AreaName = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaName ?? "";
+            //ReienName = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienName ?? "";
+            //AreaCode = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaCode ?? "";
+            //AreaName = _context.Areas.FirstOrDefault(a => a.AreaIndex == AreaIndex && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaName ?? "";
 
             //// 区画情報の取得
             //SectionDatas = _context.Sections
