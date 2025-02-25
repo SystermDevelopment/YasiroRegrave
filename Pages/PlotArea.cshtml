@@ -1,0 +1,45 @@
+﻿@page
+@model PlotAreaModel
+@{
+    ViewData["Title"] = "区画選択";
+}
+<link href="/css/PlotArea.css?v=@DateTime.Now.Ticks" rel="stylesheet">
+
+<div id="PlotAreaHeader">
+    <div id="PlotAreaTitle">
+        募集区画
+    </div>
+    <div id="PlotAreaSubtitle">
+        大阪生駒霊園の空き区画のご確認ができます。<br>
+        ご希望の区画を仮予約することも可能です。
+    </div>
+</div>
+
+<div id="PlotAreaContainer">
+    <canvas id="plotCanvas" width="500" height="500"></canvas>
+    <img src="images/REIEN_@(Model.ReienCode).png?v=@DateTime.Now.Ticks" id="PlotAreaImage" alt="エリア" />
+</div>
+
+@* 
+<div id="PlotAreaExplanation">
+    <img src="images/REIEN_@(Model.ReienCode).png?v=@DateTime.Now.Ticks" id="PlotAreaImage" alt="エリア" style="border: 1px solid black;" />
+</div>
+<div id="PlotAreaButton">
+    @foreach (var area in Model.AreaDatas)
+    {
+        <button class="area-button" onclick="location.href='PlotSelection?AreaCode=@area.AreaCode'">
+            @area.AreaName 募集区画
+        </button>
+    }
+</div>
+ *@
+<div class="button-container">
+    <button type="button" class="back-button" onclick="window.location.href = '@Model.hrefBack'">@(Model.strBack)に戻る</button>
+</div>
+
+<script>
+    var ReienCode = '@Model.ReienCode';
+    var AreaCode = '@Model.AreaCode';
+    var areaDatas = @Html.Raw(Json.Serialize(Model.AreaDatas));
+</script>
+<script src="~/js/PlotArea.js"></script>

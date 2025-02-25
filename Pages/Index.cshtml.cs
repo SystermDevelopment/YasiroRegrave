@@ -56,7 +56,7 @@ namespace YasiroRegrave.Pages
                 }
                 else
                 {
-                    return RedirectToPage("/PlotSelection");
+                    return RedirectToPage("/PlotArea");
                 }
             }
             ShowConfirm = true;

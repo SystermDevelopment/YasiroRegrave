@@ -33,10 +33,16 @@ namespace YasiroRegrave.Pages
         /// </summary>
         /// <param</param>
         /// <returns></returns>
-        public void OnGet()
+        public IActionResult OnGet(string areaCode)
         {
-            GetPage(); 
-            return;
+            if (string.IsNullOrEmpty(areaCode))
+            {
+                return RedirectToPage("PlotArea");
+            }
+
+            AreaCode = areaCode;
+            GetPage();
+            return Page();
         }
         /// <summary>
         /// OnPost処理
@@ -70,29 +76,15 @@ namespace YasiroRegrave.Pages
             {
                 LoggedInUser = Utils.GetLoggedInUser(_context, LoginId);
                 ViewData["LoggedInUser"] = LoggedInUser;
-
-                // 前画面の戻り先
-                var user = _context.Users.FirstOrDefault(u => u.UserIndex == LoginId);
-                if (user.Authority == (int)Config.AuthorityType.管理者)
-                {
-                    hrefBack = "/UserList";
-                    strBack = "管理画面";
-                }
-                else if (user.Authority == (int)Config.AuthorityType.担当者 && user.VenderIndex == 0)
-                {
-                    hrefBack = "/CemeteryInfoList";
-                    strBack = "管理画面";
-                }
-                else
-                {
-                    hrefBack = "/Index";
-                    strBack = "ログイン画面";
-                }
             }
+            // 前画面の戻り先
+            hrefBack = "/PlotArea";
+            strBack = "霊園全体図";
 
             // 霊園、エリア情報の取得（大阪生駒霊園、第１期、固定とする）
             ReienIndex = _context.Reiens.FirstOrDefault(r => r.ReienName == "大阪生駒霊園" && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienIndex ?? 0;
-            AreaIndex = _context.Areas.FirstOrDefault(a => a.AreaName == "第１期" && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaIndex ?? 0;
+            //AreaIndex = _context.Areas.FirstOrDefault(a => a.AreaName == "第１期" && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaIndex ?? 0;
+            AreaIndex = _context.Areas.FirstOrDefault(a => a.AreaCode == AreaCode && a.DeleteFlag == (int)Config.DeleteType.未削除)?.AreaIndex ?? 0;
             // 霊園、エリア情報の取得
             ReienCode = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienCode ?? "";
             ReienName = _context.Reiens.FirstOrDefault(r => r.ReienIndex == ReienIndex && r.DeleteFlag == (int)Config.DeleteType.未削除)?.ReienName ?? "";

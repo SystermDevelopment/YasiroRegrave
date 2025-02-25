@@ -3,6 +3,9 @@ const ctx = canvas.getContext('2d'); // 描画コンテキストを取得
 
 // jsonファイル読込
 let coordDatas;
+var corrRate = 1.0;
+var corrOffsX = 0.0;
+var corrOffsY = 0.0;
 document.addEventListener('DOMContentLoaded', () => {
     var areaFile = '/data/AREA_' + ReienCode + '_' + AreaCode + '.json';
     fetch(areaFile)
@@ -22,20 +25,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 空きあり場合（空き以外も初回のみ描画）
                 if (sectionCoords && section.noReserveCount >= 0) {
                     // ↓↓↓ 画像作成用処理（通常コメント化）↓↓↓
-                    //section.noReserveCount = 0;
+                    //section.noReserveCount = 1;
                     //if (section.sectionCode == "緑風") {
                     //    section.noReserveCount = 1;
                     //}
                     // ↑↑↑ 画像作成用処理（通常コメント化）↑↑↑
 
                     //const sectionCoords = coordDatas.find(data => data["SectionCode"] == section.sectionCode);
-                    sectionCoords.Coordinates.forEach(function (coords) {
-                        // 矩形と名前を描画
-                        drawRect(coords, section.noReserveCount);
-                        drawName(coords, section.sectionName);
-                        ctx.strokeStyle = 'black';
-                        ctx.stroke();
-                    });
+
+                    var imagePath = '/images/AREA_' + ReienCode + '_' + AreaCode + '.png';
+                    var img = new Image();
+                    img.src = imagePath;
+                    img.onload = function () {
+                        //区画座標の補正計算
+                        var cvs = document.getElementById("plotCanvas");
+                        var cvsWidth = cvs.width;
+                        var cvsHeight = cvs.height;
+                        var imageWidth = img.width;
+                        var imageHeight = img.height;
+                        corrRate = Math.min(cvsWidth / imageWidth, cvsHeight / imageHeight);
+                        corrOffsX = (cvsWidth - imageWidth * corrRate) / 2;
+                        corrOffsY = (cvsHeight - imageHeight * corrRate) / 2;
+
+                        sectionCoords.Coordinates.forEach(function (coords) {
+                            //区画座標の補正
+                            coords.forEach(function (coord) {
+                                coord.x = coord.x * corrRate + corrOffsX;
+                                coord.y = coord.y * corrRate + corrOffsY;
+                            });
+
+                            // 矩形と名前を描画
+                            drawRect(coords, section.noReserveCount);
+                            drawName(coords, section.sectionName);
+                            ctx.strokeStyle = 'black';
+                            ctx.stroke();
+                        });
+                    }
                 }
             });
         })
