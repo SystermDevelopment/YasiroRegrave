@@ -47,6 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         corrOffsX = (cvsWidth - imageWidth * corrRate) / 2;
                         corrOffsY = (cvsHeight - imageHeight * corrRate) / 2;
 
+                        if (cvs.width != cvs.clientWidth || cvs.height != cvs.clientHeight) {
+                            // **キャンバスサイズを更新**
+                            cvs.width = cvs.clientWidth;
+                            cvs.height = cvs.clientHeight;
+                        }
+
                         sectionCoords.Coordinates.forEach(function (coords) {
                             //区画座標の補正
                             coords.forEach(function (coord) {

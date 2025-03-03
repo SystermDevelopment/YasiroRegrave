@@ -52,6 +52,8 @@
     transform: translate(-50%, -50%); /* 親要素の中央に配置 */
     z-index: 1; /* 画像の上に表示 */
     border: 1px solid black;
+    height: auto;
+    aspect-ratio: 1 / 1;
 }
 
 #PlotSelectionImage {
@@ -64,6 +66,7 @@
     max-height: 500px;
     width: 100%;
     height: auto;
+    aspect-ratio: 1 / 1;
 }
 
 #PlotSelectionContainer:focus {
