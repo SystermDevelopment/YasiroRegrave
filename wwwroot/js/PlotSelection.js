@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // 座標データ読込成功
             coordDatas = data;
 
+            let isCanvasInitialized = false;
+
             sectionDatas.forEach(function (section) {
                 const sectionCoords = coordDatas?.find(data => data["SectionCode"] == section.sectionCode);
                 // 空きあり場合（空き以外も初回のみ描画）
@@ -39,6 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     img.onload = function () {
                         //区画座標の補正計算
                         var cvs = document.getElementById("plotCanvas");
+
+                        // キャンバスサイズを1回だけ更新
+                        if (!isCanvasInitialized) {
+                            cvs.width = cvs.clientWidth;
+                            cvs.height = cvs.clientHeight;
+                            ctx.clearRect(0, 0, cvs.width, cvs.height);
+                            isCanvasInitialized = true;
+                        }
+
                         var cvsWidth = cvs.width;
                         var cvsHeight = cvs.height;
                         var imageWidth = img.width;
@@ -46,12 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         corrRate = Math.min(cvsWidth / imageWidth, cvsHeight / imageHeight);
                         corrOffsX = (cvsWidth - imageWidth * corrRate) / 2;
                         corrOffsY = (cvsHeight - imageHeight * corrRate) / 2;
-
-                        if (cvs.width != cvs.clientWidth || cvs.height != cvs.clientHeight) {
-                            // **キャンバスサイズを更新**
-                            cvs.width = cvs.clientWidth;
-                            cvs.height = cvs.clientHeight;
-                        }
 
                         sectionCoords.Coordinates.forEach(function (coords) {
                             //区画座標の補正
