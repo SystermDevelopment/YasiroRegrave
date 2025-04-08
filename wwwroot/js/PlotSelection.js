@@ -67,9 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             // 矩形と名前を描画
                             drawRect(coords, section.noReserveCount);
-                            drawName(coords, section.sectionName);
+                            //drawName(coords, section.sectionName);
                             ctx.strokeStyle = 'black';
                             ctx.stroke();
+                        });
+                        // 名前のみ描画
+                        sectionCoords.Coordinates.forEach(function (coords) {
+                            setTimeout(function () {
+                                drawName(coords, section.sectionName);
+                            }, 0);
                         });
                     }
                 }
