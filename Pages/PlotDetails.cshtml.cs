@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using System.Text.RegularExpressions;
 using YasiroRegrave.Data;
 using YasiroRegrave.Pages.common;
 
@@ -13,6 +14,9 @@ namespace YasiroRegrave.Pages
         {
             _context = context;
         }
+
+        // 区画の面積が「12㎡」以上の定義
+        const double C_MinSquareMeter = 12.00;
 
         public SectionData? SectionDatas { get; private set; } = new SectionData();
         public List<CemeteryData> CemeteryDatas { get; private set; } = new List<CemeteryData>();
@@ -138,8 +142,15 @@ namespace YasiroRegrave.Pages
                         StoneFee = Utils.StringToInt(c.StoneFee),
                         SetPrice = Utils.StringToInt(c.SetPrice),
                         TotalPrice = Utils.StringToInt(c.UsageFee) + Utils.StringToInt(c.ManagementFee) + Utils.StringToInt(c.SetPrice),
+                        Negotiable = false,
                     })
                     .ToList();
+            }
+
+            // 「応相談」判定
+            foreach (var cemetery in CemeteryDatas)
+            {
+                cemetery.Negotiable = GetSquareMeterValue(cemetery.AreaValue);
             }
             return;
         }
@@ -152,6 +163,26 @@ namespace YasiroRegrave.Pages
         {
             HttpContext.Session.Clear();
             return RedirectToPage("/Index");
+        }
+
+        /// <summary>
+        /// 面積判定
+        /// 区画の面積が12㎡以上の場合、価格表示を「応相談」とする。
+        /// </summary>
+        /// <param</param>
+        /// <returns></returns>
+        public bool GetSquareMeterValue(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str)) return false;
+
+            // 「nn.nn㎡」にマッチ
+            var match = Regex.Match(str, @"(\d+\.\d{2})㎡");
+
+            // 面積「nn.nn」㎡を取得
+            var area = match.Success ? double.Parse(match.Groups[1].Value) : 0;
+
+            // 「応相談」判定
+            return (area >= C_MinSquareMeter);
         }
 
         public class SectionData
@@ -182,6 +213,7 @@ namespace YasiroRegrave.Pages
             public int StoneFee { get; set; } = 0;
             public int SetPrice { get; set; } = 0;
             public int TotalPrice { get; set; } = 0;
+            public bool Negotiable { get; set; } = false;
         }
         public class Coordinate
         {

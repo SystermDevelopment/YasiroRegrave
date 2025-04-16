@@ -51,22 +51,44 @@
                     <th>面積</th>
                     <td>@cemetery.AreaValue</td>
                 </tr>
-                <tr>
-                    <th>墓地使用料</th>
-                    <td>@string.Format("{0:#,0}", cemetery.UsageFee)円</td>
-                </tr>
-                <tr>
-                    <th>永代管理料</th>
-                    <td>@string.Format("{0:#,0}", cemetery.ManagementFee)円</td>
-                </tr>
-                <tr>
-                    <th>墓石セット価格</th>
-                    <td>@string.Format("{0:#,0}", cemetery.SetPrice)円</td>
-                </tr>
-                <tr>
-                    <th>合計</th>
-                    <td style="color: red;">@string.Format("{0:#,0}", cemetery.TotalPrice)円</td>
-                </tr>
+                @if (cemetery.Negotiable)
+                {
+                    <tr>
+                        <th>墓地使用料</th>
+                        <td>応相談</td>
+                    </tr>
+                    <tr>
+                        <th>永代管理料</th>
+                        <td>応相談</td>
+                    </tr>
+                    <tr>
+                        <th>墓石セット価格</th>
+                        <td>応相談</td>
+                    </tr>
+                    <tr>
+                        <th>合計</th>
+                        <td style="color: red;">応相談</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <th>墓地使用料</th>
+                        <td>@string.Format("{0:#,0}", cemetery.UsageFee)円</td>
+                    </tr>
+                    <tr>
+                        <th>永代管理料</th>
+                        <td>@string.Format("{0:#,0}", cemetery.ManagementFee)円</td>
+                    </tr>
+                    <tr>
+                        <th>墓石セット価格</th>
+                        <td>@string.Format("{0:#,0}", cemetery.SetPrice)円</td>
+                    </tr>
+                    <tr>
+                        <th>合計</th>
+                        <td style="color: red;">@string.Format("{0:#,0}", cemetery.TotalPrice)円</td>
+                    </tr>
+                }
             </table>
         </div>
         <label>
