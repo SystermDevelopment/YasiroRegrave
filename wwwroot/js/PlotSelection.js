@@ -170,20 +170,12 @@ function isInsidePolygon(x, y, coordinates) {
     let inside = false;
     let i, j = coordinates.length - 1;
 
-    // (h)=(500) -> (h)=(400) *** #PlotSelectionContainer(height)のheightと同値を定義 ***
-    var baseHeight = 500;
-    var mapContainer = document.getElementById('PlotSelectionContainer');
-    var mapHeight = mapContainer.offsetHeight;
-    var corrRate = 1.0;
-    if (mapHeight < baseHeight) {
-        corrRate = mapHeight / baseHeight;
-    }
-
+    // 座標は既に補正済みなので、追加の補正は不要
     for (i = 0; i < coordinates.length; i++) {
-        var ix = coordinates[i].x * corrRate;
-        var iy = coordinates[i].y * corrRate;
-        var jx = coordinates[j].x * corrRate;
-        var jy = coordinates[j].y * corrRate;
+        var ix = coordinates[i].x;
+        var iy = coordinates[i].y;
+        var jx = coordinates[j].x;
+        var jy = coordinates[j].y;
         if ((iy > y) !== (jy > y) && (x < (jx - ix) * (y - iy) / (jy - iy) + ix)) {
             inside = !inside;
         }
@@ -213,10 +205,29 @@ canvas.addEventListener('mousemove', function (event) {
     });
 });
 
-// マウスクリックイベント
-canvas.addEventListener('click', function (event) {
-    const clickX = event.clientX - canvas.getBoundingClientRect().left;
-    const clickY = event.clientY - canvas.getBoundingClientRect().top;
+// クリック/タップイベントの統一処理
+function handlePointerEvent(event) {
+    event.preventDefault(); // デフォルトの動作を防ぐ
+    
+    const rect = canvas.getBoundingClientRect();
+    let clickX, clickY;
+    
+    // タッチイベントの場合
+    if (event.type === 'touchend' || event.type === 'touchstart') {
+        const touch = event.changedTouches[0];
+        clickX = touch.clientX - rect.left;
+        clickY = touch.clientY - rect.top;
+    } else {
+        // マウスイベントの場合
+        clickX = event.clientX - rect.left;
+        clickY = event.clientY - rect.top;
+    }
+    
+    // Canvas のスケールを考慮した座標補正
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    clickX = clickX * scaleX;
+    clickY = clickY * scaleY;
 
     for (let i = 0; i < sectionDatas.length; i++) {
         const section = sectionDatas[i];
@@ -229,8 +240,22 @@ canvas.addEventListener('click', function (event) {
                 const isInside = isInsidePolygon(clickX, clickY, coords);
                 if (isInside) {
                     window.location.href = "/PlotDetails?Index=" + section.sectionIndex;
+                    return; // 最初にヒットした区画で処理を終了
                 }
             });
         }
+    }
+}
+
+// マウスクリックイベント
+canvas.addEventListener('click', handlePointerEvent);
+
+// タッチイベント（スマートフォン対応）
+canvas.addEventListener('touchend', handlePointerEvent);
+
+// ダブルタップによるズームを防ぐ
+canvas.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
     }
 });
