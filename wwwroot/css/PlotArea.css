@@ -136,3 +136,16 @@
         height: auto;
     }
 }
+
+@media (max-width: 375px) {
+    #PlotAreaContainer {
+        width: 100%;
+        height: 375px;
+    }
+
+    #plotCanvas,
+    #PlotAreaImage {
+        width: 100%;
+        height: 375px;
+    }
+}
