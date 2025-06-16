@@ -209,6 +209,11 @@ canvas.addEventListener('mousemove', function (event) {
 function handlePointerEvent(event) {
     event.preventDefault(); // デフォルトの動作を防ぐ
     
+    // ピンチズーム中はクリック処理をスキップ
+    if (isPinching || scale !== 1) {
+        return;
+    }
+    
     const rect = canvas.getBoundingClientRect();
     let clickX, clickY;
     
@@ -228,6 +233,10 @@ function handlePointerEvent(event) {
     const scaleY = canvas.height / rect.height;
     clickX = clickX * scaleX;
     clickY = clickY * scaleY;
+    
+    // ズームとパンを考慮した座標変換
+    clickX = (clickX - panX) / scale;
+    clickY = (clickY - panY) / scale;
 
     for (let i = 0; i < sectionDatas.length; i++) {
         const section = sectionDatas[i];
@@ -253,9 +262,137 @@ canvas.addEventListener('click', handlePointerEvent);
 // タッチイベント（スマートフォン対応）
 canvas.addEventListener('touchend', handlePointerEvent);
 
-// ダブルタップによるズームを防ぐ
-canvas.addEventListener('touchstart', function(event) {
-    if (event.touches.length > 1) {
-        event.preventDefault();
+// ピンチズーム用の変数
+let scale = 1;
+let pinchStartDistance = 0;
+let lastScale = 1;
+let isPinching = false;
+let panX = 0;
+let panY = 0;
+let lastPanX = 0;
+let lastPanY = 0;
+let startX = 0;
+let startY = 0;
+
+// 2点間の距離を計算
+function getDistance(touch1, touch2) {
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+// キャンバスを再描画
+function redrawCanvas() {
+    // キャンバスをクリア
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // 変換を保存
+    ctx.save();
+    
+    // スケールと移動を適用
+    ctx.translate(panX, panY);
+    ctx.scale(scale, scale);
+    
+    // 背景画像を描画
+    const img = document.getElementById('PlotSelectionImage');
+    if (img.complete) {
+        const imgWidth = img.naturalWidth;
+        const imgHeight = img.naturalHeight;
+        const drawWidth = imgWidth * corrRate;
+        const drawHeight = imgHeight * corrRate;
+        ctx.drawImage(img, corrOffsX, corrOffsY, drawWidth, drawHeight);
     }
+    
+    // 区画を再描画
+    sectionDatas.forEach(function (section) {
+        const sectionCoords = coordDatas?.find(data => data["SectionCode"] == section.sectionCode);
+        if (sectionCoords && section.noReserveCount >= 0) {
+            sectionCoords.Coordinates.forEach(function (coords) {
+                drawRect(coords, section.noReserveCount);
+                ctx.strokeStyle = 'black';
+                ctx.stroke();
+            });
+        }
+    });
+    
+    // 名前を再描画
+    sectionDatas.forEach(function (section) {
+        const sectionCoords = coordDatas?.find(data => data["SectionCode"] == section.sectionCode);
+        if (sectionCoords && section.noReserveCount >= 0) {
+            sectionCoords.Coordinates.forEach(function (coords) {
+                drawName(coords, section.sectionName);
+            });
+        }
+    });
+    
+    // 変換を復元
+    ctx.restore();
+}
+
+// タッチスタートイベント
+canvas.addEventListener('touchstart', function(event) {
+    if (event.touches.length === 2) {
+        event.preventDefault();
+        isPinching = true;
+        pinchStartDistance = getDistance(event.touches[0], event.touches[1]);
+        lastScale = scale;
+    } else if (event.touches.length === 1 && scale > 1) {
+        // パン操作の開始
+        startX = event.touches[0].clientX - lastPanX;
+        startY = event.touches[0].clientY - lastPanY;
+    }
+});
+
+// タッチムーブイベント
+canvas.addEventListener('touchmove', function(event) {
+    if (event.touches.length === 2 && isPinching) {
+        event.preventDefault();
+        const currentDistance = getDistance(event.touches[0], event.touches[1]);
+        const newScale = lastScale * (currentDistance / pinchStartDistance);
+        
+        // スケールの制限（0.5倍から3倍まで）
+        scale = Math.max(0.5, Math.min(3, newScale));
+        
+        redrawCanvas();
+    } else if (event.touches.length === 1 && scale > 1 && !isPinching) {
+        // パン操作
+        event.preventDefault();
+        panX = event.touches[0].clientX - startX;
+        panY = event.touches[0].clientY - startY;
+        
+        // パンの制限
+        const maxPan = (scale - 1) * canvas.width / 2;
+        panX = Math.max(-maxPan, Math.min(maxPan, panX));
+        panY = Math.max(-maxPan, Math.min(maxPan, panY));
+        
+        redrawCanvas();
+    }
+});
+
+// タッチエンドイベント
+canvas.addEventListener('touchend', function(event) {
+    if (isPinching) {
+        isPinching = false;
+        lastScale = scale;
+    }
+    lastPanX = panX;
+    lastPanY = panY;
+});
+
+// ダブルタップでリセット
+let lastTap = 0;
+canvas.addEventListener('touchend', function(event) {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    if (tapLength < 300 && tapLength > 0) {
+        // ダブルタップ検出
+        event.preventDefault();
+        scale = 1;
+        panX = 0;
+        panY = 0;
+        lastPanX = 0;
+        lastPanY = 0;
+        redrawCanvas();
+    }
+    lastTap = currentTime;
 });
