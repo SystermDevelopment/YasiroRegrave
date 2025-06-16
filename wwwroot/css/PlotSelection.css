@@ -54,6 +54,7 @@
     border: 1px solid black;
     height: auto;
     aspect-ratio: 1 / 1;
+    touch-action: none; /* タッチ操作を制御 */
 }
 
 #PlotSelectionImage {
