@@ -207,7 +207,7 @@ canvas.addEventListener('mousemove', function (event) {
 
 // クリック/タップイベントの統一処理
 function handlePointerEvent(event) {
-    event.preventDefault(); // デフォルトの動作を防ぐ
+    //event.preventDefault(); // デフォルトの動作を防ぐ
     
     const rect = canvas.getBoundingClientRect();
     let clickX, clickY;
@@ -253,9 +253,9 @@ canvas.addEventListener('click', handlePointerEvent);
 // タッチイベント（スマートフォン対応）
 canvas.addEventListener('touchend', handlePointerEvent);
 
-// ダブルタップによるズームを防ぐ
-canvas.addEventListener('touchstart', function(event) {
-    if (event.touches.length > 1) {
-        event.preventDefault();
-    }
-});
+//// ダブルタップによるズームを防ぐ
+//canvas.addEventListener('touchstart', function(event) {
+//    if (event.touches.length > 1) {
+//        event.preventDefault();
+//    }
+//});
